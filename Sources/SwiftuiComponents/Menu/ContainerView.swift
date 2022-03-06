@@ -13,7 +13,7 @@ public struct ContainerView: View {
 
     public var body: some View {
         VStack(spacing: 0) {
-            if controller.openMenuOnTop {
+            if controller.openButtonAtTop {
                 HStack(spacing: 0) {
                     OpenButton()
                     Spacer()
@@ -40,7 +40,7 @@ public struct ContainerView: View {
                 }
             })
 
-            if !controller.openMenuOnTop {
+            if !controller.openButtonAtTop {
                 HStack(spacing: 0) {
                     OpenButton()
                     Spacer()

@@ -77,20 +77,22 @@ public class MenuController: ObservableObject {
     var sideViewTitle: String?
     var itemsColor: Color
     var selectedItemBackgroundColor: Color
-    var menuBackgroundColor: Color
-    public var autoClose = true
-    public var openMenuOnTop = true
+    var backgroundColor: Color
+    var autoClose: Bool
+    var openButtonAtTop: Bool
     public var openMenuIcon = "line.3.horizontal"
     public var openMenuSize: CGFloat = 20.0
     public var titleView: AnyView?
     public var titleViewBackground: Color = Color(uiColor: .systemBackground)
     public var menuItems = [MenuItem]()
     
-    public init(menuItems: [MenuItem], sideViewImage: String? = nil, sideViewTitle: String? = nil, menuBackgroundColor: Color = Color(uiColor: .systemBackground), itemsColor: Color = Color(uiColor: .label), selectedItemBackgroundColor: Color = Color(uiColor: .systemGray4)) {
+    public init(menuItems: [MenuItem], autoClose: Bool = true, openButtonAtTop: Bool = true, sideViewImage: String? = nil, sideViewTitle: String? = nil, backgroundColor: Color = Color(uiColor: .systemBackground), itemsColor: Color = Color(uiColor: .label), selectedItemBackgroundColor: Color = Color(uiColor: .systemGray4)) {
         showMenu = false
+        self.autoClose = autoClose
+        self.openButtonAtTop = openButtonAtTop
         self.sideViewImage = sideViewImage
         self.sideViewTitle = sideViewTitle
-        self.menuBackgroundColor = menuBackgroundColor
+        self.backgroundColor = backgroundColor
         self.itemsColor = itemsColor
         self.selectedItemBackgroundColor = selectedItemBackgroundColor
         self.menuItems = menuItems                

@@ -64,7 +64,7 @@ public struct SideMenuView: View {
         }
         .padding(.leading, 10)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-        .background(controller.menuBackgroundColor)
+        .background(controller.backgroundColor)
         .onRotate { newOrientation in
             controller.objectWillChange.send() // Force redraw!
         }
