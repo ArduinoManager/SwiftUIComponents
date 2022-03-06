@@ -156,7 +156,10 @@ public struct SideMenuView: View {
     @ViewBuilder
     func makeImage(item: MenuItem) -> some View {
         if item.icon != nil {
-            Image(item.icon!)
+            item.icon!
+                .resizable()
+                .scaledToFit()
+                .frame(width: 22, height: 22)
         }
         else {
             Image(systemName: item.systemIcon!)

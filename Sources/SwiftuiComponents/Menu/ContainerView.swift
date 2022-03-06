@@ -107,7 +107,9 @@ struct MainViewContainer: View {
             TabMenuItem(title: "Devices", systemIcon: "applewatch", view: AnyView(TestView(text: "Devices").background(.gray))),
             TabMenuSpacer(height: 50),
             TabMenuItem(title: "Profile", systemIcon: "person.fill", view: AnyView(TestView(text: "Profile").background(.green))),
-            TabMenuItem(title: "Profile2", icon: "logo", view: AnyView(TestView(text: "Profile").background(.green))),
+            TabMenuItem(title: "Profile2",
+                        icon:Image("logo", bundle: .module),
+                        view: AnyView(TestView(text: "Profile").background(.green))),
 
             TabMenuDivider(color: .white),
             HandlerMenuItem(title: "Login", icon: "rectangle.portrait.and.arrow.right") {

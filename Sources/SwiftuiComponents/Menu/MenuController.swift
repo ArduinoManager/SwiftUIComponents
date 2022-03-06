@@ -11,7 +11,7 @@ import SwiftUI
 public class MenuItem: Hashable {
     var title: String
     var systemIcon: String?
-    var icon: String?
+    var icon: Image?
     var view: AnyView?
     var height: CGFloat?
     var handler: (() -> Void)?
@@ -45,7 +45,7 @@ public class TabMenuItem: MenuItem {
         self.view = view
     }
     
-    public init(title: String, icon: String, view: AnyView) {
+    public init(title: String, icon: Image, view: AnyView) {
         super.init()
         self.title = title
         self.systemIcon = nil
