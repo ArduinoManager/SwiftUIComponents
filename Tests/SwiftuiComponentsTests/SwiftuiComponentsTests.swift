@@ -6,6 +6,6 @@ final class SwiftuiComponentsTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        XCTAssertEqual(SwiftuiComponents().text, "Hello, World!")
+        XCTAssertEqual(SwiftuiComponents().text, "I am your first Package!")
     }
 }

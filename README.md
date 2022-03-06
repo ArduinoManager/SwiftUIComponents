@@ -1,3 +1,3 @@
 # SwiftuiComponents
 
-A description of this package.
+This is a Test Package which will contains all the Swiftui Components for the code generator
