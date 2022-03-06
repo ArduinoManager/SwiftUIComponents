@@ -54,6 +54,9 @@ public class TabMenuSpacer: MenuItem {
 
 public class TabMenuDivider: MenuItem {
     
+    public override init() {
+        super.init()
+    }
 }
 
 public class HandlerMenuItem: MenuItem {
