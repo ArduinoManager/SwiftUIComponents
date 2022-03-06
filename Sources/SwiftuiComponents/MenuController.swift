@@ -34,7 +34,7 @@ public class MenuItem: Hashable {
 }
 
 public class TabMenuItem: MenuItem {
-    init(title: String, icon: String, view: AnyView) {
+    public init(title: String, icon: String, view: AnyView) {
         super.init()
         self.title = title
         self.icon = icon
@@ -43,7 +43,7 @@ public class TabMenuItem: MenuItem {
 }
 
 public class HandlerMenuItem: MenuItem {
-    init(title: String, icon: String, handler: @escaping (() -> Void)) {
+    public init(title: String, icon: String, handler: @escaping (() -> Void)) {
         super.init()
         self.title = title
         self.icon = icon
