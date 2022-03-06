@@ -65,7 +65,7 @@ public struct ContainerView: View {
                 controller.showMenu.toggle()
             }
         } label: {
-            Image(systemName: controller.openMenuIcon)
+            Image(systemName: controller.openButtonIcon)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .font(.title.bold())
