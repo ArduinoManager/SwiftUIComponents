@@ -33,7 +33,7 @@ public class MenuItem: Hashable {
     }
 }
 
-class TabMenuItem: MenuItem {
+public class TabMenuItem: MenuItem {
     init(title: String, icon: String, view: AnyView) {
         super.init()
         self.title = title
@@ -42,7 +42,7 @@ class TabMenuItem: MenuItem {
     }
 }
 
-class HandlerMenuItem: MenuItem {
+public class HandlerMenuItem: MenuItem {
     init(title: String, icon: String, handler: @escaping (() -> Void)) {
         super.init()
         self.title = title
@@ -51,7 +51,7 @@ class HandlerMenuItem: MenuItem {
     }
 }
 
-class MenuController: ObservableObject {
+public class MenuController: ObservableObject {
     @Published var currentTab: String
     @Published var showMenu = false
     var image = ""
