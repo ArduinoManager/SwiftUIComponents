@@ -12,6 +12,7 @@ public class MenuItem: Hashable {
     var title: String
     var icon: String
     var view: AnyView?
+    var height: CGFloat?
     var handler: (() -> Void)?
 
     public init() {
@@ -40,6 +41,14 @@ public class TabMenuItem: MenuItem {
         self.title = title
         self.icon = icon
         self.view = view
+    }
+}
+
+public class TabMenuSpacer: MenuItem {
+    
+    public init(height: CGFloat) {
+        super.init()
+        self.height = height
     }
 }
 

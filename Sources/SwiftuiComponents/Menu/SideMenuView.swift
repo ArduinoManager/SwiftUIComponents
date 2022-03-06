@@ -44,6 +44,9 @@ public struct SideMenuView: View {
                         case is HandlerMenuItem:
                             CustomActionButton(item: item)
 
+                        case is TabMenuSpacer:
+                            Spacer(minLength: item.height)
+                            
                         default:
                             EmptyView()
                         }
