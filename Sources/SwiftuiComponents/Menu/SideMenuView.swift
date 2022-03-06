@@ -46,10 +46,7 @@ public struct SideMenuView: View {
 
                         case is TabMenuSpacer:
                             Spacer(minLength: item.height)
-                            
-                        case is TabMenuSpacer:
-                            Spacer(minLength: item.height)
-                            
+                                                        
                         case is TabMenuDivider:
                             Divider()
                             
