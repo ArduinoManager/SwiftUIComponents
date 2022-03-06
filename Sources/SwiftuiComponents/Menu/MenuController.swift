@@ -72,9 +72,9 @@ public class HandlerMenuItem: MenuItem {
 
 public class MenuController: ObservableObject {
     @Published var currentTab: String
-    @Published var showMenu = false
-    public var sideViewImage = ""
-    public var sideViewTitle = ""
+    @Published var showMenu: Bool
+    var sideViewImage: String?
+    var sideViewTitle: String?
     public var itemsColor: Color = Color(uiColor: .label)
     public var selectedItemBackgroundColor: Color = Color(uiColor: .systemGray4)
     public var menuBackgroundColor: Color = Color(uiColor: .systemBackground)
@@ -86,7 +86,10 @@ public class MenuController: ObservableObject {
     public var titleViewBackground: Color = Color(uiColor: .systemBackground)
     public var menuItems = [MenuItem]()
     
-    public init(menuItems: [MenuItem]) {
+    public init(menuItems: [MenuItem], sideViewImage: String? = nil, sideViewTitle: String? = nil) {
+        showMenu = false
+        self.sideViewImage = sideViewImage
+        self.sideViewTitle = sideViewTitle
         self.menuItems = menuItems                
         currentTab = menuItems[0].title
     }
