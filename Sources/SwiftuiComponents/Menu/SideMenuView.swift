@@ -13,23 +13,31 @@ public struct SideMenuView: View {
 
    public var body: some View {
         VStack {
-            HStack(spacing: 15) {
-                if let image = controller.sideViewImage {
-                    Image(image)
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 45, height: 45)
-                        .clipShape(Circle())
-                }
-
-                if let title = controller.sideViewTitle {
-                    Text(title)
-                        .font(.title2.bold())
-                        .foregroundColor(Color(uiColor: .label))
-                }
+            if controller.sideTitleView != nil {
+                controller.sideTitleView
+                    .padding()
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
-            .padding()
-            .frame(maxWidth: .infinity, alignment: .leading)
+            else {
+                Spacer(minLength: 20)
+            }
+//            HStack(spacing: 15) {
+//                if let image = controller.sideViewImage {
+//                    Image(image)
+//                        .resizable()
+//                        .aspectRatio(contentMode: .fill)
+//                        .frame(width: 45, height: 45)
+//                        .clipShape(Circle())
+//                }
+//
+//                if let title = controller.sideViewTitle {
+//                    Text(title)
+//                        .font(.title2.bold())
+//                        .foregroundColor(Color(uiColor: .label))
+//                }
+//            }
+//            .padding()
+//            .frame(maxWidth: .infinity, alignment: .leading)
 
             //Print("Redraw with Height \(getRect().height)")
             ScrollView(.vertical, showsIndicators: false) {
