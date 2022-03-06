@@ -52,6 +52,13 @@ public class TabMenuSpacer: MenuItem {
     }
 }
 
+public class TabMenuDivider: MenuItem {
+    
+    public init() {
+        super.init()
+    }
+}
+
 public class HandlerMenuItem: MenuItem {
     
     public init(title: String, icon: String, handler: @escaping (() -> Void)) {
