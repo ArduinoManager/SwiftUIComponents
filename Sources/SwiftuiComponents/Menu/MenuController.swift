@@ -98,16 +98,18 @@ public class MenuController: ObservableObject {
     var backgroundColor: Color
     var autoClose: Bool
     var openButtonAtTop: Bool
+    var openButtonColor: Color
     var openButtonIcon: String
     var openButtonSize: CGFloat
     var titleView: AnyView?
     var titleViewBackgroundColor: Color = Color(uiColor: .systemBackground)
     var menuItems = [MenuItem]()
     
-    public init(menuItems: [MenuItem], autoClose: Bool = true, openButtonAtTop: Bool = true, openButtonIcon: String = "line.3.horizontal", openButtonSize: CGFloat = 20.0, sideTitleView: AnyView? = nil, backgroundColor: Color = Color(uiColor: .systemBackground), itemsColor: Color = Color(uiColor: .label), selectedItemBackgroundColor: Color = Color(uiColor: .systemGray4), titleView: AnyView? = nil, titleViewBackgroundColor: Color = Color(uiColor: .systemBackground)) {
+    public init(menuItems: [MenuItem], autoClose: Bool = true, openButtonAtTop: Bool = true, openButtonColor: Color = Color(uiColor: .label), openButtonIcon: String = "line.3.horizontal", openButtonSize: CGFloat = 20.0, sideTitleView: AnyView? = nil, backgroundColor: Color = Color(uiColor: .systemBackground), itemsColor: Color = Color(uiColor: .label), selectedItemBackgroundColor: Color = Color(uiColor: .systemGray4), titleView: AnyView? = nil, titleViewBackgroundColor: Color = Color(uiColor: .systemBackground)) {
         showMenu = false
         self.autoClose = autoClose
         self.openButtonAtTop = openButtonAtTop
+        self.openButtonColor = openButtonColor
         self.openButtonIcon = openButtonIcon
         self.openButtonSize = openButtonSize
         self.sideTitleView = sideTitleView
