@@ -14,16 +14,16 @@ public struct SideMenuView: View {
    public var body: some View {
         VStack {
             HStack(spacing: 15) {
-                if !controller.image.isEmpty {
-                    Image(controller.image)
+                if !controller.sideViewImage.isEmpty {
+                    Image(controller.sideViewImage)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 45, height: 45)
                         .clipShape(Circle())
                 }
 
-                if !controller.title.isEmpty {
-                    Text(controller.title)
+                if !controller.sideViewTitle.isEmpty {
+                    Text(controller.sideViewTitle)
                         .font(.title2.bold())
                         .foregroundColor(Color(uiColor: .label))
                 }

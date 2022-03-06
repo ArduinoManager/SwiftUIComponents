@@ -56,8 +56,8 @@ public class HandlerMenuItem: MenuItem {
 public class MenuController: ObservableObject {
     @Published public var currentTab: String
     @Published public var showMenu = false
-    public var image = ""
-    public var title = ""
+    public var sideViewImage = ""
+    public var sideViewTitle = ""
     public var itemsColor: Color = Color(uiColor: .label)
     public var selectedItemBackgroundColor: Color = Color(uiColor: .systemGray4)
     public var menuBackgroundColor: Color = Color(uiColor: .systemBackground)
