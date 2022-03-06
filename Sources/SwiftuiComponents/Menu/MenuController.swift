@@ -75,8 +75,8 @@ public class MenuController: ObservableObject {
     @Published var showMenu: Bool
     var sideViewImage: String?
     var sideViewTitle: String?
-    public var itemsColor: Color = Color(uiColor: .label)
-    public var selectedItemBackgroundColor: Color = Color(uiColor: .systemGray4)
+    var itemsColor: Color
+    var selectedItemBackgroundColor: Color
     public var menuBackgroundColor: Color = Color(uiColor: .systemBackground)
     public var autoClose = true
     public var openMenuOnTop = true
@@ -86,10 +86,12 @@ public class MenuController: ObservableObject {
     public var titleViewBackground: Color = Color(uiColor: .systemBackground)
     public var menuItems = [MenuItem]()
     
-    public init(menuItems: [MenuItem], sideViewImage: String? = nil, sideViewTitle: String? = nil) {
+    public init(menuItems: [MenuItem], sideViewImage: String? = nil, sideViewTitle: String? = nil, itemsColor: Color = Color(uiColor: .label), selectedItemBackgroundColor: Color = Color(uiColor: .systemGray4)) {
         showMenu = false
         self.sideViewImage = sideViewImage
         self.sideViewTitle = sideViewTitle
+        self.itemsColor = itemsColor
+        self.selectedItemBackgroundColor = selectedItemBackgroundColor
         self.menuItems = menuItems                
         currentTab = menuItems[0].title
     }
