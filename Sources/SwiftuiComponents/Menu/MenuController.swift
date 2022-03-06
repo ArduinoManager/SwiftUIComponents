@@ -71,8 +71,8 @@ public class HandlerMenuItem: MenuItem {
 }
 
 public class MenuController: ObservableObject {
-    @Published public var currentTab: String
-    @Published public var showMenu = false
+    @Published var currentTab: String
+    @Published var showMenu = false
     public var sideViewImage = ""
     public var sideViewTitle = ""
     public var itemsColor: Color = Color(uiColor: .label)
