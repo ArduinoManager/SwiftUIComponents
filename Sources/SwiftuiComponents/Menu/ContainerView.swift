@@ -55,7 +55,7 @@ public struct ContainerView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .overlay(CloseButton(), alignment: .topLeading)
-        .background(controller.titleViewBackground)
+        .background(controller.titleViewBackgroundColor)
     }
 
     @ViewBuilder
@@ -70,7 +70,7 @@ public struct ContainerView: View {
                 .aspectRatio(contentMode: .fill)
                 .font(.title.bold())
                 .foregroundColor(.black)
-                .frame(width: controller.openMenuSize, height: controller.openMenuSize)
+                .frame(width: controller.openButtonSize, height: controller.openButtonSize)
         }
         .opacity(controller.showMenu ? 0 : 1)
     }

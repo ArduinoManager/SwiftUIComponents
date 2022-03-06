@@ -81,21 +81,24 @@ public class MenuController: ObservableObject {
     var autoClose: Bool
     var openButtonAtTop: Bool
     var openButtonIcon: String
-    public var openMenuSize: CGFloat = 20.0
-    public var titleView: AnyView?
-    public var titleViewBackground: Color = Color(uiColor: .systemBackground)
-    public var menuItems = [MenuItem]()
+    var openButtonSize: CGFloat
+    var titleView: AnyView?
+    var titleViewBackgroundColor: Color = Color(uiColor: .systemBackground)
+    var menuItems = [MenuItem]()
     
-    public init(menuItems: [MenuItem], autoClose: Bool = true, openButtonAtTop: Bool = true, openButtonIcon: String = "line.3.horizontal", sideViewImage: String? = nil, sideViewTitle: String? = nil, backgroundColor: Color = Color(uiColor: .systemBackground), itemsColor: Color = Color(uiColor: .label), selectedItemBackgroundColor: Color = Color(uiColor: .systemGray4)) {
+    public init(menuItems: [MenuItem], autoClose: Bool = true, openButtonAtTop: Bool = true, openButtonIcon: String = "line.3.horizontal", openButtonSize: CGFloat = 20.0, sideViewImage: String? = nil, sideViewTitle: String? = nil, backgroundColor: Color = Color(uiColor: .systemBackground), itemsColor: Color = Color(uiColor: .label), selectedItemBackgroundColor: Color = Color(uiColor: .systemGray4), titleView: AnyView? = nil, titleViewBackgroundColor: Color = Color(uiColor: .systemBackground)) {
         showMenu = false
         self.autoClose = autoClose
         self.openButtonAtTop = openButtonAtTop
         self.openButtonIcon = openButtonIcon
+        self.openButtonSize = openButtonSize
         self.sideViewImage = sideViewImage
         self.sideViewTitle = sideViewTitle
         self.backgroundColor = backgroundColor
         self.itemsColor = itemsColor
         self.selectedItemBackgroundColor = selectedItemBackgroundColor
+        self.titleView = titleView
+        self.titleViewBackgroundColor = titleViewBackgroundColor
         self.menuItems = menuItems                
         currentTab = menuItems[0].title
     }
