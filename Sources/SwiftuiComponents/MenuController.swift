@@ -54,20 +54,20 @@ public class HandlerMenuItem: MenuItem {
 }
 
 public class MenuController: ObservableObject {
-    @Published var currentTab: String
-    @Published var showMenu = false
-    var image = ""
-    var title = ""
-    var itemsColor: Color = Color(uiColor: .label)
-    var selectedItemBackgroundColor: Color = Color(uiColor: .systemGray4)
-    var menuBackgroundColor: Color = Color(uiColor: .systemBackground)
-    var autoClose = true
-    var openMenuOnTop = true
-    var openMenuIcon = "line.3.horizontal"
-    var openMenuSize: CGFloat = 20.0
-    var titleView: AnyView?
-    var titleViewBackground: Color = Color(uiColor: .systemBackground)
-    var menuItems = [MenuItem]()
+    @Published public var currentTab: String
+    @Published public var showMenu = false
+    public var image = ""
+    public var title = ""
+    public var itemsColor: Color = Color(uiColor: .label)
+    public var selectedItemBackgroundColor: Color = Color(uiColor: .systemGray4)
+    public var menuBackgroundColor: Color = Color(uiColor: .systemBackground)
+    public var autoClose = true
+    public var openMenuOnTop = true
+    public var openMenuIcon = "line.3.horizontal"
+    public var openMenuSize: CGFloat = 20.0
+    public var titleView: AnyView?
+    public var titleViewBackground: Color = Color(uiColor: .systemBackground)
+    public var menuItems = [MenuItem]()
 
     public init(menuItems: [MenuItem]) {
         self.menuItems = menuItems                
