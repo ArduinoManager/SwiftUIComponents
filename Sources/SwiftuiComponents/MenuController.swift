@@ -14,7 +14,7 @@ public class MenuItem: Hashable {
     var view: AnyView?
     var handler: (() -> Void)?
 
-    fileprivate init() {
+    public init() {
         title = ""
         icon = ""
     }
@@ -34,6 +34,7 @@ public class MenuItem: Hashable {
 }
 
 public class TabMenuItem: MenuItem {
+    
     public init(title: String, icon: String, view: AnyView) {
         super.init()
         self.title = title
@@ -43,6 +44,7 @@ public class TabMenuItem: MenuItem {
 }
 
 public class HandlerMenuItem: MenuItem {
+    
     public init(title: String, icon: String, handler: @escaping (() -> Void)) {
         super.init()
         self.title = title
