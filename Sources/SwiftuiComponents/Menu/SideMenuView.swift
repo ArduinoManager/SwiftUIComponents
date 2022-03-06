@@ -16,7 +16,7 @@ public struct SideMenuView: View {
             if controller.sideTitleView != nil {
                 controller.sideTitleView
                     .padding()
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .frame(width: getRect().width / 2, alignment: .leading)
             }
             else {
                 Spacer(minLength: 20)
