@@ -69,7 +69,7 @@ public class MenuController: ObservableObject {
     var titleViewBackground: Color = Color(uiColor: .systemBackground)
     var menuItems = [MenuItem]()
 
-    init(menuItems: [MenuItem]) {
+    public init(menuItems: [MenuItem]) {
         self.menuItems = menuItems                
         currentTab = menuItems[0].title
     }
