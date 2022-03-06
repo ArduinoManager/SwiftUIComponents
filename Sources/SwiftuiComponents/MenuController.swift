@@ -56,7 +56,7 @@ public class HandlerMenuItem: MenuItem {
 public class MenuController: ObservableObject {
     @Published public var currentTab: String
     @Published public var showMenu = false
-    public var image = ""
+    var image = ""
     public var title = ""
     public var itemsColor: Color = Color(uiColor: .label)
     public var selectedItemBackgroundColor: Color = Color(uiColor: .systemGray4)
@@ -68,23 +68,6 @@ public class MenuController: ObservableObject {
     public var titleView: AnyView?
     public var titleViewBackground: Color = Color(uiColor: .systemBackground)
     public var menuItems = [MenuItem]()
-
-//    public init() {
-//        showMenu = false
-//        image = ""
-//        title = ""
-//        itemsColor = Color(uiColor: .label)
-//        selectedItemBackgroundColor = Color(uiColor: .systemGray4)
-//        menuBackgroundColor = Color(uiColor: .systemBackground)
-//        autoClose = true
-//        openMenuOnTop = true
-//        openMenuIcon = "line.3.horizontal"
-//        openMenuSize = 20.0
-//        titleView = nil
-//        titleViewBackground = Color(uiColor: .systemBackground)
-//        menuItems = [MenuItem]()
-//        currentTab = ""
-//    }
     
     public init(menuItems: [MenuItem]) {
         self.menuItems = menuItems                
