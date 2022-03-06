@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-class MenuItem: Hashable {
+public class MenuItem: Hashable {
     var title: String
     var icon: String
     var view: AnyView?
