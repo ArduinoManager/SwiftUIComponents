@@ -73,10 +73,18 @@ public class TabMenuDivider: MenuItem {
 
 public class HandlerMenuItem: MenuItem {
     
-    public init(title: String, icon: String, handler: @escaping (() -> Void)) {
+    public init(title: String, systemIcon: String, handler: @escaping (() -> Void)) {
         super.init()
         self.title = title
-        self.systemIcon = icon
+        self.systemIcon = systemIcon
+        self.handler = handler
+    }
+    
+    public init(title: String, icon: Image, handler: @escaping (() -> Void)) {
+        super.init()
+        self.title = title
+        self.systemIcon = nil
+        self.icon = icon
         self.handler = handler
     }
 }

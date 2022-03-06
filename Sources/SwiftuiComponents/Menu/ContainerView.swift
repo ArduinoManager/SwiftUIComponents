@@ -100,7 +100,7 @@ struct MainViewContainer: View {
     @ObservedObject private var controller = MenuController(menuItems:
         [
             TabMenuItem(title: "Home", systemIcon: "theatermasks.fill", view: AnyView(TestView(text: "Home").background(.yellow))),
-            HandlerMenuItem(title: "Print", icon: "rectangle.portrait.and.arrow.right") {
+            HandlerMenuItem(title: "Print", systemIcon: "rectangle.portrait.and.arrow.right") {
                 print("Print")
             },
             TabMenuItem(title: "Discover", systemIcon: "safari.fill", view: AnyView(TestView(text: "Discover").background(.blue))),
@@ -112,12 +112,17 @@ struct MainViewContainer: View {
                         view: AnyView(TestView(text: "Profile").background(.green))),
 
             TabMenuDivider(color: .white),
-            HandlerMenuItem(title: "Login", icon: "rectangle.portrait.and.arrow.right") {
+            HandlerMenuItem(title: "Login", systemIcon: "rectangle.portrait.and.arrow.right") {
                 print("Login")
             },
 
-            HandlerMenuItem(title: "Logout", icon: "rectangle.portrait.and.arrow.right") {
+            HandlerMenuItem(title: "Logout", systemIcon: "rectangle.portrait.and.arrow.right") {
                 print("Logout")
+            },
+            
+            TabMenuDivider(color: .white),
+            HandlerMenuItem(title: "Kill!", icon: Image("logo", bundle: .module)) {
+                print("Login")
             },
         ],
         sideTitleView: AnyView(SideTitleView()
