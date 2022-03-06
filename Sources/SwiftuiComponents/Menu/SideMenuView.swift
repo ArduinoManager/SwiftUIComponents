@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-struct SideMenuView: View {
+public struct SideMenuView: View {
     @ObservedObject var controller: MenuController
     //@State private var orientation = UIDeviceOrientation.unknown
     @Namespace var animation
 
-    var body: some View {
+   public var body: some View {
         VStack {
             HStack(spacing: 15) {
                 if !controller.image.isEmpty {

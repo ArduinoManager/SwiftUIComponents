@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-struct ContainerView: View {
+public struct ContainerView: View {
     @ObservedObject var controller: MenuController
     @State private var orientation = UIDeviceOrientation.unknown
     
-    var body: some View {
+    public var body: some View {
         VStack(spacing: 0) {
             if controller.openMenuOnTop {
                 HStack(spacing: 0) {
