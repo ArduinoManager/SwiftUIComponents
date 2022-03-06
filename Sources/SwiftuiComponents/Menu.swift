@@ -9,15 +9,15 @@ import SwiftUI
 
 // https://www.youtube.com/watch?v=qjeATKZkOIU
 
-struct Menu: View {
+public struct Menu: View {
     @ObservedObject private var controller: MenuController
 
-    init(controller: ObservedObject<MenuController>) {
+    public init(controller: ObservedObject<MenuController>) {
         _controller = controller
         UITabBar.appearance().isHidden = true
     }
 
-    var body: some View {
+    public var body: some View {
         ZStack {
             // Side Menu
             SideMenuView(controller: controller)
