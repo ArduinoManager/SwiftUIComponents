@@ -1,4 +1,4 @@
-public struct SwiftuiComponents {
+public class SwiftuiComponents {
     
     public private(set) var text = "I am your first Package!"
 
