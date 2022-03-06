@@ -56,6 +56,7 @@ public class TabMenuDivider: MenuItem {
     
     public override init() {
         super.init()
+        title = "\(UUID())"
     }
 }
 
