@@ -99,14 +99,15 @@ public struct ContainerView: View {
 struct MainViewContainer: View {
     @ObservedObject private var controller = MenuController(menuItems:
         [
-            TabMenuItem(title: "Home", icon: "theatermasks.fill", view: AnyView(TestView(text: "Home").background(.yellow))),
+            TabMenuItem(title: "Home", systemIcon: "theatermasks.fill", view: AnyView(TestView(text: "Home").background(.yellow))),
             HandlerMenuItem(title: "Print", icon: "rectangle.portrait.and.arrow.right") {
                 print("Print")
             },
-            TabMenuItem(title: "Discover", icon: "safari.fill", view: AnyView(TestView(text: "Discover").background(.blue))),
-            TabMenuItem(title: "Devices", icon: "applewatch", view: AnyView(TestView(text: "Devices").background(.gray))),
+            TabMenuItem(title: "Discover", systemIcon: "safari.fill", view: AnyView(TestView(text: "Discover").background(.blue))),
+            TabMenuItem(title: "Devices", systemIcon: "applewatch", view: AnyView(TestView(text: "Devices").background(.gray))),
             TabMenuSpacer(height: 50),
-            TabMenuItem(title: "Profile", icon: "person.fill", view: AnyView(TestView(text: "Profile").background(.green))),
+            TabMenuItem(title: "Profile", systemIcon: "person.fill", view: AnyView(TestView(text: "Profile").background(.green))),
+            TabMenuItem(title: "Profile2", icon: "logo", view: AnyView(TestView(text: "Profile").background(.green))),
 
             TabMenuDivider(color: .white),
             HandlerMenuItem(title: "Login", icon: "rectangle.portrait.and.arrow.right") {

@@ -10,14 +10,15 @@ import SwiftUI
 
 public class MenuItem: Hashable {
     var title: String
-    var icon: String
+    var systemIcon: String?
+    var icon: String?
     var view: AnyView?
     var height: CGFloat?
     var handler: (() -> Void)?
 
     public init() {
         title = ""
-        icon = ""
+        systemIcon = ""
     }
     
     public static func == (lhs: MenuItem, rhs: MenuItem) -> Bool {
@@ -36,9 +37,18 @@ public class MenuItem: Hashable {
 
 public class TabMenuItem: MenuItem {
     
+    public init(title: String, systemIcon: String, view: AnyView) {
+        super.init()
+        self.title = title
+        self.systemIcon = systemIcon
+        self.icon = nil
+        self.view = view
+    }
+    
     public init(title: String, icon: String, view: AnyView) {
         super.init()
         self.title = title
+        self.systemIcon = nil
         self.icon = icon
         self.view = view
     }
@@ -66,7 +76,7 @@ public class HandlerMenuItem: MenuItem {
     public init(title: String, icon: String, handler: @escaping (() -> Void)) {
         super.init()
         self.title = title
-        self.icon = icon
+        self.systemIcon = icon
         self.handler = handler
     }
 }

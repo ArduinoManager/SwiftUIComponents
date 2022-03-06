@@ -31,7 +31,7 @@ public struct SideMenuView: View {
 
                         switch item {
                         case is TabMenuItem:
-                            CustomTabButton(icon: item.icon, title: item.title)
+                            CustomTabButton(item: item)
 
                         case is HandlerMenuItem:
                             CustomActionButton(item: item)
@@ -42,7 +42,7 @@ public struct SideMenuView: View {
                         case is TabMenuDivider:
                             let i = item as! TabMenuDivider
                             Divider()
-                                .background(i.color != nil ? i.color! :  Color(uiColor: .label))
+                                .background(i.color != nil ? i.color! : Color(uiColor: .label))
 
                         default:
                             EmptyView()
@@ -65,59 +65,15 @@ public struct SideMenuView: View {
     }
 
     @ViewBuilder
-    func CustomTabButton(icon: String, title: String) -> some View {
+    func CustomTabButton(item: MenuItem) -> some View {
         Button {
             withAnimation {
-                controller.currentTab = title
+                controller.currentTab = item.title
             }
         }
         label: {
             HStack {
-                Image(systemName: icon)
-                    .font(.title3)
-                    .frame(width: controller.currentTab == title ? 48 : nil, height: 48)
-                    .foregroundColor(controller.currentTab == title ? controller.selectedItemBackgroundColor : controller.itemsColor)
-                    .background(
-                        ZStack {
-                            if controller.currentTab == title {
-                                Color.white
-                                    .clipShape(Circle())
-                                    .matchedGeometryEffect(id: "TABCIRCLE", in: animation)
-                            }
-                        }
-                    )
-                    .padding([.leading, .trailing], 1)
-
-                Text(title)
-                    .font(.callout)
-                    .fontWeight(.semibold)
-                    .foregroundColor(controller.itemsColor)
-            }
-
-            .padding(.trailing, 18)
-            .background(
-                ZStack {
-                    if controller.currentTab == title {
-                        controller.selectedItemBackgroundColor
-                            .clipShape(Capsule())
-                            .matchedGeometryEffect(id: "TABCAPSULE", in: animation)
-                    }
-                }
-            )
-        }
-        .offset(x: controller.currentTab == title ? 15 : 0)
-    }
-
-    @ViewBuilder
-    func CustomActionButton(item: MenuItem) -> some View {
-        Button {
-            withAnimation {
-                item.handler!()
-            }
-        }
-        label: {
-            HStack {
-                Image(systemName: item.icon)
+                makeImage(item: item)
                     .font(.title3)
                     .frame(width: controller.currentTab == item.title ? 48 : nil, height: 48)
                     .foregroundColor(controller.currentTab == item.title ? controller.selectedItemBackgroundColor : controller.itemsColor)
@@ -151,6 +107,62 @@ public struct SideMenuView: View {
         }
         .offset(x: controller.currentTab == item.title ? 15 : 0)
     }
+
+    @ViewBuilder
+    func CustomActionButton(item: MenuItem) -> some View {
+        Button {
+            withAnimation {
+                item.handler!()
+            }
+        }
+        label: {
+            HStack {
+                makeImage(item: item)
+                    .font(.title3)
+                    .frame(width: controller.currentTab == item.title ? 48 : nil, height: 48)
+                    .foregroundColor(controller.currentTab == item.title ? controller.selectedItemBackgroundColor : controller.itemsColor)
+                    .background(
+                        ZStack {
+                            if controller.currentTab == item.title {
+                                Color.white
+                                    .clipShape(Circle())
+                                    .matchedGeometryEffect(id: "TABCIRCLE", in: animation)
+                            }
+                        }
+                    )
+                    .padding([.leading, .trailing], 1)
+
+                Text(item.title)
+                    .font(.callout)
+                    .fontWeight(.semibold)
+                    .foregroundColor(controller.itemsColor)
+            }
+
+            .padding(.trailing, 18)
+            .background(
+                ZStack {
+                    if controller.currentTab == item.title {
+                        controller.selectedItemBackgroundColor
+                            .clipShape(Capsule())
+                            .matchedGeometryEffect(id: "TABCAPSULE", in: animation)
+                    }
+                }
+            )
+        }
+        .offset(x: controller.currentTab == item.title ? 15 : 0)
+    }
+    
+    
+    @ViewBuilder
+    func makeImage(item: MenuItem) -> some View {
+        if item.icon != nil {
+            Image(item.icon!)
+        }
+        else {
+            Image(systemName: item.systemIcon!)
+        }
+    }
+    
 }
 
 struct SideMenu_Previews: PreviewProvider {
