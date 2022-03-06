@@ -69,7 +69,7 @@ public struct ContainerView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .font(.title.bold())
-                .foregroundColor(.black)
+                .foregroundColor(Color(uiColor: .label))
                 .frame(width: controller.openButtonSize, height: controller.openButtonSize)
         }
         .opacity(controller.showMenu ? 0 : 1)
@@ -84,7 +84,7 @@ public struct ContainerView: View {
         } label: {
             Image(systemName: "xmark")
                 .font(.title.bold())
-                .foregroundColor(.black)
+                .foregroundColor(Color(uiColor: .label))
         }
         .opacity(controller.showMenu ? 1 : 0)
         .padding()
