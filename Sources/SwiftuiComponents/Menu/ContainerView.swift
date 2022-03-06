@@ -129,11 +129,11 @@ struct MainViewContainer: View {
 struct SideTitleView: View {
     var body: some View {
         HStack(spacing: 15) {
-            Image(systemName: "menucard")
+            Image("logo", bundle: .module)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
-                .frame(width: 25, height: 25)
-                //.clipShape(Circle())
+                .frame(width: 45, height: 45)
+                .clipShape(Circle())
                 .foregroundColor(.red)
             Spacer()
             Text("Fuck !")
