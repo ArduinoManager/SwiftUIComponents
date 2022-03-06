@@ -19,11 +19,11 @@ public class MenuItem: Hashable {
         icon = ""
     }
     
-    static func == (lhs: MenuItem, rhs: MenuItem) -> Bool {
+    public static func == (lhs: MenuItem, rhs: MenuItem) -> Bool {
         return lhs.title == rhs.title
     }
 
-    func hash(into hasher: inout Hasher) {
+    public func hash(into hasher: inout Hasher) {
         hasher.combine(title)
     }
     

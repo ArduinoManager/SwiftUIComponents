@@ -97,9 +97,9 @@ struct ContainerView: View {
     }
 }
 
-struct ContainerView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-.previewInterfaceOrientation(.portrait)
-    }
-}
+//struct ContainerView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ContentView()
+//.previewInterfaceOrientation(.portrait)
+//    }
+//}
