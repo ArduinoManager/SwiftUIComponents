@@ -40,7 +40,9 @@ public struct SideMenuView: View {
                             Spacer(minLength: item.height)
 
                         case is TabMenuDivider:
+                            let i = item as! TabMenuDivider
                             Divider()
+                                .background(i.color != nil ? i.color! :  Color(uiColor: .label))
 
                         default:
                             EmptyView()

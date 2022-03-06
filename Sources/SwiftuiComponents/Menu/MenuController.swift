@@ -53,10 +53,11 @@ public class TabMenuSpacer: MenuItem {
 }
 
 public class TabMenuDivider: MenuItem {
-    
-    public override init() {
+    var color: Color?
+    public init(color: Color? = nil) {
         super.init()
         title = "\(UUID())"
+        self.color = color
     }
 }
 

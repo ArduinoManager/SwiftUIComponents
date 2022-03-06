@@ -108,7 +108,7 @@ struct MainViewContainer: View {
             TabMenuSpacer(height: 50),
             TabMenuItem(title: "Profile", icon: "person.fill", view: AnyView(TestView(text: "Profile").background(.green))),
 
-            TabMenuDivider(),
+            TabMenuDivider(color: .white),
             HandlerMenuItem(title: "Login", icon: "rectangle.portrait.and.arrow.right") {
                 print("Login")
             },
@@ -118,7 +118,7 @@ struct MainViewContainer: View {
             },
         ],
         sideTitleView: AnyView(SideTitleView()
-        ), backgroundColor: .black
+                              ), backgroundColor: .black, itemsColor: .red
     )
 
     var body: some View {
