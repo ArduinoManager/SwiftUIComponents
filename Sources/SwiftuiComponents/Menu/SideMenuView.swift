@@ -9,7 +9,6 @@ import SwiftUI
 
 public struct SideMenuView: View {
     @ObservedObject var controller: MenuController
-    //@State private var orientation = UIDeviceOrientation.unknown
     @Namespace var animation
 
    public var body: some View {
@@ -32,7 +31,6 @@ public struct SideMenuView: View {
             .padding()
             .frame(maxWidth: .infinity, alignment: .leading)
 
-            // TODO: Fix this!
             //Print("Redraw with Height \(getRect().height)")
             ScrollView(.vertical, showsIndicators: false) {
                 // Tab Buttons
