@@ -74,8 +74,6 @@ public class MenuController: ObservableObject {
     @Published var currentTab: String
     @Published var showMenu: Bool
     var sideTitleView: AnyView?
-//    var sideViewImage: String?
-//    var sideViewTitle: String?
     var itemsColor: Color
     var selectedItemBackgroundColor: Color
     var backgroundColor: Color
@@ -94,8 +92,6 @@ public class MenuController: ObservableObject {
         self.openButtonIcon = openButtonIcon
         self.openButtonSize = openButtonSize
         self.sideTitleView = sideTitleView
-//        self.sideViewImage = sideViewImage
-//        self.sideViewTitle = sideViewTitle
         self.backgroundColor = backgroundColor
         self.itemsColor = itemsColor
         self.selectedItemBackgroundColor = selectedItemBackgroundColor
