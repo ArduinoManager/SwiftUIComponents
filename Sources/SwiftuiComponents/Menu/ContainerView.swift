@@ -116,11 +116,32 @@ struct MainViewContainer: View {
             HandlerMenuItem(title: "Logout", icon: "rectangle.portrait.and.arrow.right") {
                 print("Logout")
             },
-        ]
+        ],
+        sideTitleView: AnyView(SideTitleView()
+        ), backgroundColor: .black
     )
 
     var body: some View {
         Menu(controller: _controller)
+    }
+}
+
+struct SideTitleView: View {
+    var body: some View {
+        HStack(spacing: 15) {
+            Image(systemName: "menucard")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 25, height: 25)
+                //.clipShape(Circle())
+                .foregroundColor(.red)
+            Spacer()
+            Text("Fuck !")
+                .font(.title2.bold())
+                .foregroundColor(.white)
+        }
+        .padding()
+        .background(.green)
     }
 }
 

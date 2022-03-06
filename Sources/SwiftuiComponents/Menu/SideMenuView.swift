@@ -11,35 +11,19 @@ public struct SideMenuView: View {
     @ObservedObject var controller: MenuController
     @Namespace var animation
 
-   public var body: some View {
+    public var body: some View {
         VStack {
             if controller.sideTitleView != nil {
-                controller.sideTitleView
-                    .padding()
-                    .frame(width: getRect().width / 2, alignment: .leading)
-            }
-            else {
+                HStack {
+                    controller.sideTitleView
+                        .frame(maxWidth: getRect().width / 2, alignment: .leading)
+                    Spacer()
+                }
+            } else {
                 Spacer(minLength: 20)
             }
-//            HStack(spacing: 15) {
-//                if let image = controller.sideViewImage {
-//                    Image(image)
-//                        .resizable()
-//                        .aspectRatio(contentMode: .fill)
-//                        .frame(width: 45, height: 45)
-//                        .clipShape(Circle())
-//                }
-//
-//                if let title = controller.sideViewTitle {
-//                    Text(title)
-//                        .font(.title2.bold())
-//                        .foregroundColor(Color(uiColor: .label))
-//                }
-//            }
-//            .padding()
-//            .frame(maxWidth: .infinity, alignment: .leading)
 
-            //Print("Redraw with Height \(getRect().height)")
+            // Print("Redraw with Height \(getRect().height)")
             ScrollView(.vertical, showsIndicators: false) {
                 // Tab Buttons
                 VStack(alignment: .leading, spacing: 25) {
@@ -54,10 +38,10 @@ public struct SideMenuView: View {
 
                         case is TabMenuSpacer:
                             Spacer(minLength: item.height)
-                                                        
+
                         case is TabMenuDivider:
                             Divider()
-                            
+
                         default:
                             EmptyView()
                         }
@@ -73,7 +57,7 @@ public struct SideMenuView: View {
         .padding(.leading, 10)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .background(controller.backgroundColor)
-        .onRotate { newOrientation in
+        .onRotate { _ in
             controller.objectWillChange.send() // Force redraw!
         }
     }

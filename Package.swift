@@ -21,8 +21,8 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "SwiftuiComponents",
-            dependencies: []
-            //, resources: [.process("Assets.xcassets")] // If I need any Asset
+            dependencies: [],
+            resources: [.process("Media.xcassets")] // If I need any Asset
         ),
         .testTarget(
             name: "SwiftuiComponentsTests",
