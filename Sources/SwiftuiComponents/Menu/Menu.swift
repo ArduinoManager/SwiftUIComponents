@@ -32,38 +32,8 @@ public struct Menu: View {
     }
 }
 
-//struct MainViewContainer: View {
-//    @ObservedObject private var controller = MenuController(menuItems:
-//        [
-//            TabMenuItem(title: "Home", icon: "theatermasks.fill", view: AnyView(HomeView(text: "Home"))),
-//            HandlerMenuItem(title: "Print", icon: "rectangle.portrait.and.arrow.right") {
-//                print("Print")
-//            },
-//            TabMenuItem(title: "Discover", icon: "safari.fill", view: AnyView(DiscoverView(text: "Discover"))),
-//            TabMenuItem(title: "Devices", icon: "applewatch", view: AnyView(DevicesView(text: "Devices"))),
-//            TabMenuItem(title: "Profile", icon: "person.fill", view: AnyView(ProfileView(text: "Profile"))),
-//            //            MenuItem(title: "Profile", icon: "person.fill"),
-//            //            MenuItem(title: "Settings", icon: "gearshape.fill"),
-//            //            MenuItem(title: "About", icon: "info.circle.fill"),
-//            //            MenuItem(title: "Help", icon: "questionmark.circle.fill"),
-//
-//            HandlerMenuItem(title: "Login", icon: "rectangle.portrait.and.arrow.right") {
-//                print("Login")
-//            },
-//            
-//            HandlerMenuItem(title: "Logout", icon: "rectangle.portrait.and.arrow.right") {
-//                print("Logout")
-//            }
-//        ]
-//    )
-//
-//    var body: some View {
-//        Menu(controller: _controller)
-//    }
-//}
-//
-//struct MainView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MainViewContainer()
-//    }
-//}
+struct Menu_Previews: PreviewProvider {
+    static var previews: some View {
+        MainViewContainer()
+    }
+}

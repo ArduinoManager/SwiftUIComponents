@@ -10,7 +10,7 @@ import SwiftUI
 public struct ContainerView: View {
     @ObservedObject var controller: MenuController
     @State private var orientation = UIDeviceOrientation.unknown
-    
+
     public var body: some View {
         VStack(spacing: 0) {
             if controller.openMenuOnTop {
@@ -39,7 +39,7 @@ public struct ContainerView: View {
                     }
                 }
             })
-            
+
             if !controller.openMenuOnTop {
                 HStack(spacing: 0) {
                     OpenButton()
@@ -56,7 +56,6 @@ public struct ContainerView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .overlay(CloseButton(), alignment: .topLeading)
         .background(controller.titleViewBackground)
-        
     }
 
     @ViewBuilder
@@ -91,15 +90,55 @@ public struct ContainerView: View {
         .padding()
         .padding(.top)
     }
-    
+
     func isLandscape() -> Bool {
         return UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight
     }
 }
 
-//struct ContainerView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ContentView()
-//.previewInterfaceOrientation(.portrait)
-//    }
-//}
+struct MainViewContainer: View {
+    @ObservedObject private var controller = MenuController(menuItems:
+        [
+            TabMenuItem(title: "Home", icon: "theatermasks.fill", view: AnyView(TestView(text: "Home").background(.yellow))),
+            HandlerMenuItem(title: "Print", icon: "rectangle.portrait.and.arrow.right") {
+                print("Print")
+            },
+            TabMenuItem(title: "Discover", icon: "safari.fill", view: AnyView(TestView(text: "Discover").background(.blue))),
+            TabMenuItem(title: "Devices", icon: "applewatch", view: AnyView(TestView(text: "Devices").background(.gray))),
+            TabMenuSpacer(height: 50),
+            TabMenuItem(title: "Profile", icon: "person.fill", view: AnyView(TestView(text: "Profile").background(.green))),
+
+            TabMenuDivider(),
+            HandlerMenuItem(title: "Login", icon: "rectangle.portrait.and.arrow.right") {
+                print("Login")
+            },
+
+            HandlerMenuItem(title: "Logout", icon: "rectangle.portrait.and.arrow.right") {
+                print("Logout")
+            },
+        ]
+    )
+
+    var body: some View {
+        Menu(controller: _controller)
+    }
+}
+
+struct MainView_Previews: PreviewProvider {
+    static var previews: some View {
+        MainViewContainer()
+    }
+}
+
+struct TestView: View {
+    @State var text: String
+
+    var body: some View {
+        VStack {
+            Spacer()
+            Text(text)
+            Spacer()
+        }
+        .frame(maxWidth: .infinity)
+    }
+}
