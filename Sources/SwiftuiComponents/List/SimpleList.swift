@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum SheetMode {
+public enum SheetMode {
     case none
     case edit
     case new
@@ -22,13 +22,13 @@ class SheetMananger: ObservableObject {
     @Published var whichSheet: Sheet? = nil
 }
 
-public struct SimpleList<T: Identifiable & Equatable & Selectable, Content: View>: View {
-    @ObservedObject var controller: ListController<T, Content>
+public struct SimpleList<Item: Identifiable & Equatable & Selectable, Row: View, Form: View>: View {
+    @ObservedObject var controller: ListController<Item, Row, Form>
     @StateObject var sheetManager = SheetMananger()
     @State var mode: SheetMode = .none
-    @State var editingItem: T?
+    @State var editingItem: Item?
 
-    public init(controller: ObservedObject<ListController<T, Content>>) {
+    public init(controller: ObservedObject<ListController<Item, Row, Form>>) {
         _controller = controller
     }
 
@@ -70,8 +70,11 @@ public struct SimpleList<T: Identifiable & Equatable & Selectable, Content: View
                 }
             }
             .sheet(isPresented: $sheetManager.showSheet) {
-                EmptyView()
-//                if sheetManager.whichSheet == .Form {
+                
+                if sheetManager.whichSheet == .Form {
+                    
+                    controller.makeForm(mode, editingItem)
+                    
 //                    FormView(mode: mode, item: editingItem) { mode, item in
 //                        switch mode {
 //                        case .none:
@@ -85,14 +88,12 @@ public struct SimpleList<T: Identifiable & Equatable & Selectable, Content: View
 //                            controller.add(item: item! as! T)
 //                        }
 //                    }
-//                }
+                }
             }
 
             Text("\(controller.selectedItems.debugDescription)")
         }
     }
-    
-    
 }
 
 struct FormView: View {
@@ -143,18 +144,20 @@ struct FormView: View {
     }
 }
 
-
 struct SimpleListContainer: View {
-    @ObservedObject private var controller: ListController<ItemClass, MyRow>
-    
+    @ObservedObject private var controller: ListController<ItemClass, MyRow, FormView>
+
     init() {
         let items = [ItemClass(firstName: "A", lastName: "A"),
-                           ItemClass(firstName: "B", lastName: "B"),
-                           ItemClass(firstName: "C", lastName: "C")]
-        
-        controller = ListController<ItemClass, MyRow>(items: items) { item in
+                     ItemClass(firstName: "B", lastName: "B"),
+                     ItemClass(firstName: "C", lastName: "C")]
+
+        controller = ListController<ItemClass, MyRow, FormView>(items: items, makeRow: { item in
             MyRow(item: item)
-        }
+        }, makeForm: { mode, item in
+            FormView(mode: mode, item: item) { _, _ in
+            }
+        })
     }
 
     var body: some View {
@@ -172,11 +175,11 @@ struct SimpleList_Previews: PreviewProvider {
 
 struct MyRow: View {
     @ObservedObject var item: ItemClass
-    
+
     init() {
         _item = ObservedObject(initialValue: ItemClass())
     }
-    
+
     init(item: ItemClass) {
         _item = ObservedObject(initialValue: item)
     }

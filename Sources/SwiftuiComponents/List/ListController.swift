@@ -66,32 +66,34 @@ public class ItemClass:ObservableObject, Identifiable, Equatable, CustomDebugStr
     }    
 }
 
-public class ListController<T: Equatable & Selectable, Row: View>: ObservableObject {
-    @Published var items: [T]
-    var makeRow: (_: T) -> Row
+public class ListController<Item: Equatable & Selectable, Row: View, Form: View>: ObservableObject {
+    @Published var items: [Item]
+    var makeRow: (_: Item) -> Row
+    var makeForm: (_: SheetMode, _: Item?) -> Form
     
-    public init(items: [T], makeRow: @escaping (_: T) -> Row) {
+    public init(items: [Item], makeRow: @escaping (_: Item) -> Row, makeForm: @escaping (_: SheetMode, _: Item?) -> Form) {
         self.items = items
         self.makeRow = makeRow
+        self.makeForm = makeForm
     }
     
-    var selectedItems: [T] {
+    var selectedItems: [Item] {
         get {
             items.filter({$0.isSelected()})
         }
     }
     
-    func delete(item: T) {
+    func delete(item: Item) {
         if let idx = items.firstIndex(of: item) {
             items.remove(at: idx)
         }
     }
     
-    func add(item: T) {
+    func add(item: Item) {
         items.append(item)
     }
     
-    func update(oldItem: T, newItem: T) {
+    func update(oldItem: Item, newItem: Item) {
         if let idx = items.firstIndex(of: oldItem) {
             items.remove(at: idx)
             items.insert(newItem, at: idx)
@@ -99,7 +101,7 @@ public class ListController<T: Equatable & Selectable, Row: View>: ObservableObj
         }
     }
     
-    func select(item: T) {
+    func select(item: Item) {
         items.forEach{$0.deselect()} // Remove for multiple selection !
         let newItem = item
         newItem.toggleSelection()
