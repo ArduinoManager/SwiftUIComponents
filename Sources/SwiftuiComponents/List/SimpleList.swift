@@ -153,15 +153,18 @@ struct SimpleListContainer: View {
         controller = ListController<ItemClass, MyRow, FormView>(items: items,
                                                                 makeRow: { item in
                                                                     MyRow(item: item)
-                                                                },
-                                                                makeForm: { mode, item in
-                                                                    FormView(mode: mode, item: item) { _, _ in
-                                                                    }
                                                                 })
     }
 
     var body: some View {
         SimpleList(controller: _controller)
+            .onAppear {
+                controller.addFormBuilder { mode, item in
+                    FormView(mode: mode, item: item) { mode, item in
+                        controller.add(item: item!)
+                    }
+                }
+            }
     }
 }
 

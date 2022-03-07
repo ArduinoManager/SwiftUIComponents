@@ -69,11 +69,14 @@ public class ItemClass:ObservableObject, Identifiable, Equatable, CustomDebugStr
 public class ListController<Item: Equatable & Selectable, Row: View, Form: View>: ObservableObject {
     @Published var items: [Item]
     var makeRow: (_: Item) -> Row
-    var makeForm: (_: SheetMode, _: inout Item?) -> Form
+    var makeForm: ((_: SheetMode, _: inout Item?) -> Form)!
     
-    public init(items: [Item], makeRow: @escaping (_: Item) -> Row, makeForm: @escaping (_: SheetMode, _: inout Item?) -> Form) {
+    public init(items: [Item], makeRow: @escaping (_: Item) -> Row) {
         self.items = items
         self.makeRow = makeRow
+    }
+    
+    public func addFormBuilder(makeForm: @escaping (_: SheetMode, _: inout Item?) -> Form) {
         self.makeForm = makeForm
     }
     
