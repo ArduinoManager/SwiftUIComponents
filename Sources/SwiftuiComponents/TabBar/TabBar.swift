@@ -15,7 +15,12 @@ struct TabBar: View {
             ForEach(controller.tabs, id: \.self) { tab in
                 tab.makeTab()
                     .tabItem {
-                        Label(tab.title, systemImage: tab.systemIcon)
+                        if let systemIcon = tab.systemIcon {
+                            Label(tab.title, systemImage: systemIcon)
+                        }
+                        else {
+                            Label(tab.title, image: tab.icon!)
+                        }
                     }
             }
         }
@@ -26,6 +31,7 @@ struct TabBarContainer: View {
     @ObservedObject private var controller = TabBarController(views: [
         TabItem(title: "Tab 1", systemIcon: "list.dash", tab: AnyView(Tab1())),
         TabItem(title: "Tab 2", systemIcon: "square.and.pencil", tab: AnyView(Tab2())),
+        TabItem(title: "Tab 3", icon: "logo", tab: AnyView(Tab3())),
     ])
 
     var body: some View {
@@ -50,5 +56,11 @@ struct Tab1: View {
 struct Tab2: View {
     var body: some View {
         Text("Tab 2")
+    }
+}
+
+struct Tab3: View {
+    var body: some View {
+        Text("Tab 3")
     }
 }

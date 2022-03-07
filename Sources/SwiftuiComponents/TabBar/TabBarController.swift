@@ -10,8 +10,21 @@ import SwiftUI
 
 public class TabItem: Hashable {
     var title: String
-    var systemIcon: String
+    var systemIcon: String?
+    var icon: String?
     var tab: AnyView
+    
+    public init(title: String, systemIcon: String, tab: AnyView) {
+        self.title = title
+        self.systemIcon = systemIcon
+        self.tab = tab
+    }
+    
+    public init(title: String, icon: String, tab: AnyView) {
+        self.title = title
+        self.icon = icon
+        self.tab = tab
+    }
     
     public static func == (lhs: TabItem, rhs: TabItem) -> Bool {
         return lhs.title == rhs.title
@@ -19,12 +32,6 @@ public class TabItem: Hashable {
     
     public func hash(into hasher: inout Hasher) {
         hasher.combine(title)
-    }
-    
-    public init(title: String, systemIcon: String, tab: AnyView) {
-        self.title = title
-        self.systemIcon = systemIcon
-        self.tab = tab
     }
     
     @ViewBuilder
@@ -41,20 +48,3 @@ class TabBarController: ObservableObject {
         self.tabs = views
     }
 }
-
-
-//struct TabBar: View {
-//    var body: some View {
-//        TabView {
-//            ListSimpleView()
-//                .tabItem {
-//                    Label("List Simple", systemImage: "list.dash")
-//                }
-//
-//            ListNavigationView()
-//                .tabItem {
-//                    Label("List Navigation", systemImage: "square.and.pencil")
-//                }
-//        }
-//    }
-//}
