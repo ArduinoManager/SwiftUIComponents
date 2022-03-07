@@ -71,7 +71,7 @@ public struct SimpleList<Item: Identifiable & Equatable & Selectable, Row: View,
             }
             .sheet(isPresented: $sheetManager.showSheet) {
                 if sheetManager.whichSheet == .Form {
-                    controller.makeForm(mode, editingItem)
+                    controller.makeForm(mode, &editingItem)
 
 //                    FormView(mode: mode, item: editingItem) { mode, item in
 //                        switch mode {
@@ -150,12 +150,14 @@ struct SimpleListContainer: View {
                      ItemClass(firstName: "B", lastName: "B"),
                      ItemClass(firstName: "C", lastName: "C")]
 
-        controller = ListController<ItemClass, MyRow, FormView>(items: items, makeRow: { item in
-            MyRow(item: item)
-        }, makeForm: { mode, item in
-            FormView(mode: mode, item: item) { _, _ in
-            }
-        })
+        controller = ListController<ItemClass, MyRow, FormView>(items: items,
+                                                                makeRow: { item in
+                                                                    MyRow(item: item)
+                                                                },
+                                                                makeForm: { mode, item in
+                                                                    FormView(mode: mode, item: item) { _, _ in
+                                                                    }
+                                                                })
     }
 
     var body: some View {
