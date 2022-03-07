@@ -43,8 +43,12 @@ public class TabItem: Hashable {
 
 public class TabBarController: ObservableObject {
     @Published public var tabs: [TabItem]
+    var backgroundColor: Color
+    var itemsColor: Color
     
-    public init(views: [TabItem]) {
+    public init(views: [TabItem], backgroundColor: Color = Color(uiColor: .systemBackground), itemsColor: Color = Color(uiColor: .systemBackground)) {
         self.tabs = views
+        self.backgroundColor = backgroundColor
+        self.itemsColor = itemsColor
     }
 }
