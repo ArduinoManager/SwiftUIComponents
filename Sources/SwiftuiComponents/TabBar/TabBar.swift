@@ -10,6 +10,10 @@ import SwiftUI
 public struct TabBar: View {
     @ObservedObject var controller: TabBarController
 
+    public init(controller: ObservedObject<TabBarController>) {
+        _controller = controller
+    }
+    
     public var body: some View {
         TabView {
             ForEach(controller.tabs, id: \.self) { tab in
@@ -35,7 +39,7 @@ struct TabBarContainer: View {
     ])
 
     var body: some View {
-        TabBar(controller: controller)
+        TabBar(controller: _controller)
     }
 }
 
