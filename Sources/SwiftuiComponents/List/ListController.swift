@@ -89,7 +89,7 @@ public class ListController<Item: Equatable & Selectable, Row: View, Form: View>
         }
     }
     
-    func add(item: Item) {
+    public func add(item: Item) {
         items.append(item)
     }
     
