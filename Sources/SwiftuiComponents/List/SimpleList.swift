@@ -92,10 +92,6 @@ public struct SimpleList<T: Identifiable & Equatable & Selectable, Content: View
         }
     }
     
-    @ViewBuilder
-    func makeRow(item: T) -> some View {
-        controller.rowView
-    }
     
 }
 
@@ -156,7 +152,7 @@ struct SimpleListContainer: View {
                            ItemClass(firstName: "B", lastName: "B"),
                            ItemClass(firstName: "C", lastName: "C")]
         
-        controller = ListController<ItemClass, MyRow>(items: items, rowView: MyRow()) { item in
+        controller = ListController<ItemClass, MyRow>(items: items) { item in
             MyRow(item: item)
         }
     }

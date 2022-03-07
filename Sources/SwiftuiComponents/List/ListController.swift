@@ -66,14 +66,12 @@ public class ItemClass:ObservableObject, Identifiable, Equatable, CustomDebugStr
     }    
 }
 
-public class ListController<T: Equatable & Selectable, Content: View>: ObservableObject {
+public class ListController<T: Equatable & Selectable, Row: View>: ObservableObject {
     @Published var items: [T]
-    var rowView: Content
-    var makeRow: (_: T) -> Content
+    var makeRow: (_: T) -> Row
     
-    public init(items: [T], rowView: Content, makeRow: @escaping (_: T) -> Content) {
+    public init(items: [T], makeRow: @escaping (_: T) -> Row) {
         self.items = items
-        self.rowView = rowView
         self.makeRow = makeRow
     }
     
