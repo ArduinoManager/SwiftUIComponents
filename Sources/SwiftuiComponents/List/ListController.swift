@@ -77,7 +77,7 @@ public class ListController<Item: Equatable & Selectable, Row: View, Form: View>
         self.makeForm = makeForm
     }
     
-    var selectedItems: [Item] {
+    public var selectedItems: [Item] {
         get {
             items.filter({$0.isSelected()})
         }
@@ -93,7 +93,7 @@ public class ListController<Item: Equatable & Selectable, Row: View, Form: View>
         items.append(item)
     }
     
-    func update(oldItem: Item, newItem: Item) {
+    public func update(oldItem: Item, newItem: Item) {
         if let idx = items.firstIndex(of: oldItem) {
             items.remove(at: idx)
             items.insert(newItem, at: idx)
