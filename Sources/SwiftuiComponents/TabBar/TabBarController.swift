@@ -41,7 +41,7 @@ public class TabItem: Hashable {
 }
 
 
-class TabBarController: ObservableObject {
+public class TabBarController: ObservableObject {
     @Published public var tabs: [TabItem]
     
     public init(views: [TabItem]) {
