@@ -12,6 +12,7 @@ public struct ContainerView: View {
     @State private var orientation = UIDeviceOrientation.unknown
 
     public var body: some View {
+        Print(Self._printChanges())
         VStack(spacing: 0) {
             if controller.openButtonAtTop {
                 HStack(spacing: 0) {
