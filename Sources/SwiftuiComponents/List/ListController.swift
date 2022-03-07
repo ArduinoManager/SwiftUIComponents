@@ -24,8 +24,8 @@ public class ItemClass:ObservableObject, Identifiable, Equatable, CustomDebugStr
     
     public let id = UUID()
     @Published var selected = false
-    @Published var firstName: String = ""
-    @Published var lastName: String = ""
+    @Published public var firstName: String = ""
+    @Published public var lastName: String = ""
     
     public required init() {
         self.firstName = ""
