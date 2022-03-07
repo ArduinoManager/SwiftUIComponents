@@ -22,18 +22,14 @@ class SheetMananger: ObservableObject {
     @Published var whichSheet: Sheet? = nil
 }
 
-public struct SimpleList<T: Identifiable & Equatable & Selectable>: View {
-    @ObservedObject var controller: ListController<T>
+public struct SimpleList<T: Identifiable & Equatable & Selectable, Content: View>: View {
+    @ObservedObject var controller: ListController<T, Content>
     @StateObject var sheetManager = SheetMananger()
     @State var mode: SheetMode = .none
-    @State var editingItem: ItemClass?
+    @State var editingItem: T?
 
-    public init(controller: ObservedObject<ListController<T>>) {
+    public init(controller: ObservedObject<ListController<T, Content>>) {
         _controller = controller
-//        viewModel = SuperListViewModel<<#T: Equatable & Selectable#>>()
-//        viewModel.items = [ItemClass(firstName: "A", lastName: "A"),
-//                           ItemClass(firstName: "B", lastName: "B"),
-//                           ItemClass(firstName: "C", lastName: "C")]
     }
 
     public var body: some View {
@@ -53,59 +49,54 @@ public struct SimpleList<T: Identifiable & Equatable & Selectable>: View {
 
             List {
                 ForEach(controller.items, id: \.id) { item in
-//                    Row(item: item)
-//                        .onTapGesture {
-//                            controller.select(item: item)
-//                        }
-//                        .swipeActions {
-//                            Button("Delete") {
-//                                print("Delete \(item)")
-//                                controller.delete(item: item)
-//                            }
-//                            .tint(.red)
-//                            Button("Edit") {
-//                                print("Edit \(item)")
-//                                mode = .edit
-//                                editingItem = item
-//                                sheetManager.whichSheet = .Form
-//                                sheetManager.showSheet.toggle()
-//                            }
-//                        }
+                    controller.makeRow(item)
+                        .onTapGesture {
+                            controller.select(item: item)
+                        }
+                        .swipeActions {
+                            Button("Delete") {
+                                print("Delete \(item)")
+                                controller.delete(item: item)
+                            }
+                            .tint(.red)
+                            Button("Edit") {
+                                print("Edit \(item)")
+                                mode = .edit
+                                editingItem = item
+                                sheetManager.whichSheet = .Form
+                                sheetManager.showSheet.toggle()
+                            }
+                        }
                 }
             }
             .sheet(isPresented: $sheetManager.showSheet) {
-                if sheetManager.whichSheet == .Form {
-                    FormView(mode: mode, item: editingItem) { mode, item in
-                        switch mode {
-                        case .none:
-                            break
-                        case .edit:
-                            print("Edit")
-                            controller.update(oldItem: editingItem! as! T, newItem: item! as! T)
-                            editingItem = nil
-                        case .new:
-                            print("New")
-                            controller.add(item: item! as! T)
-                        }
-                    }
-                }
+                EmptyView()
+//                if sheetManager.whichSheet == .Form {
+//                    FormView(mode: mode, item: editingItem) { mode, item in
+//                        switch mode {
+//                        case .none:
+//                            break
+//                        case .edit:
+//                            print("Edit")
+//                            controller.update(oldItem: editingItem! as! T, newItem: item! as! T)
+//                            editingItem = nil
+//                        case .new:
+//                            print("New")
+//                            controller.add(item: item! as! T)
+//                        }
+//                    }
+//                }
             }
 
             Text("\(controller.selectedItems.debugDescription)")
         }
     }
-}
-
-struct Row: View {
-    @ObservedObject var item: ItemClass
-
-    var body: some View {
-        HStack {
-            Text("\(item.firstName)")
-            Text("\(item.lastName)")
-        }
-        .background(item.selected ? Color.red : Color.clear)
+    
+    @ViewBuilder
+    func makeRow(item: T) -> some View {
+        controller.rowView
     }
+    
 }
 
 struct FormView: View {
@@ -158,15 +149,16 @@ struct FormView: View {
 
 
 struct SimpleListContainer: View {
-    @ObservedObject private var controller: ListController<ItemClass>
+    @ObservedObject private var controller: ListController<ItemClass, MyRow>
     
     init() {
         let items = [ItemClass(firstName: "A", lastName: "A"),
                            ItemClass(firstName: "B", lastName: "B"),
                            ItemClass(firstName: "C", lastName: "C")]
         
-        
-        controller = ListController<ItemClass>(items: items)
+        controller = ListController<ItemClass, MyRow>(items: items, rowView: MyRow()) { item in
+            MyRow(item: item)
+        }
     }
 
     var body: some View {
@@ -180,10 +172,24 @@ struct SimpleList_Previews: PreviewProvider {
     }
 }
 
+// Auxiliary Preview Functions
 
+struct MyRow: View {
+    @ObservedObject var item: ItemClass
+    
+    init() {
+        _item = ObservedObject(initialValue: ItemClass())
+    }
+    
+    init(item: ItemClass) {
+        _item = ObservedObject(initialValue: item)
+    }
 
-//struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SimpleList(controller:)
-//    }
-//}
+    var body: some View {
+        HStack {
+            Text("\(item.firstName)")
+            Text("\(item.lastName)")
+        }
+        .background(item.selected ? Color.red : Color.clear)
+    }
+}
