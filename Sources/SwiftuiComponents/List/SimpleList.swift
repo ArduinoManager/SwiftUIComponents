@@ -71,7 +71,7 @@ public struct SimpleList<Item: Identifiable & Equatable & Selectable, Row: View,
             }
             .sheet(isPresented: $sheetManager.showSheet) {
                 if sheetManager.whichSheet == .Form {
-                    controller.makeForm(mode, &editingItem)
+                    controller.makeForm(mode, editingItem)
 
 //                    FormView(mode: mode, item: editingItem) { mode, item in
 //                        switch mode {
