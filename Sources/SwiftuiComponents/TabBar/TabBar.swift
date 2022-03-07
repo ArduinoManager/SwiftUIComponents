@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-struct TabBar: View {
+public struct TabBar: View {
     @ObservedObject var controller: TabBarController
 
-    var body: some View {
+    public var body: some View {
         TabView {
             ForEach(controller.tabs, id: \.self) { tab in
                 tab.makeTab()
