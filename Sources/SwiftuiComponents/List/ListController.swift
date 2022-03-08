@@ -22,13 +22,19 @@ public protocol ListItemCopyable: AnyObject {
 
 public class ListController<Item: Equatable & ListItemSelectable, Row: View, Form: View>: ObservableObject {
     @Published var items: [Item]
+    var multipleSelection: Bool
+    var addButtonIcon: Image
+    var addButtonColor: Color
     var title: String?
     var makeRow: (_: Item) -> Row
     var makeForm: ((_: SheetMode, _: Item?) -> Form)!
     
-    public init(items: [Item], title: String? = nil, makeRow: @escaping (_: Item) -> Row) {
+    public init(items: [Item], title: String? = nil, multipleSelection: Bool = false, addButtonIcon: Image = Image(systemName: "plus.square"), addButtonColor: Color = Color(uiColor: .label),  makeRow: @escaping (_: Item) -> Row) {
         self.items = items
         self.title = title
+        self.multipleSelection = multipleSelection
+        self.addButtonIcon = addButtonIcon
+        self.addButtonColor = addButtonColor
         self.makeRow = makeRow
     }
     
@@ -61,7 +67,9 @@ public class ListController<Item: Equatable & ListItemSelectable, Row: View, For
     }
     
     func select(item: Item) {
-        items.forEach{$0.deselect()} // Remove for multiple selection !
+        if multipleSelection {
+            items.forEach{$0.deselect()} 
+        }
         let newItem = item
         newItem.toggleSelection()
         update(oldItem: item, newItem: newItem)

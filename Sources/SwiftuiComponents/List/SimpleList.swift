@@ -40,11 +40,17 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemSelectable, Ro
                         .font(.title)
                 }
                 Spacer()
-                Button("Add") {
+                Button {
                     mode = .new
                     editingItem = nil
                     sheetManager.whichSheet = .Form
                     sheetManager.showSheet.toggle()
+                } label: {
+                    controller.addButtonIcon                        
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 30, height: 30)
+                        .foregroundColor(controller.addButtonColor)
                 }
             }
             .padding([.leading, .trailing])
@@ -70,7 +76,9 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemSelectable, Ro
                             }
                         }
                 }
+                .listRowBackground(Color.red)
             }
+            .background(.red)
             .sheet(isPresented: $sheetManager.showSheet) {
                 if sheetManager.whichSheet == .Form {
                     controller.makeForm(mode, editingItem)
@@ -91,16 +99,18 @@ struct SimpleListContainer: View {
                      ListItem(firstName: "C", lastName: "C")]
 
         controller = ListController<ListItem, RowView, FormView>(items: items,
-                                                                makeRow: { item in
-                                                                    RowView(item: item)
-                                                                })
+                                                                 title: "Title",
+                                                                 addButtonColor: .green,
+                                                                 makeRow: { item in
+                                                                     RowView(item: item)
+                                                                 })
     }
 
     var body: some View {
         SimpleList(controller: _controller)
             .onAppear {
                 controller.addFormBuilder { mode, item in
-                    FormView(mode: mode, item: item) { mode, item in
+                    FormView(mode: mode, item: item) { _, item in
                         controller.add(item: item!)
                     }
                 }
@@ -116,43 +126,43 @@ struct SimpleList_Previews: PreviewProvider {
 
 // Auxiliary Preview Items
 
-public class ListItem:ObservableObject, Identifiable, Equatable, CustomDebugStringConvertible, ListItemSelectable, ListItemCopyable {
-    
+public class ListItem: ObservableObject, Identifiable, Equatable, CustomDebugStringConvertible, ListItemSelectable, ListItemCopyable {
     public let id = UUID()
     @Published var selected = false
     @Published public var firstName: String = ""
     @Published public var lastName: String = ""
-    
+
     public required init() {
-        self.firstName = ""
-        self.lastName = ""
+        firstName = ""
+        lastName = ""
     }
-    
+
     public required init(copy: ListItem) {
-        self.firstName = copy.firstName
-        self.lastName = copy.lastName
+        firstName = copy.firstName
+        lastName = copy.lastName
     }
-    
+
     public init(firstName: String, lastName: String) {
         self.firstName = firstName
         self.lastName = lastName
     }
-    
+
     public func isSelected() -> Bool {
         return selected
     }
-    
+
     public func deselect() {
         selected = false
     }
-    
+
     public func select() {
         selected = true
     }
+
     public func toggleSelection() {
         selected.toggle()
     }
-    
+
     public static func == (lhs: ListItem, rhs: ListItem) -> Bool {
         return lhs.id == rhs.id
     }
