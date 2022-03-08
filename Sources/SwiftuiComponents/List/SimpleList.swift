@@ -74,8 +74,6 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemSelectable, Ro
                     controller.makeForm(mode, editingItem)
                 }
             }
-
-    
         }
     }
 }
