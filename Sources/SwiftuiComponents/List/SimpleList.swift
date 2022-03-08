@@ -75,8 +75,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemSelectable, Ro
                 }
             }
 
-            // Remove this !!
-            Text("\(controller.selectedItems.debugDescription)")
+    
         }
     }
 }
