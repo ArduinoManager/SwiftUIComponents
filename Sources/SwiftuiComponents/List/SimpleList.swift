@@ -72,23 +72,10 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemSelectable, Ro
             .sheet(isPresented: $sheetManager.showSheet) {
                 if sheetManager.whichSheet == .Form {
                     controller.makeForm(mode, editingItem)
-
-//                    FormView(mode: mode, item: editingItem) { mode, item in
-//                        switch mode {
-//                        case .none:
-//                            break
-//                        case .edit:
-//                            print("Edit")
-//                            controller.update(oldItem: editingItem! as! T, newItem: item! as! T)
-//                            editingItem = nil
-//                        case .new:
-//                            print("New")
-//                            controller.add(item: item! as! T)
-//                        }
-//                    }
                 }
             }
 
+            // Remove this !!
             Text("\(controller.selectedItems.debugDescription)")
         }
     }
