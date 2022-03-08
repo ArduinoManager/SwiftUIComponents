@@ -22,7 +22,7 @@ class SheetMananger: ObservableObject {
     @Published var whichSheet: Sheet? = nil
 }
 
-public struct SimpleList<Item: Identifiable & Equatable & Selectable, Row: View, Form: View>: View {
+public struct SimpleList<Item: Identifiable & Equatable & ListItemSelectable, Row: View, Form: View>: View {
     @ObservedObject var controller: ListController<Item, Row, Form>
     @StateObject var sheetManager = SheetMananger()
     @State var mode: SheetMode = .none
@@ -97,16 +97,16 @@ public struct SimpleList<Item: Identifiable & Equatable & Selectable, Row: View,
 struct FormView: View {
     @Environment(\.presentationMode) var presentationMode
     private var mode: SheetMode
-    @StateObject private var item: ItemClass
-    private var handler: (_ mode: SheetMode, _ item: ItemClass?) -> Void
+    @StateObject private var item: ListItem
+    private var handler: (_ mode: SheetMode, _ item: ListItem?) -> Void
 
-    init(mode: SheetMode, item: ItemClass?, handler: @escaping (_ mode: SheetMode, _ item: ItemClass?) -> Void) {
+    init(mode: SheetMode, item: ListItem?, handler: @escaping (_ mode: SheetMode, _ item: ListItem?) -> Void) {
         self.mode = mode
 
         if item != nil {
-            _item = StateObject(wrappedValue: ItemClass(copy: item!))
+            _item = StateObject(wrappedValue: ListItem(copy: item!))
         } else {
-            _item = StateObject(wrappedValue: ItemClass())
+            _item = StateObject(wrappedValue: ListItem())
         }
         self.handler = handler
     }
@@ -143,14 +143,14 @@ struct FormView: View {
 }
 
 struct SimpleListContainer: View {
-    @ObservedObject private var controller: ListController<ItemClass, MyRow, FormView>
+    @ObservedObject private var controller: ListController<ListItem, MyRow, FormView>
 
     init() {
-        let items = [ItemClass(firstName: "A", lastName: "A"),
-                     ItemClass(firstName: "B", lastName: "B"),
-                     ItemClass(firstName: "C", lastName: "C")]
+        let items = [ListItem(firstName: "A", lastName: "A"),
+                     ListItem(firstName: "B", lastName: "B"),
+                     ListItem(firstName: "C", lastName: "C")]
 
-        controller = ListController<ItemClass, MyRow, FormView>(items: items,
+        controller = ListController<ListItem, MyRow, FormView>(items: items,
                                                                 makeRow: { item in
                                                                     MyRow(item: item)
                                                                 })
@@ -174,16 +174,62 @@ struct SimpleList_Previews: PreviewProvider {
     }
 }
 
-// Auxiliary Preview Functions
+// Auxiliary Preview Items
 
-struct MyRow: View {
-    @ObservedObject var item: ItemClass
-
-    init() {
-        _item = ObservedObject(initialValue: ItemClass())
+public class ListItem:ObservableObject, Identifiable, Equatable, CustomDebugStringConvertible, ListItemSelectable, ListItemCopyable {
+    
+    public let id = UUID()
+    @Published var selected = false
+    @Published public var firstName: String = ""
+    @Published public var lastName: String = ""
+    
+    public required init() {
+        self.firstName = ""
+        self.lastName = ""
+    }
+    
+    public required init(copy: ListItem) {
+        self.firstName = copy.firstName
+        self.lastName = copy.lastName
+    }
+    
+    public init(firstName: String, lastName: String) {
+        self.firstName = firstName
+        self.lastName = lastName
+    }
+    
+    public func isSelected() -> Bool {
+        return selected
+    }
+    
+    public func deselect() {
+        selected = false
+    }
+    
+    public func select() {
+        selected = true
+    }
+    public func toggleSelection() {
+        selected.toggle()
+    }
+    
+    public static func == (lhs: ListItem, rhs: ListItem) -> Bool {
+        return lhs.id == rhs.id
     }
 
-    init(item: ItemClass) {
+    public var debugDescription: String {
+        return "\(firstName) \(lastName)"
+    }
+}
+
+struct MyRow: View {
+    @ObservedObject var item: ListItem
+
+    init() {
+        _item = ObservedObject(initialValue: ListItem())
+    }
+
+    init(item: ListItem) {
         _item = ObservedObject(initialValue: item)
     }
 

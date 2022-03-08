@@ -9,64 +9,18 @@ import Foundation
 import SwiftUI
 import Combine
 
-public protocol Selectable {
+public protocol ListItemSelectable {
     func isSelected() -> Bool
     func deselect()
     func select()
     func toggleSelection()
 }
 
-public protocol Copyable: AnyObject {
+public protocol ListItemCopyable: AnyObject {
     init(copy: Self)
 }
 
-public class ItemClass:ObservableObject, Identifiable, Equatable, CustomDebugStringConvertible, Selectable, Copyable {
-    
-    public let id = UUID()
-    @Published var selected = false
-    @Published public var firstName: String = ""
-    @Published public var lastName: String = ""
-    
-    public required init() {
-        self.firstName = ""
-        self.lastName = ""
-    }
-    
-    public required init(copy: ItemClass) {
-        self.firstName = copy.firstName
-        self.lastName = copy.lastName
-    }
-    
-    public init(firstName: String, lastName: String) {
-        self.firstName = firstName
-        self.lastName = lastName
-    }
-    
-    public func isSelected() -> Bool {
-        return selected
-    }
-    
-    public func deselect() {
-        selected = false
-    }
-    
-    public func select() {
-        selected = true
-    }
-    public func toggleSelection() {
-        selected.toggle()
-    }
-    
-    public static func == (lhs: ItemClass, rhs: ItemClass) -> Bool {
-        return lhs.id == rhs.id
-    }
-
-    public var debugDescription: String {
-        return "\(firstName) \(lastName)"
-    }    
-}
-
-public class ListController<Item: Equatable & Selectable, Row: View, Form: View>: ObservableObject {
+public class ListController<Item: Equatable & ListItemSelectable, Row: View, Form: View>: ObservableObject {
     @Published var items: [Item]
     var makeRow: (_: Item) -> Row
     var makeForm: ((_: SheetMode, _: Item?) -> Form)!
