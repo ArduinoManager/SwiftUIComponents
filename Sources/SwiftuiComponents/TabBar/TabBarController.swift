@@ -12,17 +12,20 @@ public class TabItem: Hashable {
     var title: String
     var systemIcon: String?
     var icon: String?
+    var iconColor: Color?
     var tab: AnyView
     
-    public init(title: String, systemIcon: String, tab: AnyView) {
+    public init(title: String, systemIcon: String, iconColor: Color? = nil, tab: AnyView) {
         self.title = title
         self.systemIcon = systemIcon
+        self.iconColor = iconColor
         self.tab = tab
     }
     
-    public init(title: String, icon: String, tab: AnyView) {
+    public init(title: String, icon: String, iconColor: Color? = nil, tab: AnyView) {
         self.title = title
         self.icon = icon
+        self.iconColor = iconColor
         self.tab = tab
     }
     

@@ -24,7 +24,6 @@ public struct TabBar: View {
                 if tab == selectedTab {
                     tab.makeTab()
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    // .background(.yellow)
                 }
             }
             HStack {
@@ -32,7 +31,7 @@ public struct TabBar: View {
                     let tab = controller.tabs[idx]
                     Button(action:
                         { selectedTab = tab }) {
-                        VStack() {
+                        VStack {
                             if let systemIcon = tab.systemIcon {
                                 Image(systemName: systemIcon)
                                     .resizable()
@@ -46,7 +45,7 @@ public struct TabBar: View {
                             }
                             Text(tab.title).font(.caption)
                         }
-                        .foregroundColor(controller.itemsColor)
+                        .foregroundColor(tab.iconColor == nil ? controller.itemsColor : tab.iconColor)
                     }.opacity(tab == selectedTab ? 0.5 : 1.0)
 
                     if idx < controller.tabs.count - 1 {
@@ -55,7 +54,7 @@ public struct TabBar: View {
                 }
             }
             .padding(.top, 6)
-            .padding(.horizontal, getRect().width / CGFloat((4 * controller.tabs.count)))
+            .padding(.horizontal, getRect().width / CGFloat(4 * controller.tabs.count))
             .frame(height: 48.0)
             .background(controller.backgroundColor)
         }
@@ -66,9 +65,9 @@ struct TabBarContainer: View {
     @ObservedObject private var controller = TabBarController(views: [
         TabItem(title: "Tab 1", systemIcon: "list.dash", tab: AnyView(Tab1().background(.red))),
         TabItem(title: "Tab 2", systemIcon: "square.and.pencil", tab: AnyView(Tab2())),
-        TabItem(title: "Tab 3", icon: "tabIcon", tab: AnyView(Tab3())),
+        TabItem(title: "Tab 3", systemIcon: "person.2.circle", iconColor: .yellow, tab: AnyView(Tab3())),
         TabItem(title: "Tab 4", icon: "tabIcon", tab: AnyView(Tab3())),
-        TabItem(title: "Tab 5", icon: "tabIcon", tab: AnyView(Tab3())),
+        TabItem(title: "Tab 5", icon: "tabIcon", iconColor: .black, tab: AnyView(Tab3())),
     ],
     backgroundColor: Color(uiColor: .systemGroupedBackground),
     itemsColor: .green
