@@ -30,6 +30,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemSelectable, Ro
 
     public init(controller: ObservedObject<ListController<Item, Row, Form>>) {
         _controller = controller
+        UITableView.appearance().backgroundColor = .clear // <-- here
     }
 
     public var body: some View {
@@ -54,6 +55,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemSelectable, Ro
                 }
             }
             .padding([.leading, .trailing])
+            
 
             List {
                 ForEach(controller.items, id: \.id) { item in
@@ -76,9 +78,9 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemSelectable, Ro
                             }
                         }
                 }
-                .listRowBackground(Color.red)
+                .listRowBackground(controller.rowBackgroundColor)
             }
-            .background(.red)
+            .background(controller.backgroundColor)
             .sheet(isPresented: $sheetManager.showSheet) {
                 if sheetManager.whichSheet == .Form {
                     controller.makeForm(mode, editingItem)
@@ -101,6 +103,8 @@ struct SimpleListContainer: View {
         controller = ListController<ListItem, RowView, FormView>(items: items,
                                                                  title: "Title",
                                                                  addButtonColor: .green,
+                                                                 backgroundColor: .green,
+                                                                 rowBackgroundColor: .yellow,
                                                                  makeRow: { item in
                                                                      RowView(item: item)
                                                                  })
