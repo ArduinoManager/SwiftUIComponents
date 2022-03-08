@@ -87,6 +87,17 @@ public class ListController<Item: Equatable & ListItemSelectable, Row: View>: Ob
         newItem.toggleSelection()
         update(oldItem: item, newItem: newItem)
     }
+    
+    
+    public func handlingFormAction(item: Item) {
+        if editingItem == nil {
+            update(oldItem: editingItem!, newItem: item)
+        }
+        else {
+            add(item: item)
+        }
+    }
+    
 }
 
 

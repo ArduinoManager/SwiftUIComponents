@@ -223,11 +223,15 @@ struct RowView: View {
 struct MyForm: View {
     @ObservedObject var controller: ListController<ListItem, RowView>
     @Environment(\.presentationMode) var presentationMode
-    @State private var item: ListItem
-    
+    @StateObject private var item: ListItem
+
     init(controller: ObservedObject<ListController<ListItem, RowView>>) {
         _controller = controller
-        _item = State(initialValue: ListItem())
+        if controller.wrappedValue.editingItem != nil {
+            _item = StateObject(wrappedValue: ListItem(copy: controller.wrappedValue.editingItem!))
+        } else {
+            _item = StateObject(wrappedValue: ListItem())
+        }
     }
 
     var body: some View {
@@ -236,8 +240,8 @@ struct MyForm: View {
             Spacer()
             Form {
                 TextField("", text: $item.firstName)
-                    TextField("", text: $item.lastName)
-                    Text("\(item.firstName.count)")
+                TextField("", text: $item.lastName)
+                Text("\(item.firstName.count)")
             }
 
             if controller.mode == .new {
@@ -250,21 +254,15 @@ struct MyForm: View {
             HStack {
                 Button("Ok") {
                     // handler(mode, item)
+                    controller.handlingFormAction(item: item)
                     presentationMode.wrappedValue.dismiss()
                 }
                 Spacer()
                 Button("Cancel") {
-                    // handler(.none, nil)
                     presentationMode.wrappedValue.dismiss()
                 }
             }
             .padding()
-        }
-        .onAppear {
-            if controller.editingItem != nil {
-                //item = StateObject(wrappedValue: controller.editingItem!)
-                item = controller.editingItem!
-            }
         }
     }
 }
