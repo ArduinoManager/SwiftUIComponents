@@ -47,7 +47,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemSelectable, Ro
                     sheetManager.whichSheet = .Form
                     sheetManager.showSheet.toggle()
                 } label: {
-                    controller.addButtonIcon                        
+                    controller.addButtonIcon
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 30, height: 30)
@@ -55,7 +55,6 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemSelectable, Ro
                 }
             }
             .padding([.leading, .trailing])
-            
 
             List {
                 ForEach(controller.items, id: \.id) { item in
@@ -99,6 +98,12 @@ struct SimpleListContainer: View {
         let items = [ListItem(firstName: "A", lastName: "A"),
                      ListItem(firstName: "B", lastName: "B"),
                      ListItem(firstName: "C", lastName: "C")]
+
+//        controller = ListController<ListItem, RowView, FormView>(items: items,
+//                                                                 title: "Title",
+//                                                                 makeRow: { item in
+//                                                                     RowView(item: item)
+//                                                                 })
 
         controller = ListController<ListItem, RowView, FormView>(items: items,
                                                                  title: "Title",
