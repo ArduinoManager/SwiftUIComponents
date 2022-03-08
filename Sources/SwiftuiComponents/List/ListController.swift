@@ -22,11 +22,13 @@ public protocol ListItemCopyable: AnyObject {
 
 public class ListController<Item: Equatable & ListItemSelectable, Row: View, Form: View>: ObservableObject {
     @Published var items: [Item]
+    var title: String?
     var makeRow: (_: Item) -> Row
     var makeForm: ((_: SheetMode, _: Item?) -> Form)!
     
-    public init(items: [Item], makeRow: @escaping (_: Item) -> Row) {
+    public init(items: [Item], title: String? = nil, makeRow: @escaping (_: Item) -> Row) {
         self.items = items
+        self.title = title
         self.makeRow = makeRow
     }
     

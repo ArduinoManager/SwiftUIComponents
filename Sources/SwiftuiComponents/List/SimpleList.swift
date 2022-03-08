@@ -35,8 +35,10 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemSelectable, Ro
     public var body: some View {
         VStack {
             HStack {
-                Text("Title")
-                    .font(.title)
+                if let title = controller.title {
+                    Text(title)
+                        .font(.title)
+                }
                 Spacer()
                 Button("Add") {
                     mode = .new
