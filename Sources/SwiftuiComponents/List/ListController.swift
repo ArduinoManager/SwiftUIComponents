@@ -29,7 +29,7 @@ public class ListController<Item: Equatable & ListItemSelectable, Row: View>: Ob
     var backgroundColor: Color
     var rowBackgroundColor: Color
     var makeRow: (_: Item) -> Row
-    public var editingItem: Item?
+    public var formItem: Item?
     public var mode: SheetMode = .none
 
     public init(items: [Item],
@@ -87,10 +87,10 @@ public class ListController<Item: Equatable & ListItemSelectable, Row: View>: Ob
     }
 
     public func handlingFormAction(item: Item) {
-        if editingItem == nil {
+        if formItem == nil {
             add(item: item)
         } else {
-            update(oldItem: editingItem!, newItem: item)
+            update(oldItem: formItem!, newItem: item)
         }
     }
 }

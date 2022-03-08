@@ -46,7 +46,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemSelectable, Ro
                 Spacer()
                 Button {
                     controller.mode = .new
-                    controller.editingItem = nil
+                    controller.formItem = nil
                     sheetManager.whichSheet = .Form
                     sheetManager.showSheet.toggle()
                 } label: {
@@ -74,7 +74,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemSelectable, Ro
                             Button("Edit") {
                                 print("Edit \(item)")
                                 controller.mode = .edit
-                                controller.editingItem = item
+                                controller.formItem = item
                                 sheetManager.whichSheet = .Form
                                 sheetManager.showSheet.toggle()
                             }
@@ -227,8 +227,8 @@ struct MyForm: View {
 
     init(controller: ObservedObject<ListController<ListItem, RowView>>) {
         _controller = controller
-        if controller.wrappedValue.editingItem != nil {
-            _item = StateObject(wrappedValue: ListItem(copy: controller.wrappedValue.editingItem!))
+        if controller.wrappedValue.formItem != nil {
+            _item = StateObject(wrappedValue: ListItem(copy: controller.wrappedValue.formItem!))
         } else {
             _item = StateObject(wrappedValue: ListItem())
         }
