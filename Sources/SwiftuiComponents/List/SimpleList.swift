@@ -81,53 +81,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemSelectable, Ro
     }
 }
 
-struct FormView: View {
-    @Environment(\.presentationMode) var presentationMode
-    private var mode: SheetMode
-    @StateObject private var item: ListItem
-    private var handler: (_ mode: SheetMode, _ item: ListItem?) -> Void
-
-    init(mode: SheetMode, item: ListItem?, handler: @escaping (_ mode: SheetMode, _ item: ListItem?) -> Void) {
-        self.mode = mode
-
-        if item != nil {
-            _item = StateObject(wrappedValue: ListItem(copy: item!))
-        } else {
-            _item = StateObject(wrappedValue: ListItem())
-        }
-        self.handler = handler
-    }
-
-    var body: some View {
-        VStack {
-            Form {
-                TextField("", text: $item.firstName)
-                TextField("", text: $item.lastName)
-                Text("\(item.firstName.count)")
-            }
-
-            if mode == .new {
-                Text("New")
-            }
-            if mode == .edit {
-                Text("Edit")
-            }
-
-            HStack {
-                Button("Ok") {
-                    handler(mode, item)
-                    presentationMode.wrappedValue.dismiss()
-                }
-                Spacer()
-                Button("Cancel") {
-                    handler(.none, nil)
-                    presentationMode.wrappedValue.dismiss()
-                }
-            }
-            .padding()
-        }
-    }
-}
+// Preview
 
 struct SimpleListContainer: View {
     @ObservedObject private var controller: ListController<ListItem, RowView, FormView>
@@ -226,5 +180,53 @@ struct RowView: View {
             Text("\(item.lastName)")
         }
         .background(item.selected ? Color.red : Color.clear)
+    }
+}
+
+struct FormView: View {
+    @Environment(\.presentationMode) var presentationMode
+    private var mode: SheetMode
+    @StateObject private var item: ListItem
+    private var handler: (_ mode: SheetMode, _ item: ListItem?) -> Void
+
+    init(mode: SheetMode, item: ListItem?, handler: @escaping (_ mode: SheetMode, _ item: ListItem?) -> Void) {
+        self.mode = mode
+
+        if item != nil {
+            _item = StateObject(wrappedValue: ListItem(copy: item!))
+        } else {
+            _item = StateObject(wrappedValue: ListItem())
+        }
+        self.handler = handler
+    }
+
+    var body: some View {
+        VStack {
+            Form {
+                TextField("", text: $item.firstName)
+                TextField("", text: $item.lastName)
+                Text("\(item.firstName.count)")
+            }
+
+            if mode == .new {
+                Text("New")
+            }
+            if mode == .edit {
+                Text("Edit")
+            }
+
+            HStack {
+                Button("Ok") {
+                    handler(mode, item)
+                    presentationMode.wrappedValue.dismiss()
+                }
+                Spacer()
+                Button("Cancel") {
+                    handler(.none, nil)
+                    presentationMode.wrappedValue.dismiss()
+                }
+            }
+            .padding()
+        }
     }
 }
