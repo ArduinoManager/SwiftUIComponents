@@ -23,13 +23,16 @@ class SheetMananger: ObservableObject {
 }
 
 public struct SimpleList<Item: Identifiable & Equatable & ListItemSelectable, Row: View, Form: View>: View {
-    @ObservedObject var controller: ListController<Item, Row, Form>
+    @ObservedObject var controller: ListController<Item, Row>
     @StateObject var sheetManager = SheetMananger()
-    @State var mode: SheetMode = .none
-    @State var editingItem: Item?
+//    @State var mode: SheetMode = .none
+//    @State var editingItem: Item?
 
-    public init(controller: ObservedObject<ListController<Item, Row, Form>>) {
+    var form: () -> Form
+
+    public init(controller: ObservedObject<ListController<Item, Row>>, @ViewBuilder form: @escaping () -> Form) {
         _controller = controller
+        self.form = form
         UITableView.appearance().backgroundColor = .clear // <-- here
     }
 
@@ -42,8 +45,8 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemSelectable, Ro
                 }
                 Spacer()
                 Button {
-                    mode = .new
-                    editingItem = nil
+                    controller.mode = .new
+                    controller.editingItem = nil
                     sheetManager.whichSheet = .Form
                     sheetManager.showSheet.toggle()
                 } label: {
@@ -70,8 +73,8 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemSelectable, Ro
                             .tint(.red)
                             Button("Edit") {
                                 print("Edit \(item)")
-                                mode = .edit
-                                editingItem = item
+                                controller.mode = .edit
+                                controller.editingItem = item
                                 sheetManager.whichSheet = .Form
                                 sheetManager.showSheet.toggle()
                             }
@@ -82,17 +85,23 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemSelectable, Ro
             .background(controller.backgroundColor)
             .sheet(isPresented: $sheetManager.showSheet) {
                 if sheetManager.whichSheet == .Form {
-                    controller.makeForm(mode, editingItem)
+                    // controller.makeForm(mode, editingItem)
+                    form()
                 }
             }
         }
     }
+
+//    @ViewBuilder
+//    func makeForm() -> some View {
+//
+//    }
 }
 
 // Preview
 
 struct SimpleListContainer: View {
-    @ObservedObject private var controller: ListController<ListItem, RowView, FormView>
+    @ObservedObject private var controller: ListController<ListItem, RowView>
 
     init() {
         let items = [ListItem(firstName: "A", lastName: "A"),
@@ -105,25 +114,20 @@ struct SimpleListContainer: View {
 //                                                                     RowView(item: item)
 //                                                                 })
 
-        controller = ListController<ListItem, RowView, FormView>(items: items,
-                                                                 title: "Title",
-                                                                 addButtonColor: .green,
-                                                                 backgroundColor: .green,
-                                                                 rowBackgroundColor: .yellow,
-                                                                 makeRow: { item in
-                                                                     RowView(item: item)
-                                                                 })
+        controller = ListController<ListItem, RowView>(items: items,
+                                                       title: "Title",
+                                                       addButtonColor: .green,
+                                                       backgroundColor: .green,
+                                                       rowBackgroundColor: .yellow,
+                                                       makeRow: { item in
+                                                           RowView(item: item)
+                                                       })
     }
 
     var body: some View {
-        SimpleList(controller: _controller)
-            .onAppear {
-                controller.addFormBuilder { mode, item in
-                    FormView(mode: mode, item: item) { _, item in
-                        controller.add(item: item!)
-                    }
-                }
-            }
+        SimpleList<ListItem, RowView, MyForm>(controller: _controller) {
+            MyForm(controller: _controller)
+        }
     }
 }
 
@@ -201,50 +205,114 @@ struct RowView: View {
     }
 }
 
-struct FormView: View {
+// struct FormContainerView<Form: View>: View {
+//    @Environment(\.presentationMode) var presentationMode
+//    var form: () -> Form
+//
+//    init(@ViewBuilder form: @escaping () -> Form) {
+//        self.form = form
+//    }
+//
+//    var body: some View {
+//        VStack {
+//            form()
+//        }
+//    }
+// }
+
+struct MyForm: View {
+    @ObservedObject var controller: ListController<ListItem, RowView>
     @Environment(\.presentationMode) var presentationMode
-    private var mode: SheetMode
-    @StateObject private var item: ListItem
-    private var handler: (_ mode: SheetMode, _ item: ListItem?) -> Void
-
-    init(mode: SheetMode, item: ListItem?, handler: @escaping (_ mode: SheetMode, _ item: ListItem?) -> Void) {
-        self.mode = mode
-
-        if item != nil {
-            _item = StateObject(wrappedValue: ListItem(copy: item!))
-        } else {
-            _item = StateObject(wrappedValue: ListItem())
-        }
-        self.handler = handler
+    @State private var item: ListItem
+    
+    init(controller: ObservedObject<ListController<ListItem, RowView>>) {
+        _controller = controller
+        _item = State(initialValue: ListItem())
     }
 
     var body: some View {
         VStack {
+            Text("MyView")
+            Spacer()
             Form {
                 TextField("", text: $item.firstName)
-                TextField("", text: $item.lastName)
-                Text("\(item.firstName.count)")
+                    TextField("", text: $item.lastName)
+                    Text("\(item.firstName.count)")
             }
 
-            if mode == .new {
+            if controller.mode == .new {
                 Text("New")
             }
-            if mode == .edit {
+            if controller.mode == .edit {
                 Text("Edit")
             }
 
             HStack {
                 Button("Ok") {
-                    handler(mode, item)
+                    // handler(mode, item)
                     presentationMode.wrappedValue.dismiss()
                 }
                 Spacer()
                 Button("Cancel") {
-                    handler(.none, nil)
+                    // handler(.none, nil)
                     presentationMode.wrappedValue.dismiss()
                 }
             }
             .padding()
         }
+        .onAppear {
+            if controller.editingItem != nil {
+                //item = StateObject(wrappedValue: controller.editingItem!)
+                item = controller.editingItem!
+            }
+        }
     }
 }
+
+// struct FormView: View {
+//    @Environment(\.presentationMode) var presentationMode
+//    private var mode: SheetMode
+//    @StateObject private var item: ListItem
+//    private var handler: (_ mode: SheetMode, _ item: ListItem?) -> Void
+//
+//    init(mode: SheetMode, item: ListItem?, handler: @escaping (_ mode: SheetMode, _ item: ListItem?) -> Void) {
+//        self.mode = mode
+//
+//        if item != nil {
+//            _item = StateObject(wrappedValue: ListItem(copy: item!))
+//        } else {
+//            _item = StateObject(wrappedValue: ListItem())
+//        }
+//        self.handler = handler
+//    }
+//
+//    var body: some View {
+//        VStack {
+//            Form {
+//                TextField("", text: $item.firstName)
+//                TextField("", text: $item.lastName)
+//                Text("\(item.firstName.count)")
+//            }
+//
+//            if mode == .new {
+//                Text("New")
+//            }
+//            if mode == .edit {
+//                Text("Edit")
+//            }
+//
+//            HStack {
+//                Button("Ok") {
+//                    handler(mode, item)
+//                    presentationMode.wrappedValue.dismiss()
+//                }
+//                Spacer()
+//                Button("Cancel") {
+//                    handler(.none, nil)
+//                    presentationMode.wrappedValue.dismiss()
+//                }
+//            }
+//            .padding()
+//        }
+//    }
+// }

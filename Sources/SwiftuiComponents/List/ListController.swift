@@ -20,7 +20,7 @@ public protocol ListItemCopyable: AnyObject {
     init(copy: Self)
 }
 
-public class ListController<Item: Equatable & ListItemSelectable, Row: View, Form: View>: ObservableObject {
+public class ListController<Item: Equatable & ListItemSelectable, Row: View>: ObservableObject {
     @Published var items: [Item]
     var title: String?
     var multipleSelection: Bool
@@ -29,7 +29,8 @@ public class ListController<Item: Equatable & ListItemSelectable, Row: View, For
     var backgroundColor: Color
     var rowBackgroundColor: Color
     var makeRow: (_: Item) -> Row
-    var makeForm: ((_: SheetMode, _: Item?) -> Form)!
+    var editingItem: Item?
+    var mode: SheetMode = .none
     
     public init(items: [Item],
                 title: String? = nil,
@@ -38,7 +39,8 @@ public class ListController<Item: Equatable & ListItemSelectable, Row: View, For
                 addButtonColor: Color = Color(uiColor: .label),
                 backgroundColor: Color = Color(uiColor: .systemGroupedBackground),
                 rowBackgroundColor: Color = Color(uiColor: .systemBackground),
-                makeRow: @escaping (_: Item) -> Row) {
+                makeRow: @escaping (_: Item) -> Row
+    ) {
         self.items = items
         self.title = title
         self.multipleSelection = multipleSelection
@@ -49,9 +51,9 @@ public class ListController<Item: Equatable & ListItemSelectable, Row: View, For
         self.makeRow = makeRow
     }
     
-    public func addFormBuilder(makeForm: @escaping (_: SheetMode, _: Item?) -> Form) {
-        self.makeForm = makeForm
-    }
+//    public func addFormBuilder(makeForm: @escaping (_: SheetMode, _: Item?) -> Form) {
+//        self.makeForm = makeForm
+//    }
     
     public var selectedItems: [Item] {
         get {
