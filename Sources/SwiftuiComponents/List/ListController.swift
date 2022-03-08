@@ -29,8 +29,8 @@ public class ListController<Item: Equatable & ListItemSelectable, Row: View>: Ob
     var backgroundColor: Color
     var rowBackgroundColor: Color
     var makeRow: (_: Item) -> Row
-    var editingItem: Item?
-    var mode: SheetMode = .none
+    public var editingItem: Item?
+    public var mode: SheetMode = .none
     
     public init(items: [Item],
                 title: String? = nil,
