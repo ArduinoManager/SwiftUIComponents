@@ -5,9 +5,9 @@
 //  Created by Fabrizio Boco on 3/3/22.
 //
 
+import Combine
 import Foundation
 import SwiftUI
-import Combine
 
 public protocol ListItemSelectable {
     func isSelected() -> Bool
@@ -31,7 +31,7 @@ public class ListController<Item: Equatable & ListItemSelectable, Row: View>: Ob
     var makeRow: (_: Item) -> Row
     public var editingItem: Item?
     public var mode: SheetMode = .none
-    
+
     public init(items: [Item],
                 title: String? = nil,
                 multipleSelection: Bool = false,
@@ -50,27 +50,25 @@ public class ListController<Item: Equatable & ListItemSelectable, Row: View>: Ob
         self.rowBackgroundColor = rowBackgroundColor
         self.makeRow = makeRow
     }
-    
+
 //    public func addFormBuilder(makeForm: @escaping (_: SheetMode, _: Item?) -> Form) {
 //        self.makeForm = makeForm
 //    }
-    
+
     public var selectedItems: [Item] {
-        get {
-            items.filter({$0.isSelected()})
-        }
+        items.filter({ $0.isSelected() })
     }
-    
+
     func delete(item: Item) {
         if let idx = items.firstIndex(of: item) {
             items.remove(at: idx)
         }
     }
-    
+
     public func add(item: Item) {
         items.append(item)
     }
-    
+
     public func update(oldItem: Item, newItem: Item) {
         if let idx = items.firstIndex(of: oldItem) {
             items.remove(at: idx)
@@ -78,26 +76,21 @@ public class ListController<Item: Equatable & ListItemSelectable, Row: View>: Ob
             print(items)
         }
     }
-    
+
     func select(item: Item) {
         if !multipleSelection {
-            items.forEach{$0.deselect()} 
+            items.forEach { $0.deselect() }
         }
         let newItem = item
         newItem.toggleSelection()
         update(oldItem: item, newItem: newItem)
     }
-    
-    
+
     public func handlingFormAction(item: Item) {
         if editingItem == nil {
+            add(item: item)
+        } else {
             update(oldItem: editingItem!, newItem: item)
         }
-        else {
-            add(item: item)
-        }
     }
-    
 }
-
-
