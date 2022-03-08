@@ -143,16 +143,16 @@ struct FormView: View {
 }
 
 struct SimpleListContainer: View {
-    @ObservedObject private var controller: ListController<ListItem, MyRow, FormView>
+    @ObservedObject private var controller: ListController<ListItem, RowView, FormView>
 
     init() {
         let items = [ListItem(firstName: "A", lastName: "A"),
                      ListItem(firstName: "B", lastName: "B"),
                      ListItem(firstName: "C", lastName: "C")]
 
-        controller = ListController<ListItem, MyRow, FormView>(items: items,
+        controller = ListController<ListItem, RowView, FormView>(items: items,
                                                                 makeRow: { item in
-                                                                    MyRow(item: item)
+                                                                    RowView(item: item)
                                                                 })
     }
 
@@ -222,7 +222,7 @@ public class ListItem:ObservableObject, Identifiable, Equatable, CustomDebugStri
     }
 }
 
-struct MyRow: View {
+struct RowView: View {
     @ObservedObject var item: ListItem
 
     init() {
