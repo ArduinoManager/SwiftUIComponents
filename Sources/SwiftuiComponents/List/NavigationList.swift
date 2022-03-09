@@ -43,8 +43,8 @@ public struct NavigationList<Item: Identifiable & Equatable & ListItemInitializa
                     ForEach(controller.items, id: \.id) { item in
 
                         NavigationLink(destination: {
-                            let _ = controller.editingItem = item
-                            let _ = controller.mode = .edit
+//                            let _ = controller.editingItem = item
+//                            let _ = controller.mode = .edit
                             form()
                             
                             
