@@ -11,7 +11,8 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
     @ObservedObject var controller: ListController<Item, Row>
     @StateObject var sheetManager = SheetMananger()
     @State private var selection: String? = nil
-
+    @State var isTapped = false
+    
     var form: () -> Form
 
     public init(controller: ObservedObject<ListController<Item, Row>>, @ViewBuilder form: @escaping () -> Form) {
@@ -42,7 +43,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                 List {
                     ForEach(controller.items, id: \.id) { item in
 
-                        NavigationLink(destination: form,
+                        NavigationLink(destination: form(),
                                        isActive: Binding<Bool>(get: { isTapped },
                                                                set: {
                                                                    isTapped = $0
