@@ -22,7 +22,7 @@ class SheetMananger: ObservableObject {
     @Published var whichSheet: Sheet? = nil
 }
 
-public struct SimpleList<Item: Identifiable & Equatable & ListItemSelectable, Row: View, Form: View>: View {
+public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View, Form: View>: View {
     @ObservedObject var controller: ListController<Item, Row>
     @StateObject var sheetManager = SheetMananger()
 //    @State var mode: SheetMode = .none
@@ -46,7 +46,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemSelectable, Ro
                 Spacer()
                 Button {
                     controller.mode = .new
-                    controller.formItem = nil
+                    controller.editingItem = nil
                     sheetManager.whichSheet = .Form
                     sheetManager.showSheet.toggle()
                 } label: {
@@ -74,7 +74,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemSelectable, Ro
                             Button("Edit") {
                                 print("Edit \(item)")
                                 controller.mode = .edit
-                                controller.formItem = item
+                                controller.editingItem = item
                                 sheetManager.whichSheet = .Form
                                 sheetManager.showSheet.toggle()
                             }
@@ -139,7 +139,7 @@ struct SimpleList_Previews: PreviewProvider {
 
 // Auxiliary Preview Items
 
-public class ListItem: ObservableObject, Identifiable, Equatable, CustomDebugStringConvertible, ListItemSelectable, ListItemCopyable {
+public class ListItem: ObservableObject, Identifiable, Equatable, CustomDebugStringConvertible, ListItemInitializable, ListItemSelectable, ListItemCopyable {
     public let id = UUID()
     @Published var selected = false
     @Published public var firstName: String = ""
@@ -223,15 +223,15 @@ struct RowView: View {
 struct MyForm: View {
     @ObservedObject var controller: ListController<ListItem, RowView>
     @Environment(\.presentationMode) var presentationMode
-    @StateObject private var item: ListItem
+    //@StateObject private var item: ListItem
 
     init(controller: ObservedObject<ListController<ListItem, RowView>>) {
         _controller = controller
-        if controller.wrappedValue.formItem != nil {
-            _item = StateObject(wrappedValue: ListItem(copy: controller.wrappedValue.formItem!))
-        } else {
-            _item = StateObject(wrappedValue: ListItem())
-        }
+//        if controller.wrappedValue.editingItem != nil {
+//            _item = StateObject(wrappedValue: ListItem(copy: controller.wrappedValue.editingItem!))
+//        } else {
+//            _item = StateObject(wrappedValue: ListItem())
+//        }
     }
 
     var body: some View {
@@ -239,9 +239,9 @@ struct MyForm: View {
             Text("MyView")
             Spacer()
             Form {
-                TextField("", text: $item.firstName)
-                TextField("", text: $item.lastName)
-                Text("\(item.firstName.count)")
+                TextField("", text: $controller.formItem.firstName)
+                TextField("", text: $controller.formItem.lastName)
+                Text("\(controller.formItem.firstName.count)")
             }
 
             if controller.mode == .new {
@@ -254,7 +254,7 @@ struct MyForm: View {
             HStack {
                 Button("Ok") {
                     // handler(mode, item)
-                    controller.handlingFormAction(item: item)
+                    controller.completeFormAction()
                     presentationMode.wrappedValue.dismiss()
                 }
                 Spacer()

@@ -9,6 +9,10 @@ import Combine
 import Foundation
 import SwiftUI
 
+public protocol ListItemInitializable {
+    init()
+}
+
 public protocol ListItemSelectable {
     func isSelected() -> Bool
     func deselect()
@@ -20,7 +24,7 @@ public protocol ListItemCopyable: AnyObject {
     init(copy: Self)
 }
 
-public class ListController<Item: Equatable & ListItemSelectable, Row: View>: ObservableObject {
+public class ListController<Item: Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View>: ObservableObject {
     @Published var items: [Item]
     var title: String?
     var multipleSelection: Bool
@@ -29,7 +33,17 @@ public class ListController<Item: Equatable & ListItemSelectable, Row: View>: Ob
     var backgroundColor: Color
     var rowBackgroundColor: Color
     var makeRow: (_: Item) -> Row
-    public var formItem: Item?
+    public var editingItem: Item? {
+        didSet {
+            if editingItem == nil {
+                formItem = Item()
+            }
+            else {
+                formItem = Item(copy: editingItem!)
+            }
+        }
+    }
+    public var formItem: Item!
     public var mode: SheetMode = .none
 
     public init(items: [Item],
@@ -50,10 +64,6 @@ public class ListController<Item: Equatable & ListItemSelectable, Row: View>: Ob
         self.rowBackgroundColor = rowBackgroundColor
         self.makeRow = makeRow
     }
-
-//    public func addFormBuilder(makeForm: @escaping (_: SheetMode, _: Item?) -> Form) {
-//        self.makeForm = makeForm
-//    }
 
     public var selectedItems: [Item] {
         items.filter({ $0.isSelected() })
@@ -86,11 +96,11 @@ public class ListController<Item: Equatable & ListItemSelectable, Row: View>: Ob
         update(oldItem: item, newItem: newItem)
     }
 
-    public func handlingFormAction(item: Item) {
-        if formItem == nil {
-            add(item: item)
+    public func completeFormAction() {
+        if editingItem == nil {
+            add(item: formItem)
         } else {
-            update(oldItem: formItem!, newItem: item)
+            update(oldItem: editingItem!, newItem: formItem)
         }
     }
 }
