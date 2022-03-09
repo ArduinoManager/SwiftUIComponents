@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public struct NavigationList<Item: Identifiable & Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View, Form: View>: View {
+public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View, Form: View>: View {
     @ObservedObject var controller: ListController<Item, Row>
     @StateObject var sheetManager = SheetMananger()
     @State private var selection: String? = nil
@@ -41,26 +41,31 @@ public struct NavigationList<Item: Identifiable & Equatable & ListItemInitializa
 
                 List {
                     ForEach(controller.items, id: \.id) { item in
-
-                        NavigationLink(destination: {
-//                            let _ = controller.editingItem = item
-//                            let _ = controller.mode = .edit
-                            form()
-                            
-                            
-//                            FormView1(mode: .edit, item: item) { mode, editedItem in
-//                                if mode == .edit {
-//                                    viewModel.update(oldItem: item, newItem: editedItem!)
-//                                }
-//                            }
-                        }
-                        ) {
+                        
+                        NavigationLink(destination: form(), tag: item, selection: $controller.editingItem) {
                             controller.makeRow(item)
-                                .navigationBarHidden(true)
-                                .onTapGesture {
-                                    controller.select(item: item)
-                                }
                         }
+
+//                        NavigationLink(destination: {
+////                            let _ = controller.editingItem = item
+////                            let _ = controller.mode = .edit
+//                            form()
+//
+//
+////                            FormView1(mode: .edit, item: item) { mode, editedItem in
+////                                if mode == .edit {
+////                                    viewModel.update(oldItem: item, newItem: editedItem!)
+////                                }
+////                            }
+//                        }, tag: item, selection: $controller.editingItem
+//                        )
+//                        {
+//                            controller.makeRow(item)
+//                                .navigationBarHidden(true)
+//                                .onTapGesture {
+//                                    controller.select(item: item)
+//                                }
+//                        }
                     }
                 }
             }

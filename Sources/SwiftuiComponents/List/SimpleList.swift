@@ -165,7 +165,7 @@ struct SimpleList_Previews: PreviewProvider {
 
 // Auxiliary Preview Items
 
-public class ListItem: ObservableObject, Identifiable, Equatable, CustomDebugStringConvertible, ListItemInitializable, ListItemSelectable, ListItemCopyable {
+public class ListItem: ObservableObject, Hashable, Identifiable, Equatable, CustomDebugStringConvertible, ListItemInitializable, ListItemSelectable, ListItemCopyable {
     public let id = UUID()
     @Published var selected = false
     @Published public var firstName: String = ""
@@ -200,6 +200,10 @@ public class ListItem: ObservableObject, Identifiable, Equatable, CustomDebugStr
 
     public func toggleSelection() {
         selected.toggle()
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
     }
 
     public static func == (lhs: ListItem, rhs: ListItem) -> Bool {
