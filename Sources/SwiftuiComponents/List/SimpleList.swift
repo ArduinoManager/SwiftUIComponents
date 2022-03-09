@@ -205,33 +205,12 @@ struct RowView: View {
     }
 }
 
-// struct FormContainerView<Form: View>: View {
-//    @Environment(\.presentationMode) var presentationMode
-//    var form: () -> Form
-//
-//    init(@ViewBuilder form: @escaping () -> Form) {
-//        self.form = form
-//    }
-//
-//    var body: some View {
-//        VStack {
-//            form()
-//        }
-//    }
-// }
-
 struct MyForm: View {
     @ObservedObject var controller: ListController<ListItem, RowView>
     @Environment(\.presentationMode) var presentationMode
-    //@StateObject private var item: ListItem
 
     init(controller: ObservedObject<ListController<ListItem, RowView>>) {
         _controller = controller
-//        if controller.wrappedValue.editingItem != nil {
-//            _item = StateObject(wrappedValue: ListItem(copy: controller.wrappedValue.editingItem!))
-//        } else {
-//            _item = StateObject(wrappedValue: ListItem())
-//        }
     }
 
     var body: some View {
@@ -253,7 +232,6 @@ struct MyForm: View {
 
             HStack {
                 Button("Ok") {
-                    // handler(mode, item)
                     controller.completeFormAction()
                     presentationMode.wrappedValue.dismiss()
                 }
@@ -267,50 +245,3 @@ struct MyForm: View {
     }
 }
 
-// struct FormView: View {
-//    @Environment(\.presentationMode) var presentationMode
-//    private var mode: SheetMode
-//    @StateObject private var item: ListItem
-//    private var handler: (_ mode: SheetMode, _ item: ListItem?) -> Void
-//
-//    init(mode: SheetMode, item: ListItem?, handler: @escaping (_ mode: SheetMode, _ item: ListItem?) -> Void) {
-//        self.mode = mode
-//
-//        if item != nil {
-//            _item = StateObject(wrappedValue: ListItem(copy: item!))
-//        } else {
-//            _item = StateObject(wrappedValue: ListItem())
-//        }
-//        self.handler = handler
-//    }
-//
-//    var body: some View {
-//        VStack {
-//            Form {
-//                TextField("", text: $item.firstName)
-//                TextField("", text: $item.lastName)
-//                Text("\(item.firstName.count)")
-//            }
-//
-//            if mode == .new {
-//                Text("New")
-//            }
-//            if mode == .edit {
-//                Text("Edit")
-//            }
-//
-//            HStack {
-//                Button("Ok") {
-//                    handler(mode, item)
-//                    presentationMode.wrappedValue.dismiss()
-//                }
-//                Spacer()
-//                Button("Cancel") {
-//                    handler(.none, nil)
-//                    presentationMode.wrappedValue.dismiss()
-//                }
-//            }
-//            .padding()
-//        }
-//    }
-// }
