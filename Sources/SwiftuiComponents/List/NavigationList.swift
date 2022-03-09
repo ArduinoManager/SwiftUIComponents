@@ -24,17 +24,17 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
     public var body: some View {
         NavigationView {
             VStack {
-                NavigationLink(destination: form(), tag: "newItem", selection: $selection) { EmptyView() }
+                //NavigationLink(destination: form(), tag: "newItem", selection: $selection) { EmptyView() }
 
-//                NavigationLink(destination: form(),
-//                               isActive: Binding<Bool>(get: { isTapped },
-//                                                       set: {
-//                                                           isTapped = $0
-//                                                           print("Tapped")
-//                                                           controller.mode = .new
-//                                                           controller.editingItem = nil
-//                                                       }),
-//                               label: { EmptyView() })
+                NavigationLink(destination: form(),
+                               isActive: Binding<Bool>(get: { isTapped },
+                                                       set: {
+                                                           isTapped = $0
+                                                           print("Tapped")
+                                                           controller.mode = .new
+                                                           controller.editingItem = nil
+                                                       }),
+                               label: { EmptyView() })
                 
                 
                 HStack {

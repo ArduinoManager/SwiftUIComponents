@@ -92,7 +92,6 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
         self.trailingActions = trailingActions
         self.actionHandler = actionHandler
         self.makeRow = makeRow
-        self.editingItem = Item()
         if (!leadingActions.isEmpty || !trailingActions.isEmpty) && self.actionHandler == nil{
             fatalError("No actiton Handler provided")
         }
