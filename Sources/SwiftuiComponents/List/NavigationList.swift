@@ -22,8 +22,8 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
 
     public var body: some View {
         NavigationView {
-            VStack {
-                NavigationLink(destination: form(), tag: "newItem", selection: $selection) { EmptyView() }
+            VStack() {
+                NavigationLink(destination: form().navigationBarHidden(true), tag: "newItem", selection: $selection) { EmptyView() }
 
                 HStack {
                     if let title = controller.title {
@@ -59,9 +59,9 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                 }
                 .background(controller.backgroundColor)
             }
-            Text("\(controller.selectedItems.debugDescription)")
+            .navigationBarHidden(true)
         }
-        .navigationBarHidden(true)
+        
     }
 }
 
@@ -114,6 +114,7 @@ struct NavigationListContainer: View {
         NavigationList(controller: _controller) {
             MyForm(controller: _controller)
         }
+        .navigationBarHidden(true)
     }
 }
 
