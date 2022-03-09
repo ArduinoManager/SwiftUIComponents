@@ -22,7 +22,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
 
     public var body: some View {
         NavigationView {
-            VStack() {
+            VStack {
                 NavigationLink(destination: form().navigationBarHidden(true), tag: "newItem", selection: $selection) { EmptyView() }
 
                 HStack {
@@ -46,7 +46,6 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
 
                 List {
                     ForEach(controller.items, id: \.id) { item in
-
                         NavigationLink(destination: form().navigationBarHidden(true),
                                        isActive: Binding<Bool>(get: { isTapped },
                                                                set: {
@@ -54,11 +53,30 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                                                    controller.editingItem = item
                                                                }),
                                        label: {
-                            controller.makeRow(item)
-                                .onTapGesture {
-                                    controller.select(item: item)
+                                           controller.makeRow(item)
+                                               .onTapGesture {
+                                                   controller.select(item: item)
+                                               }
+                                       }
+                        )
+                        .swipeActions(edge: .leading) {
+                            ForEach(0 ..< controller.leadingActions.count, id: \.self) { idx in
+                                let action = controller.leadingActions[idx]
+                                Button(action.label) {
+                                    controller.actionHandler!(action.key)
                                 }
-                        })
+                                .tint(action.color)
+                            }
+                        }
+                        .swipeActions(edge: .trailing) {
+                            ForEach(Array(stride(from: controller.trailingActions.count - 1, to: -1, by: -1)), id: \.self) { idx in
+                                let action = controller.trailingActions[idx]
+                                Button(action.label) {
+                                    controller.actionHandler!(action.key)
+                                }
+                                .tint(action.color)
+                            }
+                        }
                     }
                     .listRowBackground(controller.rowBackgroundColor)
                 }
@@ -66,7 +84,6 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
             }
             .navigationBarHidden(true)
         }
-        
     }
 }
 
