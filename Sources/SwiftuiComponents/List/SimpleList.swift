@@ -97,7 +97,6 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
             .background(controller.backgroundColor)
             .sheet(isPresented: $sheetManager.showSheet) {
                 if sheetManager.whichSheet == .Form {
-                    // controller.makeForm(mode, editingItem)
                     form()
                 }
             }

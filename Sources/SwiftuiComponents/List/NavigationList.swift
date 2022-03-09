@@ -12,7 +12,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
     @StateObject var sheetManager = SheetMananger()
     @State private var selection: String? = nil
     @State var isTapped = false
-    
+
     var form: () -> Form
 
     public init(controller: ObservedObject<ListController<Item, Row>>, @ViewBuilder form: @escaping () -> Form) {
@@ -26,26 +26,23 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
             VStack {
                 NavigationLink(destination: form(), tag: "newItem", selection: $selection) { EmptyView() }
 
-                
-//                NavigationLink(destination: form(),
-//                               isActive: Binding<Bool>(get: { isTapped },
-//                                                       set: {
-//                                                           isTapped = $0
-//                                                           print("Tapped")
-//                                                           controller.mode = .new
-//                                                           controller.editingItem = nil
-//                                                       }),
-//                               label: { EmptyView() })
-                
-                
                 HStack {
-                    Text("Title")
-                        .font(.title)
+                    if let title = controller.title {
+                        Text(title)
+                            .font(.title)
+                    }
                     Spacer()
-                    Button("Add") {
+                    Button {
                         controller.mode = .new
                         controller.editingItem = nil
-                        selection = "newItem"
+                        sheetManager.whichSheet = .Form
+                        sheetManager.showSheet.toggle()
+                    } label: {
+                        controller.addButtonIcon
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 30, height: 30)
+                            .foregroundColor(controller.addButtonColor)
                     }
                 }
                 .padding([.leading, .trailing])
@@ -57,36 +54,13 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                        isActive: Binding<Bool>(get: { isTapped },
                                                                set: {
                                                                    isTapped = $0
-                                                                   print("Tapped")
-                                                                   controller.mode = .edit
                                                                    controller.editingItem = item
                                                                }),
                                        label: { controller.makeRow(item) })
-
-//                        NavigationLink(destination: form(), tag: item, selection: $controller.editingItem) {
-//                            controller.makeRow(item)
-//                        }
-
-//                        NavigationLink(destination: {
-//                            form()
-//
-//
-                        ////                            FormView1(mode: .edit, item: item) { mode, editedItem in
-                        ////                                if mode == .edit {
-                        ////                                    viewModel.update(oldItem: item, newItem: editedItem!)
-                        ////                                }
-                        ////                            }
-//                        }, tag: item, selection: $controller.editingItem
-//                        )
-//                        {
-//                            controller.makeRow(item)
-//                                .navigationBarHidden(true)
-//                                .onTapGesture {
-//                                    controller.select(item: item)
-//                                }
-//                        }
                     }
+                    .listRowBackground(controller.rowBackgroundColor)
                 }
+                .background(controller.backgroundColor)
             }
             Text("\(controller.selectedItems.debugDescription)")
         }
