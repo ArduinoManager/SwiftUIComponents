@@ -25,8 +25,6 @@ class SheetMananger: ObservableObject {
 public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View, Form: View>: View {
     @ObservedObject var controller: ListController<Item, Row>
     @StateObject var sheetManager = SheetMananger()
-//    @State var mode: SheetMode = .none
-//    @State var editingItem: Item?
 
     var form: () -> Form
 
