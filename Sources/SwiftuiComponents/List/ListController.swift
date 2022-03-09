@@ -40,7 +40,8 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
     var deleteButtonLabel: String
     var backgroundColor: Color
     var rowBackgroundColor: Color
-    var actions: [ListAction]
+    var leadingActions: [ListAction]
+    var trailingActions: [ListAction]
     var actionHandler: ((_ actionKey: String) -> Void)?
     var makeRow: (_: Item) -> Row
     public var editingItem: Item? {
@@ -65,7 +66,8 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
                 deleteButtonLabel: String,
                 backgroundColor: Color = Color(uiColor: .systemGroupedBackground),
                 rowBackgroundColor: Color = Color(uiColor: .systemBackground),
-                actions: [ListAction] = [],
+                leadingActions: [ListAction] = [],
+                trailingActions: [ListAction] = [],
                 actionHandler: ((_ actionKey: String) -> Void)? = nil,
                 makeRow: @escaping (_: Item) -> Row
                 
@@ -80,10 +82,11 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
         self.deleteButtonLabel = deleteButtonLabel
         self.backgroundColor = backgroundColor
         self.rowBackgroundColor = rowBackgroundColor
-        self.actions = actions
+        self.leadingActions = leadingActions
+        self.trailingActions = trailingActions
         self.actionHandler = actionHandler
         self.makeRow = makeRow
-        if !actions.isEmpty && self.actionHandler == nil{
+        if (!leadingActions.isEmpty || !trailingActions.isEmpty) && self.actionHandler == nil{
             fatalError("No actiton Handler provided")
         }
     }

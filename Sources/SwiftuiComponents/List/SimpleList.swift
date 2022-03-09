@@ -65,7 +65,16 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                         .onTapGesture {
                             controller.select(item: item)
                         }
-                        .swipeActions {
+                        .swipeActions(edge:.leading) {
+                            ForEach(0 ..< controller.leadingActions.count, id: \.self) { idx in
+                                let action = controller.leadingActions[idx]
+                                Button(action.label) {
+                                    controller.actionHandler!(action.key)
+                                }
+                                .tint(action.color)
+                            }
+                        }
+                        .swipeActions(edge: .trailing) {
                             Button(controller.deleteButtonLabel) {
                                 controller.delete(item: item)
                             }
@@ -76,8 +85,8 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                                 sheetManager.whichSheet = .Form
                                 sheetManager.showSheet.toggle()
                             }
-                            ForEach( Array(stride(from: controller.actions.count-1, to: -1, by: -1)), id: \.self) { idx in
-                                let action = controller.actions[idx]
+                            ForEach(Array(stride(from: controller.trailingActions.count - 1, to: -1, by: -1)), id: \.self) { idx in
+                                let action = controller.trailingActions[idx]
                                 Button(action.label) {
                                     controller.actionHandler!(action.key)
                                 }
@@ -116,9 +125,14 @@ struct SimpleListContainer: View {
 //                                                                     RowView(item: item)
 //                                                                 })
 
-        let actions = [
-            ListAction(key: "A1", label: "Action 1", color: .mint),
-            ListAction(key: "A2", label: "Action 2", color: .green),
+        let leadingActions = [
+            ListAction(key: "L1", label: "Action 1", color: .blue),
+            ListAction(key: "L2", label: "Action 2", color: .orange),
+        ]
+        
+        let trailingActions = [
+            ListAction(key: "T1", label: "Action 1", color: .mint),
+            ListAction(key: "T2", label: "Action 2", color: .green),
         ]
 
         controller = ListController<ListItem, RowView>(items: items,
@@ -128,7 +142,8 @@ struct SimpleListContainer: View {
                                                        deleteButtonLabel: "Delete_",
                                                        backgroundColor: .green,
                                                        rowBackgroundColor: .yellow,
-                                                       actions: actions,
+                                                       leadingActions: leadingActions,
+                                                       trailingActions: trailingActions,
                                                        actionHandler: { actionKey in
                                                            print("Executing action \(actionKey)")
                                                        },
