@@ -9,7 +9,6 @@ import SwiftUI
 
 public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View, Form: View>: View {
     @ObservedObject var controller: ListController<Item, Row>
-    @StateObject var sheetManager = SheetMananger()
     @State private var selection: String? = nil
     @State var isTapped = false
 
@@ -33,10 +32,8 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                     }
                     Spacer()
                     Button {
-                        controller.mode = .new
                         controller.editingItem = nil
-                        sheetManager.whichSheet = .Form
-                        sheetManager.showSheet.toggle()
+                        selection = "newItem"
                     } label: {
                         controller.addButtonIcon
                             .resizable()
@@ -50,7 +47,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                 List {
                     ForEach(controller.items, id: \.id) { item in
 
-                        NavigationLink(destination: form(),
+                        NavigationLink(destination: form().navigationBarHidden(true),
                                        isActive: Binding<Bool>(get: { isTapped },
                                                                set: {
                                                                    isTapped = $0
