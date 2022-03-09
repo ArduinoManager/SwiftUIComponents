@@ -42,13 +42,15 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                 List {
                     ForEach(controller.items, id: \.id) { item in
 
-                        NavigationLink(destination: form) {
-                            controller.makeRow(item)
-                        }.simultaneousGesture(TapGesture().onEnded {
-                            print("Hello world!")
-                            controller.mode = .edit
-                            controller.editingItem = item
-                        })
+                        NavigationLink(destination: form,
+                                       isActive: Binding<Bool>(get: { isTapped },
+                                                               set: {
+                                                                   isTapped = $0
+                                                                   print("Tapped")
+                                                                   controller.mode = .edit
+                                                                   controller.editingItem = item
+                                                               }),
+                                       label: { controller.makeRow(item) })
 
 //                        NavigationLink(destination: form(), tag: item, selection: $controller.editingItem) {
 //                            controller.makeRow(item)
