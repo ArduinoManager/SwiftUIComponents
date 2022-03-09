@@ -17,6 +17,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
 
     public init(controller: ObservedObject<ListController<Item, Row>>, @ViewBuilder form: @escaping () -> Form) {
         _controller = controller
+        _controller.wrappedValue.formItem = Item()
         self.form = form
         UITableView.appearance().backgroundColor = .clear // <-- here
     }
