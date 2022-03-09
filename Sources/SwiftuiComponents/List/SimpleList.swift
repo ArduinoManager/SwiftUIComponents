@@ -66,17 +66,22 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                             controller.select(item: item)
                         }
                         .swipeActions {
-                            Button("Delete") {
-                                print("Delete \(item)")
+                            Button(controller.deleteButtonLabel) {
                                 controller.delete(item: item)
                             }
                             .tint(.red)
-                            Button("Edit") {
-                                print("Edit \(item)")
+                            Button(controller.editButtonLabel) {
                                 controller.mode = .edit
                                 controller.editingItem = item
                                 sheetManager.whichSheet = .Form
                                 sheetManager.showSheet.toggle()
+                            }
+                            ForEach( Array(stride(from: controller.actions.count-1, to: -1, by: -1)), id: \.self) { idx in
+                                let action = controller.actions[idx]
+                                Button(action.label) {
+                                    controller.actionHandler!(action.key)
+                                }
+                                .tint(action.color)
                             }
                         }
                 }
@@ -91,11 +96,6 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
             }
         }
     }
-
-//    @ViewBuilder
-//    func makeForm() -> some View {
-//
-//    }
 }
 
 // Preview
@@ -110,15 +110,28 @@ struct SimpleListContainer: View {
 
 //        controller = ListController<ListItem, RowView, FormView>(items: items,
 //                                                                 title: "Title",
+//                                                                 editButtonLabel: "Edit",
+//                                                                 deleteButtonLabel: "Delete",
 //                                                                 makeRow: { item in
 //                                                                     RowView(item: item)
 //                                                                 })
 
+        let actions = [
+            ListAction(key: "A1", label: "Action 1", color: .mint),
+            ListAction(key: "A2", label: "Action 2", color: .green),
+        ]
+
         controller = ListController<ListItem, RowView>(items: items,
                                                        title: "Title",
                                                        addButtonColor: .green,
+                                                       editButtonLabel: "Edit_",
+                                                       deleteButtonLabel: "Delete_",
                                                        backgroundColor: .green,
                                                        rowBackgroundColor: .yellow,
+                                                       actions: actions,
+                                                       actionHandler: { actionKey in
+                                                           print("Executing action \(actionKey)")
+                                                       },
                                                        makeRow: { item in
                                                            RowView(item: item)
                                                        })
@@ -244,4 +257,3 @@ struct MyForm: View {
         }
     }
 }
-

@@ -24,25 +24,35 @@ public protocol ListItemCopyable: AnyObject {
     init(copy: Self)
 }
 
+public struct ListAction: Hashable {
+    var key: String
+    var label: String
+    var color: Color = Color(uiColor: .label)
+}
+
 public class ListController<Item: Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View>: ObservableObject {
     @Published var items: [Item]
     var title: String?
     var multipleSelection: Bool
     var addButtonIcon: Image
     var addButtonColor: Color
+    var editButtonLabel: String
+    var deleteButtonLabel: String
     var backgroundColor: Color
     var rowBackgroundColor: Color
+    var actions: [ListAction]
+    var actionHandler: ((_ actionKey: String) -> Void)?
     var makeRow: (_: Item) -> Row
     public var editingItem: Item? {
         didSet {
             if editingItem == nil {
                 formItem = Item()
-            }
-            else {
+            } else {
                 formItem = Item(copy: editingItem!)
             }
         }
     }
+
     public var formItem: Item!
     @Published public var mode: SheetMode = .none
 
@@ -51,18 +61,31 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
                 multipleSelection: Bool = false,
                 addButtonIcon: Image = Image(systemName: "plus.square"),
                 addButtonColor: Color = Color(uiColor: .label),
+                editButtonLabel: String,
+                deleteButtonLabel: String,
                 backgroundColor: Color = Color(uiColor: .systemGroupedBackground),
                 rowBackgroundColor: Color = Color(uiColor: .systemBackground),
+                actions: [ListAction] = [],
+                actionHandler: ((_ actionKey: String) -> Void)? = nil,
                 makeRow: @escaping (_: Item) -> Row
-    ) {
+                
+    )
+    {
         self.items = items
         self.title = title
         self.multipleSelection = multipleSelection
         self.addButtonIcon = addButtonIcon
         self.addButtonColor = addButtonColor
+        self.editButtonLabel = editButtonLabel
+        self.deleteButtonLabel = deleteButtonLabel
         self.backgroundColor = backgroundColor
         self.rowBackgroundColor = rowBackgroundColor
+        self.actions = actions
+        self.actionHandler = actionHandler
         self.makeRow = makeRow
+        if !actions.isEmpty && self.actionHandler == nil{
+            fatalError("No actiton Handler provided")
+        }
     }
 
     public var selectedItems: [Item] {
