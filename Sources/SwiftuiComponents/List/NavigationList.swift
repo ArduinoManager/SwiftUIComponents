@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct NavigationList<Item: Identifiable & Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View, Form: View>: View {
+public struct NavigationList<Item: Identifiable & Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View, Form: View>: View {
     @ObservedObject var controller: ListController<Item, Row>
     @StateObject var sheetManager = SheetMananger()
     @State private var selection: String? = nil
@@ -120,10 +120,6 @@ struct NavigationListContainer: View {
         NavigationList(controller: _controller) {
             MyForm(controller: _controller)
         }
-        
-//        SimpleList<ListItem, RowView, MyForm>(controller: _controller) {
-//            MyForm(controller: _controller)
-//        }
     }
 }
 
