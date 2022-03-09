@@ -27,7 +27,13 @@ public protocol ListItemCopyable: AnyObject {
 public struct ListAction: Hashable {
     var key: String
     var label: String
-    var color: Color = Color(uiColor: .label)
+    var color: Color
+    
+    public init(key: String, label: String, color: Color = Color(uiColor: .label)) {
+        self.key = key
+        self.label = label
+        self.color = color
+    }
 }
 
 public class ListController<Item: Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View>: ObservableObject {
