@@ -13,7 +13,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
     @State private var selection: String? = nil
 
     var form: () -> Form
-    
+
     public init(controller: ObservedObject<ListController<Item, Row>>, @ViewBuilder form: @escaping () -> Form) {
         _controller = controller
         self.form = form
@@ -41,22 +41,28 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
 
                 List {
                     ForEach(controller.items, id: \.id) { item in
-                        
-                        NavigationLink(destination: form(), tag: item, selection: $controller.editingItem) {
+
+                        NavigationLink(destination: form) {
                             controller.makeRow(item)
-                        }
+                        }.simultaneousGesture(TapGesture().onEnded {
+                            print("Hello world!")
+                            controller.mode = .edit
+                            controller.editingItem = item
+                        })
+
+//                        NavigationLink(destination: form(), tag: item, selection: $controller.editingItem) {
+//                            controller.makeRow(item)
+//                        }
 
 //                        NavigationLink(destination: {
-////                            let _ = controller.editingItem = item
-////                            let _ = controller.mode = .edit
 //                            form()
 //
 //
-////                            FormView1(mode: .edit, item: item) { mode, editedItem in
-////                                if mode == .edit {
-////                                    viewModel.update(oldItem: item, newItem: editedItem!)
-////                                }
-////                            }
+                        ////                            FormView1(mode: .edit, item: item) { mode, editedItem in
+                        ////                                if mode == .edit {
+                        ////                                    viewModel.update(oldItem: item, newItem: editedItem!)
+                        ////                                }
+                        ////                            }
 //                        }, tag: item, selection: $controller.editingItem
 //                        )
 //                        {
@@ -97,7 +103,7 @@ struct NavigationListContainer: View {
             ListAction(key: "L1", label: "Action 1", color: .blue),
             ListAction(key: "L2", label: "Action 2", color: .orange),
         ]
-        
+
         let trailingActions = [
             ListAction(key: "T1", label: "Action 1", color: .mint),
             ListAction(key: "T2", label: "Action 2", color: .green),
@@ -121,7 +127,6 @@ struct NavigationListContainer: View {
     }
 
     var body: some View {
-        
         NavigationList(controller: _controller) {
             MyForm(controller: _controller)
         }
@@ -135,6 +140,3 @@ struct NavigationList_Previews: PreviewProvider {
 }
 
 // Auxiliary Preview Items
-
-
-
