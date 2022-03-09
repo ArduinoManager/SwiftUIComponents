@@ -53,7 +53,12 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                                                    isTapped = $0
                                                                    controller.editingItem = item
                                                                }),
-                                       label: { controller.makeRow(item) })
+                                       label: {
+                            controller.makeRow(item)
+                                .onTapGesture {
+                                    controller.select(item: item)
+                                }
+                        })
                     }
                     .listRowBackground(controller.rowBackgroundColor)
                 }
