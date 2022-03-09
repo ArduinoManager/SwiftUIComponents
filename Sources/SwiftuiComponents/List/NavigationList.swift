@@ -20,7 +20,7 @@ public struct NavigationList<Item: Identifiable & Equatable & ListItemInitializa
         UITableView.appearance().backgroundColor = .clear // <-- here
     }
 
-    var body: some View {
+    public var body: some View {
         NavigationView {
             VStack {
 //                NavigationLink(destination: FormView1(mode: .new, item: nil) { mode, newItem in
