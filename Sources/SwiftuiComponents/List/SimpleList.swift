@@ -60,6 +60,14 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
             List {
                 ForEach(controller.items, id: \.id) { item in
                     controller.makeRow(item)
+                        .if (!controller.showLineSeparator) { view in
+                                view
+                                .listRowSeparator(.hidden)
+                        }
+                        .if (controller.lineSeparatorColor != nil) { view in
+                                view
+                                .listRowSeparatorTint(controller.lineSeparatorColor!)
+                        }
                         .onTapGesture {
                             controller.select(item: item)
                         }
@@ -144,6 +152,8 @@ struct SimpleListContainer: View {
                                                        actionHandler: { actionKey in
                                                            print("Executing action \(actionKey)")
                                                        },
+                                                       showLineSeparator: true,
+                                                       lineSeparatorColor: .brown,
                                                        makeRow: { item in
                                                            RowView(item: item)
                                                        })
@@ -230,6 +240,7 @@ struct RowView: View {
             Text("\(item.firstName)")
             Text("\(item.lastName)")
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
         .background(item.selected ? Color.red : Color.clear)
     }
 }

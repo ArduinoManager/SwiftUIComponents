@@ -11,7 +11,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
     @ObservedObject var controller: ListController<Item, Row>
     @State private var selection: String? = nil
     @State var isTapped = false
-
+    
     var form: () -> Form
 
     public init(controller: ObservedObject<ListController<Item, Row>>, @ViewBuilder form: @escaping () -> Form) {
@@ -29,6 +29,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                     if let title = controller.title {
                         Text(title)
                             .font(.title)
+                        
                     }
                     Spacer()
                     Button {
@@ -45,6 +46,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                 .padding([.leading, .trailing])
 
                 List {
+                    
                     ForEach(controller.items, id: \.id) { item in
                         NavigationLink(destination: form().navigationBarHidden(true),
                                        isActive: Binding<Bool>(get: { isTapped },
@@ -76,6 +78,14 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                 }
                                 .tint(action.color)
                             }
+                        }
+                        .if (!controller.showLineSeparator) { view in
+                                view
+                                .listRowSeparator(.hidden)
+                        }
+                        .if (controller.lineSeparatorColor != nil) { view in
+                                view
+                                .listRowSeparatorTint(controller.lineSeparatorColor!)
                         }
                     }
                     .listRowBackground(controller.rowBackgroundColor)
@@ -127,6 +137,8 @@ struct NavigationListContainer: View {
                                                        actionHandler: { actionKey in
                                                            print("Executing action \(actionKey)")
                                                        },
+                                                       showLineSeparator: true,
+                                                       lineSeparatorColor: Color.blue,
                                                        makeRow: { item in
                                                            RowView(item: item)
                                                        })

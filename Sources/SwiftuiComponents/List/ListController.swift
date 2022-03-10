@@ -49,6 +49,8 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
     var leadingActions: [ListAction]
     var trailingActions: [ListAction]
     var actionHandler: ((_ actionKey: String) -> Void)?
+    var showLineSeparator: Bool
+    var lineSeparatorColor: Color?
     var makeRow: (_: Item) -> Row
     public var editingItem: Item? {
         didSet {
@@ -75,6 +77,8 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
                 leadingActions: [ListAction] = [],
                 trailingActions: [ListAction] = [],
                 actionHandler: ((_ actionKey: String) -> Void)? = nil,
+                showLineSeparator: Bool = true,
+                lineSeparatorColor: Color? = nil,
                 makeRow: @escaping (_: Item) -> Row
                 
     )
@@ -91,6 +95,8 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
         self.leadingActions = leadingActions
         self.trailingActions = trailingActions
         self.actionHandler = actionHandler
+        self.showLineSeparator = showLineSeparator
+        self.lineSeparatorColor = lineSeparatorColor
         self.makeRow = makeRow
         if (!leadingActions.isEmpty || !trailingActions.isEmpty) && self.actionHandler == nil{
             fatalError("No actiton Handler provided")
