@@ -7,12 +7,6 @@
 
 import SwiftUI
 
-//public enum SheetMode {
-//    case none
-//    case edit
-//    case new
-//}
-
 class SheetMananger: ObservableObject {
     enum Sheet {
         case Form
@@ -43,7 +37,6 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                 }
                 Spacer()
                 Button {
-                    //controller.mode = .new
                     controller.editingItem = nil
                     sheetManager.whichSheet = .Form
                     sheetManager.showSheet.toggle()
@@ -86,7 +79,6 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                             }
                             .tint(.red)
                             Button(controller.editButtonLabel) {
-                                //controller.mode = .edit
                                 controller.editingItem = item
                                 sheetManager.whichSheet = .Form
                                 sheetManager.showSheet.toggle()
@@ -269,13 +261,6 @@ struct MyForm: View {
                 TextField("", text: $controller.formItem.lastName)
                 Text("\(controller.formItem.firstName.count)")
             }
-
-//            if controller.mode == .new {
-//                Text("New")
-//            }
-//            if controller.mode == .edit {
-//                Text("Edit")
-//            }
 
             HStack {
                 Button("Ok") {
