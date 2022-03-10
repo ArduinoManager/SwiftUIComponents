@@ -63,7 +63,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
     }
 
     public var formItem: Item!
-    @Published public var mode: SheetMode = .none
+    //@Published public var mode: SheetMode = .none
 
     public init(items: [Item],
                 title: String? = nil,
