@@ -11,10 +11,10 @@ public struct TabBar: View {
     @ObservedObject var controller: TabBarController
     @State var selectedTab: TabItem
 
-    public init(controller: ObservedObject<TabBarController>) {
-        _controller = controller
-        _selectedTab = State(initialValue: controller.wrappedValue.tabs[0])
-        UITabBar.appearance().backgroundColor = UIColor(controller.wrappedValue.backgroundColor)
+    public init(controller: TabBarController) {
+        self.controller = controller
+        _selectedTab = State(initialValue: controller.tabs[0])
+        UITabBar.appearance().backgroundColor = UIColor(controller.backgroundColor)
     }
 
     public var body: some View {

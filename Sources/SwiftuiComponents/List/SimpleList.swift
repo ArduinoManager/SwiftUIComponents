@@ -250,6 +250,11 @@ struct MyForm: View {
 
     init(controller: ListController<ListItem, RowView, PlainListStyle>) {
         self.controller = controller
+        
+        // Required for NavigationList
+        if controller.formItem == nil {
+            controller.formItem = ListItem()
+        }
     }
 
     var body: some View {

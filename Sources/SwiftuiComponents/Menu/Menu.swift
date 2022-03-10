@@ -12,8 +12,8 @@ import SwiftUI
 public struct Menu: View {
     @ObservedObject private var controller: MenuController
 
-    public init(controller: ObservedObject<MenuController>) {
-        _controller = controller
+    public init(controller: MenuController) {
+        self.controller = controller
         UITabBar.appearance().isHidden = true
     }
 

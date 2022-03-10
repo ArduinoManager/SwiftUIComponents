@@ -170,10 +170,6 @@ struct MyForm1: View {
     @ObservedObject var controller: ListController<ListItem, RowView, InsetGroupedListStyle>
     @Environment(\.presentationMode) var presentationMode
 
-//    init(controller: ObservedObject<ListController<ListItem, RowView, InsetGroupedListStyle>>) {
-//        _controller = controller
-//    }
-
     var body: some View {
         VStack {
             Text("MyView")
