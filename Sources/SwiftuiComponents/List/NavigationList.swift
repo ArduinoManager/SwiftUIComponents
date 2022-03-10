@@ -90,6 +90,8 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                     }
                     .listRowBackground(controller.rowBackgroundColor)
                 }
+                //TODO: From Controller
+                .listStyle(PlainListStyle())
                 .background(controller.backgroundColor)
             }
             .navigationBarHidden(true)

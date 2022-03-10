@@ -100,6 +100,8 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                             }
                         }
                 }
+                //TODO: From Controller
+                .listStyle(InsetGroupedListStyle())
                 .listRowBackground(controller.rowBackgroundColor)
             }
             .background(controller.backgroundColor)
