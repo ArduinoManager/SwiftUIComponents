@@ -98,7 +98,7 @@ public struct ContainerView: View {
 }
 
 struct MainViewContainer: View {
-    @ObservedObject private var controller = MenuController(menuItems:
+    @StateObject private var controller = MenuController(menuItems:
         [
             TabMenuItem(title: "Home", systemIcon: "theatermasks.fill", view: AnyView(TestView(text: "Home").background(.yellow))),
             HandlerMenuItem(title: "Print", systemIcon: "rectangle.portrait.and.arrow.right") {
@@ -131,7 +131,7 @@ struct MainViewContainer: View {
     )
 
     var body: some View {
-        Menu(controller: _controller)
+        Menu(controller: controller)
     }
 }
 

@@ -74,7 +74,7 @@ struct TabBarContainer: View {
     )
 
     var body: some View {
-        TabBar(controller: _controller)
+        TabBar(controller: controller)
     }
 }
 
