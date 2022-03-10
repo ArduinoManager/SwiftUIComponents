@@ -63,7 +63,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
         }
     }
 
-    public var formItem: Item!
+    @Published public var formItem: Item!
 
     public init(items: [Item],
                 style: Style,
