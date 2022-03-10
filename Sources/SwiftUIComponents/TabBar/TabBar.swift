@@ -8,11 +8,11 @@
 import SwiftUI
 
 public struct TabBar: View {
-    @ObservedObject var controller: TabBarController
+    @StateObject var controller: TabBarController
     @State var selectedTab: TabItem
 
     public init(controller: TabBarController) {
-        self.controller = controller
+        _controller = StateObject(wrappedValue: controller)
         _selectedTab = State(initialValue: controller.tabs[0])
         UITabBar.appearance().backgroundColor = UIColor(controller.backgroundColor)
     }
