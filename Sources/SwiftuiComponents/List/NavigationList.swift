@@ -11,7 +11,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
     @ObservedObject var controller: ListController<Item, Row>
     @State private var selection: String? = nil
     @State var isTapped = false
-    
+
     var form: () -> Form
 
     public init(controller: ObservedObject<ListController<Item, Row>>, @ViewBuilder form: @escaping () -> Form) {
@@ -29,7 +29,6 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                     if let title = controller.title {
                         Text(title)
                             .font(.title)
-                        
                     }
                     Spacer()
                     Button {
@@ -46,7 +45,6 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                 .padding([.leading, .trailing])
 
                 List {
-                    
                     ForEach(controller.items, id: \.id) { item in
                         NavigationLink(destination: form().navigationBarHidden(true),
                                        isActive: Binding<Bool>(get: { isTapped },
@@ -79,23 +77,24 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                 .tint(action.color)
                             }
                         }
-                        .if (!controller.showLineSeparator) { view in
-                                view
+                        .if(!controller.showLineSeparator) { view in
+                            view
                                 .listRowSeparator(.hidden)
                         }
-                        .if (controller.lineSeparatorColor != nil) { view in
-                                view
+                        .if(controller.lineSeparatorColor != nil) { view in
+                            view
                                 .listRowSeparatorTint(controller.lineSeparatorColor!)
                         }
                     }
                     .listRowBackground(controller.rowBackgroundColor)
                 }
-                //TODO: From Controller
+                // TODO: From Controller
                 .listStyle(InsetGroupedListStyle()) //  PlainListStyle
                 .background(controller.backgroundColor)
             }
             .navigationBarHidden(true)
         }
+        .navigationViewStyle(.stack)
     }
 }
 
@@ -156,7 +155,13 @@ struct NavigationListContainer: View {
 
 struct NavigationList_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationListContainer()
+        Group {
+            NavigationListContainer()
+                .previewInterfaceOrientation(.portraitUpsideDown)
+            NavigationListContainer()
+                .previewDevice(.init(stringLiteral: "iPad Pro (12.9-inch) (3rd generation)"))
+                .previewInterfaceOrientation(.portrait)
+        }
     }
 }
 

@@ -60,18 +60,18 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
             List {
                 ForEach(controller.items, id: \.id) { item in
                     controller.makeRow(item)
-                        .if (!controller.showLineSeparator) { view in
-                                view
+                        .if(!controller.showLineSeparator) { view in
+                            view
                                 .listRowSeparator(.hidden)
                         }
-                        .if (controller.lineSeparatorColor != nil) { view in
-                                view
+                        .if(controller.lineSeparatorColor != nil) { view in
+                            view
                                 .listRowSeparatorTint(controller.lineSeparatorColor!)
                         }
                         .onTapGesture {
                             controller.select(item: item)
                         }
-                        .swipeActions(edge:.leading) {
+                        .swipeActions(edge: .leading) {
                             ForEach(0 ..< controller.leadingActions.count, id: \.self) { idx in
                                 let action = controller.leadingActions[idx]
                                 Button(action.label) {
@@ -100,7 +100,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                             }
                         }
                 }
-                //TODO: From Controller
+                // TODO: From Controller
                 .listStyle(InsetGroupedListStyle())
                 .listRowBackground(controller.rowBackgroundColor)
             }
@@ -136,7 +136,7 @@ struct SimpleListContainer: View {
             ListAction(key: "L1", label: "Action 1", color: .blue),
             ListAction(key: "L2", label: "Action 2", color: .orange),
         ]
-        
+
         let trailingActions = [
             ListAction(key: "T1", label: "Action 1", color: .mint),
             ListAction(key: "T2", label: "Action 2", color: .green),
@@ -170,7 +170,12 @@ struct SimpleListContainer: View {
 
 struct SimpleList_Previews: PreviewProvider {
     static var previews: some View {
-        SimpleListContainer()
+        Group {
+            SimpleListContainer()
+                .previewInterfaceOrientation(.portraitUpsideDown)
+            SimpleListContainer()
+                .previewDevice(.init(stringLiteral: "iPad Pro (12.9-inch) (3rd generation)"))
+        }
     }
 }
 
@@ -212,7 +217,7 @@ public class ListItem: ObservableObject, Hashable, Identifiable, Equatable, Cust
     public func toggleSelection() {
         selected.toggle()
     }
-    
+
     public func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
