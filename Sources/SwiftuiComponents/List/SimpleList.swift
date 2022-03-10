@@ -22,8 +22,8 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
 
     var form: () -> Form
 
-    public init(controller: ObservedObject<ListController<Item, Row, Style>>, @ViewBuilder form: @escaping () -> Form) {
-        _controller = controller
+    public init(controller: ListController<Item, Row, Style>, @ViewBuilder form: @escaping () -> Form) {
+        self.controller = controller
         self.form = form
         UITableView.appearance().backgroundColor = .clear // <-- here
     }
@@ -108,7 +108,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
 // Preview
 
 struct SimpleListContainer: View {
-    @ObservedObject private var controller: ListController<ListItem, RowView, PlainListStyle>
+    @StateObject private var controller: ListController<ListItem, RowView, PlainListStyle>
 
     init() {
         let items = [ListItem(firstName: "A", lastName: "A"),
@@ -133,7 +133,7 @@ struct SimpleListContainer: View {
             ListAction(key: "T2", label: "Action 2", color: .green),
         ]
 
-        controller = ListController<ListItem, RowView, PlainListStyle>(items: items,
+        _controller = StateObject(wrappedValue: ListController<ListItem, RowView, PlainListStyle>(items: items,
                                                                        style: PlainListStyle(),
                                                                        title: "Title",
                                                                        addButtonColor: .green,
@@ -150,12 +150,12 @@ struct SimpleListContainer: View {
                                                                        lineSeparatorColor: .brown,
                                                                        makeRow: { item in
                                                                            RowView(item: item)
-                                                                       })
+                                                                       }))
     }
 
     var body: some View {
-        SimpleList<ListItem, RowView, MyForm, PlainListStyle>(controller: _controller) {
-            MyForm(controller: _controller)
+        SimpleList<ListItem, RowView, MyForm, PlainListStyle>(controller: controller) {
+            MyForm(controller: controller)
         }
     }
 }
@@ -248,8 +248,8 @@ struct MyForm: View {
     @ObservedObject var controller: ListController<ListItem, RowView, PlainListStyle>
     @Environment(\.presentationMode) var presentationMode
 
-    init(controller: ObservedObject<ListController<ListItem, RowView, PlainListStyle>>) {
-        _controller = controller
+    init(controller: ListController<ListItem, RowView, PlainListStyle>) {
+        self.controller = controller
     }
 
     var body: some View {

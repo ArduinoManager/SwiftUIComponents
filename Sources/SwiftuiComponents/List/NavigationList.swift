@@ -10,14 +10,13 @@ import SwiftUI
 public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View, Form: View, Style: ListStyle>: View {
     @ObservedObject var controller: ListController<Item, Row, Style>
     @State private var selection: String? = nil
-    @State var isTapped = false
+    @State private var isTapped = false
+    private var form: () -> Form
 
-    var form: () -> Form
-
-    public init(controller: ObservedObject<ListController<Item, Row, Style>>, @ViewBuilder form: @escaping () -> Form) {
-        _controller = controller
+    public init(controller: ListController<Item, Row, Style>, @ViewBuilder form: @escaping () -> Form) {
+        self.controller = controller
         self.form = form
-        UITableView.appearance().backgroundColor = .clear // <-- here
+        UITableView.appearance().backgroundColor = .clear
     }
 
     public var body: some View {
@@ -100,7 +99,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
 // Preview
 
 struct NavigationListContainer: View {
-    @ObservedObject private var controller: ListController<ListItem, RowView, InsetGroupedListStyle>
+    @StateObject private var controller: ListController<ListItem, RowView, InsetGroupedListStyle>
 
     init() {
         let items = [ListItem(firstName: "A", lastName: "A"),
@@ -125,29 +124,29 @@ struct NavigationListContainer: View {
             ListAction(key: "T2", label: "Action 2", color: .green),
         ]
 
-        controller = ListController<ListItem, RowView, InsetGroupedListStyle>(items: items,
-                                                                       style: InsetGroupedListStyle(),
-                                                                       title: "Title",
-                                                                       addButtonColor: .green,
-                                                                       editButtonLabel: "Edit_",
-                                                                       deleteButtonLabel: "Delete_",
-                                                                       backgroundColor: .green,
-                                                                       rowBackgroundColor: .yellow,
-                                                                       leadingActions: leadingActions,
-                                                                       trailingActions: trailingActions,
-                                                                       actionHandler: { actionKey in
-                                                                           print("Executing action \(actionKey)")
-                                                                       },
-                                                                       showLineSeparator: true,
-                                                                       lineSeparatorColor: Color.blue,
-                                                                       makeRow: { item in
-                                                                           RowView(item: item)
-                                                                       })
+        _controller = StateObject(wrappedValue: ListController<ListItem, RowView, InsetGroupedListStyle>(items: items,
+                                                                                                         style: InsetGroupedListStyle(),
+                                                                                                         title: "Title",
+                                                                                                         addButtonColor: .green,
+                                                                                                         editButtonLabel: "Edit_",
+                                                                                                         deleteButtonLabel: "Delete_",
+                                                                                                         backgroundColor: .green,
+                                                                                                         rowBackgroundColor: .yellow,
+                                                                                                         leadingActions: leadingActions,
+                                                                                                         trailingActions: trailingActions,
+                                                                                                         actionHandler: { actionKey in
+                                                                                                             print("Executing action \(actionKey)")
+                                                                                                         },
+                                                                                                         showLineSeparator: true,
+                                                                                                         lineSeparatorColor: Color.blue,
+                                                                                                         makeRow: { item in
+                                                                                                             RowView(item: item)
+                                                                                                         }))
     }
 
     var body: some View {
-        NavigationList<ListItem, RowView, MyForm1, InsetGroupedListStyle>(controller: _controller) {
-            MyForm1(controller: _controller)
+        NavigationList<ListItem, RowView, MyForm1, InsetGroupedListStyle>(controller: controller) {
+            MyForm1(controller: controller)
         }
         .navigationBarHidden(true)
     }
@@ -171,9 +170,9 @@ struct MyForm1: View {
     @ObservedObject var controller: ListController<ListItem, RowView, InsetGroupedListStyle>
     @Environment(\.presentationMode) var presentationMode
 
-    init(controller: ObservedObject<ListController<ListItem, RowView, InsetGroupedListStyle>>) {
-        _controller = controller
-    }
+//    init(controller: ObservedObject<ListController<ListItem, RowView, InsetGroupedListStyle>>) {
+//        _controller = controller
+//    }
 
     var body: some View {
         VStack {
