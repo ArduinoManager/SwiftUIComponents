@@ -16,13 +16,13 @@ class SheetMananger: ObservableObject {
     @Published var whichSheet: Sheet? = nil
 }
 
-public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View, Form: View>: View {
-    @ObservedObject var controller: ListController<Item, Row>
+public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View, Form: View, Style: ListStyle>: View {
+    @ObservedObject var controller: ListController<Item, Row, Style>
     @StateObject var sheetManager = SheetMananger()
 
     var form: () -> Form
 
-    public init(controller: ObservedObject<ListController<Item, Row>>, @ViewBuilder form: @escaping () -> Form) {
+    public init(controller: ObservedObject<ListController<Item, Row, Style>>, @ViewBuilder form: @escaping () -> Form) {
         _controller = controller
         self.form = form
         UITableView.appearance().backgroundColor = .clear // <-- here
@@ -92,10 +92,9 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                             }
                         }
                 }
-                // TODO: From Controller
-                .listStyle(InsetGroupedListStyle())
                 .listRowBackground(controller.rowBackgroundColor)
             }
+            .listStyle(controller.style)
             .background(controller.backgroundColor)
             .sheet(isPresented: $sheetManager.showSheet) {
                 if sheetManager.whichSheet == .Form {
@@ -109,7 +108,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
 // Preview
 
 struct SimpleListContainer: View {
-    @ObservedObject private var controller: ListController<ListItem, RowView>
+    @ObservedObject private var controller: ListController<ListItem, RowView, PlainListStyle>
 
     init() {
         let items = [ListItem(firstName: "A", lastName: "A"),
@@ -134,27 +133,28 @@ struct SimpleListContainer: View {
             ListAction(key: "T2", label: "Action 2", color: .green),
         ]
 
-        controller = ListController<ListItem, RowView>(items: items,
-                                                       title: "Title",
-                                                       addButtonColor: .green,
-                                                       editButtonLabel: "Edit_",
-                                                       deleteButtonLabel: "Delete_",
-                                                       backgroundColor: .green,
-                                                       rowBackgroundColor: .yellow,
-                                                       leadingActions: leadingActions,
-                                                       trailingActions: trailingActions,
-                                                       actionHandler: { actionKey in
-                                                           print("Executing action \(actionKey)")
-                                                       },
-                                                       showLineSeparator: true,
-                                                       lineSeparatorColor: .brown,
-                                                       makeRow: { item in
-                                                           RowView(item: item)
-                                                       })
+        controller = ListController<ListItem, RowView, PlainListStyle>(items: items,
+                                                                       style: PlainListStyle(),
+                                                                       title: "Title",
+                                                                       addButtonColor: .green,
+                                                                       editButtonLabel: "Edit_",
+                                                                       deleteButtonLabel: "Delete_",
+                                                                       backgroundColor: .green,
+                                                                       rowBackgroundColor: .yellow,
+                                                                       leadingActions: leadingActions,
+                                                                       trailingActions: trailingActions,
+                                                                       actionHandler: { actionKey in
+                                                                           print("Executing action \(actionKey)")
+                                                                       },
+                                                                       showLineSeparator: true,
+                                                                       lineSeparatorColor: .brown,
+                                                                       makeRow: { item in
+                                                                           RowView(item: item)
+                                                                       })
     }
 
     var body: some View {
-        SimpleList<ListItem, RowView, MyForm>(controller: _controller) {
+        SimpleList<ListItem, RowView, MyForm, PlainListStyle>(controller: _controller) {
             MyForm(controller: _controller)
         }
     }
@@ -245,10 +245,10 @@ struct RowView: View {
 }
 
 struct MyForm: View {
-    @ObservedObject var controller: ListController<ListItem, RowView>
+    @ObservedObject var controller: ListController<ListItem, RowView, PlainListStyle>
     @Environment(\.presentationMode) var presentationMode
 
-    init(controller: ObservedObject<ListController<ListItem, RowView>>) {
+    init(controller: ObservedObject<ListController<ListItem, RowView, PlainListStyle>>) {
         _controller = controller
     }
 
