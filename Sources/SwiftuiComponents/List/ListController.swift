@@ -36,9 +36,17 @@ public struct ListAction: Hashable {
     }
 }
 
-public class ListController<Item: Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View, Style: ListStyle>: ObservableObject {
+public enum ListStyle {
+    case plain
+    case grouped
+    case inset
+    case insetGrouped
+    case sidebar
+}
+
+public class ListController<Item: Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View>: ObservableObject {
     @Published var items: [Item]
-    var style: Style
+    var style: ListStyle
     var title: String?
     var multipleSelection: Bool
     var addButtonIcon: Image
@@ -66,7 +74,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
     @Published public var formItem: Item!
 
     public init(items: [Item],
-                style: Style,
+                style: ListStyle,
                 title: String? = nil,
                 multipleSelection: Bool = false,
                 addButtonIcon: Image = Image(systemName: "plus.square"),

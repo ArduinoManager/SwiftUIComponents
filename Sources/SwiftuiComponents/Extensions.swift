@@ -54,4 +54,20 @@ extension View {
             self
         }
     }
+
+    @ViewBuilder
+    func customStyle(type: ListStyle) -> some View {
+        switch type {
+        case .plain:
+            listStyle(.plain)
+        case .grouped:
+            listStyle(.grouped)
+        case .inset:
+            listStyle(.inset)
+        case .insetGrouped:
+            listStyle(.insetGrouped)
+        case .sidebar:
+            listStyle(.sidebar)
+        }
+    }
 }

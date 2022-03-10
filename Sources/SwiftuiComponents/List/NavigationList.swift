@@ -7,13 +7,13 @@
 
 import SwiftUI
 
-public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View, Form: View, Style: ListStyle>: View {
-    @ObservedObject var controller: ListController<Item, Row, Style>
+public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View, Form: View>: View {
+    @ObservedObject var controller: ListController<Item, Row>
     @State private var selection: String? = nil
     @State private var isTapped = false
     private var form: () -> Form
 
-    public init(controller: ListController<Item, Row, Style>, @ViewBuilder form: @escaping () -> Form) {
+    public init(controller: ListController<Item, Row>, @ViewBuilder form: @escaping () -> Form) {
         self.controller = controller
         self.form = form
         UITableView.appearance().backgroundColor = .clear
@@ -87,7 +87,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                     }
                     .listRowBackground(controller.rowBackgroundColor)
                 }
-                .listStyle(controller.style)
+                .customStyle(type: controller.style)
                 .background(controller.backgroundColor)
             }
             .navigationBarHidden(true)
@@ -99,7 +99,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
 // Preview
 
 struct NavigationListContainer: View {
-    @StateObject private var controller: ListController<ListItem, RowView, InsetGroupedListStyle>
+    @StateObject private var controller: ListController<ListItem, RowView>
 
     init() {
         let items = [ListItem(firstName: "A", lastName: "A"),
@@ -124,8 +124,8 @@ struct NavigationListContainer: View {
             ListAction(key: "T2", label: "Action 2", color: .green),
         ]
 
-        _controller = StateObject(wrappedValue: ListController<ListItem, RowView, InsetGroupedListStyle>(items: items,
-                                                                                                         style: InsetGroupedListStyle(),
+        _controller = StateObject(wrappedValue: ListController<ListItem, RowView>(items: items,
+                                                                                  style: .inset,
                                                                                                          title: "Title",
                                                                                                          addButtonColor: .green,
                                                                                                          editButtonLabel: "Edit_",
@@ -145,7 +145,7 @@ struct NavigationListContainer: View {
     }
 
     var body: some View {
-        NavigationList<ListItem, RowView, MyForm1, InsetGroupedListStyle>(controller: controller) {
+        NavigationList<ListItem, RowView, MyForm1>(controller: controller) {
             MyForm1(controller: controller)
         }
         .navigationBarHidden(true)
@@ -167,7 +167,7 @@ struct NavigationList_Previews: PreviewProvider {
 // Auxiliary Preview Items
 
 struct MyForm1: View {
-    @ObservedObject var controller: ListController<ListItem, RowView, InsetGroupedListStyle>
+    @ObservedObject var controller: ListController<ListItem, RowView>
     @Environment(\.presentationMode) var presentationMode
 
     var body: some View {

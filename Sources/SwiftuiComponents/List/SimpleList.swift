@@ -16,13 +16,13 @@ class SheetMananger: ObservableObject {
     @Published var whichSheet: Sheet? = nil
 }
 
-public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View, Form: View, Style: ListStyle>: View {
-    @ObservedObject var controller: ListController<Item, Row, Style>
+public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View, Form: View>: View {
+    @ObservedObject var controller: ListController<Item, Row>
     @StateObject var sheetManager = SheetMananger()
 
     var form: () -> Form
 
-    public init(controller: ListController<Item, Row, Style>, @ViewBuilder form: @escaping () -> Form) {
+    public init(controller: ListController<Item, Row>, @ViewBuilder form: @escaping () -> Form) {
         self.controller = controller
         self.form = form
         UITableView.appearance().backgroundColor = .clear // <-- here
@@ -94,7 +94,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                 }
                 .listRowBackground(controller.rowBackgroundColor)
             }
-            .listStyle(controller.style)
+            .customStyle(type: controller.style)
             .background(controller.backgroundColor)
             .sheet(isPresented: $sheetManager.showSheet) {
                 if sheetManager.whichSheet == .Form {
@@ -108,7 +108,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
 // Preview
 
 struct SimpleListContainer: View {
-    @StateObject private var controller: ListController<ListItem, RowView, PlainListStyle>
+    @StateObject private var controller: ListController<ListItem, RowView>
 
     init() {
         let items = [ListItem(firstName: "A", lastName: "A"),
@@ -133,8 +133,8 @@ struct SimpleListContainer: View {
             ListAction(key: "T2", label: "Action 2", color: .green),
         ]
 
-        _controller = StateObject(wrappedValue: ListController<ListItem, RowView, PlainListStyle>(items: items,
-                                                                       style: PlainListStyle(),
+        _controller = StateObject(wrappedValue: ListController<ListItem, RowView>(items: items,
+                                                                                  style: .plain,
                                                                        title: "Title",
                                                                        addButtonColor: .green,
                                                                        editButtonLabel: "Edit_",
@@ -154,7 +154,7 @@ struct SimpleListContainer: View {
     }
 
     var body: some View {
-        SimpleList<ListItem, RowView, MyForm, PlainListStyle>(controller: controller) {
+        SimpleList<ListItem, RowView, MyForm>(controller: controller) {
             MyForm(controller: controller)
         }
     }
@@ -245,10 +245,10 @@ struct RowView: View {
 }
 
 struct MyForm: View {
-    @ObservedObject var controller: ListController<ListItem, RowView, PlainListStyle>
+    @ObservedObject var controller: ListController<ListItem, RowView>
     @Environment(\.presentationMode) var presentationMode
 
-    init(controller: ListController<ListItem, RowView, PlainListStyle>) {
+    init(controller: ListController<ListItem, RowView>) {
         self.controller = controller
         
         // Required for NavigationList
