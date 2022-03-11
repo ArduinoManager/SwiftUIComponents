@@ -201,7 +201,7 @@ import SwiftUI
         let buttonHeight: CGFloat = 30.0
 
         public var body: some View {
-            VStack {
+            VStack(alignment: .leading) {
                 if controller.sideTitleView != nil {
                     HStack {
                         controller.sideTitleView!
@@ -212,49 +212,25 @@ import SwiftUI
                 }
 
                 List {
-//                    ForEach(controller.menuItems, id: \.self) { item in
-//                        switch item {
-//                        case is TabMenuItem:
-//                            NavigationLink(destination: item.makeView()) {
-//                                CustomTabButton(item: item)
-//                                //Label(item.title, systemImage: "star")
-//                            }
-//
-//                        case is HandlerMenuItem:
-//                            EmptyView()
-//
-//                        case is TabMenuSpacer:
-//                            Spacer(minLength: item.height)
-//
-//                        case is TabMenuDivider:
-//                            let i = item as! TabMenuDivider
-//                            Divider()
-//                                .background(i.color != nil ? i.color! : Color(NSColor.labelColor))
-//                        default:
-//                            EmptyView()
-//                        }
-//                    }
-
                     ForEach(controller.menuItems, id: \.self) { item in
 
                         switch item {
                         case is TabMenuItem:
                             NavigationLink(destination: item.makeView()) {
-                                HStack {
+                                HStack(alignment: .center) {
                                     makeImage(item: item)
                                         .foregroundColor(controller.itemsColor)
                                     Text(item.title)
                                         .foregroundColor(controller.itemsColor)
                                 }
                             }
-                            .padding(.bottom, 20)
 
                         case is HandlerMenuItem:
                             NavigationLink(destination: item.makeView()) {
                                 Button {
                                     item.handler!()
                                 } label: {
-                                    HStack {
+                                    HStack(alignment: .center) {
                                         makeImage(item: item)
                                             .foregroundColor(controller.itemsColor)
                                         Text(item.title)
@@ -263,7 +239,6 @@ import SwiftUI
                                 }
                                 .buttonStyle(.plain)
                             }
-                            .padding(.bottom, 20)
 
                         case is TabMenuSpacer:
                             Spacer(minLength: item.height)
@@ -272,12 +247,10 @@ import SwiftUI
                             let i = item as! TabMenuDivider
                             Divider()
                                 .background(i.color != nil ? i.color! : Color(NSColor.labelColor))
-                                .padding(.bottom, 20)
+
                         default:
                             EmptyView()
-                                .padding(.bottom, 20)
                         }
-                        
                     }
 
 //                    NavigationLink(destination: ContentView()) {
