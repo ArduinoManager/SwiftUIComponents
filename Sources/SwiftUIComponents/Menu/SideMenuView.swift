@@ -243,6 +243,7 @@ import SwiftUI
                                 Button(item.title) {
                                     
                                 }
+                                .buttonStyle(.plain)
 //                                HStack() {
 //                                    makeImage(item: item)
 //                                    Spacer()
