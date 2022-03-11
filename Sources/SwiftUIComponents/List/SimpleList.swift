@@ -57,49 +57,62 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
 
             List {
                 ForEach(controller.items, id: \.id) { item in
-                    controller.makeRow(item)
-                    #if os(iOS)
-                        .if(!controller.showLineSeparator) { view in
-                            view
-                                .listRowSeparator(.hidden)
-                        }
-                        .if(controller.lineSeparatorColor != nil) { view in
-                            view
-                                .listRowSeparatorTint(controller.lineSeparatorColor!)
+                    #if os(macOS)
+                        VStack(spacing: 0) {
+                            controller.makeRow(item)
+                            if !controller.showLineSeparator {
+                                Divider()
+                                    .if(controller.lineSeparatorColor != nil) { view in
+                                        view
+                                            .background(controller.lineSeparatorColor!)
+                                    }
+                            }
                         }
                     #endif
-                    .onTapGesture {
-                        controller.select(item: item)
-                    }
-                    .swipeActions(edge: .leading) {
-                        ForEach(0 ..< controller.leadingActions.count, id: \.self) { idx in
-                            let action = controller.leadingActions[idx]
-                            Button(action.label) {
-                                controller.actionHandler!(action.key)
+                    #if os(iOS)
+                        controller.makeRow(item)
+                            .if(!controller.showLineSeparator) { view in
+                                view
+                                    .listRowSeparator(.hidden)
                             }
-                            .tint(action.color)
-                        }
-                    }
-                    .swipeActions(edge: .trailing) {
-                        Button(controller.deleteButtonLabel) {
-                            controller.delete(item: item)
-                        }
-                        .tint(.red)
-                        Button(controller.editButtonLabel) {
-                            controller.editingItem = item
-                            sheetManager.whichSheet = .Form
-                            sheetManager.showSheet.toggle()
-                        }
-                        ForEach(Array(stride(from: controller.trailingActions.count - 1, to: -1, by: -1)), id: \.self) { idx in
-                            let action = controller.trailingActions[idx]
-                            Button(action.label) {
-                                controller.actionHandler!(action.key)
+                            .if(controller.lineSeparatorColor != nil) { view in
+                                view
+                                    .listRowSeparatorTint(controller.lineSeparatorColor!)
                             }
-                            .tint(action.color)
-                        }
-                    }
+
+                            .onTapGesture {
+                                controller.select(item: item)
+                            }
+                            .swipeActions(edge: .leading) {
+                                ForEach(0 ..< controller.leadingActions.count, id: \.self) { idx in
+                                    let action = controller.leadingActions[idx]
+                                    Button(action.label) {
+                                        controller.actionHandler!(action.key)
+                                    }
+                                    .tint(action.color)
+                                }
+                            }
+                            .swipeActions(edge: .trailing) {
+                                Button(controller.deleteButtonLabel) {
+                                    controller.delete(item: item)
+                                }
+                                .tint(.red)
+                                Button(controller.editButtonLabel) {
+                                    controller.editingItem = item
+                                    sheetManager.whichSheet = .Form
+                                    sheetManager.showSheet.toggle()
+                                }
+                                ForEach(Array(stride(from: controller.trailingActions.count - 1, to: -1, by: -1)), id: \.self) { idx in
+                                    let action = controller.trailingActions[idx]
+                                    Button(action.label) {
+                                        controller.actionHandler!(action.key)
+                                    }
+                                    .tint(action.color)
+                                }
+                            }
+                    #endif
                 }
-                //.listRowBackground(controller.rowBackgroundColor)
+                // .listRowBackground(controller.rowBackgroundColor)
             }
             // .customStyle(type: controller.style)
 
