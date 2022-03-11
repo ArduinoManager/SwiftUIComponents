@@ -235,55 +235,66 @@ import SwiftUI
 //                        }
 //                    }
                 
-
-                    NavigationLink(destination: ContentView()) {
-                        Label("Welcome", systemImage: "star")
+                    ForEach(controller.menuItems, id: \.self) { item in
+                        
+                        switch item {
+                            case is TabMenuItem:                        
+                            NavigationLink(destination: item.makeView()) {
+                            Label("Welcome", systemImage: "star")
+                        }
+                        default:
+                            EmptyView()
                     }
+                    
 
-                    Spacer()
-
-                    Text("DASHBOARD")
-                        .font(.system(size: 10))
-                        .fontWeight(.bold)
-                    Group {
-                        NavigationLink(destination: controller.menuItems[0].makeView()
-                        ) {
-                            Label("Home", systemImage: "house")
-                        }
-                        NavigationLink(destination: ContentView()) {
-                            Label("Websites", systemImage: "globe")
-                        }
-                        NavigationLink(destination: ContentView()) {
-                            Label("Domains", systemImage: "link")
-                        }
-                        NavigationLink(destination: ContentView()) {
-                            Label("Templates", systemImage: "rectangle.stack")
-                        }
-                    }
-
-                    Spacer()
-
-                    Text("PROFILE")
-                        .font(.system(size: 10))
-                        .fontWeight(.bold)
-                    Group {
-                        NavigationLink(destination: ContentView()) {
-                            Label("My Account", systemImage: "person")
-                        }
-                        NavigationLink(destination: ContentView()) {
-                            Label("Notifications", systemImage: "bell")
-                        }
-                        NavigationLink(destination: ContentView()) {
-                            Label("Settings", systemImage: "gear")
-                        }
-                    }
-
-                    Spacer()
-
-                    Divider()
-                    NavigationLink(destination: ContentView()) {
-                        Label("Sign Out", systemImage: "arrow.backward")
-                    }
+//                    NavigationLink(destination: ContentView()) {
+//                        Label("Welcome", systemImage: "star")
+//                    }
+//
+//                    Spacer()
+//
+//                    Text("DASHBOARD")
+//                        .font(.system(size: 10))
+//                        .fontWeight(.bold)
+//                    Group {
+//                        NavigationLink(destination: controller.menuItems[0].makeView()
+//                        ) {
+//                            Label("Home", systemImage: "house")
+//                        }
+//                        NavigationLink(destination: ContentView()) {
+//                            Label("Websites", systemImage: "globe")
+//                        }
+//                        NavigationLink(destination: ContentView()) {
+//                            Label("Domains", systemImage: "link")
+//                        }
+//                        NavigationLink(destination: ContentView()) {
+//                            Label("Templates", systemImage: "rectangle.stack")
+//                        }
+//                    }
+//
+//                    Spacer()
+//
+//                    Text("PROFILE")
+//                        .font(.system(size: 10))
+//                        .fontWeight(.bold)
+//                    Group {
+//                        NavigationLink(destination: ContentView()) {
+//                            Label("My Account", systemImage: "person")
+//                        }
+//                        NavigationLink(destination: ContentView()) {
+//                            Label("Notifications", systemImage: "bell")
+//                        }
+//                        NavigationLink(destination: ContentView()) {
+//                            Label("Settings", systemImage: "gear")
+//                        }
+//                    }
+//
+//                    Spacer()
+//
+//                    Divider()
+//                    NavigationLink(destination: ContentView()) {
+//                        Label("Sign Out", systemImage: "arrow.backward")
+//                    }
                 }
                 .background(controller.backgroundColor)
                 .listStyle(SidebarListStyle())
