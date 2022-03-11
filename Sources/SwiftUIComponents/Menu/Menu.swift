@@ -21,7 +21,7 @@ public struct Menu: View {
 
     public var body: some View {
         #if os(macOS)
-        
+        let _ = Self._printChanges()
         NavigationView {
             SideMenuView(controller: controller)
                 .frame(width: 190)
