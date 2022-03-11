@@ -156,7 +156,7 @@ struct MainViewContainer: View {
 
 struct SideTitleView: View {
     var body: some View {
-        HStack(spacing: 15) {
+        HStack() {
             Image("logo", bundle: .module)
                 .resizable()
                 .aspectRatio(contentMode: .fill)

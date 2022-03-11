@@ -201,10 +201,10 @@ import SwiftUI
         let buttonHeight: CGFloat = 30.0
 
         public var body: some View {
-            VStack {
+            VStack(spacing: 0) {
                 if controller.sideTitleView != nil {
                     HStack {
-                        controller.sideTitleView
+                        controller.sideTitleView!
                         Spacer()
                     }
                 } else {
@@ -238,20 +238,39 @@ import SwiftUI
                     ForEach(controller.menuItems, id: \.self) { item in
 
                         switch item {
+                            
                         case is TabMenuItem:
                             NavigationLink(destination: item.makeView()) {
-//                                Button(item.title) {
-//
-//                                }
-//                                .buttonStyle(.plain)
-                                HStack() {
+                                HStack {
                                     makeImage(item: item)
+                                        .foregroundColor(controller.itemsColor)
                                     Text(item.title)
                                         .foregroundColor(controller.itemsColor)
                                 }
-                                .background(.white)
-                                //.frame(maxWidth: .infinity)
                             }
+                            
+                        case is HandlerMenuItem:
+                            NavigationLink(destination: item.makeView()) {
+                                Button {
+                                    item.handler!()
+                                } label: {
+                                    HStack {
+                                        makeImage(item: item)
+                                            .foregroundColor(controller.itemsColor)
+                                        Text(item.title)
+                                            .foregroundColor(controller.itemsColor)
+                                    }
+                                }
+                                .buttonStyle(.plain)
+                            }
+                            
+                        case is TabMenuSpacer:
+                            Spacer(minLength: item.height)
+
+                        case is TabMenuDivider:
+                            let i = item as! TabMenuDivider
+                            Divider()
+                                .background(i.color != nil ? i.color! : Color(NSColor.labelColor))
                         default:
                             EmptyView()
                         }
@@ -319,7 +338,7 @@ import SwiftUI
                     }
                 }
             }
-            .frame(minWidth: 150, idealWidth: 250, maxWidth: 300)
+            // .frame(minWidth: 150, idealWidth: 250, maxWidth: 300)
         }
 
         @ViewBuilder

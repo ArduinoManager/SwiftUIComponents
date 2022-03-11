@@ -24,7 +24,6 @@ public struct Menu: View {
         let _ = Self._printChanges()
         NavigationView {
             SideMenuView(controller: controller)
-                .frame(width: 190)
             
             //ContentView()
         }
