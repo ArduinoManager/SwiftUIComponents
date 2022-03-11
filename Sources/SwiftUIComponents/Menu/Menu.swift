@@ -26,7 +26,7 @@ public struct Menu: View {
             SideMenuView(controller: controller)
                 .frame(width: 190)
             
-            ContentView()
+            //ContentView()
         }
     
         #endif
