@@ -240,7 +240,13 @@ import SwiftUI
                         switch item {
                         case is TabMenuItem:
                             NavigationLink(destination: item.makeView()) {
-                                Label("Welcome", systemImage: "star")
+                                HStack() {
+                                    makeImage(item: item)
+                                    Spacer()
+                                    Text(item.title)
+                                        .foregroundColor(controller.itemsColor)
+                                    
+                                }
                             }
                         default:
                             EmptyView()
