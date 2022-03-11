@@ -131,7 +131,7 @@ struct MainViewContainer: View {
                         icon: Image("logo", bundle: .module),
                         view: AnyView(TestView(text: "Profile").background(.green))),
 
-            TabMenuDivider(color: .white),
+            TabMenuDivider(color: .red),
             HandlerMenuItem(title: "Login", systemIcon: "rectangle.portrait.and.arrow.right") {
                 print("Login")
             },
@@ -140,7 +140,7 @@ struct MainViewContainer: View {
                 print("Logout")
             },
 
-            TabMenuDivider(color: .white),
+            TabMenuDivider(color: .red),
             HandlerMenuItem(title: "Kill!", icon: Image("logo", bundle: .module)) {
                 print("Login")
             },

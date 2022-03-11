@@ -23,19 +23,18 @@ public struct Menu: View {
         #if os(macOS)
         
         NavigationView {
-            
             SideMenuView(controller: controller)
+                .frame(width: 190)
             
             ContentView()
         }
     
-        
         #endif
         #if os(iOS)
         ZStack {
             // Side Menu
             SideMenuView(controller: controller)
-
+               
             // Main Tab View
             ContainerView(controller: controller)
                 .cornerRadius(controller.showMenu ? 25 : 0)
