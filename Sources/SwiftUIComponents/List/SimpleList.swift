@@ -84,7 +84,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                             .onTapGesture {
                                 controller.select(item: item)
                             }
-                            .modifier(Actions(controller: controller, item: item, sheetManager: sheetManager))
+                            .modifier(AttachActions(controller: controller, item: item, sheetManager: sheetManager))
 //                            .swipeActions(edge: .leading) {
 //                                ForEach(0 ..< controller.leadingActions.count, id: \.self) { idx in
 //                                    let action = controller.leadingActions[idx]
