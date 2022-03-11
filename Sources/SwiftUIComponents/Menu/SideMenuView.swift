@@ -240,13 +240,16 @@ import SwiftUI
                         switch item {
                         case is TabMenuItem:
                             NavigationLink(destination: item.makeView()) {
-                                HStack() {
-                                    makeImage(item: item)
-                                    Spacer()
-                                    Text(item.title)
-                                        .foregroundColor(controller.itemsColor)
+                                Button(item.title) {
                                     
                                 }
+//                                HStack() {
+//                                    makeImage(item: item)
+//                                    Spacer()
+//                                    Text(item.title)
+//                                        .foregroundColor(controller.itemsColor)
+//
+//                                }
                             }
                         default:
                             EmptyView()
@@ -305,7 +308,7 @@ import SwiftUI
                 .background(controller.backgroundColor)
                 .listStyle(SidebarListStyle())
                 // .navigationTitle("Explore")
-                .frame(minWidth: 150, idealWidth: 250, maxWidth: 300)
+                //
                 .padding([.leading], 0)
                 .toolbar {
                     ToolbarItem(placement: .navigation) {
@@ -315,6 +318,7 @@ import SwiftUI
                     }
                 }
             }
+            .frame(minWidth: 150, idealWidth: 250, maxWidth: 300)
         }
 
         @ViewBuilder
