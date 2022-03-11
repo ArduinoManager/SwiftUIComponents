@@ -215,7 +215,7 @@ import SwiftUI
 
                         switch item {
                         case is TabMenuItem:
-                            NavigationLink(destination: item.makeView()) {
+                            NavigationLink(destination: ContainerView(controller: controller)) {
                                 HStack(alignment: .center) {
                                     makeImage(item: item)
                                         .foregroundColor(controller.itemsColor)
@@ -225,7 +225,7 @@ import SwiftUI
                             }
 
                         case is HandlerMenuItem:
-                            NavigationLink(destination: item.makeView()) {
+                            NavigationLink(destination: EmptyView()) {
                                 Button {
                                     item.handler!()
                                 } label: {

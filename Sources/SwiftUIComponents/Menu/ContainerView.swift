@@ -110,7 +110,16 @@ import SwiftUI
         @ObservedObject var controller: MenuController
 
         public var body: some View {
-            Text("ContainerView")
+            VStack(spacing: 0) {
+                let _ = Self._printChanges()
+
+                if controller.titleView != nil {
+                    controller.titleView
+                    Spacer()
+                }
+
+                Text("ContainerView \(controller.currentTab)")
+            }
         }
     }
 
@@ -146,7 +155,10 @@ struct MainViewContainer: View {
             },
         ],
         sideTitleView: AnyView(SideTitleView()
-        ), backgroundColor: .blue, itemsColor: .red
+        ),
+        backgroundColor: .blue,
+        itemsColor: .red,
+        titleView: AnyView(TitleView())
     )
 
     var body: some View {
@@ -156,7 +168,7 @@ struct MainViewContainer: View {
 
 struct SideTitleView: View {
     var body: some View {
-        HStack() {
+        HStack {
             Image("logo", bundle: .module)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
@@ -174,9 +186,22 @@ struct SideTitleView: View {
     }
 }
 
+struct TitleView: View {
+    var body: some View {
+        HStack{
+            Text("This is the Title View")
+        }
+        .frame(maxWidth:.infinity, maxHeight: 40)
+        .background(.cyan)
+    }
+}
+
+
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-        MainViewContainer()
+        Group {
+            MainViewContainer()
+        }
     }
 }
 
