@@ -130,7 +130,7 @@ struct MainViewContainer: View {
             HandlerMenuItem(title: "Print", systemIcon: "rectangle.portrait.and.arrow.right") {
                 print("Print")
             },
-            TabMenuItem(title: "Discover", systemIcon: "safari.fill", view: AnyView(TestView(text: "Discover").background(.blue))),
+            TabMenuItem(title: "Simple Table", systemIcon: "safari.fill", view: AnyView(TestView(text: "Discover").background(.blue))),
             TabMenuItem(title: "Devices", systemIcon: "applewatch", view: AnyView(TestView(text: "Devices").background(.gray))),
             TabMenuSpacer(height: 50),
             TabMenuItem(title: "Profile", systemIcon: "person.fill", view: AnyView(TestView(text: "Profile").background(.green))),

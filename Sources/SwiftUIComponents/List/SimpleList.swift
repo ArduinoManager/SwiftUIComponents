@@ -25,8 +25,8 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
     public init(controller: ListController<Item, Row>, @ViewBuilder form: @escaping () -> Form) {
         self.controller = controller
         self.form = form
-#if os(iOS)
-        UITableView.appearance().backgroundColor = .clear // <-- here
+        #if os(iOS)
+            UITableView.appearance().backgroundColor = .clear // <-- here
         #endif
     }
 
@@ -49,6 +49,9 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                         .frame(width: 30, height: 30)
                         .foregroundColor(controller.addButtonColor)
                 }
+                #if os(macOS)
+                    .buttonStyle(PlainButtonStyle())
+                #endif
             }
             .padding([.leading, .trailing])
 
@@ -57,13 +60,13 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                     controller.makeRow(item)
                         .if(!controller.showLineSeparator) { view in
                             view
-#if os(iOS)
+                            #if os(iOS)
                                 .listRowSeparator(.hidden)
                             #endif
                         }
                         .if(controller.lineSeparatorColor != nil) { view in
                             view
-#if os(iOS)
+                            #if os(iOS)
                                 .listRowSeparatorTint(controller.lineSeparatorColor!)
                             #endif
                         }
@@ -100,7 +103,10 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                 }
                 .listRowBackground(controller.rowBackgroundColor)
             }
-            .customStyle(type: controller.style)
+            //.customStyle(type: controller.style)
+            
+            .listStyle(.inset)
+            
             .background(controller.backgroundColor)
             .sheet(isPresented: $sheetManager.showSheet) {
                 if sheetManager.whichSheet == .Form {
@@ -141,22 +147,22 @@ struct SimpleListContainer: View {
 
         _controller = StateObject(wrappedValue: ListController<ListItem, RowView>(items: items,
                                                                                   style: .plain,
-                                                                       title: "Title",
-                                                                       addButtonColor: .green,
-                                                                       editButtonLabel: "Edit_",
-                                                                       deleteButtonLabel: "Delete_",
-                                                                       backgroundColor: .green,
-                                                                       rowBackgroundColor: .yellow,
-                                                                       leadingActions: leadingActions,
-                                                                       trailingActions: trailingActions,
-                                                                       actionHandler: { actionKey in
-                                                                           print("Executing action \(actionKey)")
-                                                                       },
-                                                                       showLineSeparator: true,
-                                                                       lineSeparatorColor: .brown,
-                                                                       makeRow: { item in
-                                                                           RowView(item: item)
-                                                                       }))
+                                                                                  title: "Title",
+                                                                                  addButtonColor: .green,
+                                                                                  editButtonLabel: "Edit_",
+                                                                                  deleteButtonLabel: "Delete_",
+                                                                                  backgroundColor: .green,
+                                                                                  rowBackgroundColor: .yellow,
+                                                                                  leadingActions: leadingActions,
+                                                                                  trailingActions: trailingActions,
+                                                                                  actionHandler: { actionKey in
+                                                                                      print("Executing action \(actionKey)")
+                                                                                  },
+                                                                                  showLineSeparator: true,
+                                                                                  lineSeparatorColor: .blue,
+                                                                                  makeRow: { item in
+                                                                                      RowView(item: item)
+                                                                                  }))
     }
 
     var body: some View {
@@ -241,12 +247,15 @@ struct RowView: View {
     }
 
     var body: some View {
+        VStack {
         HStack {
             Text("\(item.firstName)")
             Text("\(item.lastName)")
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
         .background(item.selected ? Color.red : Color.clear)
+            Divider()
+        }
     }
 }
 
@@ -256,7 +265,7 @@ struct MyForm: View {
 
     init(controller: ListController<ListItem, RowView>) {
         self.controller = controller
-        
+
         // Required for NavigationList
         if controller.formItem == nil {
             controller.formItem = ListItem()

@@ -72,9 +72,9 @@ extension View {
         #endif
         #if os(macOS)
             case .grouped:
-                listStyle(.plain)
+                listStyle(.inset)
             case .insetGrouped:
-                listStyle(.plain)
+                listStyle(.inset)
         #endif
         case .inset:
             listStyle(.inset)
