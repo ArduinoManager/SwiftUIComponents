@@ -215,7 +215,7 @@ import SwiftUI
 
                         switch item {
                         case is TabMenuItem:
-                            NavigationLink(destination: ContainerView(controller: controller)) {
+                            NavigationLink(destination: ContainerView(controller: controller, item: item)) {
                                 HStack(alignment: .center) {
                                     makeImage(item: item)
                                         .foregroundColor(controller.itemsColor)

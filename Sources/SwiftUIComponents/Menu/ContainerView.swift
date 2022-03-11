@@ -108,17 +108,15 @@ import SwiftUI
 
     public struct ContainerView: View {
         @ObservedObject var controller: MenuController
-
+        var item: MenuItem
+        
         public var body: some View {
             VStack(spacing: 0) {
-                let _ = Self._printChanges()
-
+                //let _ = Self._printChanges()
                 if controller.titleView != nil {
                     controller.titleView
-                    Spacer()
                 }
-
-                Text("ContainerView \(controller.currentTab)")
+                item.makeView()
             }
         }
     }

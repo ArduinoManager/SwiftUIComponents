@@ -23,9 +23,12 @@ public struct Menu: View {
         #if os(macOS)
         let _ = Self._printChanges()
         NavigationView {
+            
+            // Left Panel
             SideMenuView(controller: controller)
             
-            ContainerView(controller: controller)
+            // Right Panel
+            ContainerView(controller: controller, item: controller.menuItems[0])
         }
     
         #endif
