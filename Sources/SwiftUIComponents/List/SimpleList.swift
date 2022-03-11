@@ -60,6 +60,9 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                     #if os(macOS)
                         VStack(spacing: 0) {
                             controller.makeRow(item)
+                                .onTapGesture {
+                                    controller.select(item: item)
+                                }
                                 .modifier(AttachActions(controller: controller, item: item, sheetManager: sheetManager))
                             if controller.showLineSeparator {
                                 Divider()
@@ -85,33 +88,6 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                                 controller.select(item: item)
                             }
                             .modifier(AttachActions(controller: controller, item: item, sheetManager: sheetManager))
-//                            .swipeActions(edge: .leading) {
-//                                ForEach(0 ..< controller.leadingActions.count, id: \.self) { idx in
-//                                    let action = controller.leadingActions[idx]
-//                                    Button(action.label) {
-//                                        controller.actionHandler!(action.key)
-//                                    }
-//                                    .tint(action.color)
-//                                }
-//                            }
-//                            .swipeActions(edge: .trailing) {
-//                                Button(controller.deleteButtonLabel) {
-//                                    controller.delete(item: item)
-//                                }
-//                                .tint(.red)
-//                                Button(controller.editButtonLabel) {
-//                                    controller.editingItem = item
-//                                    sheetManager.whichSheet = .Form
-//                                    sheetManager.showSheet.toggle()
-//                                }
-//                                ForEach(Array(stride(from: controller.trailingActions.count - 1, to: -1, by: -1)), id: \.self) { idx in
-//                                    let action = controller.trailingActions[idx]
-//                                    Button(action.label) {
-//                                        controller.actionHandler!(action.key)
-//                                    }
-//                                    .tint(action.color)
-//                                }
-//                            }
                     #endif
                 }
                 .listRowBackground(controller.rowBackgroundColor)
