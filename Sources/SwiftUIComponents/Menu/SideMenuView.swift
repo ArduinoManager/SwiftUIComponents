@@ -240,17 +240,17 @@ import SwiftUI
                         switch item {
                         case is TabMenuItem:
                             NavigationLink(destination: item.makeView()) {
-                                Button(item.title) {
-                                    
-                                }
-                                .buttonStyle(.plain)
-//                                HStack() {
-//                                    makeImage(item: item)
-//                                    Spacer()
-//                                    Text(item.title)
-//                                        .foregroundColor(controller.itemsColor)
+//                                Button(item.title) {
 //
 //                                }
+//                                .buttonStyle(.plain)
+                                HStack() {
+                                    makeImage(item: item)
+                                    Text(item.title)
+                                        .foregroundColor(controller.itemsColor)
+                                }
+                                .background(.white)
+                                //.frame(maxWidth: .infinity)
                             }
                         default:
                             EmptyView()
@@ -380,6 +380,9 @@ import SwiftUI
                     .frame(width: 22, height: 22)
             } else {
                 Image(systemName: item.systemIcon!)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 22, height: 22)
             }
         }
     }
