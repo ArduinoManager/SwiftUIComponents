@@ -60,12 +60,13 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                     #if os(macOS)
                         VStack(spacing: 0) {
                             controller.makeRow(item)
-                            
+                            if controller.showLineSeparator {
                                 Divider()
-                                    
+                                    .if(controller.lineSeparatorColor != nil) { view in
+                                        view
                                             .background(controller.lineSeparatorColor!)
-                                    
-                        
+                                    }
+                            }
                         }
                     #endif
                     #if os(iOS)
