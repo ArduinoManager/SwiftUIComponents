@@ -201,7 +201,7 @@ import SwiftUI
         let buttonHeight: CGFloat = 30.0
 
         public var body: some View {
-            VStack(spacing: 0) {
+            VStack {
                 if controller.sideTitleView != nil {
                     HStack {
                         controller.sideTitleView!
@@ -238,7 +238,6 @@ import SwiftUI
                     ForEach(controller.menuItems, id: \.self) { item in
 
                         switch item {
-                            
                         case is TabMenuItem:
                             NavigationLink(destination: item.makeView()) {
                                 HStack {
@@ -248,7 +247,8 @@ import SwiftUI
                                         .foregroundColor(controller.itemsColor)
                                 }
                             }
-                            
+                            .padding(.bottom, 20)
+
                         case is HandlerMenuItem:
                             NavigationLink(destination: item.makeView()) {
                                 Button {
@@ -263,7 +263,8 @@ import SwiftUI
                                 }
                                 .buttonStyle(.plain)
                             }
-                            
+                            .padding(.bottom, 20)
+
                         case is TabMenuSpacer:
                             Spacer(minLength: item.height)
 
@@ -271,9 +272,12 @@ import SwiftUI
                             let i = item as! TabMenuDivider
                             Divider()
                                 .background(i.color != nil ? i.color! : Color(NSColor.labelColor))
+                                .padding(.bottom, 20)
                         default:
                             EmptyView()
+                                .padding(.bottom, 20)
                         }
+                        
                     }
 
 //                    NavigationLink(destination: ContentView()) {
@@ -396,12 +400,12 @@ import SwiftUI
                 item.icon!
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 22, height: 22)
+                    .frame(width: 18, height: 18)
             } else {
                 Image(systemName: item.systemIcon!)
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 22, height: 22)
+                    .frame(width: 18, height: 18)
             }
         }
     }
