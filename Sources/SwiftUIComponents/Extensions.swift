@@ -6,7 +6,9 @@
 //
 
 import SwiftUI
-import Cocoa
+#if canImport(Cocoa)
+    import Cocoa
+#endif
 
 extension View {
     #if os(iOS)
@@ -110,5 +112,13 @@ extension View {
     }
 }
 
+extension NSTableView {
+  open override func viewDidMoveToWindow() {
+    super.viewDidMoveToWindow()
+
+    backgroundColor = NSColor.clear
+    enclosingScrollView!.drawsBackground = false
+  }
+}
 
 #endif

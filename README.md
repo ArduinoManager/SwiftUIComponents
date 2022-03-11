@@ -12,5 +12,6 @@ This is a Test Package which will contains all the Swiftui Components for the co
 
 - ToDo:
 
-    - Sections in menu
-    - Sections in Table
+    - Sections in Menu
+    - Sections in List
+    - ListController: items sorting

@@ -90,7 +90,9 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                             .modifier(AttachActions(controller: controller, item: item, sheetManager: sheetManager))
                     #endif
                 }
+#if os(macOS)
                 .removingScrollViewBackground()
+                #endif
                 .listRowBackground(controller.rowBackgroundColor)
             }
             .customStyle(type: controller.style)
