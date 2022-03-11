@@ -25,7 +25,7 @@ public struct Menu: View {
         NavigationView {
             SideMenuView(controller: controller)
             
-            //ContentView()
+            ContainerView(controller: controller)
         }
     
         #endif

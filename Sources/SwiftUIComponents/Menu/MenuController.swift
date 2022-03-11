@@ -128,17 +128,17 @@ public class MenuController: ObservableObject {
     
     #if os(macOS)
     
-    public init(menuItems: [MenuItem], autoClose: Bool = true, openButtonAtTop: Bool = true, openButtonColor: Color = Color(NSColor.labelColor), openButtonIcon: String = "line.3.horizontal", openButtonSize: CGFloat = 20.0, sideTitleView: AnyView? = nil, backgroundColor: Color = Color(NSColor.windowBackgroundColor), itemsColor: Color = Color(NSColor.labelColor), selectedItemBackgroundColor: Color = Color(NSColor.gridColor), titleView: AnyView? = nil, titleViewBackgroundColor: Color = Color(NSColor.windowBackgroundColor)) {
+    public init(menuItems: [MenuItem], sideTitleView: AnyView? = nil, backgroundColor: Color = Color(NSColor.windowBackgroundColor), itemsColor: Color = Color(NSColor.labelColor), titleView: AnyView? = nil, titleViewBackgroundColor: Color = Color(NSColor.windowBackgroundColor)) {
         showMenu = false
-        self.autoClose = autoClose
-        self.openButtonAtTop = openButtonAtTop
-        self.openButtonColor = openButtonColor
-        self.openButtonIcon = openButtonIcon
-        self.openButtonSize = openButtonSize
+        self.autoClose = false
+        self.openButtonAtTop = false
+        self.openButtonColor = Color(NSColor.labelColor)
+        self.openButtonIcon = ""
+        self.openButtonSize = 0.0
         self.sideTitleView = sideTitleView
         self.backgroundColor = backgroundColor
         self.itemsColor = itemsColor
-        self.selectedItemBackgroundColor = selectedItemBackgroundColor
+        self.selectedItemBackgroundColor = Color(NSColor.labelColor)
         self.titleView = titleView
         self.titleViewBackgroundColor = titleViewBackgroundColor
         self.menuItems = menuItems
