@@ -11,6 +11,7 @@ public struct TabBar: View {
     @StateObject var controller: TabBarController
     @State var selectedTab: TabItem
 
+#if os(iOS)
     public init(controller: TabBarController) {
         _controller = StateObject(wrappedValue: controller)
         _selectedTab = State(initialValue: controller.tabs[0])
@@ -59,6 +60,20 @@ public struct TabBar: View {
             .background(controller.backgroundColor)
         }
     }
+    #endif
+    
+#if os(macOS)
+    
+    public init(controller: TabBarController) {
+        _controller = StateObject(wrappedValue: controller)
+        _selectedTab = State(initialValue: controller.tabs[0])
+    }
+    
+    public var body: some View {
+        Text("BAR!")
+    }
+    
+    #endif
 }
 
 struct TabBarContainer: View {
@@ -69,7 +84,7 @@ struct TabBarContainer: View {
         TabItem(title: "Tab 4", icon: "tabIcon", tab: AnyView(Tab3())),
         TabItem(title: "Tab 5", icon: "tabIcon", iconColor: .black, tab: AnyView(Tab3())),
     ],
-    backgroundColor: Color(uiColor: .systemGroupedBackground),
+                                                              backgroundColor: Color(.gray),
     itemsColor: .green
     )
 

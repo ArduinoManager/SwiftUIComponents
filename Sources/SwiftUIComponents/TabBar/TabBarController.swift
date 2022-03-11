@@ -49,9 +49,18 @@ public class TabBarController: ObservableObject {
     var backgroundColor: Color
     var itemsColor: Color
     
+    #if os(iOS)
     public init(views: [TabItem], backgroundColor: Color = Color(uiColor: .systemBackground), itemsColor: Color = Color(uiColor: .label)) {
         self.tabs = views
         self.backgroundColor = backgroundColor
         self.itemsColor = itemsColor
     }
+    #endif
+    #if os(macOS)
+    public init(views: [TabItem], backgroundColor: Color = Color(NSColor.windowBackgroundColor), itemsColor: Color = Color(NSColor.labelColor)) {
+        self.tabs = views
+        self.backgroundColor = backgroundColor
+        self.itemsColor = itemsColor
+    }
+    #endif
 }

@@ -25,7 +25,9 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
     public init(controller: ListController<Item, Row>, @ViewBuilder form: @escaping () -> Form) {
         self.controller = controller
         self.form = form
+#if os(iOS)
         UITableView.appearance().backgroundColor = .clear // <-- here
+        #endif
     }
 
     public var body: some View {
@@ -55,11 +57,15 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                     controller.makeRow(item)
                         .if(!controller.showLineSeparator) { view in
                             view
+#if os(iOS)
                                 .listRowSeparator(.hidden)
+                            #endif
                         }
                         .if(controller.lineSeparatorColor != nil) { view in
                             view
+#if os(iOS)
                                 .listRowSeparatorTint(controller.lineSeparatorColor!)
+                            #endif
                         }
                         .onTapGesture {
                             controller.select(item: item)

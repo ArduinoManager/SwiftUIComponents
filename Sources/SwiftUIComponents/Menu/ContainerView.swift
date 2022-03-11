@@ -7,10 +7,11 @@
 
 import SwiftUI
 
+#if os(iOS)
 public struct ContainerView: View {
     @ObservedObject var controller: MenuController
     @State private var orientation = UIDeviceOrientation.unknown
-
+    
     public var body: some View {
         Print(Self._printChanges())
         VStack(spacing: 0) {
@@ -93,9 +94,26 @@ public struct ContainerView: View {
     }
 
     func isLandscape() -> Bool {
+        #if os(iOS)
         return UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight
+        #endif
     }
 }
+#endif
+
+
+#if os(macOS)
+
+public struct ContainerView: View {
+    @ObservedObject var controller: MenuController
+    
+    public var body: some View {
+        Text("ContainerView")
+    }
+    
+}
+
+#endif
 
 struct MainViewContainer: View {
     @StateObject private var controller = MenuController(menuItems:

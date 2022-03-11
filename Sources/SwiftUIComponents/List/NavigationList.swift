@@ -16,13 +16,21 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
     public init(controller: ListController<Item, Row>, @ViewBuilder form: @escaping () -> Form) {
         self.controller = controller
         self.form = form
-        UITableView.appearance().backgroundColor = .clear
+        #if os(iOS)
+            UITableView.appearance().backgroundColor = .clear
+        #endif
     }
 
     public var body: some View {
         NavigationView {
             VStack {
-                NavigationLink(destination: form().navigationBarHidden(true), tag: "newItem", selection: $selection) { EmptyView() }
+                NavigationLink(destination:
+                    form()
+                    #if os(iOS)
+                        .navigationBarHidden(true)
+                    #endif
+                    ,
+                    tag: "newItem", selection: $selection) { EmptyView() }
 
                 HStack {
                     if let title = controller.title {
@@ -45,18 +53,23 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
 
                 List {
                     ForEach(controller.items, id: \.id) { item in
-                        NavigationLink(destination: form().navigationBarHidden(true),
-                                       isActive: Binding<Bool>(get: { isTapped },
-                                                               set: {
-                                                                   isTapped = $0
-                                                                   controller.editingItem = item
-                                                               }),
-                                       label: {
-                                           controller.makeRow(item)
-                                               .onTapGesture {
-                                                   controller.select(item: item)
-                                               }
-                                       }
+                        NavigationLink(destination:
+                            form()
+                            #if os(iOS)
+                                .navigationBarHidden(true)
+                            #endif
+                            ,
+                            isActive: Binding<Bool>(get: { isTapped },
+                                                    set: {
+                                                        isTapped = $0
+                                                        controller.editingItem = item
+                                                    }),
+                            label: {
+                                controller.makeRow(item)
+                                    .onTapGesture {
+                                        controller.select(item: item)
+                                    }
+                            }
                         )
                         .swipeActions(edge: .leading) {
                             ForEach(0 ..< controller.leadingActions.count, id: \.self) { idx in
@@ -78,11 +91,15 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                         }
                         .if(!controller.showLineSeparator) { view in
                             view
+                            #if os(iOS)
                                 .listRowSeparator(.hidden)
+                            #endif
                         }
                         .if(controller.lineSeparatorColor != nil) { view in
                             view
+                            #if os(iOS)
                                 .listRowSeparatorTint(controller.lineSeparatorColor!)
+                            #endif
                         }
                     }
                     .listRowBackground(controller.rowBackgroundColor)
@@ -90,9 +107,13 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                 .customStyle(type: controller.style)
                 .background(controller.backgroundColor)
             }
-            .navigationBarHidden(true)
+            #if os(iOS)
+                .navigationBarHidden(true)
+            #endif
         }
-        .navigationViewStyle(.stack)
+        #if os(iOS)
+            .navigationViewStyle(.stack)
+        #endif
     }
 }
 
@@ -126,29 +147,31 @@ struct NavigationListContainer: View {
 
         _controller = StateObject(wrappedValue: ListController<ListItem, RowView>(items: items,
                                                                                   style: .inset,
-                                                                                                         title: "Title",
-                                                                                                         addButtonColor: .green,
-                                                                                                         editButtonLabel: "Edit_",
-                                                                                                         deleteButtonLabel: "Delete_",
-                                                                                                         backgroundColor: .green,
-                                                                                                         rowBackgroundColor: .yellow,
-                                                                                                         leadingActions: leadingActions,
-                                                                                                         trailingActions: trailingActions,
-                                                                                                         actionHandler: { actionKey in
-                                                                                                             print("Executing action \(actionKey)")
-                                                                                                         },
-                                                                                                         showLineSeparator: true,
-                                                                                                         lineSeparatorColor: Color.blue,
-                                                                                                         makeRow: { item in
-                                                                                                             RowView(item: item)
-                                                                                                         }))
+                                                                                  title: "Title",
+                                                                                  addButtonColor: .green,
+                                                                                  editButtonLabel: "Edit_",
+                                                                                  deleteButtonLabel: "Delete_",
+                                                                                  backgroundColor: .green,
+                                                                                  rowBackgroundColor: .yellow,
+                                                                                  leadingActions: leadingActions,
+                                                                                  trailingActions: trailingActions,
+                                                                                  actionHandler: { actionKey in
+                                                                                      print("Executing action \(actionKey)")
+                                                                                  },
+                                                                                  showLineSeparator: true,
+                                                                                  lineSeparatorColor: Color.blue,
+                                                                                  makeRow: { item in
+                                                                                      RowView(item: item)
+                                                                                  }))
     }
 
     var body: some View {
         NavigationList<ListItem, RowView, MyForm1>(controller: controller) {
             MyForm1(controller: controller)
         }
-        .navigationBarHidden(true)
+        #if os(iOS)
+            .navigationBarHidden(true)
+        #endif
     }
 }
 

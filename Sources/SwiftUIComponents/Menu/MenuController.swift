@@ -102,9 +102,11 @@ public class MenuController: ObservableObject {
     var openButtonIcon: String
     var openButtonSize: CGFloat
     var titleView: AnyView?
-    var titleViewBackgroundColor: Color = Color(uiColor: .systemBackground)
+    var titleViewBackgroundColor: Color
     var menuItems = [MenuItem]()
-    
+
+#if os(iOS)
+
     public init(menuItems: [MenuItem], autoClose: Bool = true, openButtonAtTop: Bool = true, openButtonColor: Color = Color(uiColor: .label), openButtonIcon: String = "line.3.horizontal", openButtonSize: CGFloat = 20.0, sideTitleView: AnyView? = nil, backgroundColor: Color = Color(uiColor: .systemBackground), itemsColor: Color = Color(uiColor: .label), selectedItemBackgroundColor: Color = Color(uiColor: .systemGray4), titleView: AnyView? = nil, titleViewBackgroundColor: Color = Color(uiColor: .systemBackground)) {
         showMenu = false
         self.autoClose = autoClose
@@ -121,4 +123,29 @@ public class MenuController: ObservableObject {
         self.menuItems = menuItems                
         currentTab = menuItems[0].title
     }
+    
+    #endif
+    
+    #if os(macOS)
+    
+    public init(menuItems: [MenuItem], autoClose: Bool = true, openButtonAtTop: Bool = true, openButtonColor: Color = Color(NSColor.labelColor), openButtonIcon: String = "line.3.horizontal", openButtonSize: CGFloat = 20.0, sideTitleView: AnyView? = nil, backgroundColor: Color = Color(NSColor.windowBackgroundColor), itemsColor: Color = Color(NSColor.labelColor), selectedItemBackgroundColor: Color = Color(NSColor.gridColor), titleView: AnyView? = nil, titleViewBackgroundColor: Color = Color(NSColor.windowBackgroundColor)) {
+        showMenu = false
+        self.autoClose = autoClose
+        self.openButtonAtTop = openButtonAtTop
+        self.openButtonColor = openButtonColor
+        self.openButtonIcon = openButtonIcon
+        self.openButtonSize = openButtonSize
+        self.sideTitleView = sideTitleView
+        self.backgroundColor = backgroundColor
+        self.itemsColor = itemsColor
+        self.selectedItemBackgroundColor = selectedItemBackgroundColor
+        self.titleView = titleView
+        self.titleViewBackgroundColor = titleViewBackgroundColor
+        self.menuItems = menuItems
+        currentTab = menuItems[0].title
+    }
+    
+    #endif
+    
+    
 }

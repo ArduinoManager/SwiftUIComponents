@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+
+#if os(iOS)
 public struct SideMenuView: View {
     @ObservedObject var controller: MenuController
     @Namespace var animation
@@ -167,6 +169,79 @@ public struct SideMenuView: View {
     }
     
 }
+
+#endif
+
+#if os(macOS)
+public struct SideMenuView: View {
+    @ObservedObject var controller: MenuController
+    @Namespace var animation
+
+    public var body: some View {
+        
+        List {
+            NavigationLink(destination: ContentView()) {
+                Label("Welcome", systemImage: "star")
+            }
+            
+            Spacer()
+            
+            Text("DASHBOARD")
+                .font(.system(size: 10))
+                .fontWeight(.bold)
+            Group{
+                NavigationLink(destination: ContentView()) {
+                    Label("Home", systemImage: "house")
+                }
+                NavigationLink(destination: ContentView()) {
+                    Label("Websites", systemImage: "globe")
+                }
+                NavigationLink(destination: ContentView()) {
+                    Label("Domains", systemImage: "link")
+                }
+                NavigationLink(destination: ContentView()) {
+                    Label("Templates", systemImage: "rectangle.stack")
+                }
+            }
+            
+            Spacer()
+            
+            Text("PROFILE")
+                .font(.system(size: 10))
+                .fontWeight(.bold)
+            Group {
+                NavigationLink(destination: ContentView()) {
+                    Label("My Account", systemImage: "person")
+                }
+                NavigationLink(destination: ContentView()) {
+                    Label("Notifications", systemImage: "bell")
+                }
+                NavigationLink(destination: ContentView()) {
+                    Label("Settings", systemImage: "gear")
+                }
+            }
+            
+            Spacer()
+            
+            Divider()
+            NavigationLink(destination: ContentView()) {
+                Label("Sign Out", systemImage: "arrow.backward")
+            }
+        }
+        .listStyle(SidebarListStyle())
+        .navigationTitle("Explore")
+        .frame(minWidth: 150, idealWidth: 250, maxWidth: 300)
+        .padding([.leading], 0)
+        .toolbar {
+            ToolbarItem(placement: .navigation) {
+                Button(action: toggleSidebar, label: {
+                    Image(systemName: "sidebar.left")
+                })
+            }
+        }
+    }
+}
+#endif
 
 struct SideMenu_Previews: PreviewProvider {
     static var previews: some View {
