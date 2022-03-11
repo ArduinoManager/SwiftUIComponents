@@ -202,17 +202,16 @@ import SwiftUI
 
         public var body: some View {
             VStack {
-//                if controller.sideTitleView != nil {
-//                    HStack {
-//                        controller.sideTitleView
-//                        Spacer()
-//                    }
-//                } else {
-//                    Spacer(minLength: 20)
-//                }
-//
-//
-//                List {
+                if controller.sideTitleView != nil {
+                    HStack {
+                        controller.sideTitleView
+                        Spacer()
+                    }
+                } else {
+                    Spacer(minLength: 20)
+                }
+                
+                List {
 //                    ForEach(controller.menuItems, id: \.self) { item in
 //                        switch item {
 //                        case is TabMenuItem:
@@ -235,6 +234,7 @@ import SwiftUI
 //                            EmptyView()
 //                        }
 //                    }
+                
 
                     NavigationLink(destination: ContentView()) {
                         Label("Welcome", systemImage: "star")
@@ -246,7 +246,8 @@ import SwiftUI
                         .font(.system(size: 10))
                         .fontWeight(.bold)
                     Group {
-                        NavigationLink(destination: ContentView()) {
+                        NavigationLink(destination: controller.menuItems[0].makeView()
+                        ) {
                             Label("Home", systemImage: "house")
                         }
                         NavigationLink(destination: ContentView()) {

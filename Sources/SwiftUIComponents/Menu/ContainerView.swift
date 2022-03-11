@@ -146,7 +146,7 @@ struct MainViewContainer: View {
             },
         ],
         sideTitleView: AnyView(SideTitleView()
-        ), backgroundColor: .black, itemsColor: .red
+        ), backgroundColor: .blue, itemsColor: .red
     )
 
     var body: some View {
