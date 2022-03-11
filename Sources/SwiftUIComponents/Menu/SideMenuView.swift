@@ -210,7 +210,7 @@ import SwiftUI
                 } else {
                     Spacer(minLength: 20)
                 }
-                
+
                 List {
 //                    ForEach(controller.menuItems, id: \.self) { item in
 //                        switch item {
@@ -234,18 +234,18 @@ import SwiftUI
 //                            EmptyView()
 //                        }
 //                    }
-                
+
                     ForEach(controller.menuItems, id: \.self) { item in
-                        
+
                         switch item {
-                            case is TabMenuItem:                        
+                        case is TabMenuItem:
                             NavigationLink(destination: item.makeView()) {
-                            Label("Welcome", systemImage: "star")
-                        }
+                                Label("Welcome", systemImage: "star")
+                            }
                         default:
                             EmptyView()
+                        }
                     }
-                    
 
 //                    NavigationLink(destination: ContentView()) {
 //                        Label("Welcome", systemImage: "star")
@@ -298,7 +298,7 @@ import SwiftUI
                 }
                 .background(controller.backgroundColor)
                 .listStyle(SidebarListStyle())
-                //.navigationTitle("Explore")
+                // .navigationTitle("Explore")
                 .frame(minWidth: 150, idealWidth: 250, maxWidth: 300)
                 .padding([.leading], 0)
                 .toolbar {
@@ -310,7 +310,7 @@ import SwiftUI
                 }
             }
         }
-        
+
         @ViewBuilder
         func CustomTabButton(item: MenuItem) -> some View {
             Button {
@@ -359,9 +359,7 @@ import SwiftUI
                 .buttonStyle(PlainButtonStyle())
             #endif
         }
-        
-        
-        
+
         @ViewBuilder
         func makeImage(item: MenuItem) -> some View {
             if item.icon != nil {
