@@ -59,7 +59,8 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                 ForEach(controller.items, id: \.id) { item in
                     #if os(macOS)
                         VStack(spacing: 0) {
-                            controller.makeRow(item)
+                            controller.makeRow(item)                                
+                                // must be called _inside_ List
                                 .onTapGesture {
                                     controller.select(item: item)
                                 }
@@ -71,7 +72,6 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                                             .background(controller.lineSeparatorColor!)
                                     }
                             }
-                            
                         }
                     #endif
                     #if os(iOS)
@@ -90,12 +90,10 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                             .modifier(AttachActions(controller: controller, item: item, sheetManager: sheetManager))
                     #endif
                 }
+                .removingScrollViewBackground()
                 .listRowBackground(controller.rowBackgroundColor)
             }
-            // .customStyle(type: controller.style)
-
-            .listStyle(.inset)
-
+            .customStyle(type: controller.style)
             .background(controller.backgroundColor)
             .sheet(isPresented: $sheetManager.showSheet) {
                 if sheetManager.whichSheet == .Form {
@@ -172,7 +170,7 @@ struct SimpleListContainer: View {
         ]
 
         _controller = StateObject(wrappedValue: ListController<ListItem, RowView>(items: items,
-                                                                                  style: .plain,
+                                                                                  style: .inset,
                                                                                   title: "Title",
                                                                                   addButtonColor: .green,
                                                                                   editButtonLabel: "Edit_",

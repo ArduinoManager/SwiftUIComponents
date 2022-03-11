@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Cocoa
 
 extension View {
     #if os(iOS)
@@ -83,3 +84,31 @@ extension View {
         }
     }
 }
+
+
+#if os(macOS)
+
+struct ScrollViewCleaner: NSViewRepresentable {
+
+    func makeNSView(context: NSViewRepresentableContext<ScrollViewCleaner>) -> NSView {
+        let nsView = NSView()
+        DispatchQueue.main.async { // on next event nsView will be in view hierarchy
+            if let scrollView = nsView.enclosingScrollView {
+                scrollView.drawsBackground = false
+            }
+        }
+        return nsView
+    }
+
+    func updateNSView(_ nsView: NSView, context: NSViewRepresentableContext<ScrollViewCleaner>) {
+    }
+}
+
+extension View {
+    func removingScrollViewBackground() -> some View {
+        self.background(ScrollViewCleaner())
+    }
+}
+
+
+#endif
