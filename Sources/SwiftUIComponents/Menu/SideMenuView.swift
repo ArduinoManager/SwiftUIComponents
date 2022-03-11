@@ -202,97 +202,91 @@ import SwiftUI
 
         public var body: some View {
             VStack {
-                if controller.sideTitleView != nil {
-                    HStack {
-                        controller.sideTitleView
-                        Spacer()
+//                if controller.sideTitleView != nil {
+//                    HStack {
+//                        controller.sideTitleView
+//                        Spacer()
+//                    }
+//                } else {
+//                    Spacer(minLength: 20)
+//                }
+//
+//
+//                List {
+//                    ForEach(controller.menuItems, id: \.self) { item in
+//                        switch item {
+//                        case is TabMenuItem:
+//                            NavigationLink(destination: item.makeView()) {
+//                                CustomTabButton(item: item)
+//                                //Label(item.title, systemImage: "star")
+//                            }
+//
+//                        case is HandlerMenuItem:
+//                            EmptyView()
+//
+//                        case is TabMenuSpacer:
+//                            Spacer(minLength: item.height)
+//
+//                        case is TabMenuDivider:
+//                            let i = item as! TabMenuDivider
+//                            Divider()
+//                                .background(i.color != nil ? i.color! : Color(NSColor.labelColor))
+//                        default:
+//                            EmptyView()
+//                        }
+//                    }
+
+                    NavigationLink(destination: ContentView()) {
+                        Label("Welcome", systemImage: "star")
                     }
-                } else {
-                    Spacer(minLength: 20)
-                }
-                List {
-                    ForEach(controller.menuItems, id: \.self) { item in
-                        switch item {
-                        case is TabMenuItem:
-                            NavigationLink(destination: item.makeView()) {
-                                CustomTabButton(item: item)
-                                //Label(item.title, systemImage: "star")
-                            }
-                            
-                        case is HandlerMenuItem:
-                            EmptyView()
 
-                        case is TabMenuSpacer:
-                            Spacer(minLength: item.height)
+                    Spacer()
 
-                        case is TabMenuDivider:
-                            let i = item as! TabMenuDivider
-                            Divider()                            
-                                .background(i.color != nil ? i.color! : Color(NSColor.labelColor))
-                        default:
-                            EmptyView()
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
+                    Text("DASHBOARD")
+                        .font(.system(size: 10))
+                        .fontWeight(.bold)
+                    Group {
+                        NavigationLink(destination: ContentView()) {
+                            Label("Home", systemImage: "house")
+                        }
+                        NavigationLink(destination: ContentView()) {
+                            Label("Websites", systemImage: "globe")
+                        }
+                        NavigationLink(destination: ContentView()) {
+                            Label("Domains", systemImage: "link")
+                        }
+                        NavigationLink(destination: ContentView()) {
+                            Label("Templates", systemImage: "rectangle.stack")
                         }
                     }
 
-//                    NavigationLink(destination: ContentView()) {
-//                        Label("Welcome", systemImage: "star")
-//                    }
-//
-//                    Spacer()
-//
-//                    Text("DASHBOARD")
-//                        .font(.system(size: 10))
-//                        .fontWeight(.bold)
-//                    Group {
-//                        NavigationLink(destination: ContentView()) {
-//                            Label("Home", systemImage: "house")
-//                        }
-//                        NavigationLink(destination: ContentView()) {
-//                            Label("Websites", systemImage: "globe")
-//                        }
-//                        NavigationLink(destination: ContentView()) {
-//                            Label("Domains", systemImage: "link")
-//                        }
-//                        NavigationLink(destination: ContentView()) {
-//                            Label("Templates", systemImage: "rectangle.stack")
-//                        }
-//                    }
-//
-//                    Spacer()
-//
-//                    Text("PROFILE")
-//                        .font(.system(size: 10))
-//                        .fontWeight(.bold)
-//                    Group {
-//                        NavigationLink(destination: ContentView()) {
-//                            Label("My Account", systemImage: "person")
-//                        }
-//                        NavigationLink(destination: ContentView()) {
-//                            Label("Notifications", systemImage: "bell")
-//                        }
-//                        NavigationLink(destination: ContentView()) {
-//                            Label("Settings", systemImage: "gear")
-//                        }
-//                    }
-//
-//                    Spacer()
-//
-//                    Divider()
-//                    NavigationLink(destination: ContentView()) {
-//                        Label("Sign Out", systemImage: "arrow.backward")
-//                    }
+                    Spacer()
+
+                    Text("PROFILE")
+                        .font(.system(size: 10))
+                        .fontWeight(.bold)
+                    Group {
+                        NavigationLink(destination: ContentView()) {
+                            Label("My Account", systemImage: "person")
+                        }
+                        NavigationLink(destination: ContentView()) {
+                            Label("Notifications", systemImage: "bell")
+                        }
+                        NavigationLink(destination: ContentView()) {
+                            Label("Settings", systemImage: "gear")
+                        }
+                    }
+
+                    Spacer()
+
+                    Divider()
+                    NavigationLink(destination: ContentView()) {
+                        Label("Sign Out", systemImage: "arrow.backward")
+                    }
                 }
                 .background(controller.backgroundColor)
                 .listStyle(SidebarListStyle())
-                .navigationTitle("Explore")
+                //.navigationTitle("Explore")
                 .frame(minWidth: 150, idealWidth: 250, maxWidth: 300)
                 .padding([.leading], 0)
                 .toolbar {
