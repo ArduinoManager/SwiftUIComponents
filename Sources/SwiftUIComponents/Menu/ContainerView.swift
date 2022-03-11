@@ -166,20 +166,20 @@ struct MainViewContainer: View {
 
 struct SideTitleView: View {
     var body: some View {
-        HStack {
-            Image("logo", bundle: .module)
+        HStack(alignment: .center) {
+            Image("logo")
                 .resizable()
                 .aspectRatio(contentMode: .fill)
-                .frame(width: 45, height: 45)
+                .frame(width: 35, height: 35)
                 .clipShape(Circle())
-                .foregroundColor(.red)
+                .padding(.vertical, 5)
+                .padding(.leading, 10)
             Spacer()
             Text("Fuck !")
                 .font(.title2.bold())
-                .foregroundColor(.white)
-                .frame(height: 45, alignment: .trailing)
+                .foregroundColor(.red)
+                .padding(.trailing, 10)
         }
-        .padding()
         .background(.green)
     }
 }

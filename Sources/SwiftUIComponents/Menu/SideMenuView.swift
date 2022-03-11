@@ -209,7 +209,14 @@ import SwiftUI
                 } else {
                     Spacer(minLength: 20)
                 }
-
+                
+                // Just a bit of space
+                HStack(spacing:0) {
+                    Spacer()
+                }
+                .frame( minHeight: 5, idealHeight: 5, maxHeight: 5)
+                .background(controller.backgroundColor)
+                
                 List {
                     ForEach(controller.menuItems, id: \.self) { item in
 
@@ -252,7 +259,6 @@ import SwiftUI
                         }
                     }
                 }
-                
                 .background(controller.backgroundColor)
                 .listStyle(SidebarListStyle())
                 // .navigationTitle("Explore")
