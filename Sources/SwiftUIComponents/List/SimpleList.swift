@@ -56,21 +56,21 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
             .padding([.leading, .trailing])
 
             List {
-                ForEach(controller.items, id: \.id) { item in
+                //ForEach(controller.items, id: \.id) { item in
+                ForEach(0 ..< controller.items.count, id: \.self) { idx in
+                    let item = controller.items[idx]
                     #if os(macOS)
                         VStack(spacing: 0) {
                             HStack(spacing: 0) {
                                 controller.makeRow(item)
                             }
-                            .if(!alternatingRows(listStyle: controller.style)) { view in
-                                view
-                                    .background(controller.rowBackgroundColor)
-                            }
+                            .background(idx % 2 == 0 ? controller.rowBackgroundColor : controller.rowBackgroundColor.inverted)
+                        
                             .onTapGesture {
                                 controller.select(item: item)
                             }
                             .modifier(AttachActions(controller: controller, item: item, sheetManager: sheetManager))
-                            if controller.showLineSeparator && !alternatingRows(listStyle: controller.style) {
+                            if controller.showLineSeparator {
                                 Divider()
                                     .if(controller.lineSeparatorColor != nil) { view in
                                         view
@@ -101,10 +101,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                 #if os(macOS)
                     .removingScrollViewBackground()
                 #endif
-                .if(!alternatingRows(listStyle: controller.style)) { view in
-                    view
-                        .listRowBackground(controller.rowBackgroundColor)
-                }
+                    .listRowBackground(Color.clear)
             }
             .customStyle(type: controller.style)
             .background(controller.backgroundColor)
@@ -113,21 +110,6 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                     form()
                 }
             }
-        }
-    }
-
-    func alternatingRows(listStyle: ListStyle) -> Bool {
-        switch listStyle {
-        case .plain:
-            return false
-        case .grouped:
-            return false
-        case let .inset(alternatesRows: alternatesRows):
-            return alternatesRows
-        case .insetGrouped:
-            return false
-        case .sidebar:
-            return false
         }
     }
 }

@@ -10,6 +10,12 @@ import SwiftUI
     import Cocoa
 #endif
 
+#if canImport(UIKit)
+    import UIKit
+#elseif canImport(AppKit)
+    import AppKit
+#endif
+
 extension View {
     #if os(iOS)
         func getRect() -> CGRect {
@@ -79,12 +85,12 @@ extension View {
             case .insetGrouped:
                 listStyle(.inset)
         #endif
-        case let .inset(alternatesRows):
+        case .inset:
             #if os(iOS)
                 // listStyle(.inset)
             #endif
             #if os(macOS)
-                listStyle(.inset(alternatesRowBackgrounds: alternatesRows))
+                listStyle(.inset(alternatesRowBackgrounds: false))
             #endif
         case .sidebar:
             listStyle(.sidebar)
@@ -125,3 +131,58 @@ extension View {
     }
 
 #endif
+
+#if os(iOS)
+    extension Color {
+        var inverted: Color {
+            var a: CGFloat = 0.0, r: CGFloat = 0.0, g: CGFloat = 0.0, b: CGFloat = 0.0
+            return getRed(&r, green: &g, blue: &b, alpha: &a) ? UIColor(red: 1.0 - r, green: 1.0 - g, blue: 1.0 - b, alpha: a) : .black
+        }
+    }
+#endif
+
+#if os(macOS)
+    extension Color {
+        var inverted: Color {
+            var a: CGFloat = 0.0, r: CGFloat = 0.0, g: CGFloat = 0.0, b: CGFloat = 0.0
+
+            if let components = self.cgColor?.components {
+                r = components.0
+                g = components.1
+                b = components.2
+                a = components.3
+                return Color(red: 1.0 - r, green: 1.0 - g, blue: 1.0 - b)
+            }
+            return self
+        }
+    }
+#endif
+
+//extension Color {
+//    #if canImport(UIKit)
+//    var asNative: UIColor { UIColor(self) }
+//    #elseif canImport(AppKit)
+//    var asNative: NSColor { NSColor(self) }
+//    #endif
+//
+//    var rgba: (red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat) {
+//        let color = asNative.usingColorSpace(.deviceRGB)!
+//        var t = (CGFloat(), CGFloat(), CGFloat(), CGFloat())
+//        color.getRed(&t.0, green: &t.1, blue: &t.2, alpha: &t.3)
+//        return t
+//    }
+//
+//    var hsva: (hue: CGFloat, saturation: CGFloat, value: CGFloat, alpha: CGFloat) {
+//        let color = asNative.usingColorSpace(.deviceRGB)!
+//        var t = (CGFloat(), CGFloat(), CGFloat(), CGFloat())
+//        color.getHue(&t.0, saturation: &t.1, brightness: &t.2, alpha: &t.3)
+//        return t
+//    }
+//}
+
+extension CGColor {
+    var components: (red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat) {
+        let ciColor = CIColor(cgColor: self)
+        return (ciColor.red, ciColor.green, ciColor.blue, ciColor.alpha)
+    }
+}
