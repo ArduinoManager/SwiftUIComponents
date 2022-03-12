@@ -163,7 +163,9 @@ extension Color {
         #endif
         
         #if os(macOS)
-            NativeColor(self).getRed(&r, green: &g, blue: &b, alpha: &o)
+            if let x = NativeColor(self).usingColorSpace(NSColorSpace.deviceRGB) {
+                x.getRed(&r, green: &g, blue: &b, alpha: &o)
+            }
         #endif
         
         return (r, g, b, o)
