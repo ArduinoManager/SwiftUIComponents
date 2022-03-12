@@ -150,7 +150,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                 }
             }
         }
-            .background(controller.backgroundColor)
+        .background(controller.backgroundColor)
     }
 }
 

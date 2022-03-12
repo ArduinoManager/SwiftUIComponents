@@ -74,12 +74,16 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                             .frame(width: 30, height: 30)
                             .foregroundColor(controller.addButtonColor)
                     }
+                    #if os(macOS)
+                        .buttonStyle(PlainButtonStyle())
+                    #endif
                 }
                 .padding([.leading, .trailing])
 
                 List {
                     ForEach(0 ..< controller.items.count, id: \.self) { idx in
                         let item = controller.items[idx]
+                        
                         NavigationLink(destination:
                             form()
                             #if os(iOS)
@@ -107,8 +111,8 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                     controller.select(item: item)
                                 }
                             }
-                        )                        
-                        //.background(currentColor(idx: idx))
+                        )
+                        // .background(currentColor(idx: idx))
                         .modifier(AttachActions(controller: controller, item: item))
                         .if(!controller.showLineSeparator) { view in
                             view
@@ -126,7 +130,6 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                     .listRowBackground(Color.clear)
                 }
                 .customStyle(type: controller.style)
-                
             }
             .background(controller.backgroundColor)
             #if os(iOS)
@@ -137,11 +140,10 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
             .navigationViewStyle(.stack)
         #endif
     }
-    
+
     func currentColor(idx: Int) -> Color {
         return idx % 2 == 0 ? rowColor : rowAlternateColor
     }
-    
 }
 
 fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View>: ViewModifier {
@@ -202,7 +204,7 @@ struct NavigationListContainer: View {
         _controller = StateObject(wrappedValue: ListController<ListItem, RowView>(items: items,
                                                                                   style: .grouped(alternatesRows: true, alternateBackgroundColor: .gray),
                                                                                   title: "Title",
-                                                                                  addButtonColor: .green,
+                                                                                  addButtonColor: .red,
                                                                                   editButtonLabel: "Edit_",
                                                                                   deleteButtonLabel: "Delete_",
                                                                                   backgroundColor: .green,
