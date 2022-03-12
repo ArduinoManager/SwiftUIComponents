@@ -62,7 +62,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                             HStack(spacing:0) {
                                 controller.makeRow(item)
                             }
-                            .background(Color.re)
+                            .background(Color.red)
                                 .onTapGesture {
                                     controller.select(item: item)
                                 }
