@@ -47,10 +47,11 @@ public struct ListAction: Hashable {
 
 public enum ListStyle {
     case plain
-    case grouped
-    case inset
-    case insetGrouped
+    case grouped                // On macOS like inset
+    case inset(alternatesRows: Bool)
+    case insetGrouped           // On macOS like inset
     case sidebar
+
 }
 
 public class ListController<Item: Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View>: ObservableObject {

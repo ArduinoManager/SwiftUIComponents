@@ -62,12 +62,15 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                             HStack(spacing: 0) {
                                 controller.makeRow(item)
                             }
-                            .background(controller.rowBackgroundColor)
+                            .if(!alternatingRows(listStyle: controller.style)) { view in
+                                view
+                                    .background(controller.rowBackgroundColor)
+                            }
                             .onTapGesture {
                                 controller.select(item: item)
                             }
                             .modifier(AttachActions(controller: controller, item: item, sheetManager: sheetManager))
-                            if controller.showLineSeparator {
+                            if controller.showLineSeparator && !alternatingRows(listStyle: controller.style) {
                                 Divider()
                                     .if(controller.lineSeparatorColor != nil) { view in
                                         view
@@ -98,7 +101,10 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                 #if os(macOS)
                     .removingScrollViewBackground()
                 #endif
-                .listRowBackground(controller.rowBackgroundColor)
+                .if(!alternatingRows(listStyle: controller.style)) { view in
+                    view
+                        .listRowBackground(controller.rowBackgroundColor)
+                }
             }
             .customStyle(type: controller.style)
             .background(controller.backgroundColor)
@@ -107,6 +113,21 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                     form()
                 }
             }
+        }
+    }
+
+    func alternatingRows(listStyle: ListStyle) -> Bool {
+        switch listStyle {
+        case .plain:
+            return false
+        case .grouped:
+            return false
+        case let .inset(alternatesRows: alternatesRows):
+            return alternatesRows
+        case .insetGrouped:
+            return false
+        case .sidebar:
+            return false
         }
     }
 }
@@ -177,7 +198,7 @@ struct SimpleListContainer: View {
         ]
 
         _controller = StateObject(wrappedValue: ListController<ListItem, RowView>(items: items,
-                                                                                  style: .inset,
+                                                                                  style: .inset(alternatesRows: true),
                                                                                   title: "Title",
                                                                                   addButtonColor: .green,
                                                                                   editButtonLabel: "Edit_",
@@ -207,9 +228,6 @@ struct SimpleList_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             SimpleListContainer()
-                .previewInterfaceOrientation(.portraitUpsideDown)
-            SimpleListContainer()
-                .previewDevice(.init(stringLiteral: "iPad Pro (12.9-inch) (3rd generation)"))
         }
     }
 }

@@ -149,7 +149,7 @@ struct NavigationListContainer: View {
         ]
 
         _controller = StateObject(wrappedValue: ListController<ListItem, RowView>(items: items,
-                                                                                  style: .inset,
+                                                                                  style: .inset(alternatesRows: true),
                                                                                   title: "Title",
                                                                                   addButtonColor: .green,
                                                                                   editButtonLabel: "Edit_",

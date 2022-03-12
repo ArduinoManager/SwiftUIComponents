@@ -63,7 +63,7 @@ extension View {
     }
 
     @ViewBuilder
-    func customStyle(type: ListStyle) -> some View {
+    func customStyle(type: ListStyle, alternateRow: Bool = false) -> some View {
         switch type {
         case .plain:
             listStyle(.plain)
@@ -79,46 +79,49 @@ extension View {
             case .insetGrouped:
                 listStyle(.inset)
         #endif
-        case .inset:
-            listStyle(.inset)
+        case let .inset(alternatesRows):
+            #if os(iOS)
+                // listStyle(.inset)
+            #endif
+            #if os(macOS)
+                listStyle(.inset(alternatesRowBackgrounds: alternatesRows))
+            #endif
         case .sidebar:
             listStyle(.sidebar)
         }
     }
 }
 
-
 #if os(macOS)
 
-struct ScrollViewCleaner: NSViewRepresentable {
-
-    func makeNSView(context: NSViewRepresentableContext<ScrollViewCleaner>) -> NSView {
-        let nsView = NSView()
-        DispatchQueue.main.async { // on next event nsView will be in view hierarchy
-            if let scrollView = nsView.enclosingScrollView {
-                scrollView.drawsBackground = false
+    struct ScrollViewCleaner: NSViewRepresentable {
+        func makeNSView(context: NSViewRepresentableContext<ScrollViewCleaner>) -> NSView {
+            let nsView = NSView()
+            DispatchQueue.main.async { // on next event nsView will be in view hierarchy
+                if let scrollView = nsView.enclosingScrollView {
+                    scrollView.drawsBackground = false
+                }
             }
+            return nsView
         }
-        return nsView
+
+        func updateNSView(_ nsView: NSView, context: NSViewRepresentableContext<ScrollViewCleaner>) {
+        }
     }
 
-    func updateNSView(_ nsView: NSView, context: NSViewRepresentableContext<ScrollViewCleaner>) {
+    extension View {
+        func removingScrollViewBackground() -> some View {
+            background(ScrollViewCleaner())
+        }
     }
-}
 
-extension View {
-    func removingScrollViewBackground() -> some View {
-        self.background(ScrollViewCleaner())
+    extension NSTableView {
+        override open func viewDidMoveToWindow() {
+            super.viewDidMoveToWindow()
+
+            backgroundColor = NSColor.clear
+            enclosingScrollView!.drawsBackground = false
+        }
     }
-}
-
-extension NSTableView {
-  open override func viewDidMoveToWindow() {
-    super.viewDidMoveToWindow()
-
-    backgroundColor = NSColor.clear
-    enclosingScrollView!.drawsBackground = false
-  }
-}
 
 #endif
