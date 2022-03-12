@@ -49,29 +49,33 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
     public var body: some View {
         NavigationView {
             VStack {
-                    HStack {
-                        if let title = controller.title {
-                            Text(title)
-                                .font(.title)
-                        }
-                        Spacer()
-                        Button {
-                            controller.editingItem = nil
-                            controller.startNewItem = "newItem"
-                        } label: {
-                            controller.addButtonIcon
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 30, height: 30)
-                                .foregroundColor(controller.addButtonColor)
-                        }
-                        #if os(macOS)
-                            .buttonStyle(PlainButtonStyle())
-                        #endif
+                HStack {
+                    if let title = controller.title {
+                        Text(title)
+                            .font(.title)
                     }
-                    .padding([.leading, .trailing])
-                    .background(.yellow)
-                
+                    Spacer()
+                    Button {
+                        controller.editingItem = nil
+                        controller.startNewItem = "newItem"
+                    } label: {
+                        controller.addButtonIcon
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                        #if os(iOS)
+                            .frame(width: 30, height: 30)
+                        #endif
+                        #if os(macOS)
+                            .frame(width: 20, height: 20)
+                        #endif
+                        .foregroundColor(controller.addButtonColor)
+                    }
+                    #if os(macOS)
+                        .buttonStyle(PlainButtonStyle())
+                    #endif
+                }
+                .padding([.leading, .trailing])
+
                 List {
                     ForEach(0 ..< controller.items.count, id: \.self) { idx in
                         let item = controller.items[idx]
@@ -134,20 +138,25 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                     HStack(alignment: .center, spacing: 0) {
                                         controller.makeRow(item)
                                     }
+                                    .if(alternatesRows) { view in
+                                        view
+                                            .background(idx % 2 == 0 ? rowColor : rowAlternateColor)
+                                    }
+                                    .if(!alternatesRows) { view in
+                                        view
+                                            .background(rowColor)
+                                    }
                                 })
+                        
                                 .modifier(AttachActions(controller: controller, item: item))
-                                .if(!controller.showLineSeparator) { view in
-                                    view
-                                    #if os(iOS)
-                                        .listRowSeparator(.hidden)
-                                    #endif
-                                }
-                                .if(controller.lineSeparatorColor != nil) { view in
-                                    view
-                                    #if os(iOS)
-                                        .listRowSeparatorTint(controller.lineSeparatorColor!)
-                                    #endif
-                                }
+                        
+                            if controller.showLineSeparator {
+                                Divider()
+                                    .if(controller.lineSeparatorColor != nil) { view in
+                                        view
+                                            .background(controller.lineSeparatorColor!)
+                                    }
+                            }
                         #endif
                     }
                     .listRowBackground(Color.clear)
@@ -161,8 +170,8 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                     #if os(iOS)
                         .navigationBarHidden(true)
                     #endif
-                               ,tag: "newItem", selection: $controller.startNewItem, label: {EmptyView()}).hidden()
-        })
+                    , tag: "newItem", selection: $controller.startNewItem, label: { EmptyView() }).hidden()
+            })
             #if os(iOS)
                 .navigationBarHidden(true)
             #endif

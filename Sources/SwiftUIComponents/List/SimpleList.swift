@@ -72,8 +72,13 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                     controller.addButtonIcon
                         .resizable()
                         .aspectRatio(contentMode: .fill)
+                    #if os(iOS)
                         .frame(width: 30, height: 30)
-                        .foregroundColor(controller.addButtonColor)
+                    #endif
+                    #if os(macOS)
+                        .frame(width: 20, height: 20)
+                    #endif
+                    .foregroundColor(controller.addButtonColor)
                 }
                 #if os(macOS)
                     .buttonStyle(PlainButtonStyle())
