@@ -68,7 +68,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                 HStack(spacing: 0) {
                                     controller.makeRow(item)
                                 }
-                                .background(Color.clear)
+                                .background(controller.rowBackgroundColor)
                                 .onTapGesture {
                                     controller.select(item: item)
                                 }
