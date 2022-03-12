@@ -34,26 +34,25 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
         rowColor = controller.rowBackgroundColor
 
         switch controller.style {
-    
         case let .plain(alternatesRows: alternatesRows, alternateBackgroundColor: alternateBackgroundColor):
             self.alternatesRows = alternatesRows
-            self.rowAlternateColor = alternateBackgroundColor
+            rowAlternateColor = alternateBackgroundColor
 
         case let .inset(alternatesRows: alternatesRows, alternateBackgroundColor: alternateBackgroundColor):
             self.alternatesRows = alternatesRows
-            self.rowAlternateColor = alternateBackgroundColor
-        
-        case .grouped(alternatesRows: let alternatesRows, alternateBackgroundColor: let alternateBackgroundColor):
-            self.alternatesRows = alternatesRows
-            self.rowAlternateColor = alternateBackgroundColor
-            
-        case .insetGrouped(alternatesRows: let alternatesRows, alternateBackgroundColor: let alternateBackgroundColor):
-            self.alternatesRows = alternatesRows
-            self.rowAlternateColor = alternateBackgroundColor
+            rowAlternateColor = alternateBackgroundColor
 
-        case .sidebar(alternatesRows: let alternatesRows, alternateBackgroundColor: let alternateBackgroundColor):
+        case let .grouped(alternatesRows: alternatesRows, alternateBackgroundColor: alternateBackgroundColor):
             self.alternatesRows = alternatesRows
-            self.rowAlternateColor = alternateBackgroundColor
+            rowAlternateColor = alternateBackgroundColor
+
+        case let .insetGrouped(alternatesRows: alternatesRows, alternateBackgroundColor: alternateBackgroundColor):
+            self.alternatesRows = alternatesRows
+            rowAlternateColor = alternateBackgroundColor
+
+        case let .sidebar(alternatesRows: alternatesRows, alternateBackgroundColor: alternateBackgroundColor):
+            self.alternatesRows = alternatesRows
+            rowAlternateColor = alternateBackgroundColor
         }
     }
 
@@ -140,10 +139,10 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                 #if os(macOS)
                     .removingScrollViewBackground()
                 #endif
-                    .listRowBackground(Color.clear)
+                .listRowBackground(Color.clear)
             }
             .customStyle(type: controller.style)
-            //.listStyle(.inset)
+            // .listStyle(.inset)
             .background(controller.backgroundColor)
             .sheet(isPresented: $sheetManager.showSheet) {
                 if sheetManager.whichSheet == .Form {
