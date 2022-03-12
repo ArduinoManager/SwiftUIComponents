@@ -9,13 +9,12 @@ import SwiftUI
 
 public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View, Form: View>: View {
     @ObservedObject var controller: ListController<Item, Row>
-    @State private var selection: String? = nil
     @State private var isTapped = false
     private var form: () -> Form
     private let rowColor: Color!
     private let rowAlternateColor: Color!
-    private let alternatesRows: Bool!    
-    
+    private let alternatesRows: Bool!
+
     public init(controller: ListController<Item, Row>, @ViewBuilder form: @escaping () -> Form) {
         self.controller = controller
         self.form = form
@@ -50,37 +49,29 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
     public var body: some View {
         NavigationView {
             VStack {
-                NavigationLink(destination:
-                    form()
-                    #if os(iOS)
-                        .navigationBarHidden(true)
-                    #endif
-                    ,
-                    tag: "newItem", selection: $selection) { EmptyView() }
-
-                HStack {
-                    if let title = controller.title {
-                        Text(title)
-                            .font(.title)
+                    HStack {
+                        if let title = controller.title {
+                            Text(title)
+                                .font(.title)
+                        }
+                        Spacer()
+                        Button {
+                            controller.editingItem = nil
+                            controller.startNewItem = "newItem"
+                        } label: {
+                            controller.addButtonIcon
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 30, height: 30)
+                                .foregroundColor(controller.addButtonColor)
+                        }
+                        #if os(macOS)
+                            .buttonStyle(PlainButtonStyle())
+                        #endif
                     }
-                    Spacer()
-                    Button {
-                        controller.editingItem = nil
-                        selection = "newItem"
-                    } label: {
-                        controller.addButtonIcon
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 30, height: 30)
-                            .foregroundColor(controller.addButtonColor)
-                    }
-                    #if os(macOS)
-                        .buttonStyle(PlainButtonStyle())
-                    #endif
-                }
-                .padding([.leading, .trailing])
-                .background(.yellow)
-
+                    .padding([.leading, .trailing])
+                    .background(.yellow)
+                
                 List {
                     ForEach(0 ..< controller.items.count, id: \.self) { idx in
                         let item = controller.items[idx]
@@ -113,38 +104,38 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                 }
                             )
                             .modifier(AttachActions(controller: controller, item: item))
-                                .if(!controller.showLineSeparator) { view in
-                                    view
-                                    #if os(iOS)
-                                        .listRowSeparator(.hidden)
-                                    #endif
-                                }
-                                .if(controller.lineSeparatorColor != nil) { view in
-                                    view
-                                    #if os(iOS)
-                                        .listRowSeparatorTint(controller.lineSeparatorColor!)
-                                    #endif
-                                }
+                            .if(!controller.showLineSeparator) { view in
+                                view
+                                #if os(iOS)
+                                    .listRowSeparator(.hidden)
+                                #endif
+                            }
+                            .if(controller.lineSeparatorColor != nil) { view in
+                                view
+                                #if os(iOS)
+                                    .listRowSeparatorTint(controller.lineSeparatorColor!)
+                                #endif
+                            }
                         #endif
                         #if os(macOS)
-                        NavigationLink(
-                          destination: form(),
-                          tag: item,
-                          selection:
-                            
-                            Binding<Item?>(get: { controller.currentSelection },
-                                                    set: {
-                                                        controller.currentSelection = $0
-                                                        controller.editingItem = item
-                                                    })
-                            
-                            ,
-                          label: {
-                              HStack(alignment: .center, spacing: 0) {
-                                  controller.makeRow(item)
-                              }
-                          })
-                            .modifier(AttachActions(controller: controller, item: item))
+                            NavigationLink(
+                                destination: form(),
+                                tag: item,
+                                selection:
+
+                                Binding<Item?>(get: { controller.currentSelection },
+                                               set: {
+                                                   controller.currentSelection = $0
+                                                   controller.editingItem = item
+                                               })
+
+                                ,
+                                label: {
+                                    HStack(alignment: .center, spacing: 0) {
+                                        controller.makeRow(item)
+                                    }
+                                })
+                                .modifier(AttachActions(controller: controller, item: item))
                                 .if(!controller.showLineSeparator) { view in
                                     view
                                     #if os(iOS)
@@ -158,13 +149,20 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                     #endif
                                 }
                         #endif
-                        
                     }
                     .listRowBackground(Color.clear)
                 }
                 .customStyle(type: controller.style)
             }
             .background(controller.backgroundColor)
+            .overlay(ZStack {
+                NavigationLink(destination:
+                    form()
+                    #if os(iOS)
+                        .navigationBarHidden(true)
+                    #endif
+                               ,tag: "newItem", selection: $controller.startNewItem, label: {EmptyView()}).hidden()
+        })
             #if os(iOS)
                 .navigationBarHidden(true)
             #endif
