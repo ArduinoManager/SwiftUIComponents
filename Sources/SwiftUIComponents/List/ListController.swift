@@ -93,7 +93,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
     }
 
     @Published public var formItem: Item!
-    @Published var currentSelection: Item?
+    @Published var selectedItem: Item?    // Used only in the NavigationList to start the Form to enter a new Item or edit an existing one
     @Published var startNewItem: String?  // Setting this to newItem a new Item is created
     
     #if os(iOS)
@@ -215,15 +215,15 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
         if editingItem == nil {
             add(item: formItem)
             startNewItem = nil
-            currentSelection = nil
+            selectedItem = nil
         } else {
             update(oldItem: editingItem!, newItem: formItem)
-            currentSelection = nil
+            selectedItem = nil
         }
     }
     
     public func cancelForm() {
         startNewItem = nil
-        currentSelection = nil
+        selectedItem = nil
     }
 }

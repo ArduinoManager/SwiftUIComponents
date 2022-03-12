@@ -123,9 +123,9 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                 tag: item,
                                 selection:
 
-                                Binding<Item?>(get: { controller.currentSelection },
+                                Binding<Item?>(get: { controller.selectedItem },
                                                set: {
-                                                   controller.currentSelection = $0
+                                                   controller.selectedItem = $0
                                                    controller.editingItem = item
                                                })
 
