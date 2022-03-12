@@ -19,9 +19,9 @@ class SheetMananger: ObservableObject {
 public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View, Form: View>: View {
     @ObservedObject var controller: ListController<Item, Row>
     @StateObject var sheetManager = SheetMananger()
-    let rowColor: Color!
-    let rowAlternateColor: Color!
-    let alternatesRows: Bool!
+    private let rowColor: Color!
+    private let rowAlternateColor: Color!
+    private let alternatesRows: Bool!
 
     var form: () -> Form
 
@@ -57,7 +57,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
     }
 
     public var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             HStack {
                 if let title = controller.title {
                     Text(title)
@@ -80,6 +80,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                 #endif
             }
             .padding([.leading, .trailing])
+            .background(controller.backgroundColor)
 
             List {
                 ForEach(0 ..< controller.items.count, id: \.self) { idx in
@@ -142,7 +143,6 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                 .listRowBackground(Color.clear)
             }
             .customStyle(type: controller.style)
-            // .listStyle(.inset)
             .background(controller.backgroundColor)
             .sheet(isPresented: $sheetManager.showSheet) {
                 if sheetManager.whichSheet == .Form {
@@ -150,10 +150,11 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                 }
             }
         }
+            .background(controller.backgroundColor)
     }
 }
 
-struct AttachActions<Item: Identifiable & Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View>: ViewModifier {
+fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View>: ViewModifier {
     var controller: ListController<Item, Row>
     var item: Item
     var sheetManager: SheetMananger
@@ -221,7 +222,7 @@ struct SimpleListContainer: View {
         _controller = StateObject(wrappedValue: ListController<ListItem, RowView>(items: items,
                                                                                   style: .grouped(alternatesRows: true, alternateBackgroundColor: .white),
                                                                                   title: "Title",
-                                                                                  addButtonColor: .green,
+                                                                                  addButtonColor: .red,
                                                                                   editButtonLabel: "Edit_",
                                                                                   deleteButtonLabel: "Delete_",
                                                                                   backgroundColor: .green,

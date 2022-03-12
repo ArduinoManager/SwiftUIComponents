@@ -12,6 +12,9 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
     @State private var selection: String? = nil
     @State private var isTapped = false
     private var form: () -> Form
+    private let rowColor: Color!
+    private let rowAlternateColor: Color!
+    private let alternatesRows: Bool!
 
     public init(controller: ListController<Item, Row>, @ViewBuilder form: @escaping () -> Form) {
         self.controller = controller
@@ -19,6 +22,29 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
         #if os(iOS)
             UITableView.appearance().backgroundColor = .clear
         #endif
+        rowColor = controller.rowBackgroundColor
+
+        switch controller.style {
+        case let .plain(alternatesRows: alternatesRows, alternateBackgroundColor: alternateBackgroundColor):
+            self.alternatesRows = alternatesRows
+            rowAlternateColor = alternateBackgroundColor
+
+        case let .inset(alternatesRows: alternatesRows, alternateBackgroundColor: alternateBackgroundColor):
+            self.alternatesRows = alternatesRows
+            rowAlternateColor = alternateBackgroundColor
+
+        case let .grouped(alternatesRows: alternatesRows, alternateBackgroundColor: alternateBackgroundColor):
+            self.alternatesRows = alternatesRows
+            rowAlternateColor = alternateBackgroundColor
+
+        case let .insetGrouped(alternatesRows: alternatesRows, alternateBackgroundColor: alternateBackgroundColor):
+            self.alternatesRows = alternatesRows
+            rowAlternateColor = alternateBackgroundColor
+
+        case let .sidebar(alternatesRows: alternatesRows, alternateBackgroundColor: alternateBackgroundColor):
+            self.alternatesRows = alternatesRows
+            rowAlternateColor = alternateBackgroundColor
+        }
     }
 
     public var body: some View {
@@ -52,7 +78,8 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                 .padding([.leading, .trailing])
 
                 List {
-                    ForEach(controller.items, id: \.id) { item in
+                    ForEach(0 ..< controller.items.count, id: \.self) { idx in
+                        let item = controller.items[idx]
                         NavigationLink(destination:
                             form()
                             #if os(iOS)
@@ -65,33 +92,24 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                                         controller.editingItem = item
                                                     }),
                             label: {
-                                HStack(spacing: 0) {
+                                HStack(alignment: .center, spacing: 0) {
                                     controller.makeRow(item)
                                 }
-                                .background(controller.rowBackgroundColor)
+                                .if(alternatesRows) { view in
+                                    view
+                                        .background(currentColor(idx: idx))
+                                }
+                                .if(!alternatesRows) { view in
+                                    view
+                                        .background(rowColor)
+                                }
                                 .onTapGesture {
                                     controller.select(item: item)
                                 }
                             }
-                        )
-                        .swipeActions(edge: .leading) {
-                            ForEach(0 ..< controller.leadingActions.count, id: \.self) { idx in
-                                let action = controller.leadingActions[idx]
-                                Button(action.label) {
-                                    controller.actionHandler!(action.key)
-                                }
-                                .tint(action.color)
-                            }
-                        }
-                        .swipeActions(edge: .trailing) {
-                            ForEach(Array(stride(from: controller.trailingActions.count - 1, to: -1, by: -1)), id: \.self) { idx in
-                                let action = controller.trailingActions[idx]
-                                Button(action.label) {
-                                    controller.actionHandler!(action.key)
-                                }
-                                .tint(action.color)
-                            }
-                        }
+                        )                        
+                        //.background(currentColor(idx: idx))
+                        .modifier(AttachActions(controller: controller, item: item))
                         .if(!controller.showLineSeparator) { view in
                             view
                             #if os(iOS)
@@ -105,11 +123,12 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                             #endif
                         }
                     }
-                    .listRowBackground(controller.rowBackgroundColor)
+                    .listRowBackground(Color.clear)
                 }
                 .customStyle(type: controller.style)
-                .background(controller.backgroundColor)
+                
             }
+            .background(controller.backgroundColor)
             #if os(iOS)
                 .navigationBarHidden(true)
             #endif
@@ -117,6 +136,38 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
         #if os(iOS)
             .navigationViewStyle(.stack)
         #endif
+    }
+    
+    func currentColor(idx: Int) -> Color {
+        return idx % 2 == 0 ? rowColor : rowAlternateColor
+    }
+    
+}
+
+fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View>: ViewModifier {
+    var controller: ListController<Item, Row>
+    var item: Item
+
+    func body(content: Content) -> some View {
+        content
+            .swipeActions(edge: .leading) {
+                ForEach(0 ..< controller.leadingActions.count, id: \.self) { idx in
+                    let action = controller.leadingActions[idx]
+                    Button(action.label) {
+                        controller.actionHandler!(action.key)
+                    }
+                    .tint(action.color)
+                }
+            }
+            .swipeActions(edge: .trailing) {
+                ForEach(Array(stride(from: controller.trailingActions.count - 1, to: -1, by: -1)), id: \.self) { idx in
+                    let action = controller.trailingActions[idx]
+                    Button(action.label) {
+                        controller.actionHandler!(action.key)
+                    }
+                    .tint(action.color)
+                }
+            }
     }
 }
 
@@ -149,13 +200,13 @@ struct NavigationListContainer: View {
         ]
 
         _controller = StateObject(wrappedValue: ListController<ListItem, RowView>(items: items,
-                                                                                  style: .inset(alternatesRows: true),
+                                                                                  style: .grouped(alternatesRows: true, alternateBackgroundColor: .gray),
                                                                                   title: "Title",
                                                                                   addButtonColor: .green,
                                                                                   editButtonLabel: "Edit_",
                                                                                   deleteButtonLabel: "Delete_",
                                                                                   backgroundColor: .green,
-                                                                                  rowBackgroundColor: .yellow,
+                                                                                  rowBackgroundColor: .purple,
                                                                                   leadingActions: leadingActions,
                                                                                   trailingActions: trailingActions,
                                                                                   actionHandler: { actionKey in
@@ -182,9 +233,6 @@ struct NavigationList_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             NavigationListContainer()
-                .previewInterfaceOrientation(.portraitUpsideDown)
-            NavigationListContainer()
-                .previewDevice(.init(stringLiteral: "iPad Pro (12.9-inch) (3rd generation)"))
                 .previewInterfaceOrientation(.portrait)
         }
     }
