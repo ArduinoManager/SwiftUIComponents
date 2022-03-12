@@ -220,7 +220,7 @@ struct SimpleListContainer: View {
         ]
 
         _controller = StateObject(wrappedValue: ListController<ListItem, RowView>(items: items,
-                                                                                  style: .inset(alternatesRows: false, alternateBackgroundColor: .white),
+                                                                                  style: .grouped(alternatesRows: true, alternateBackgroundColor: .white),
                                                                                   title: "Title",
                                                                                   addButtonColor: .green,
                                                                                   editButtonLabel: "Edit_",
