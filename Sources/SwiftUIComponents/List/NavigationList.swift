@@ -15,7 +15,8 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
     private let rowColor: Color!
     private let rowAlternateColor: Color!
     private let alternatesRows: Bool!
-
+    @State var currentSelection: Item?
+    
     public init(controller: ListController<Item, Row>, @ViewBuilder form: @escaping () -> Form) {
         self.controller = controller
         self.form = form
@@ -79,53 +80,86 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                     #endif
                 }
                 .padding([.leading, .trailing])
+                .background(.yellow)
 
                 List {
                     ForEach(0 ..< controller.items.count, id: \.self) { idx in
                         let item = controller.items[idx]
-                        
-                        NavigationLink(destination:
-                            form()
-                            #if os(iOS)
-                                .navigationBarHidden(true)
-                            #endif
-                            ,
-                            isActive: Binding<Bool>(get: { isTapped },
+
+                        #if os(iOS)
+                            NavigationLink(destination:
+                                form()
+                                    .navigationBarHidden(true)
+                                ,
+                                isActive: Binding<Bool>(get: { isTapped },
+                                                        set: {
+                                                            isTapped = $0
+                                                            controller.editingItem = item
+                                                        }),
+                                label: {
+                                    HStack(alignment: .center, spacing: 0) {
+                                        controller.makeRow(item)
+                                    }
+                                    .if(alternatesRows) { view in
+                                        view
+                                            .background(currentColor(idx: idx))
+                                    }
+                                    .if(!alternatesRows) { view in
+                                        view
+                                            .background(rowColor)
+                                    }
+                                    .onTapGesture {
+                                        controller.select(item: item)
+                                    }
+                                }
+                            )
+                            .modifier(AttachActions(controller: controller, item: item))
+                                .if(!controller.showLineSeparator) { view in
+                                    view
+                                    #if os(iOS)
+                                        .listRowSeparator(.hidden)
+                                    #endif
+                                }
+                                .if(controller.lineSeparatorColor != nil) { view in
+                                    view
+                                    #if os(iOS)
+                                        .listRowSeparatorTint(controller.lineSeparatorColor!)
+                                    #endif
+                                }
+                        #endif
+                        #if os(macOS)
+                        NavigationLink(
+                          destination: form(),
+                          tag: item,
+                          selection:
+                            
+                            Binding<Item?>(get: { currentSelection },
                                                     set: {
-                                                        isTapped = $0
+                                                        currentSelection = $0
                                                         controller.editingItem = item
-                                                    }),
-                            label: {
-                                HStack(alignment: .center, spacing: 0) {
-                                    controller.makeRow(item)
-                                }
-                                .if(alternatesRows) { view in
+                                                    })
+                            
+                            ,
+                          label: {
+                              HStack(alignment: .center, spacing: 0) {
+                                  controller.makeRow(item)
+                              }
+                          })
+                            .modifier(AttachActions(controller: controller, item: item))
+                                .if(!controller.showLineSeparator) { view in
                                     view
-                                        .background(currentColor(idx: idx))
+                                    #if os(iOS)
+                                        .listRowSeparator(.hidden)
+                                    #endif
                                 }
-                                .if(!alternatesRows) { view in
+                                .if(controller.lineSeparatorColor != nil) { view in
                                     view
-                                        .background(rowColor)
+                                    #if os(iOS)
+                                        .listRowSeparatorTint(controller.lineSeparatorColor!)
+                                    #endif
                                 }
-                                .onTapGesture {
-                                    controller.select(item: item)
-                                }
-                            }
-                        )
-                        // .background(currentColor(idx: idx))
-                        .modifier(AttachActions(controller: controller, item: item))
-                        .if(!controller.showLineSeparator) { view in
-                            view
-                            #if os(iOS)
-                                .listRowSeparator(.hidden)
-                            #endif
-                        }
-                        .if(controller.lineSeparatorColor != nil) { view in
-                            view
-                            #if os(iOS)
-                                .listRowSeparatorTint(controller.lineSeparatorColor!)
-                            #endif
-                        }
+                        #endif
+                        
                     }
                     .listRowBackground(Color.clear)
                 }
