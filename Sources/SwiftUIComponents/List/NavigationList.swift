@@ -195,6 +195,10 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                 }
             }
             .swipeActions(edge: .trailing) {
+                Button(controller.deleteButtonLabel) {
+                    controller.delete(item: item)
+                }
+                .tint(.red)
                 ForEach(Array(stride(from: controller.trailingActions.count - 1, to: -1, by: -1)), id: \.self) { idx in
                     let action = controller.trailingActions[idx]
                     Button(action.label) {
