@@ -68,34 +68,41 @@ extension View {
         }
     }
 
-    @ViewBuilder
-    func customStyle(type: ListStyle, alternateRow: Bool = false) -> some View {
-        switch type {
-        case .plain:
-            listStyle(.plain)
-        #if os(iOS)
+    #if os(iOS)
+        @ViewBuilder
+        func customStyle(type: ListStyle, alternateRow: Bool = false) -> some View {
+            switch type {
+            case .plain:
+                listStyle(.plain)
             case .grouped:
                 listStyle(.grouped)
             case .insetGrouped:
                 listStyle(.insetGrouped)
-        #endif
-        #if os(macOS)
+            case .inset:
+                listStyle(.inset)
+            case .sidebar:
+                listStyle(.sidebar)
+            }
+        }
+    #endif
+
+    #if os(macOS)
+        @ViewBuilder
+        func customStyle(type: ListStyle, alternateRow: Bool = false) -> some View {
+            switch type {
+            case .plain:
+                listStyle(.plain)
+            case .inset:
+                listStyle(.inset)
             case .grouped:
                 listStyle(.inset)
             case .insetGrouped:
                 listStyle(.inset)
-        #endif
-        case .inset:
-            #if os(iOS)
-                // listStyle(.inset)
-            #endif
-            #if os(macOS)
-                listStyle(.inset(alternatesRowBackgrounds: false))
-            #endif
-        case .sidebar:
-            listStyle(.sidebar)
+            case .sidebar:
+                listStyle(.sidebar)
+            }
         }
-    }
+    #endif
 }
 
 #if os(macOS)
@@ -153,21 +160,20 @@ extension Color {
         var g: CGFloat = 0
         var b: CGFloat = 0
         var o: CGFloat = 0
-        
-        
+
         #if os(iOS)
-        guard NativeColor(self).getRed(&r, green: &g, blue: &b, alpha: &o) else {
-            // You can handle the failure here as you want
-            return (0, 0, 0, 0)
-        }
+            guard NativeColor(self).getRed(&r, green: &g, blue: &b, alpha: &o) else {
+                // You can handle the failure here as you want
+                return (0, 0, 0, 0)
+            }
         #endif
-        
+
         #if os(macOS)
             if let x = NativeColor(self).usingColorSpace(NSColorSpace.deviceRGB) {
                 x.getRed(&r, green: &g, blue: &b, alpha: &o)
             }
         #endif
-        
+
         return (r, g, b, o)
     }
 }

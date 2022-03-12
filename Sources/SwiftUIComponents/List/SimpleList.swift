@@ -34,25 +34,26 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
         rowColor = controller.rowBackgroundColor
 
         switch controller.style {
-        case .grouped:
-            alternatesRows = false
-            rowAlternateColor = .black
-            break
-        case .insetGrouped:
-            alternatesRows = false
-            rowAlternateColor = .black
-            break
-        case .sidebar:
-            alternatesRows = false
-            rowAlternateColor = .black
-            break
+    
         case let .plain(alternatesRows: alternatesRows, alternateBackgroundColor: alternateBackgroundColor):
             self.alternatesRows = alternatesRows
-            rowAlternateColor = alternateBackgroundColor
+            self.rowAlternateColor = alternateBackgroundColor
 
         case let .inset(alternatesRows: alternatesRows, alternateBackgroundColor: alternateBackgroundColor):
             self.alternatesRows = alternatesRows
-            rowAlternateColor = alternateBackgroundColor
+            self.rowAlternateColor = alternateBackgroundColor
+        
+        case .grouped(alternatesRows: let alternatesRows, alternateBackgroundColor: let alternateBackgroundColor):
+            self.alternatesRows = alternatesRows
+            self.rowAlternateColor = alternateBackgroundColor
+            
+        case .insetGrouped(alternatesRows: let alternatesRows, alternateBackgroundColor: let alternateBackgroundColor):
+            self.alternatesRows = alternatesRows
+            self.rowAlternateColor = alternateBackgroundColor
+
+        case .sidebar(alternatesRows: let alternatesRows, alternateBackgroundColor: let alternateBackgroundColor):
+            self.alternatesRows = alternatesRows
+            self.rowAlternateColor = alternateBackgroundColor
         }
     }
 
@@ -82,16 +83,21 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
             .padding([.leading, .trailing])
 
             List {
-                // ForEach(controller.items, id: \.id) { item in
                 ForEach(0 ..< controller.items.count, id: \.self) { idx in
                     let item = controller.items[idx]
                     #if os(macOS)
                         VStack(spacing: 0) {
-                            HStack(spacing: 0) {
+                            HStack(alignment: .center, spacing: 0) {
                                 controller.makeRow(item)
                             }
-                            .background(idx % 2 == 0 ? rowColor : rowAlternateColor)
-
+                            .if(alternatesRows) { view in
+                                view
+                                    .background(idx % 2 == 0 ? rowColor : rowAlternateColor)
+                            }
+                            .if(!alternatesRows) { view in
+                                view
+                                    .background(rowColor)
+                            }
                             .onTapGesture {
                                 controller.select(item: item)
                             }
@@ -106,14 +112,14 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                         }
                     #endif
                     #if os(iOS)
-                        HStack(spacing: 0) {
+                        HStack(alignment: .center, spacing: 0) {
                             controller.makeRow(item)
                         }
                         .if(alternatesRows) { view in
                             view
                                 .background(idx % 2 == 0 ? rowColor : rowAlternateColor)
                         }
-                        .if(alternatesRows) { view in
+                        .if(!alternatesRows) { view in
                             view
                                 .background(rowColor)
                         }
@@ -134,9 +140,10 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                 #if os(macOS)
                     .removingScrollViewBackground()
                 #endif
-                .listRowBackground(Color.clear)
+                    .listRowBackground(Color.clear)
             }
             .customStyle(type: controller.style)
+            //.listStyle(.inset)
             .background(controller.backgroundColor)
             .sheet(isPresented: $sheetManager.showSheet) {
                 if sheetManager.whichSheet == .Form {
@@ -213,13 +220,13 @@ struct SimpleListContainer: View {
         ]
 
         _controller = StateObject(wrappedValue: ListController<ListItem, RowView>(items: items,
-                                                                                  style: .inset(alternatesRows: true, alternateBackgroundColor: .red),
+                                                                                  style: .inset(alternatesRows: false, alternateBackgroundColor: .white),
                                                                                   title: "Title",
                                                                                   addButtonColor: .green,
                                                                                   editButtonLabel: "Edit_",
                                                                                   deleteButtonLabel: "Delete_",
                                                                                   backgroundColor: .green,
-                                                                                  rowBackgroundColor: .yellow,
+                                                                                  rowBackgroundColor: .purple,
                                                                                   leadingActions: leadingActions,
                                                                                   trailingActions: trailingActions,
                                                                                   actionHandler: { actionKey in
@@ -318,7 +325,6 @@ struct RowView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
             .background(item.selected ? Color.red : Color.clear)
-            Divider()
         }
     }
 }
