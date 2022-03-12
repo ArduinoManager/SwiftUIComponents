@@ -146,8 +146,10 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                         view
                                             .background(rowColor)
                                     }
+                                    .onTapGesture {
+                                        controller.select(item: item)
+                                    }
                                 })
-                        
                                 .modifier(AttachActions(controller: controller, item: item))
                         
                             if controller.showLineSeparator {
