@@ -59,8 +59,10 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                 ForEach(controller.items, id: \.id) { item in
                     #if os(macOS)
                         VStack(spacing: 0) {
-                            controller.makeRow(item)                                
-                                // must be called _inside_ List
+                            HStack(spacing:0) {
+                                controller.makeRow(item)
+                            }
+                            .background(Color.re)
                                 .onTapGesture {
                                     controller.select(item: item)
                                 }
