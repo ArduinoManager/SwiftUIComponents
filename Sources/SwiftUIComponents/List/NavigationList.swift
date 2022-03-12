@@ -65,10 +65,13 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                                         controller.editingItem = item
                                                     }),
                             label: {
-                                controller.makeRow(item)
-                                    .onTapGesture {
-                                        controller.select(item: item)
-                                    }
+                                HStack(spacing: 0) {
+                                    controller.makeRow(item)
+                                }
+                                .background(Color.clear)
+                                .onTapGesture {
+                                    controller.select(item: item)
+                                }
                             }
                         )
                         .swipeActions(edge: .leading) {

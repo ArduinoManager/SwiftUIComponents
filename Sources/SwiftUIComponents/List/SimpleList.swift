@@ -59,14 +59,14 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                 ForEach(controller.items, id: \.id) { item in
                     #if os(macOS)
                         VStack(spacing: 0) {
-                            HStack(spacing:0) {
+                            HStack(spacing: 0) {
                                 controller.makeRow(item)
                             }
-                            .background(Color.red)
-                                .onTapGesture {
-                                    controller.select(item: item)
-                                }
-                                .modifier(AttachActions(controller: controller, item: item, sheetManager: sheetManager))
+                            .background(Color.clear)
+                            .onTapGesture {
+                                controller.select(item: item)
+                            }
+                            .modifier(AttachActions(controller: controller, item: item, sheetManager: sheetManager))
                             if controller.showLineSeparator {
                                 Divider()
                                     .if(controller.lineSeparatorColor != nil) { view in
@@ -77,23 +77,26 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                         }
                     #endif
                     #if os(iOS)
-                        controller.makeRow(item)
-                            .if(!controller.showLineSeparator) { view in
-                                view
-                                    .listRowSeparator(.hidden)
-                            }
-                            .if(controller.lineSeparatorColor != nil) { view in
-                                view
-                                    .listRowSeparatorTint(controller.lineSeparatorColor!)
-                            }
-                            .onTapGesture {
-                                controller.select(item: item)
-                            }
-                            .modifier(AttachActions(controller: controller, item: item, sheetManager: sheetManager))
+                        HStack(spacing: 0) {
+                            controller.makeRow(item)
+                        }
+                        .background(Color.clear)
+                        .onTapGesture {
+                            controller.select(item: item)
+                        }
+                        .if(!controller.showLineSeparator) { view in
+                            view
+                                .listRowSeparator(.hidden)
+                        }
+                        .if(controller.lineSeparatorColor != nil) { view in
+                            view
+                                .listRowSeparatorTint(controller.lineSeparatorColor!)
+                        }
+                        .modifier(AttachActions(controller: controller, item: item, sheetManager: sheetManager))
                     #endif
                 }
-#if os(macOS)
-                .removingScrollViewBackground()
+                #if os(macOS)
+                    .removingScrollViewBackground()
                 #endif
                 .listRowBackground(controller.rowBackgroundColor)
             }
@@ -112,7 +115,7 @@ struct AttachActions<Item: Identifiable & Equatable & ListItemInitializable & Li
     var controller: ListController<Item, Row>
     var item: Item
     var sheetManager: SheetMananger
-    
+
     func body(content: Content) -> some View {
         content
             .swipeActions(edge: .leading) {
