@@ -93,6 +93,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
     }
 
     @Published public var formItem: Item!
+    @Published var currentSelection: Item?
 
     #if os(iOS)
     public init(items: [Item],
@@ -212,8 +213,14 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
     public func completeFormAction() {
         if editingItem == nil {
             add(item: formItem)
+            currentSelection = nil
         } else {
             update(oldItem: editingItem!, newItem: formItem)
+            currentSelection = nil
         }
+    }
+    
+    public func cancelForm() {
+        currentSelection = nil
     }
 }

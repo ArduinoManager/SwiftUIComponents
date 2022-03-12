@@ -14,8 +14,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
     private var form: () -> Form
     private let rowColor: Color!
     private let rowAlternateColor: Color!
-    private let alternatesRows: Bool!
-    @State var currentSelection: Item?
+    private let alternatesRows: Bool!    
     
     public init(controller: ListController<Item, Row>, @ViewBuilder form: @escaping () -> Form) {
         self.controller = controller
@@ -133,9 +132,9 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                           tag: item,
                           selection:
                             
-                            Binding<Item?>(get: { currentSelection },
+                            Binding<Item?>(get: { controller.currentSelection },
                                                     set: {
-                                                        currentSelection = $0
+                                                        controller.currentSelection = $0
                                                         controller.editingItem = item
                                                     })
                             
