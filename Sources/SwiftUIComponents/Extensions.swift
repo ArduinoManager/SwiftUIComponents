@@ -135,8 +135,19 @@ extension View {
 #if os(iOS)
     extension Color {
         var inverted: Color {
+//            var a: CGFloat = 0.0, r: CGFloat = 0.0, g: CGFloat = 0.0, b: CGFloat = 0.0
+//            return getRed(&r, green: &g, blue: &b, alpha: &a) ? UIColor(red: 1.0 - r, green: 1.0 - g, blue: 1.0 - b, alpha: a) : .black
+            
             var a: CGFloat = 0.0, r: CGFloat = 0.0, g: CGFloat = 0.0, b: CGFloat = 0.0
-            return getRed(&r, green: &g, blue: &b, alpha: &a) ? UIColor(red: 1.0 - r, green: 1.0 - g, blue: 1.0 - b, alpha: a) : .black
+
+            if let components = self.cgColor?.components {
+                r = components.0
+                g = components.1
+                b = components.2
+                a = components.3
+                return Color(red: 1.0 - r, green: 1.0 - g, blue: 1.0 - b)
+            }
+            return self
         }
     }
 #endif
