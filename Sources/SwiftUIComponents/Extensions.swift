@@ -132,68 +132,40 @@ extension View {
 
 #endif
 
-#if os(iOS)
-    extension Color {
-        var inverted: Color {
-//            var a: CGFloat = 0.0, r: CGFloat = 0.0, g: CGFloat = 0.0, b: CGFloat = 0.0
-//            return getRed(&r, green: &g, blue: &b, alpha: &a) ? UIColor(red: 1.0 - r, green: 1.0 - g, blue: 1.0 - b, alpha: a) : .black
-            
-            var a: CGFloat = 0.0, r: CGFloat = 0.0, g: CGFloat = 0.0, b: CGFloat = 0.0
+extension Color {
+    var inverted: Color {
+        let r = components.0
+        let g = components.1
+        let b = components.2
+        let a = components.3
 
-            if let components = self.cgColor?.components {
-                r = components.0
-                g = components.1
-                b = components.2
-                a = components.3
-                return Color(red: 1.0 - r, green: 1.0 - g, blue: 1.0 - b)
-            }
-            return self
-        }
+        return Color(.sRGB, red: 1 - r, green: 1 - g, blue: 1 - b, opacity: a)
     }
-#endif
 
-#if os(macOS)
-    extension Color {
-        var inverted: Color {
-            var a: CGFloat = 0.0, r: CGFloat = 0.0, g: CGFloat = 0.0, b: CGFloat = 0.0
+    var components: (red: CGFloat, green: CGFloat, blue: CGFloat, opacity: CGFloat) {
+        #if canImport(UIKit)
+            typealias NativeColor = UIColor
+        #elseif canImport(AppKit)
+            typealias NativeColor = NSColor
+        #endif
 
-            if let components = self.cgColor?.components {
-                r = components.0
-                g = components.1
-                b = components.2
-                a = components.3
-                return Color(red: 1.0 - r, green: 1.0 - g, blue: 1.0 - b)
-            }
-            return self
+        var r: CGFloat = 0
+        var g: CGFloat = 0
+        var b: CGFloat = 0
+        var o: CGFloat = 0
+        
+        
+        #if os(iOS)
+        guard NativeColor(self).getRed(&r, green: &g, blue: &b, alpha: &o) else {
+            // You can handle the failure here as you want
+            return (0, 0, 0, 0)
         }
-    }
-#endif
-
-//extension Color {
-//    #if canImport(UIKit)
-//    var asNative: UIColor { UIColor(self) }
-//    #elseif canImport(AppKit)
-//    var asNative: NSColor { NSColor(self) }
-//    #endif
-//
-//    var rgba: (red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat) {
-//        let color = asNative.usingColorSpace(.deviceRGB)!
-//        var t = (CGFloat(), CGFloat(), CGFloat(), CGFloat())
-//        color.getRed(&t.0, green: &t.1, blue: &t.2, alpha: &t.3)
-//        return t
-//    }
-//
-//    var hsva: (hue: CGFloat, saturation: CGFloat, value: CGFloat, alpha: CGFloat) {
-//        let color = asNative.usingColorSpace(.deviceRGB)!
-//        var t = (CGFloat(), CGFloat(), CGFloat(), CGFloat())
-//        color.getHue(&t.0, saturation: &t.1, brightness: &t.2, alpha: &t.3)
-//        return t
-//    }
-//}
-
-extension CGColor {
-    var components: (red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat) {
-        let ciColor = CIColor(cgColor: self)
-        return (ciColor.red, ciColor.green, ciColor.blue, ciColor.alpha)
+        #endif
+        
+        #if os(macOS)
+            NativeColor(self).getRed(&r, green: &g, blue: &b, alpha: &o)
+        #endif
+        
+        return (r, g, b, o)
     }
 }
