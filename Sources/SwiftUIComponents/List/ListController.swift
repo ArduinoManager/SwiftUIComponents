@@ -51,7 +51,6 @@ public enum ListStyle {
     case inset(alternatesRows: Bool)
     case insetGrouped           // On macOS like inset
     case sidebar
-
 }
 
 public class ListController<Item: Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View>: ObservableObject {
