@@ -19,6 +19,9 @@ class SheetMananger: ObservableObject {
 public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View, Form: View>: View {
     @ObservedObject var controller: ListController<Item, Row>
     @StateObject var sheetManager = SheetMananger()
+    let rowColor: Color!
+    let rowAlternateColor: Color!
+    let alternatesRows: Bool!
 
     var form: () -> Form
 
@@ -28,6 +31,29 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
         #if os(iOS)
             UITableView.appearance().backgroundColor = .clear // <-- here
         #endif
+        rowColor = controller.rowBackgroundColor
+
+        switch controller.style {
+        case .grouped:
+            alternatesRows = false
+            rowAlternateColor = .black
+            break
+        case .insetGrouped:
+            alternatesRows = false
+            rowAlternateColor = .black
+            break
+        case .sidebar:
+            alternatesRows = false
+            rowAlternateColor = .black
+            break
+        case let .plain(alternatesRows: alternatesRows, alternateBackgroundColor: alternateBackgroundColor):
+            self.alternatesRows = alternatesRows
+            rowAlternateColor = alternateBackgroundColor
+
+        case let .inset(alternatesRows: alternatesRows, alternateBackgroundColor: alternateBackgroundColor):
+            self.alternatesRows = alternatesRows
+            rowAlternateColor = alternateBackgroundColor
+        }
     }
 
     public var body: some View {
@@ -56,7 +82,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
             .padding([.leading, .trailing])
 
             List {
-                //ForEach(controller.items, id: \.id) { item in
+                // ForEach(controller.items, id: \.id) { item in
                 ForEach(0 ..< controller.items.count, id: \.self) { idx in
                     let item = controller.items[idx]
                     #if os(macOS)
@@ -64,8 +90,8 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                             HStack(spacing: 0) {
                                 controller.makeRow(item)
                             }
-                            .background(idx % 2 == 0 ? controller.rowBackgroundColor : controller.rowBackgroundColor.inverted)
-                        
+                            .background(idx % 2 == 0 ? rowColor : rowAlternateColor)
+
                             .onTapGesture {
                                 controller.select(item: item)
                             }
@@ -83,7 +109,14 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                         HStack(spacing: 0) {
                             controller.makeRow(item)
                         }
-                        .background(idx % 2 == 0 ? controller.rowBackgroundColor : controller.rowBackgroundColor.inverted)
+                        .if(alternatesRows) { view in
+                            view
+                                .background(idx % 2 == 0 ? rowColor : rowAlternateColor)
+                        }
+                        .if(alternatesRows) { view in
+                            view
+                                .background(rowColor)
+                        }
                         .onTapGesture {
                             controller.select(item: item)
                         }
@@ -101,7 +134,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                 #if os(macOS)
                     .removingScrollViewBackground()
                 #endif
-                    .listRowBackground(Color.clear)
+                .listRowBackground(Color.clear)
             }
             .customStyle(type: controller.style)
             .background(controller.backgroundColor)
@@ -180,7 +213,7 @@ struct SimpleListContainer: View {
         ]
 
         _controller = StateObject(wrappedValue: ListController<ListItem, RowView>(items: items,
-                                                                                  style: .inset(alternatesRows: true),
+                                                                                  style: .inset(alternatesRows: true, alternateBackgroundColor: .red),
                                                                                   title: "Title",
                                                                                   addButtonColor: .green,
                                                                                   editButtonLabel: "Edit_",

@@ -45,13 +45,27 @@ public struct ListAction: Hashable {
     #endif
 }
 
+#if os(iOS)
 public enum ListStyle {
-    case plain
+    case plain(alternatesRows: Bool, alternateBackgroundColor: Color = Color(uiColor: UIColor.systemBackground))
     case grouped                // On macOS like inset
-    case inset(alternatesRows: Bool)
+    case inset(alternatesRows: Bool, alternateBackgroundColor: Color = Color(uiColor: UIColor.systemBackground))
+    case insetGrouped           // On macOS like inset
+    case sidebar
+    
+    
+}
+#endif
+#if os(macOS)
+public enum ListStyle {
+    case plain(alternatesRows: Bool, alternateBackgroundColor: Color = Color(nsColor: NSColor.windowBackgroundColor))
+    case grouped                // On macOS like inset
+    case inset(alternatesRows: Bool, alternateBackgroundColor: Color = Color(nsColor: NSColor.windowBackgroundColor))
     case insetGrouped           // On macOS like inset
     case sidebar
 }
+#endif
+
 
 public class ListController<Item: Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View>: ObservableObject {
     @Published var items: [Item]
