@@ -125,10 +125,6 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                 HStack(alignment: .center, spacing: 0) {
                                     HStack(alignment: .center, spacing: 0) {
                                         controller.makeRow(item)
-//                                            .frame(maxWidth: .infinity)
-//                                            .onTapGesture {
-//                                                controller.select(item: item)
-//                                            }
                                     }
                                     .frame(maxWidth: .infinity)
                                     .onTapGesture {
@@ -143,12 +139,12 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                     } label: {
                                         Image(systemName: "chevron.right")
                                             .resizable()
-                                            .foregroundColor(.gray)
+                                            .foregroundColor(Color(nsColor: .labelColor))
                                             .scaledToFill()
                                             .padding(2)
                                     }
                                     .buttonStyle(.plain)
-                                    .background(controller.backgroundColor)
+                                    .background(currentColor(idx: idx))
                                 }
                                 if controller.showLineSeparator {
                                     Divider()

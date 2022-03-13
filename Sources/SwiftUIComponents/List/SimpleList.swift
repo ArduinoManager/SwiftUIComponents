@@ -328,7 +328,7 @@ struct RowView: View {
                 Text("\(item.lastName)")
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-            .background(item.selected ? Color.red : Color.yellow)
+            .background(item.selected ? Color.red : Color.clear)
         }
     }
 }
