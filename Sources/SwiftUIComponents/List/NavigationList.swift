@@ -142,7 +142,9 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                         .buttonStyle(PlainButtonStyle())
                                         .background(currentColor(idx: idx))
                                 }
-
+                                .onTapGesture {
+                                    controller.select(item: item)
+                                }
                                 if controller.showLineSeparator {
                                     Divider()
                                         .if(controller.lineSeparatorColor != nil) { view in
@@ -308,6 +310,6 @@ struct MyForm1: View {
                 }
             }
             .padding()
-        }
+        }        
     }
 }

@@ -11,7 +11,6 @@ class SheetMananger: ObservableObject {
     enum Sheet {
         case Form
     }
-
     @Published var showSheet = false
     @Published var whichSheet: Sheet? = nil
 }
@@ -329,7 +328,7 @@ struct RowView: View {
                 Text("\(item.lastName)")
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-            .background(item.selected ? Color.red : Color.clear)
+            .background(item.selected ? Color.red : Color.yellow)
         }
     }
 }
