@@ -115,21 +115,23 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                             }
                         #endif
                         #if os(macOS)
-                        NavigationLink(
-                            destination: form(),
-                            tag: item,
-                            selection: $controller.selectedItem,
-                            label: {})
-                            .hidden()
+                            NavigationLink(
+                                destination: form(),
+                                tag: item,
+                                selection: $controller.selectedItem,
+                                label: {})
+                                .hidden()
                             VStack(alignment: .leading, spacing: 0) {
                                 HStack(alignment: .center, spacing: 0) {
+                                    HStack(alignment: .center, spacing: 0) {
                                         controller.makeRow(item)
-                                        .onTapGesture {
-                                            controller.select(item: item)
-                                        }
-                                        .modifier(AttachActions(controller: controller, item: item))
-                                        .background(currentColor(idx: idx))
-                                        .layoutPriority(1)
+                                    }
+                                    .onTapGesture {
+                                        controller.select(item: item)
+                                    }
+                                    .modifier(AttachActions(controller: controller, item: item))
+                                    .background(currentColor(idx: idx))
+                                    .layoutPriority(1)
                                     Button {
                                         controller.selectedItem = item
                                         controller.editingItem = item
@@ -308,6 +310,6 @@ struct MyForm1: View {
                 }
             }
             .padding()
-        }        
+        }
     }
 }
