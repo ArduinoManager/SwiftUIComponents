@@ -76,6 +76,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
     var deleteButtonLabel: String
     var backgroundColor: Color
     var rowBackgroundColor: Color
+    var swipeActions: Bool
     var leadingActions: [ListAction]
     var trailingActions: [ListAction]
     var actionHandler: ((_ actionKey: String) -> Void)?
@@ -107,6 +108,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
                 deleteButtonLabel: String,
                 backgroundColor: Color = Color(uiColor: .systemGroupedBackground),
                 rowBackgroundColor: Color = Color(uiColor: .systemBackground),
+                swipeActions: Bool = true,
                 leadingActions: [ListAction] = [],
                 trailingActions: [ListAction] = [],
                 actionHandler: ((_ actionKey: String) -> Void)? = nil,
@@ -126,6 +128,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
         self.deleteButtonLabel = deleteButtonLabel
         self.backgroundColor = backgroundColor
         self.rowBackgroundColor = rowBackgroundColor
+        self.swipeActions = swipeActions
         self.leadingActions = leadingActions
         self.trailingActions = trailingActions
         self.actionHandler = actionHandler
@@ -150,6 +153,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
                 deleteButtonLabel: String,
                 backgroundColor: Color = Color(NSColor.windowBackgroundColor),
                 rowBackgroundColor: Color = Color(NSColor.windowBackgroundColor),
+                swipeActions: Bool = true,
                 leadingActions: [ListAction] = [],
                 trailingActions: [ListAction] = [],
                 actionHandler: ((_ actionKey: String) -> Void)? = nil,
@@ -169,6 +173,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
         self.deleteButtonLabel = deleteButtonLabel
         self.backgroundColor = backgroundColor
         self.rowBackgroundColor = rowBackgroundColor
+        self.swipeActions = swipeActions
         self.leadingActions = leadingActions
         self.trailingActions = trailingActions
         self.actionHandler = actionHandler
