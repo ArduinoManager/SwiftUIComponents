@@ -115,6 +115,12 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                             }
                         #endif
                         #if os(macOS)
+                        NavigationLink(
+                            destination: form(),
+                            tag: item,
+                            selection: $controller.selectedItem,
+                            label: {})
+                            .hidden()
                             VStack(alignment: .leading, spacing: 0) {
                                 HStack(alignment: .center, spacing: 0) {
                                         controller.makeRow(item)
@@ -124,26 +130,18 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                         .modifier(AttachActions(controller: controller, item: item))
                                         .background(currentColor(idx: idx))
                                         .layoutPriority(1)
-                                    NavigationLink(
-                                        destination: form(),
-                                        tag: item,
-                                        selection: Binding<Item?>(get: { controller.selectedItem },
-                                                                  set: {
-                                                                      controller.selectedItem = $0
-                                                                      controller.editingItem = item
-                                                                  }),
-                                        label: {
-                                            Image(systemName: "chevron.right")
-                                                .resizable()
-                                                .foregroundColor(.gray)
-                                                .scaledToFill()
-                                                .padding(2)
-                                        })
-                                        .buttonStyle(PlainButtonStyle())
-                                        .background(currentColor(idx: idx))
-                                }
-                                .onTapGesture {
-                                    controller.select(item: item)
+                                    Button {
+                                        controller.selectedItem = item
+                                        controller.editingItem = item
+                                    } label: {
+                                        Image(systemName: "chevron.right")
+                                            .resizable()
+                                            .foregroundColor(.gray)
+                                            .scaledToFill()
+                                            .padding(2)
+                                    }
+                                    .buttonStyle(.plain)
+                                    .background(controller.backgroundColor)
                                 }
                                 if controller.showLineSeparator {
                                     Divider()
