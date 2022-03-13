@@ -11,6 +11,7 @@ class SheetMananger: ObservableObject {
     enum Sheet {
         case Form
     }
+
     @Published var showSheet = false
     @Published var whichSheet: Sheet? = nil
 }
@@ -94,14 +95,15 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                             HStack(alignment: .center, spacing: 0) {
                                 controller.makeRow(item)
                             }
-                            .if(alternatesRows) { view in
-                                view
-                                    .background(idx % 2 == 0 ? rowColor : rowAlternateColor)
-                            }
-                            .if(!alternatesRows) { view in
-                                view
-                                    .background(rowColor)
-                            }
+                            .background(currentColor(idx: idx))
+//                            .if(alternatesRows) { view in
+//                                view
+//                                    .background(idx % 2 == 0 ? rowColor : rowAlternateColor)
+//                            }
+//                            .if(!alternatesRows) { view in
+//                                view
+//                                    .background(rowColor)
+//                            }
                             .onTapGesture {
                                 controller.select(item: item)
                             }
@@ -119,14 +121,15 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                         HStack(alignment: .center, spacing: 0) {
                             controller.makeRow(item)
                         }
-                        .if(alternatesRows) { view in
-                            view
-                                .background(idx % 2 == 0 ? rowColor : rowAlternateColor)
-                        }
-                        .if(!alternatesRows) { view in
-                            view
-                                .background(rowColor)
-                        }
+                        .background(currentColor(idx: idx))
+//                        .if(alternatesRows) { view in
+//                            view
+//                                .background(idx % 2 == 0 ? rowColor : rowAlternateColor)
+//                        }
+//                        .if(!alternatesRows) { view in
+//                            view
+//                                .background(rowColor)
+//                        }
                         .onTapGesture {
                             controller.select(item: item)
                         }
@@ -155,6 +158,13 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
             }
         }
         .background(controller.backgroundColor)
+    }
+
+    func currentColor(idx: Int) -> Color {
+        if !alternatesRows {
+            return rowColor
+        }
+        return idx % 2 == 0 ? rowColor : rowAlternateColor
     }
 }
 
