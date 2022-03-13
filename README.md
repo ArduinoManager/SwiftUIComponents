@@ -16,3 +16,7 @@ This is a Test Package which will contains all the Swiftui Components for the co
     - Sections in List
     - List icons for custom actions 
     - ListController: items sorting
+
+- ToFix
+
+    - NavigationList macOS: selection

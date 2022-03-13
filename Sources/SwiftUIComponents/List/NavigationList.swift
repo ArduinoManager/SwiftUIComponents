@@ -94,14 +94,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                     HStack(alignment: .center, spacing: 0) {
                                         controller.makeRow(item)
                                     }
-                                    .if(alternatesRows) { view in
-                                        view
-                                            .background(currentColor(idx: idx))
-                                    }
-                                    .if(!alternatesRows) { view in
-                                        view
-                                            .background(rowColor)
-                                    }
+                                    .background(currentColor(idx: idx))
                                     .onTapGesture {
                                         controller.select(item: item)
                                     }
@@ -122,42 +115,41 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                             }
                         #endif
                         #if os(macOS)
-                            NavigationLink(
-                                destination: form(),
-                                tag: item,
-                                selection:
-
-                                Binding<Item?>(get: { controller.selectedItem },
-                                               set: {
-                                                   controller.selectedItem = $0
-                                                   controller.editingItem = item
-                                               })
-
-                                ,
-                                label: {
-                                    HStack(alignment: .center, spacing: 0) {
+                            VStack(alignment: .leading, spacing: 0) {
+                                HStack(alignment: .center, spacing: 0) {
                                         controller.makeRow(item)
-                                    }
-                                    .if(alternatesRows) { view in
-                                        view
-                                            .background(idx % 2 == 0 ? rowColor : rowAlternateColor)
-                                    }
-                                    .if(!alternatesRows) { view in
-                                        view
-                                            .background(rowColor)
-                                    }
-                                    .onTapGesture {
-                                        controller.select(item: item)
-                                    }
-                                })
-                                .modifier(AttachActions(controller: controller, item: item))
-                        
-                            if controller.showLineSeparator {
-                                Divider()
-                                    .if(controller.lineSeparatorColor != nil) { view in
-                                        view
-                                            .background(controller.lineSeparatorColor!)
-                                    }
+                                        .onTapGesture {
+                                            controller.select(item: item)
+                                        }
+                                        .modifier(AttachActions(controller: controller, item: item))
+                                        .background(currentColor(idx: idx))
+                                        .layoutPriority(1)
+                                    NavigationLink(
+                                        destination: form(),
+                                        tag: item,
+                                        selection: Binding<Item?>(get: { controller.selectedItem },
+                                                                  set: {
+                                                                      controller.selectedItem = $0
+                                                                      controller.editingItem = item
+                                                                  }),
+                                        label: {
+                                            Image(systemName: "chevron.right")
+                                                .resizable()
+                                                .foregroundColor(.gray)
+                                                .scaledToFill()
+                                                .padding(2)
+                                        })
+                                        .buttonStyle(PlainButtonStyle())
+                                        .background(currentColor(idx: idx))
+                                }
+
+                                if controller.showLineSeparator {
+                                    Divider()
+                                        .if(controller.lineSeparatorColor != nil) { view in
+                                            view
+                                                .background(controller.lineSeparatorColor!)
+                                        }
+                                }
                             }
                         #endif
                     }
@@ -184,6 +176,9 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
     }
 
     func currentColor(idx: Int) -> Color {
+        if !alternatesRows {
+            return rowColor
+        }
         return idx % 2 == 0 ? rowColor : rowAlternateColor
     }
 }
