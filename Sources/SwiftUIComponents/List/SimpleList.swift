@@ -133,7 +133,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                             view
                                 .listRowSeparatorTint(controller.lineSeparatorColor!)
                         }
-                        .modifier(AttachActions(controller: controller, item: item, sheetManager: sheetManager))
+                        .modifier(AttachSwipeActions(controller: controller, item: item, sheetManager: sheetManager))
                     #endif
                 }
                 #if os(macOS)
