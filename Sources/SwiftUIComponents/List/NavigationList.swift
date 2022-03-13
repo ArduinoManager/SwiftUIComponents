@@ -125,10 +125,12 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                 HStack(alignment: .center, spacing: 0) {
                                     HStack(alignment: .center, spacing: 0) {
                                         controller.makeRow(item)
+                                            .frame(maxWidth: .infinity)
                                             .onTapGesture {
                                                 controller.select(item: item)
                                             }
                                     }
+                                    .frame(maxWidth: .infinity)
                                     .onTapGesture {
                                         controller.select(item: item)
                                     }
