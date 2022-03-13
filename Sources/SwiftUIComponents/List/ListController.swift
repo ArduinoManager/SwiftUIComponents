@@ -226,4 +226,9 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
         startNewItem = nil
         selectedItem = nil
     }
+    
+    public func buildRow(item: Item) -> Row {
+        return makeRow(item)
+    }
+    
 }
