@@ -155,6 +155,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
     var controller: ListController<Item, Row>
     var item: Item
     var sheetManager: SheetMananger
+    let iconSize: CGFloat = 25.0
 
     func body(content: Content) -> some View {
         HStack(alignment: .center, spacing: 5) {
@@ -168,13 +169,16 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                         if let img = action.icon {
                             img
                                 .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 30, height: 30)
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: iconSize, height: iconSize)
                         } else {
                             Image(systemName: action.systemIcon!)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: iconSize, height: iconSize)
+                                .padding(2)
                         }
                     }
-                    .frame(width: 30, height: 30)
                     .border(action.color, width: 1)
                     .tint(action.color)
                     #if os(macOS)
@@ -189,8 +193,11 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                 controller.delete(item: item)
             } label: {
                 Image(systemName: "minus")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: iconSize, height: iconSize)
+                    .padding(2)
             }
-            .frame(width: 30, height: 30)
             .border(.red, width: 1)
             .tint(.red)
             #if os(macOS)
@@ -203,8 +210,11 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                 sheetManager.showSheet.toggle()
             } label: {
                 Image(systemName: "pencil")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: iconSize, height: iconSize)
+                    .padding(2)
             }
-            .frame(width: 30, height: 30)
             .border(Color.accentColor, width: 1)
             .tint(Color.accentColor)
             #if os(macOS)
@@ -219,13 +229,16 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                     if let img = action.icon {
                         img
                             .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 30, height: 30)
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: iconSize, height: iconSize)
                     } else {
                         Image(systemName: action.systemIcon!)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: iconSize, height: iconSize)
+                            .padding(2)
                     }
                 }
-                .frame(width: 30, height: 30)
                 .border(action.color, width: 1)
                 .tint(action.color)
                 #if os(macOS)
