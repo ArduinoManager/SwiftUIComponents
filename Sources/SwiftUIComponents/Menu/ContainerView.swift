@@ -110,8 +110,40 @@ import SwiftUI
         @ObservedObject var controller: MenuController
         var item: MenuItem
 
+        @State private var showInspector = true
         public var body: some View {
-            item.makeView()
+            HSplitView {
+                // Main View
+                item.makeView()
+                    .layoutPriority(1)
+                // Inspector
+                if showInspector {
+                    controller.inspector!
+                        .frame(idealWidth: 300)
+                }
+            }
+            .if(controller.inspector != nil && controller.titleView == nil) { view in
+                view
+                    .overlay(
+                        VStack(spacing: 0) {
+                            HStack {
+                                Spacer()
+                                Button {
+                                    withAnimation {
+                                        showInspector.toggle()
+                                    }
+                                }
+                                label: {
+                                    Image(systemName: "line.3.horizontal")
+                                }
+                                .buttonStyle(.plain)
+                                .padding(.top, 5)
+                                .padding(.trailing, 5)
+                            }
+                            Spacer()
+                        }
+                    )
+            }
         }
     }
 
@@ -198,7 +230,7 @@ struct Inspector: View {
             Text("Inspector")
             Spacer()
         }
-        //.frame(minWidth: 100, idealWidth: 300)
+        // .frame(minWidth: 100, idealWidth: 300)
     }
 }
 

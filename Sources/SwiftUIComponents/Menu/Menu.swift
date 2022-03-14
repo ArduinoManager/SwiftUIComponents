@@ -26,70 +26,70 @@ public struct Menu: View {
             NavigationView {
                 // Left Panel
                 SideMenuView(controller: controller)
-
-                if controller.inspector != nil {
-                    VStack(spacing: 0) {
-                        if controller.titleView != nil {
-                            HStack {
-                                controller.titleView
-                                Button {
-                                    withAnimation {
-                                        showInspector.toggle()
-                                    }
-                                }
-                                label: {
-                                    Image(systemName: "line.3.horizontal")
-                                }
-                                .buttonStyle(.plain)
-                                .padding(.trailing, 10)
-                            }
-                            .background(controller.titleViewBackgroundColor)
-                        }
-                        HSplitView {
-                            ContainerView(controller: controller, item: controller.menuItems[0])
-                                .layoutPriority(1)
-                            // Inspector
-                            if showInspector {
-                                controller.inspector!
-                                    
-                            }
-                        }
-                    }
-                } else {
-                    // Right Panel
-                    VStack {
-                        if controller.titleView != nil {
-                            if showInspector {
-                                controller.inspector!
-                                    
-                            }
-                        }
-                        ContainerView(controller: controller, item: controller.menuItems[0])
-                    }
-                }
+                // Right Panel
+                ContainerView(controller: controller, item: controller.menuItems[0])
+                
+//                if controller.inspector != nil {
+//                    VStack(spacing: 0) {
+//                        if controller.titleView != nil {
+//                            HStack {
+//                                controller.titleView
+//                                Button {
+//                                    withAnimation {
+//                                        showInspector.toggle()
+//                                    }
+//                                }
+//                                label: {
+//                                    Image(systemName: "line.3.horizontal")
+//                                }
+//                                .buttonStyle(.plain)
+//                                .padding(.trailing, 10)
+//                            }
+//                            .background(controller.titleViewBackgroundColor)
+//                        }
+//                        HSplitView {
+//                            ContainerView(controller: controller, item: controller.menuItems[0])
+//                                .layoutPriority(1)
+//                            // Inspector
+//                            if showInspector {
+//                                controller.inspector!
+//                            }
+//                        }
+//                    }
+//                } else {
+//                    // Right Panel
+//                    VStack {
+//                        if controller.titleView != nil {
+//                            if showInspector {
+//                                controller.inspector!
+//                            }
+//                        }
+//                        ContainerView(controller: controller, item: controller.menuItems[0])
+//                    }
+//                }
             }
-            .if(controller.inspector != nil && controller.titleView == nil) { view in
-                view
-                    .overlay(
-                        VStack(spacing: 0) {
-                            HStack {
-                                Spacer()
-                                Button {
-                                    withAnimation {
-                                        showInspector.toggle()
-                                    }
-                                }
-                                label: {
-                                    Image(systemName: "line.3.horizontal")
-                                }
-                                .buttonStyle(.plain)
-                                .padding(.top, 5)
-                                .padding(.trailing, 5)
-                            }
-                            Spacer()
-                        }
-                    )
-            }
+//            .if(controller.inspector != nil && controller.titleView == nil) { view in
+//                view
+//                    .overlay(
+//                        VStack(spacing: 0) {
+//                            HStack {
+//                                Spacer()
+//                                Button {
+//                                    withAnimation {
+//                                        showInspector.toggle()
+//                                    }
+//                                }
+//                                label: {
+//                                    Image(systemName: "line.3.horizontal")
+//                                }
+//                                .buttonStyle(.plain)
+//                                .padding(.top, 5)
+//                                .padding(.trailing, 5)
+//                            }
+//                            Spacer()
+//                        }
+//                    )
+//            }
         #endif
         #if os(iOS)
             ZStack {
