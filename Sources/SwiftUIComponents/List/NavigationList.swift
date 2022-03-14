@@ -233,51 +233,6 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                 }
             //
             if !controller.swipeActions {
-                Button {
-                    controller.delete(item: item)
-                } label: {
-                    Image(systemName: "minus")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: iconSize, height: iconSize)
-                        .padding(2)
-                }
-                .frame(width: iconSize, height: iconSize)
-                .border(.red, width: 1)
-                .padding(.top, 2)
-                .padding(.bottom, controller.showLineSeparator ? 2 : 0)
-                #if os(iOS)
-                    .tint(.red)
-                    .buttonStyle(BorderlessButtonStyle())
-                #endif
-                #if os(macOS)
-                    .foregroundColor(.red)
-                    .buttonStyle(.plain)
-                #endif
-
-                Button {
-                    controller.editingItem = item
-                } label: {
-                    Image(systemName: "pencil")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: iconSize, height: iconSize)
-                        .padding(2)
-                }
-                .frame(width: iconSize, height: iconSize)
-                .border(Color.accentColor, width: 1)
-                .padding(.top, 2)
-                .padding(.bottom, controller.showLineSeparator ? 2 : 0)
-                .padding(.trailing, controller.trailingActions.count == 0 ? 2 : 0)
-                #if os(iOS)
-                    .tint(Color.accentColor)
-                    .buttonStyle(BorderlessButtonStyle())
-                #endif
-                #if os(macOS)
-                    .foregroundColor(Color.accentColor)
-                    .buttonStyle(.plain)
-                #endif
-
                 ForEach(0 ..< controller.trailingActions.count, id: \.self) { idx in
                     let action = controller.trailingActions[idx]
                     Button {
