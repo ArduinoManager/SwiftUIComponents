@@ -11,7 +11,7 @@ import SwiftUI
 
 public struct Menu: View {
     @ObservedObject private var controller: MenuController
-    @State var inspectorSize: CGFloat = 100.0
+    @State var inspectorSize: CGFloat = 0.0
 
     public init(controller: MenuController) {
         self.controller = controller
@@ -33,10 +33,10 @@ public struct Menu: View {
                             HStack {
                                 controller.titleView
                                 Button {
-                                    if inspectorSize > 0 {
-                                        inspectorSize = 0
-                                    } else {
+                                    if inspectorSize == 0 {
                                         inspectorSize = 100
+                                    } else {
+                                        inspectorSize = 0
                                     }
                                 }
                                 label: {
@@ -58,7 +58,6 @@ public struct Menu: View {
                 } else {
                     // Right Panel
                     VStack {
-                        // let _ = Self._printChanges()
                         if controller.titleView != nil {
                             controller.titleView
                                 .frame(minWidth: inspectorSize)
@@ -74,10 +73,10 @@ public struct Menu: View {
                             HStack {
                                 Spacer()
                                 Button {
-                                    if inspectorSize > 0 {
-                                        inspectorSize = 0
-                                    } else {
+                                    if inspectorSize == 0 {
                                         inspectorSize = 100
+                                    } else {
+                                        inspectorSize = 0
                                     }
                                 }
                                 label: {
