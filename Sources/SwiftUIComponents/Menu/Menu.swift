@@ -52,7 +52,7 @@ public struct Menu: View {
                                 .layoutPriority(1)
                             // Inspector
                             controller.inspector!
-                                .frame(minWidth: inspectorSize, idealWidth: inspectorSize)
+                                .frame(minWidth: inspectorSize)
                         }
                     }
                 } else {
@@ -60,7 +60,7 @@ public struct Menu: View {
                     VStack {
                         if controller.titleView != nil {
                             controller.titleView
-                                .frame(minWidth: inspectorSize, idealWidth: inspectorSize)
+                                .frame(minWidth: inspectorSize)
                         }
                         ContainerView(controller: controller, item: controller.menuItems[0])
                     }
