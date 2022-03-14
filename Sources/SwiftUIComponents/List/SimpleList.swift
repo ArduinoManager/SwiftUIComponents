@@ -168,7 +168,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                             Image(systemName: action.systemIcon!)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(width: iconSize, height: iconSize)
+                                .frame(width: iconSize+1, height: iconSize+1)
                                 .padding(2)
                         }
                     }
@@ -250,7 +250,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                             img
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(width: iconSize, height: iconSize)
+                                .frame(width: iconSize+1, height: iconSize+1)
                         } else {
                             Image(systemName: action.systemIcon!)
                                 .resizable()
