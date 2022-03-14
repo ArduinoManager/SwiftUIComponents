@@ -115,12 +115,18 @@ import SwiftUI
             if controller.inspector == nil {
                 // No inspector
                 item.makeView()
+                    .onAppear {
+                        controller.currentTab = item.title
+                    }
             } else {
                 if controller.titleView == nil {
                     // Inspector without Title View
                     HSplitView {
                         // Main View
                         item.makeView()
+                            .onAppear(perform: {
+                                controller.currentTab = item.title
+                            })
                             .layoutPriority(1)
 
                         // Inspector
@@ -171,6 +177,9 @@ import SwiftUI
                         .background(controller.titleViewBackgroundColor)
                         HSplitView {
                             item.makeView()
+                                .onAppear(perform: {
+                                    controller.currentTab = item.title
+                                })
                                 .layoutPriority(1)
                             if showInspector {
                                 controller.inspector!
