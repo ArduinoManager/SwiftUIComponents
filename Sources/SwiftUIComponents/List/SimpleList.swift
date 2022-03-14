@@ -176,6 +176,9 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                     .frame(width: iconSize, height: iconSize)
                     .border(action.color, width: 1)
                     .tint(action.color)
+                    #if os(iOS)
+                        .buttonStyle(BorderlessButtonStyle())
+                    #endif
                     #if os(macOS)
                         .buttonStyle(.plain)
                     #endif
@@ -199,6 +202,9 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
             .frame(width: iconSize, height: iconSize)
             .border(.red, width: 1)
             .tint(.red)
+            #if os(iOS)
+                .buttonStyle(BorderlessButtonStyle())
+            #endif
             #if os(macOS)
                 .buttonStyle(.plain)
             #endif
@@ -217,6 +223,9 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
             .frame(width: iconSize, height: iconSize)
             .border(Color.accentColor, width: 1)
             .tint(Color.accentColor)
+            #if os(iOS)
+                .buttonStyle(BorderlessButtonStyle())
+            #endif
             #if os(macOS)
                 .buttonStyle(.plain)
             #endif
@@ -242,6 +251,9 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                 .frame(width: iconSize, height: iconSize)
                 .border(action.color, width: 1)
                 .tint(action.color)
+                #if os(iOS)
+                    .buttonStyle(BorderlessButtonStyle())
+                #endif
                 #if os(macOS)
                     .buttonStyle(.plain)
                 #endif
