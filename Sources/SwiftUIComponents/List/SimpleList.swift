@@ -165,7 +165,12 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                     Button {
                         controller.actionHandler!(action.key)
                     } label: {
-                        Image(systemName: action.systemIcon!)
+                        if let img = action.icon {
+                            img
+                        }
+                        else {
+                            Image(systemName: action.systemIcon!)
+                        }
                     }
                     .frame(width: 30, height: 30)
                     .border(action.color, width: 1)
@@ -287,7 +292,7 @@ struct SimpleListContainer: View {
 
         let trailingActions = [
             ListAction(key: "T1", label: "Action 1", systemIcon: "plus", color: .mint),
-            ListAction(key: "T2", label: "Action 2", systemIcon: "plus", color: .red),
+            ListAction(key: "T2", label: "Action 2", icon: Image("logo"), color: .red),
         ]
 
         _controller = StateObject(wrappedValue: ListController<ListItem, RowView>(items: items,
