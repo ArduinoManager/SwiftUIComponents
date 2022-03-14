@@ -110,9 +110,6 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                         controller.makeRow(item)
                             .modifier(AttachActions(controller: controller, item: item, sheetManager: sheetManager))
                             .background(currentColor(idx: idx))
-                            .onTapGesture {
-                                controller.select(item: item)
-                            }
                             .if(!controller.showLineSeparator) { view in
                                 view
                                     .listRowSeparator(.hidden)
