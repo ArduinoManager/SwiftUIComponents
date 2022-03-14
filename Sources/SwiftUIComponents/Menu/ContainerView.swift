@@ -109,14 +109,14 @@ import SwiftUI
     public struct ContainerView: View {
         @ObservedObject var controller: MenuController
         var item: MenuItem
-
-        @State private var showInspector = true
+        @State private var showInspector = false
+        
         public var body: some View {
             if controller.inspector == nil {
                 item.makeView()
             } else {
-                HSplitView {
-                    if controller.titleView == nil {
+                if controller.titleView == nil {
+                    HSplitView {
                         // Main View
                         item.makeView()
                             .layoutPriority(1)
@@ -126,55 +126,33 @@ import SwiftUI
                             controller.inspector!
                                 .frame(idealWidth: 300)
                         }
-                    } else {
-                        VStack(spacing: 0) {
-                            HStack(spacing: 0) {
-                                controller.titleView
-                                Spacer()
-                                Button {
-                                    withAnimation {
-                                        showInspector.toggle()
-                                    }
+                    }
+                } else {
+                    VStack(spacing: 0) {
+                        HStack(spacing: 0) {
+                            controller.titleView
+                            Spacer()
+                            Button {
+                                withAnimation {
+                                    showInspector.toggle()
                                 }
-                                label: {
-                                    Image(systemName: "line.3.horizontal")
-                                }
-                                .buttonStyle(.plain)
-                                .padding(.trailing, 10)
                             }
-                            .background(controller.titleViewBackgroundColor)
-                            HStack(spacing: 0) {
-                                item.makeView()
-                                    .layoutPriority(1)
-                                if showInspector {
-                                    controller.inspector!
-                                        .frame(idealWidth: 300)
-                                }
+                            label: {
+                                Image(systemName: "line.3.horizontal")
+                            }
+                            .buttonStyle(.plain)
+                            .padding(.trailing, 10)
+                        }
+                        .background(controller.titleViewBackgroundColor)
+                        HSplitView {
+                            item.makeView()
+                                .layoutPriority(1)
+                            if showInspector {
+                                controller.inspector!
+                                    .frame(idealWidth: 300)
                             }
                         }
                     }
-                }
-                .if(controller.inspector != nil && controller.titleView == nil) { view in
-                    view
-                        .overlay(
-                            VStack(spacing: 0) {
-                                HStack {
-                                    Spacer()
-                                    Button {
-                                        withAnimation {
-                                            showInspector.toggle()
-                                        }
-                                    }
-                                    label: {
-                                        Image(systemName: "line.3.horizontal")
-                                    }
-                                    .buttonStyle(.plain)
-                                    .padding(.top, 5)
-                                    .padding(.trailing, 5)
-                                }
-                                Spacer()
-                            }
-                        )
                 }
             }
         }
