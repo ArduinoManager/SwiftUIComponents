@@ -328,9 +328,10 @@ struct SimpleListContainer: View {
     @StateObject private var controller: ListController<ListItem, RowView>
 
     init() {
-        let items = [ListItem(firstName: "A", lastName: "A"),
-                     ListItem(firstName: "B", lastName: "B"),
-                     ListItem(firstName: "C", lastName: "C")]
+        let items = [ListItem(firstName: "C", lastName: "C"),
+                     ListItem(firstName: "A", lastName: "A"),
+                     ListItem(firstName: "B", lastName: "B")
+                     ]
 
 //        controller = ListController<ListItem, RowView, FormView>(items: items,
 //                                                                 title: "Title",
@@ -351,6 +352,7 @@ struct SimpleListContainer: View {
         ]
 
         _controller = StateObject(wrappedValue: ListController<ListItem, RowView>(items: items,
+                                                                                  sort: sortList,
                                                                                   style: .grouped(alternatesRows: true, alternateBackgroundColor: .white),
                                                                                   title: "Title",
                                                                                   addButtonColor: .red,
@@ -383,6 +385,12 @@ struct SimpleList_Previews: PreviewProvider {
         Group {
             SimpleListContainer()
         }
+    }
+}
+
+func sortList(list : inout [ListItem]) {
+    list.sort {
+        $0.lastName < $1.lastName
     }
 }
 

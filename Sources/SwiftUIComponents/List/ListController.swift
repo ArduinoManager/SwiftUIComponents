@@ -77,6 +77,7 @@ public enum ListStyle {
 
 public class ListController<Item: Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View>: ObservableObject {
     @Published var items: [Item]
+    var sort:((_: inout [Item]) -> Void)?
     var style: ListStyle
     var title: String?
     var multipleSelection: Bool
@@ -109,6 +110,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
     
     #if os(iOS)
     public init(items: [Item],
+                sort: ((_: [Item]) -> Void)? = nil,
                 style: ListStyle,
                 title: String? = nil,
                 multipleSelection: Bool = false,
@@ -125,10 +127,10 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
                 showLineSeparator: Bool = true,
                 lineSeparatorColor: Color? = nil,
                 makeRow: @escaping (_: Item) -> Row
-                
     )
     {
         self.items = items
+        self.sort = sort
         self.style = style
         self.title = title
         self.multipleSelection = multipleSelection
@@ -154,6 +156,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
     #if os(macOS)
     
     public init(items: [Item],
+                sort: ((_: inout [Item]) -> Void)? = nil,
                 style: ListStyle,
                 title: String? = nil,
                 multipleSelection: Bool = false,
@@ -174,6 +177,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
     )
     {
         self.items = items
+        self.sort = sort
         self.style = style
         self.title = title
         self.multipleSelection = multipleSelection
@@ -193,6 +197,9 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
         if (!leadingActions.isEmpty || !trailingActions.isEmpty) && self.actionHandler == nil{
             fatalError("No actiton Handler provided")
         }
+        if sort != nil {
+            sort!(&self.items)
+        }
     }
     #endif
     public var selectedItems: [Item] {
@@ -207,13 +214,19 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
 
     public func add(item: Item) {
         items.append(item)
+        if sort != nil {
+            sort!(&items)
+        }
     }
 
     public func update(oldItem: Item, newItem: Item) {
         if let idx = items.firstIndex(of: oldItem) {
             items.remove(at: idx)
             items.insert(newItem, at: idx)
-            print(items)
+            //print(items)
+            if sort != nil {
+                sort!(&items)
+            }
         }
     }
 
@@ -241,9 +254,4 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
         startNewItem = nil
         selectedItem = nil
     }
-    
-    public func buildRow(item: Item) -> Row {
-        return makeRow(item)
-    }
-    
 }
