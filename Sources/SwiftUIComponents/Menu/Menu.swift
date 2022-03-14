@@ -52,7 +52,8 @@ public struct Menu: View {
                                 .layoutPriority(1)
                             // Inspector
                             controller.inspector!
-                                .frame(minWidth: inspectorSize)
+                                .frame(width: inspectorSize)
+                                .frame(minWidth: 0, maxWidth: .infinity)
                         }
                     }
                 } else {
@@ -60,10 +61,26 @@ public struct Menu: View {
                     VStack {
                         if controller.titleView != nil {
                             controller.titleView
-                                .frame(minWidth: inspectorSize)
+                                .frame(width: inspectorSize)
+                                .frame(minWidth: 0, maxWidth: .infinity)
+                                
                         }
                         ContainerView(controller: controller, item: controller.menuItems[0])
                     }
+                }
+            }
+            .toolbar {
+                ToolbarItem(placement: .primaryAction) {
+                    
+                    Button {
+                        
+                    }
+                label: {
+                        Image(systemName: "line.3.horizontal")
+                            .foregroundColor(.red)
+                    }
+                    
+                    //Button(action: self.toggleRightPane, label: { Image() })
                 }
             }
             .if(controller.inspector != nil && controller.titleView == nil) { view in
