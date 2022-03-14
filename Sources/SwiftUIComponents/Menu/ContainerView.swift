@@ -116,34 +116,43 @@ import SwiftUI
                 item.makeView()
             } else {
                 HSplitView {
-                    
                     if controller.titleView == nil {
-                    // Main View
-                    item.makeView()
-                        .layoutPriority(1)
-                    
-                    // Inspector
-                    if showInspector {
-                        controller.inspector!
-                            .frame(idealWidth: 300)
-                    }
-                }
-                else {
-                    VStack(spacing:0) {
-                        controller.titleView
-                        HStack() {
-                            item.makeView()
-                                .layoutPriority(1)
-                            if showInspector {
-                                controller.inspector!
-                                    .frame(idealWidth: 300)
+                        // Main View
+                        item.makeView()
+                            .layoutPriority(1)
+
+                        // Inspector
+                        if showInspector {
+                            controller.inspector!
+                                .frame(idealWidth: 300)
+                        }
+                    } else {
+                        VStack(spacing: 0) {
+                            HStack(spacing: 0) {
+                                controller.titleView
+                                Spacer()
+                                Button {
+                                    withAnimation {
+                                        showInspector.toggle()
+                                    }
+                                }
+                                label: {
+                                    Image(systemName: "line.3.horizontal")
+                                }
+                                .buttonStyle(.plain)
+                                .padding(.trailing, 10)
+                            }
+                            .background(controller.titleViewBackgroundColor)
+                            HStack(spacing: 0) {
+                                item.makeView()
+                                    .layoutPriority(1)
+                                if showInspector {
+                                    controller.inspector!
+                                        .frame(idealWidth: 300)
+                                }
                             }
                         }
                     }
-                }
-                    
-                    
-                    
                 }
                 .if(controller.inspector != nil && controller.titleView == nil) { view in
                     view
