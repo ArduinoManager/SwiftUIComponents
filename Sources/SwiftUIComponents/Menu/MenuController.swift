@@ -103,7 +103,8 @@ public class MenuController: ObservableObject {
     var openButtonSize: CGFloat
     var titleView: AnyView?
     var titleViewBackgroundColor: Color
-    var menuItems = [MenuItem]()
+    var menuItems: [MenuItem]
+    var inspector: AnyView?
 
 #if os(iOS)
 
@@ -128,7 +129,14 @@ public class MenuController: ObservableObject {
     
     #if os(macOS)
     
-    public init(menuItems: [MenuItem], sideTitleView: AnyView? = nil, backgroundColor: Color = Color(NSColor.windowBackgroundColor), itemsColor: Color = Color(NSColor.labelColor), titleView: AnyView? = nil, titleViewBackgroundColor: Color = Color(NSColor.windowBackgroundColor)) {
+    public init(menuItems: [MenuItem],
+                sideTitleView: AnyView? = nil,
+                backgroundColor: Color = Color(NSColor.windowBackgroundColor),
+                itemsColor: Color = Color(NSColor.labelColor),
+                titleView: AnyView? = nil,
+                titleViewBackgroundColor: Color = Color(NSColor.windowBackgroundColor),
+                inspector: AnyView? = nil
+    ) {
         showMenu = false
         self.autoClose = false
         self.openButtonAtTop = false
@@ -142,6 +150,7 @@ public class MenuController: ObservableObject {
         self.titleView = titleView
         self.titleViewBackgroundColor = titleViewBackgroundColor
         self.menuItems = menuItems
+        self.inspector = inspector
         currentTab = menuItems[0].title
     }
     

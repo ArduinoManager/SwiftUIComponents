@@ -156,13 +156,16 @@ struct MainViewContainer: View {
         ),
         backgroundColor: .blue,
         itemsColor: .red,
-        titleView: AnyView(TitleView())
+        titleView: AnyView(TitleView()),
+                                                         inspector: AnyView(Inspector())
     )
 
     var body: some View {
         Menu(controller: controller)
     }
 }
+
+// Auxiliary Views
 
 struct SideTitleView: View {
     var body: some View {
@@ -193,6 +196,17 @@ struct TitleView: View {
         .background(.cyan)
     }
 }
+
+struct Inspector: View {
+    var body: some View {
+        VStack {
+            Spacer()
+            Text("Inspector")
+            Spacer()
+        }
+    }
+}
+
 
 
 struct MainView_Previews: PreviewProvider {

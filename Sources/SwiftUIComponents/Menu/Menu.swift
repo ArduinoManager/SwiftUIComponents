@@ -27,8 +27,19 @@ public struct Menu: View {
             // Left Panel
             SideMenuView(controller: controller)
             
+            if controller.inspector != nil {
+                HSplitView {
+                    ContainerView(controller: controller, item: controller.menuItems[0])
+                      .layoutPriority(1)
+                    
+                    // Inspector
+                    controller.inspector!
+                  }
+            }
+            else {
             // Right Panel
-            ContainerView(controller: controller, item: controller.menuItems[0])
+                ContainerView(controller: controller, item: controller.menuItems[0])
+            }
         }
     
         #endif
