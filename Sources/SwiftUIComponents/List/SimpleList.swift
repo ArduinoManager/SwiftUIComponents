@@ -110,6 +110,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                         controller.makeRow(item)
                             .modifier(AttachActions(controller: controller, item: item, sheetManager: sheetManager))
                             .background(currentColor(idx: idx))
+                            .modifier(AttachSwipeActions(controller: controller, item: item, sheetManager: sheetManager))
                             .if(!controller.showLineSeparator) { view in
                                 view
                                     .listRowSeparator(.hidden)
@@ -118,7 +119,6 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                                 view
                                     .listRowSeparatorTint(controller.lineSeparatorColor!)
                             }
-                            .modifier(AttachSwipeActions(controller: controller, item: item, sheetManager: sheetManager))
                     #endif
                 }
                 #if os(macOS)
@@ -175,11 +175,12 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                     }
                     .frame(width: iconSize, height: iconSize)
                     .border(action.color, width: 1)
-                    .tint(action.color)
                     #if os(iOS)
+                        .tint(action.color)
                         .buttonStyle(BorderlessButtonStyle())
                     #endif
                     #if os(macOS)
+                        .foregroundColor(action.color)
                         .buttonStyle(.plain)
                     #endif
                 }
@@ -201,11 +202,12 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
             }
             .frame(width: iconSize, height: iconSize)
             .border(.red, width: 1)
-            .tint(.red)
             #if os(iOS)
+                .tint(.red)
                 .buttonStyle(BorderlessButtonStyle())
             #endif
             #if os(macOS)
+                .foregroundColor(.red)
                 .buttonStyle(.plain)
             #endif
 
@@ -222,11 +224,13 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
             }
             .frame(width: iconSize, height: iconSize)
             .border(Color.accentColor, width: 1)
-            .tint(Color.accentColor)
+
             #if os(iOS)
+                .tint(Color.accentColor)
                 .buttonStyle(BorderlessButtonStyle())
             #endif
             #if os(macOS)
+                .foregroundColor(Color.accentColor)
                 .buttonStyle(.plain)
             #endif
 
@@ -250,11 +254,12 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                 }
                 .frame(width: iconSize, height: iconSize)
                 .border(action.color, width: 1)
-                .tint(action.color)
                 #if os(iOS)
+                    .tint(action.color)
                     .buttonStyle(BorderlessButtonStyle())
                 #endif
                 #if os(macOS)
+                    .foregroundColor(action.color)
                     .buttonStyle(.plain)
                 #endif
             }
