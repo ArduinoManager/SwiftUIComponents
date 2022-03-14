@@ -149,7 +149,8 @@ struct MainViewContainer: View {
         sideTitleView: AnyView(SideTitleView()),
         backgroundColor: .blue,
         itemsColor: .red,
-        titleView: AnyView(TitleView()),
+//        titleView: AnyView(TitleView()),
+//        titleViewBackgroundColor: .accentColor,
         inspector: AnyView(Inspector())
     )
 
@@ -196,8 +197,7 @@ struct Inspector: View {
             Spacer()
             Text("Inspector")
             Spacer()
-        }
-        .frame(minWidth: 100, idealWidth: 300)
+        }        
     }
 }
 

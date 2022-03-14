@@ -11,6 +11,7 @@ import SwiftUI
 
 public struct Menu: View {
     @ObservedObject private var controller: MenuController
+    @State var inspectorSize: CGFloat = 100.0
 
     public init(controller: MenuController) {
         self.controller = controller
@@ -21,51 +22,87 @@ public struct Menu: View {
 
     public var body: some View {
         #if os(macOS)
-        let _ = Self._printChanges()
-        NavigationView {
-            
-            // Left Panel
-            SideMenuView(controller: controller)
-            
-            if controller.inspector != nil {
-                VStack(spacing: 0) {
-                //let _ = Self._printChanges()
-                if controller.titleView != nil {
-                    controller.titleView
-                }
-                HSplitView {
-                    ContainerView(controller: controller, item: controller.menuItems[0])
-                      .layoutPriority(1)
-                    // Inspector
-                    controller.inspector!
-                  }
-                }
-            }
-            else {
-            // Right Panel
-                VStack {
-                    //let _ = Self._printChanges()
-                    if controller.titleView != nil {
-                        controller.titleView
+            let x = Self._printChanges()
+            NavigationView {
+                // Left Panel
+                SideMenuView(controller: controller)
+
+                if controller.inspector != nil {
+                    VStack(spacing: 0) {
+                        if controller.titleView != nil {
+                            HStack {
+                                controller.titleView
+                                Button {
+                                    if inspectorSize > 0 {
+                                        inspectorSize = 0
+                                    } else {
+                                        inspectorSize = 100
+                                    }
+                                }
+                                label: {
+                                    Image(systemName: "line.3.horizontal")
+                                }
+                                .buttonStyle(.plain)
+                                .padding(.trailing, 10)
+                            }
+                            .background(controller.titleViewBackgroundColor)
+                        }
+                        HSplitView {
+                            ContainerView(controller: controller, item: controller.menuItems[0])
+                                .layoutPriority(1)
+                            // Inspector
+                            controller.inspector!
+                                .frame(minWidth: inspectorSize, idealWidth: 300)
+                        }
                     }
-                    ContainerView(controller: controller, item: controller.menuItems[0])
+                } else {
+                    // Right Panel
+                    VStack {
+                        // let _ = Self._printChanges()
+                        if controller.titleView != nil {
+                            controller.titleView
+                        }
+                        ContainerView(controller: controller, item: controller.menuItems[0])
+                    }
                 }
             }
-        }
-    
+            .if(controller.inspector != nil && controller.titleView == nil) { view in
+                view
+                    .overlay(
+                        VStack(spacing: 0) {
+                            HStack {
+                                Spacer()
+                                Button {
+                                    if inspectorSize > 0 {
+                                        inspectorSize = 0
+                                    } else {
+                                        inspectorSize = 100
+                                    }
+                                }
+                                label: {
+                                    Image(systemName: "line.3.horizontal")
+                                }
+                                .buttonStyle(.plain)
+                                .padding(.top, 5)
+                                .padding(.trailing, 5)
+                            }
+                            Spacer()
+                        }
+                    )
+            }
         #endif
         #if os(iOS)
-        ZStack {
-            // Side Menu
-            SideMenuView(controller: controller)
-               
-            // Main Tab View
-            ContainerView(controller: controller)
-                .cornerRadius(controller.showMenu ? 25 : 0)
-                .rotation3DEffect(.init(degrees: controller.showMenu ? -15 : 0), axis: (x: 0, y: 1, z: 0), anchor: .trailing)
-                .offset(x: controller.showMenu ? getRect().width / 2 : 0)
-                .ignoresSafeArea()
-        }
+            ZStack {
+                // Side Menu
+                SideMenuView(controller: controller)
+
+                // Main Tab View
+                ContainerView(controller: controller)
+                    .cornerRadius(controller.showMenu ? 25 : 0)
+                    .rotation3DEffect(.init(degrees: controller.showMenu ? -15 : 0), axis: (x: 0, y: 1, z: 0), anchor: .trailing)
+                    .offset(x: controller.showMenu ? getRect().width / 2 : 0)
+                    .ignoresSafeArea()
+            }
         #endif
     }
 }
@@ -75,7 +112,6 @@ struct ContentView: View {
         Text("ContentView !!!!")
     }
 }
-
 
 // Toggle Sidebar Function
 func toggleSidebar() {

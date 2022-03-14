@@ -108,8 +108,20 @@ public class MenuController: ObservableObject {
 
 #if os(iOS)
 
-    public init(menuItems: [MenuItem], autoClose: Bool = true, openButtonAtTop: Bool = true, openButtonColor: Color = Color(uiColor: .label), openButtonIcon: String = "line.3.horizontal", openButtonSize: CGFloat = 20.0, sideTitleView: AnyView? = nil, backgroundColor: Color = Color(uiColor: .systemBackground), itemsColor: Color = Color(uiColor: .label), selectedItemBackgroundColor: Color = Color(uiColor: .systemGray4), titleView: AnyView? = nil, titleViewBackgroundColor: Color = Color(uiColor: .systemBackground)) {
+    public init(menuItems: [MenuItem],
+                autoClose: Bool = true,
+                openButtonAtTop: Bool = true,
+                openButtonColor: Color = Color(uiColor: .label),
+                openButtonIcon: String = "line.3.horizontal",
+                openButtonSize: CGFloat = 20.0,
+                sideTitleView: AnyView? = nil,
+                backgroundColor: Color = Color(uiColor: .systemBackground),
+                itemsColor: Color = Color(uiColor: .label),
+                selectedItemBackgroundColor: Color = Color(uiColor: .systemGray4),
+                titleView: AnyView? = nil,
+                titleViewBackgroundColor: Color = Color(uiColor: .systemBackground)) {
         showMenu = false
+        self.menuItems = menuItems
         self.autoClose = autoClose
         self.openButtonAtTop = openButtonAtTop
         self.openButtonColor = openButtonColor
@@ -121,7 +133,6 @@ public class MenuController: ObservableObject {
         self.selectedItemBackgroundColor = selectedItemBackgroundColor
         self.titleView = titleView
         self.titleViewBackgroundColor = titleViewBackgroundColor
-        self.menuItems = menuItems                
         currentTab = menuItems[0].title
     }
     
@@ -138,6 +149,7 @@ public class MenuController: ObservableObject {
                 inspector: AnyView? = nil
     ) {
         showMenu = false
+        self.menuItems = menuItems
         self.autoClose = false
         self.openButtonAtTop = false
         self.openButtonColor = Color(NSColor.labelColor)
@@ -148,8 +160,7 @@ public class MenuController: ObservableObject {
         self.itemsColor = itemsColor
         self.selectedItemBackgroundColor = Color(NSColor.labelColor)
         self.titleView = titleView
-        self.titleViewBackgroundColor = titleViewBackgroundColor
-        self.menuItems = menuItems
+        self.titleViewBackgroundColor = titleViewBackgroundColor        
         self.inspector = inspector
         currentTab = menuItems[0].title
     }
