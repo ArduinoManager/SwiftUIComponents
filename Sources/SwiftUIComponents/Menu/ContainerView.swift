@@ -116,7 +116,7 @@ import SwiftUI
                 // No inspector
                 item.makeView()
                     .onAppear {
-                        controller.currentTab = item.title
+                        controller.currentTab = item.key
                     }
             } else {
                 if controller.titleView == nil {
@@ -125,7 +125,7 @@ import SwiftUI
                         // Main View
                         item.makeView()
                             .onAppear(perform: {
-                                controller.currentTab = item.title
+                                controller.currentTab = item.key
                             })
                             .layoutPriority(1)
 
@@ -178,7 +178,7 @@ import SwiftUI
                         HSplitView {
                             item.makeView()
                                 .onAppear(perform: {
-                                    controller.currentTab = item.title
+                                    controller.currentTab = item.key
                                 })
                                 .layoutPriority(1)
                             if showInspector {
@@ -195,17 +195,19 @@ import SwiftUI
 #endif
 
 struct MainViewContainer: View {
-    @StateObject private var controller = MenuController(menuItems:
-        [
-            TabMenuItem(title: "Home", systemIcon: "theatermasks.fill", view: AnyView(TestView(text: "Home").background(.yellow))),
+    @StateObject private var controller: MenuController
+
+    init() {
+        let menuItems = [
+            TabMenuItem(key: 0, title: "Home", systemIcon: "theatermasks.fill", view: AnyView(TestView(text: "Home").background(.yellow))),
             HandlerMenuItem(title: "Print", systemIcon: "rectangle.portrait.and.arrow.right") {
                 print("Print")
             },
-            TabMenuItem(title: "Simple Table", systemIcon: "safari.fill", view: AnyView(TestView(text: "Discover").background(.blue))),
-            TabMenuItem(title: "Devices", systemIcon: "applewatch", view: AnyView(TestView(text: "Devices").background(.gray))),
+            TabMenuItem(key: 1, title: "Simple Table", systemIcon: "safari.fill", view: AnyView(TestView(text: "Discover").background(.blue))),
+            TabMenuItem(key: 4, title: "Devices", systemIcon: "applewatch", view: AnyView(TestView(text: "Devices").background(.gray))),
             TabMenuSpacer(height: 50),
-            TabMenuItem(title: "Profile", systemIcon: "person.fill", view: AnyView(TestView(text: "Profile").background(.green))),
-            TabMenuItem(title: "Profile2",
+            TabMenuItem(key: 2, title: "Profile", systemIcon: "person.fill", view: AnyView(TestView(text: "Profile").background(.green))),
+            TabMenuItem(key: 3, title: "Profile2",
                         icon: Image("logo", bundle: .module),
                         view: AnyView(TestView(text: "Profile").background(.green))),
 
@@ -222,14 +224,32 @@ struct MainViewContainer: View {
             HandlerMenuItem(title: "Kill!", icon: Image("logo", bundle: .module)) {
                 print("Login")
             },
-        ],
-        sideTitleView: AnyView(SideTitleView()),
-        backgroundColor: .blue,
-        itemsColor: .red,
+        ]
+
+        #if os(iOS)
+            _controller = StateObject(wrappedValue: MenuController(menuItems: menuItems
+                                                                   ,
+                                                                   sideTitleView: AnyView(SideTitleView()),
+                                                                   backgroundColor: .blue,
+                                                                   itemsColor: .red
 //        titleView: AnyView(TitleView()),
 //        titleViewBackgroundColor: .accentColor,
-        inspector: AnyView(Inspector())
-    )
+                )
+            )
+        #endif
+         #if os(macOS)
+        _controller = StateObject(wrappedValue: MenuController(menuItems: menuItems
+         ,
+         sideTitleView: AnyView(SideTitleView()),
+         backgroundColor: .blue,
+         itemsColor: .red,
+        //        titleView: AnyView(TitleView()),
+        //        titleViewBackgroundColor: .accentColor,
+         inspector: AnyView(Inspector())
+         )
+      )
+        #endif
+    }
 
     var body: some View {
         Menu(controller: controller)

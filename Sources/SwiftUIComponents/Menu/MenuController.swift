@@ -8,7 +8,10 @@
 import Foundation
 import SwiftUI
 
+public typealias Key = Int
+
 public class MenuItem: Hashable {
+    var key: Key
     var title: String
     var systemIcon: String?
     var icon: Image?
@@ -17,6 +20,7 @@ public class MenuItem: Hashable {
     var handler: (() -> Void)?
 
     public init() {
+        key = 0
         title = ""
         systemIcon = ""
     }
@@ -26,7 +30,7 @@ public class MenuItem: Hashable {
     }
 
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(title)
+        hasher.combine(key)
     }
     
     @ViewBuilder
@@ -37,16 +41,18 @@ public class MenuItem: Hashable {
 
 public class TabMenuItem: MenuItem {
     
-    public init(title: String, systemIcon: String, view: AnyView) {
+    public init(key: Key, title: String, systemIcon: String, view: AnyView) {
         super.init()
+        self.key = key
         self.title = title
         self.systemIcon = systemIcon
         self.icon = nil
         self.view = view
     }
     
-    public init(title: String, icon: Image, view: AnyView) {
+    public init(key: Key, title: String, icon: Image, view: AnyView) {
         super.init()
+        self.key = key
         self.title = title
         self.systemIcon = nil
         self.icon = icon
@@ -90,7 +96,7 @@ public class HandlerMenuItem: MenuItem {
 }
 
 public class MenuController: ObservableObject {
-    @Published public var currentTab: String
+    @Published public var currentTab: Key
     @Published var showMenu: Bool
     var sideTitleView: AnyView?
     var itemsColor: Color
@@ -133,7 +139,7 @@ public class MenuController: ObservableObject {
         self.selectedItemBackgroundColor = selectedItemBackgroundColor
         self.titleView = titleView
         self.titleViewBackgroundColor = titleViewBackgroundColor
-        currentTab = menuItems[0].title
+        currentTab = menuItems[0].key
     }
     
     #endif
@@ -162,7 +168,7 @@ public class MenuController: ObservableObject {
         self.titleView = titleView
         self.titleViewBackgroundColor = titleViewBackgroundColor        
         self.inspector = inspector
-        currentTab = menuItems[0].title
+        currentTab = menuItems[0].key
     }
     
     #endif

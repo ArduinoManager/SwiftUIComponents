@@ -86,18 +86,18 @@ import SwiftUI
         func CustomTabButton(item: MenuItem) -> some View {
             Button {
                 withAnimation {
-                    controller.currentTab = item.title
+                    controller.currentTab = item.key
                 }
             }
             label: {
                 HStack {
                     makeImage(item: item)
                         .font(.title3)
-                        .frame(width: controller.currentTab == item.title ? buttonHeight : nil, height: buttonHeight)
-                        .foregroundColor(controller.currentTab == item.title ? controller.selectedItemBackgroundColor : controller.itemsColor)
+                        .frame(width: controller.currentTab == item.key ? buttonHeight : nil, height: buttonHeight)
+                        .foregroundColor(controller.currentTab == item.key ? controller.selectedItemBackgroundColor : controller.itemsColor)
                         .background(
                             ZStack {
-                                if controller.currentTab == item.title {
+                                if controller.currentTab == item.key {
                                     Color.white
                                         .clipShape(Circle())
                                         .matchedGeometryEffect(id: "TABCIRCLE", in: animation)
@@ -115,7 +115,7 @@ import SwiftUI
                 .padding(.trailing, 18)
                 .background(
                     ZStack {
-                        if controller.currentTab == item.title {
+                        if controller.currentTab == item.key {
                             controller.selectedItemBackgroundColor
                                 .clipShape(Capsule())
                                 .matchedGeometryEffect(id: "TABCAPSULE", in: animation)
@@ -124,7 +124,7 @@ import SwiftUI
                 )
             }
             #if os(iOS)
-                .offset(x: controller.currentTab == item.title ? 15 : 0)
+                .offset(x: controller.currentTab == item.key ? 15 : 0)
             #endif
             #if os(macOS)
                 .buttonStyle(PlainButtonStyle())
@@ -142,11 +142,11 @@ import SwiftUI
                 HStack {
                     makeImage(item: item)
                         .font(.title3)
-                        .frame(width: controller.currentTab == item.title ? buttonHeight : nil, height: buttonHeight)
-                        .foregroundColor(controller.currentTab == item.title ? controller.selectedItemBackgroundColor : controller.itemsColor)
+                        .frame(width: controller.currentTab == item.key ? buttonHeight : nil, height: buttonHeight)
+                        .foregroundColor(controller.currentTab == item.key ? controller.selectedItemBackgroundColor : controller.itemsColor)
                         .background(
                             ZStack {
-                                if controller.currentTab == item.title {
+                                if controller.currentTab == item.key {
                                     Color.white
                                         .clipShape(Circle())
                                         .matchedGeometryEffect(id: "TABCIRCLE", in: animation)
@@ -164,7 +164,7 @@ import SwiftUI
                 .padding(.trailing, 18)
                 .background(
                     ZStack {
-                        if controller.currentTab == item.title {
+                        if controller.currentTab == item.key {
                             controller.selectedItemBackgroundColor
                                 .clipShape(Capsule())
                                 .matchedGeometryEffect(id: "TABCAPSULE", in: animation)
@@ -173,7 +173,7 @@ import SwiftUI
                 )
             }
             #if os(iOS)
-                .offset(x: controller.currentTab == item.title ? 15 : 0)
+                .offset(x: controller.currentTab == item.key ? 15 : 0)
             #endif
             #if os(macOS)
                 .buttonStyle(PlainButtonStyle())
