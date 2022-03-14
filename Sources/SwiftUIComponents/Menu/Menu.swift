@@ -28,17 +28,28 @@ public struct Menu: View {
             SideMenuView(controller: controller)
             
             if controller.inspector != nil {
+                VStack(spacing: 0) {
+                //let _ = Self._printChanges()
+                if controller.titleView != nil {
+                    controller.titleView
+                }
                 HSplitView {
                     ContainerView(controller: controller, item: controller.menuItems[0])
                       .layoutPriority(1)
-                    
                     // Inspector
                     controller.inspector!
                   }
+                }
             }
             else {
             // Right Panel
-                ContainerView(controller: controller, item: controller.menuItems[0])
+                VStack {
+                    //let _ = Self._printChanges()
+                    if controller.titleView != nil {
+                        controller.titleView
+                    }
+                    ContainerView(controller: controller, item: controller.menuItems[0])
+                }
             }
         }
     

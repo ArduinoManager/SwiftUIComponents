@@ -109,15 +109,9 @@ import SwiftUI
     public struct ContainerView: View {
         @ObservedObject var controller: MenuController
         var item: MenuItem
-        
+
         public var body: some View {
-            VStack(spacing: 0) {
-                //let _ = Self._printChanges()
-                if controller.titleView != nil {
-                    controller.titleView
-                }
-                item.makeView()
-            }
+            item.makeView()
         }
     }
 
@@ -152,12 +146,11 @@ struct MainViewContainer: View {
                 print("Login")
             },
         ],
-        sideTitleView: AnyView(SideTitleView()
-        ),
+        sideTitleView: AnyView(SideTitleView()),
         backgroundColor: .blue,
         itemsColor: .red,
         titleView: AnyView(TitleView()),
-                                                         inspector: AnyView(Inspector())
+        inspector: AnyView(Inspector())
     )
 
     var body: some View {
@@ -189,10 +182,10 @@ struct SideTitleView: View {
 
 struct TitleView: View {
     var body: some View {
-        HStack{
+        HStack {
             Text("This is the Title View")
         }
-        .frame(maxWidth:.infinity, maxHeight: 40)
+        .frame(maxWidth: .infinity, maxHeight: 40)
         .background(.cyan)
     }
 }
@@ -204,10 +197,9 @@ struct Inspector: View {
             Text("Inspector")
             Spacer()
         }
+        .frame(minWidth: 100, idealWidth: 300)
     }
 }
-
-
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
