@@ -95,9 +95,6 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                             controller.makeRow(item)
                                 .modifier(AttachActions(controller: controller, item: item, sheetManager: sheetManager))
                                 .background(currentColor(idx: idx))
-                                .onTapGesture {
-                                    controller.select(item: item)
-                                }
                                 .modifier(AttachSwipeActions(controller: controller, item: item, sheetManager: sheetManager))
                             if controller.showLineSeparator {
                                 Divider()
@@ -188,6 +185,9 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
             }
             //
             content
+                .onTapGesture {
+                    controller.select(item: item)
+                }
             //
             Button {
                 controller.delete(item: item)
