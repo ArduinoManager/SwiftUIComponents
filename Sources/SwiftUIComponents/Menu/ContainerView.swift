@@ -110,12 +110,14 @@ import SwiftUI
         @ObservedObject var controller: MenuController
         var item: MenuItem
         @State private var showInspector = false
-        
+
         public var body: some View {
             if controller.inspector == nil {
+                // No inspector
                 item.makeView()
             } else {
                 if controller.titleView == nil {
+                    // Inspector without Title View
                     HSplitView {
                         // Main View
                         item.makeView()
@@ -127,7 +129,30 @@ import SwiftUI
                                 .frame(idealWidth: 300)
                         }
                     }
+                    .if(controller.inspector != nil && controller.titleView == nil) { view in
+                        view
+                            .overlay(
+                                VStack(spacing: 0) {
+                                    HStack {
+                                        Spacer()
+                                        Button {
+                                            withAnimation {
+                                                showInspector.toggle()
+                                            }
+                                        }
+                                        label: {
+                                            Image(systemName: "line.3.horizontal")
+                                        }
+                                        .buttonStyle(.plain)
+                                        .padding(.top, 5)
+                                        .padding(.trailing, 5)
+                                    }
+                                    Spacer()
+                                }
+                            )
+                    }
                 } else {
+                    // Inspector with Title View
                     VStack(spacing: 0) {
                         HStack(spacing: 0) {
                             controller.titleView
@@ -192,8 +217,8 @@ struct MainViewContainer: View {
         sideTitleView: AnyView(SideTitleView()),
         backgroundColor: .blue,
         itemsColor: .red,
-        titleView: AnyView(TitleView()),
-        titleViewBackgroundColor: .accentColor,
+//        titleView: AnyView(TitleView()),
+//        titleViewBackgroundColor: .accentColor,
         inspector: AnyView(Inspector())
     )
 
