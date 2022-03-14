@@ -91,16 +91,16 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                                             controller.editingItem = item
                                                         }),
                                 label: {
-                                    HStack(alignment: .center, spacing: 0) {
-                                        controller.makeRow(item)
-                                    }
-                                    .background(currentColor(idx: idx))
-                                    .onTapGesture {
-                                        controller.select(item: item)
-                                    }
+                                    controller.makeRow(item)
+                                        .modifier(AttachActions(controller: controller, item: item))
+                                        .background(currentColor(idx: idx))
+//                                    .onTapGesture {
+//                                        controller.select(item: item)
+//                                    }
                                 }
                             )
-                            .modifier(AttachActions(controller: controller, item: item))
+                            .background(currentColor(idx: idx))
+                            .modifier(AttachSwipeActions(controller: controller, item: item))
                             .if(!controller.showLineSeparator) { view in
                                 view
                                 #if os(iOS)
@@ -123,16 +123,11 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                 .hidden()
                             VStack(alignment: .leading, spacing: 0) {
                                 HStack(alignment: .center, spacing: 0) {
-                                    HStack(alignment: .center, spacing: 0) {
-                                        controller.makeRow(item)
-                                    }
-                                    .frame(maxWidth: .infinity)
-                                    .onTapGesture {
-                                        controller.select(item: item)
-                                    }
-                                    .modifier(AttachActions(controller: controller, item: item))
-                                    .background(currentColor(idx: idx))
-                                    .layoutPriority(1)
+                                    controller.makeRow(item)
+                                        .modifier(AttachActions(controller: controller, item: item))
+                                        .modifier(AttachSwipeActions(controller: controller, item: item))
+                                        .background(currentColor(idx: idx))
+                                        .layoutPriority(1)
                                     Button {
                                         controller.selectedItem = item
                                         controller.editingItem = item
@@ -189,6 +184,140 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
 fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View>: ViewModifier {
     var controller: ListController<Item, Row>
     var item: Item
+    #if os(iOS)
+        let iconSize: CGFloat = 25.0
+    #endif
+    #if os(macOS)
+        let iconSize: CGFloat = 18.0
+    #endif
+    func body(content: Content) -> some View {
+        HStack(alignment: .center, spacing: 5) {
+            if !controller.swipeActions {
+                ForEach(0 ..< controller.leadingActions.count, id: \.self) { idx in
+                    let action = controller.leadingActions[idx]
+                    Button {
+                        controller.actionHandler!(action.key)
+                    } label: {
+                        if let img = action.icon {
+                            img
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: iconSize, height: iconSize)
+                        } else {
+                            Image(systemName: action.systemIcon!)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: iconSize + 1, height: iconSize + 1)
+                                .padding(2)
+                        }
+                    }
+                    .frame(width: iconSize, height: iconSize)
+                    .border(action.color, width: 1)
+                    .padding(.top, 2)
+                    .padding(.bottom, controller.showLineSeparator ? 2 : 0)
+                    .padding(.leading, idx == 0 ? 2 : 0)
+                    #if os(iOS)
+                        .tint(action.color)
+                        .buttonStyle(BorderlessButtonStyle())
+                    #endif
+                    #if os(macOS)
+                        .foregroundColor(action.color)
+                        .buttonStyle(.plain)
+                    #endif
+                }
+            }
+            //
+            content
+                .onTapGesture {
+                    controller.select(item: item)
+                }
+            //
+            if !controller.swipeActions {
+                Button {
+                    controller.delete(item: item)
+                } label: {
+                    Image(systemName: "minus")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: iconSize, height: iconSize)
+                        .padding(2)
+                }
+                .frame(width: iconSize, height: iconSize)
+                .border(.red, width: 1)
+                .padding(.top, 2)
+                .padding(.bottom, controller.showLineSeparator ? 2 : 0)
+                #if os(iOS)
+                    .tint(.red)
+                    .buttonStyle(BorderlessButtonStyle())
+                #endif
+                #if os(macOS)
+                    .foregroundColor(.red)
+                    .buttonStyle(.plain)
+                #endif
+
+                Button {
+                    controller.editingItem = item
+                } label: {
+                    Image(systemName: "pencil")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: iconSize, height: iconSize)
+                        .padding(2)
+                }
+                .frame(width: iconSize, height: iconSize)
+                .border(Color.accentColor, width: 1)
+                .padding(.top, 2)
+                .padding(.bottom, controller.showLineSeparator ? 2 : 0)
+                .padding(.trailing, controller.trailingActions.count == 0 ? 2 : 0)
+                #if os(iOS)
+                    .tint(Color.accentColor)
+                    .buttonStyle(BorderlessButtonStyle())
+                #endif
+                #if os(macOS)
+                    .foregroundColor(Color.accentColor)
+                    .buttonStyle(.plain)
+                #endif
+
+                ForEach(0 ..< controller.trailingActions.count, id: \.self) { idx in
+                    let action = controller.trailingActions[idx]
+                    Button {
+                        controller.actionHandler!(action.key)
+                    } label: {
+                        if let img = action.icon {
+                            img
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: iconSize + 1, height: iconSize + 1)
+                        } else {
+                            Image(systemName: action.systemIcon!)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: iconSize, height: iconSize)
+                                .padding(2)
+                        }
+                    }
+                    .frame(width: iconSize, height: iconSize)
+                    .border(action.color, width: 1)
+                    .padding(.top, 1)
+                    .padding(.bottom, controller.showLineSeparator ? 2 : 0)
+                    .padding(.trailing, idx == controller.trailingActions.count - 1 ? 2 : 0)
+                    #if os(iOS)
+                        .tint(action.color)
+                        .buttonStyle(BorderlessButtonStyle())
+                    #endif
+                    #if os(macOS)
+                        .foregroundColor(action.color)
+                        .buttonStyle(.plain)
+                    #endif
+                }
+            }
+        }
+    }
+}
+
+fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View>: ViewModifier {
+    var controller: ListController<Item, Row>
+    var item: Item
 
     func body(content: Content) -> some View {
         content
@@ -236,13 +365,13 @@ struct NavigationListContainer: View {
 //                                                                 })
 
         let leadingActions = [
-            ListAction(key: "L1", label: "Action 1", color: .blue),
-            ListAction(key: "L2", label: "Action 2", color: .orange),
+            ListAction(key: "L1", label: "Action 1", systemIcon: "plus", color: .blue),
+            ListAction(key: "L2", label: "Action 2", systemIcon: "plus", color: .orange),
         ]
 
         let trailingActions = [
-            ListAction(key: "T1", label: "Action 1", color: .mint),
-            ListAction(key: "T2", label: "Action 2", color: .green),
+            ListAction(key: "T1", label: "Action 1", systemIcon: "plus", color: .mint),
+            ListAction(key: "T2", label: "Action 2", icon: Image("logo"), color: .red),
         ]
 
         _controller = StateObject(wrappedValue: ListController<ListItem, RowView>(items: items,
@@ -253,6 +382,7 @@ struct NavigationListContainer: View {
                                                                                   deleteButtonLabel: "Delete_",
                                                                                   backgroundColor: .green,
                                                                                   rowBackgroundColor: .purple,
+                                                                                  swipeActions: false,
                                                                                   leadingActions: leadingActions,
                                                                                   trailingActions: trailingActions,
                                                                                   actionHandler: { actionKey in

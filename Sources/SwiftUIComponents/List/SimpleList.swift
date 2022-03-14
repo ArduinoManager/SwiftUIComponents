@@ -149,8 +149,12 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
     var controller: ListController<Item, Row>
     var item: Item
     var sheetManager: SheetMananger
-    let iconSize: CGFloat = 25.0
-
+    #if os(iOS)
+        let iconSize: CGFloat = 25.0
+    #endif
+    #if os(macOS)
+        let iconSize: CGFloat = 18.0
+    #endif
     func body(content: Content) -> some View {
         HStack(alignment: .center, spacing: 5) {
             if !controller.swipeActions {
