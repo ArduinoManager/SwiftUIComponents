@@ -156,7 +156,6 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
             if !controller.swipeActions {
                 ForEach(0 ..< controller.leadingActions.count, id: \.self) { idx in
                     let action = controller.leadingActions[idx]
-
                     Button {
                         controller.actionHandler!(action.key)
                     } label: {
@@ -175,6 +174,9 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                     }
                     .frame(width: iconSize, height: iconSize)
                     .border(action.color, width: 1)
+                    .padding(.top, 1)
+                    .padding(.bottom, controller.showLineSeparator ? 1 : 0)
+                    .padding(.leading, idx == 0 ? 1 : 0)
                     #if os(iOS)
                         .tint(action.color)
                         .buttonStyle(BorderlessButtonStyle())
@@ -203,6 +205,8 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                 }
                 .frame(width: iconSize, height: iconSize)
                 .border(.red, width: 1)
+                .padding(.top, 1)
+                .padding(.bottom, controller.showLineSeparator ? 1 : 0)
                 #if os(iOS)
                     .tint(.red)
                     .buttonStyle(BorderlessButtonStyle())
@@ -225,7 +229,9 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                 }
                 .frame(width: iconSize, height: iconSize)
                 .border(Color.accentColor, width: 1)
-
+                .padding(.top, 1)
+                .padding(.bottom, controller.showLineSeparator ? 1 : 0)
+                .padding(.trailing, controller.trailingActions.count == 0 ? 1 : 0)
                 #if os(iOS)
                     .tint(Color.accentColor)
                     .buttonStyle(BorderlessButtonStyle())
@@ -235,7 +241,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                     .buttonStyle(.plain)
                 #endif
 
-                ForEach(Array(stride(from: controller.trailingActions.count - 1, to: -1, by: -1)), id: \.self) { idx in
+                ForEach(0 ..< controller.trailingActions.count, id: \.self) { idx in
                     let action = controller.trailingActions[idx]
                     Button {
                         controller.actionHandler!(action.key)
@@ -255,6 +261,9 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                     }
                     .frame(width: iconSize, height: iconSize)
                     .border(action.color, width: 1)
+                    .padding(.top, 1)
+                    .padding(.bottom, controller.showLineSeparator ? 1 : 0)
+                    .padding(.trailing, idx == controller.trailingActions.count - 1 ? 1 : 0)
                     #if os(iOS)
                         .tint(action.color)
                         .buttonStyle(BorderlessButtonStyle())
