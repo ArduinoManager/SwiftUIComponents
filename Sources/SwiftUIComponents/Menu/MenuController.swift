@@ -90,7 +90,7 @@ public class HandlerMenuItem: MenuItem {
 }
 
 public class MenuController: ObservableObject {
-    @Published var currentTab: String
+    @Published public var currentTab: String
     @Published var showMenu: Bool
     var sideTitleView: AnyView?
     var itemsColor: Color
