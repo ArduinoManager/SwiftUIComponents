@@ -191,77 +191,79 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                     controller.select(item: item)
                 }
             //
-            Button {
-                controller.delete(item: item)
-            } label: {
-                Image(systemName: "minus")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: iconSize, height: iconSize)
-                    .padding(2)
-            }
-            .frame(width: iconSize, height: iconSize)
-            .border(.red, width: 1)
-            #if os(iOS)
-                .tint(.red)
-                .buttonStyle(BorderlessButtonStyle())
-            #endif
-            #if os(macOS)
-                .foregroundColor(.red)
-                .buttonStyle(.plain)
-            #endif
-
-            Button {
-                controller.editingItem = item
-                sheetManager.whichSheet = .Form
-                sheetManager.showSheet.toggle()
-            } label: {
-                Image(systemName: "pencil")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: iconSize, height: iconSize)
-                    .padding(2)
-            }
-            .frame(width: iconSize, height: iconSize)
-            .border(Color.accentColor, width: 1)
-
-            #if os(iOS)
-                .tint(Color.accentColor)
-                .buttonStyle(BorderlessButtonStyle())
-            #endif
-            #if os(macOS)
-                .foregroundColor(Color.accentColor)
-                .buttonStyle(.plain)
-            #endif
-
-            ForEach(Array(stride(from: controller.trailingActions.count - 1, to: -1, by: -1)), id: \.self) { idx in
-                let action = controller.trailingActions[idx]
+            if !controller.swipeActions {
                 Button {
-                    controller.actionHandler!(action.key)
+                    controller.delete(item: item)
                 } label: {
-                    if let img = action.icon {
-                        img
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: iconSize, height: iconSize)
-                    } else {
-                        Image(systemName: action.systemIcon!)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: iconSize, height: iconSize)
-                            .padding(2)
-                    }
+                    Image(systemName: "minus")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: iconSize, height: iconSize)
+                        .padding(2)
                 }
                 .frame(width: iconSize, height: iconSize)
-                .border(action.color, width: 1)
+                .border(.red, width: 1)
                 #if os(iOS)
-                    .tint(action.color)
+                    .tint(.red)
                     .buttonStyle(BorderlessButtonStyle())
                 #endif
                 #if os(macOS)
-                    .foregroundColor(action.color)
+                    .foregroundColor(.red)
                     .buttonStyle(.plain)
                 #endif
+
+                Button {
+                    controller.editingItem = item
+                    sheetManager.whichSheet = .Form
+                    sheetManager.showSheet.toggle()
+                } label: {
+                    Image(systemName: "pencil")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: iconSize, height: iconSize)
+                        .padding(2)
+                }
+                .frame(width: iconSize, height: iconSize)
+                .border(Color.accentColor, width: 1)
+
+                #if os(iOS)
+                    .tint(Color.accentColor)
+                    .buttonStyle(BorderlessButtonStyle())
+                #endif
+                #if os(macOS)
+                    .foregroundColor(Color.accentColor)
+                    .buttonStyle(.plain)
+                #endif
+
+                ForEach(Array(stride(from: controller.trailingActions.count - 1, to: -1, by: -1)), id: \.self) { idx in
+                    let action = controller.trailingActions[idx]
+                    Button {
+                        controller.actionHandler!(action.key)
+                    } label: {
+                        if let img = action.icon {
+                            img
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: iconSize, height: iconSize)
+                        } else {
+                            Image(systemName: action.systemIcon!)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: iconSize, height: iconSize)
+                                .padding(2)
+                        }
+                    }
+                    .frame(width: iconSize, height: iconSize)
+                    .border(action.color, width: 1)
+                    #if os(iOS)
+                        .tint(action.color)
+                        .buttonStyle(BorderlessButtonStyle())
+                    #endif
+                    #if os(macOS)
+                        .foregroundColor(action.color)
+                        .buttonStyle(.plain)
+                    #endif
+                }
             }
         }
     }
