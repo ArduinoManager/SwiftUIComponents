@@ -61,7 +61,7 @@ public struct Menu: View {
                         if controller.titleView != nil {
                             if showInspector {
                                 controller.inspector!
-                                    .frame(minWidth: 250)
+                                    .frame(idealWidth: 250)
                             }
                         }
                         ContainerView(controller: controller, item: controller.menuItems[0])
