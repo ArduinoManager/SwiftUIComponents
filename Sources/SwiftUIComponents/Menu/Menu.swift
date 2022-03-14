@@ -11,7 +11,7 @@ import SwiftUI
 
 public struct Menu: View {
     @ObservedObject private var controller: MenuController
-    @State var inspectorSize: CGFloat = 0.0
+    @State var showInspector = true
 
     public init(controller: MenuController) {
         self.controller = controller
@@ -33,11 +33,7 @@ public struct Menu: View {
                             HStack {
                                 controller.titleView
                                 Button {
-                                    if inspectorSize == 0 {
-                                        inspectorSize = 100
-                                    } else {
-                                        inspectorSize = 0
-                                    }
+                                    showInspector.toggle()
                                 }
                                 label: {
                                     Image(systemName: "line.3.horizontal")
@@ -51,36 +47,23 @@ public struct Menu: View {
                             ContainerView(controller: controller, item: controller.menuItems[0])
                                 .layoutPriority(1)
                             // Inspector
-                            controller.inspector!
-                                .frame(width: inspectorSize)
-                                .frame(minWidth: 0, maxWidth: .infinity)
+                            if showInspector {
+                                controller.inspector!
+                                    .frame(idealWidth: 250)
+                            }
                         }
                     }
                 } else {
                     // Right Panel
                     VStack {
                         if controller.titleView != nil {
-                            controller.titleView
-                                .frame(width: inspectorSize)
-                                .frame(minWidth: 0, maxWidth: .infinity)
-                                
+                            if showInspector {
+                                controller.inspector!
+                                .frame(minWidth: 250)
+                            }
                         }
                         ContainerView(controller: controller, item: controller.menuItems[0])
                     }
-                }
-            }
-            .toolbar {
-                ToolbarItem(placement: .primaryAction) {
-                    
-                    Button {
-                        
-                    }
-                label: {
-                        Image(systemName: "line.3.horizontal")
-                            .foregroundColor(.red)
-                    }
-                    
-                    //Button(action: self.toggleRightPane, label: { Image() })
                 }
             }
             .if(controller.inspector != nil && controller.titleView == nil) { view in
@@ -90,11 +73,7 @@ public struct Menu: View {
                             HStack {
                                 Spacer()
                                 Button {
-                                    if inspectorSize == 0 {
-                                        inspectorSize = 100
-                                    } else {
-                                        inspectorSize = 0
-                                    }
+                                    showInspector.toggle()
                                 }
                                 label: {
                                     Image(systemName: "line.3.horizontal")

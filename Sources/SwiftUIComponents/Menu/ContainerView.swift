@@ -197,7 +197,8 @@ struct Inspector: View {
             Spacer()
             Text("Inspector")
             Spacer()
-        }        
+        }
+        //.frame(minWidth: 100, idealWidth: 300)
     }
 }
 
