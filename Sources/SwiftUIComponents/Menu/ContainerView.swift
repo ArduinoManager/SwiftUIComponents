@@ -126,7 +126,7 @@ import SwiftUI
                         // Inspector
                         if showInspector {
                             controller.inspector!
-                                .frame(idealWidth: 300)
+                                .frame(idealWidth: 500)
                         }
                     }
                     .if(controller.inspector != nil && controller.titleView == nil) { view in
@@ -174,7 +174,7 @@ import SwiftUI
                                 .layoutPriority(1)
                             if showInspector {
                                 controller.inspector!
-                                    .frame(idealWidth: 300)
+                                    .frame(idealWidth: 500)
                             }
                         }
                     }
