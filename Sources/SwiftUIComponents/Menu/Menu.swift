@@ -33,7 +33,9 @@ public struct Menu: View {
                             HStack {
                                 controller.titleView
                                 Button {
-                                    showInspector.toggle()
+                                    withAnimation {
+                                        showInspector.toggle()
+                                    }
                                 }
                                 label: {
                                     Image(systemName: "line.3.horizontal")
@@ -59,7 +61,7 @@ public struct Menu: View {
                         if controller.titleView != nil {
                             if showInspector {
                                 controller.inspector!
-                                .frame(minWidth: 250)
+                                    .frame(minWidth: 250)
                             }
                         }
                         ContainerView(controller: controller, item: controller.menuItems[0])
@@ -73,7 +75,9 @@ public struct Menu: View {
                             HStack {
                                 Spacer()
                                 Button {
-                                    showInspector.toggle()
+                                    withAnimation {
+                                        showInspector.toggle()
+                                    }
                                 }
                                 label: {
                                     Image(systemName: "line.3.horizontal")
