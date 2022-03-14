@@ -110,7 +110,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
     
     #if os(iOS)
     public init(items: [Item],
-                sort: ((_: [Item]) -> Void)? = nil,
+                sort: ((_: inout [Item]) -> Void)? = nil,
                 style: ListStyle,
                 title: String? = nil,
                 multipleSelection: Bool = false,
@@ -173,7 +173,6 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
                 showLineSeparator: Bool = true,
                 lineSeparatorColor: Color? = nil,
                 makeRow: @escaping (_: Item) -> Row
-                
     )
     {
         self.items = items
