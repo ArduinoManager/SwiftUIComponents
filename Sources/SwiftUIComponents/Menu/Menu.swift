@@ -11,7 +11,7 @@ import SwiftUI
 
 public struct Menu: View {
     @ObservedObject private var controller: MenuController
-    @State var showInspector = true
+    @State var showInspector = false
 
     public init(controller: MenuController) {
         self.controller = controller
@@ -51,7 +51,7 @@ public struct Menu: View {
                             // Inspector
                             if showInspector {
                                 controller.inspector!
-                                    .frame(idealWidth: 250)
+                                    
                             }
                         }
                     }
@@ -61,7 +61,7 @@ public struct Menu: View {
                         if controller.titleView != nil {
                             if showInspector {
                                 controller.inspector!
-                                    .frame(idealWidth: 250)
+                                    
                             }
                         }
                         ContainerView(controller: controller, item: controller.menuItems[0])
