@@ -167,8 +167,10 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                     } label: {
                         if let img = action.icon {
                             img
-                        }
-                        else {
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 30, height: 30)
+                        } else {
                             Image(systemName: action.systemIcon!)
                         }
                     }
@@ -214,7 +216,14 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                 Button {
                     controller.actionHandler!(action.key)
                 } label: {
-                    Image(systemName: action.systemIcon!)
+                    if let img = action.icon {
+                        img
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 30, height: 30)
+                    } else {
+                        Image(systemName: action.systemIcon!)
+                    }
                 }
                 .frame(width: 30, height: 30)
                 .border(action.color, width: 1)
