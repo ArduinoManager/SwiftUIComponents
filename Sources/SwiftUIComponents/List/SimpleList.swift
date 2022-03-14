@@ -92,14 +92,13 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                     let item = controller.items[idx]
                     #if os(macOS)
                         VStack(spacing: 0) {
-                            HStack(alignment: .center, spacing: 0) {
-                                controller.makeRow(item)
-                            }
-                            .background(currentColor(idx: idx))
-                            .onTapGesture {
-                                controller.select(item: item)
-                            }
-                            .modifier(AttachSwipeActions(controller: controller, item: item, sheetManager: sheetManager))
+                            controller.makeRow(item)
+                                .modifier(AttachActions(controller: controller, item: item, sheetManager: sheetManager))
+                                .background(currentColor(idx: idx))
+                                .onTapGesture {
+                                    controller.select(item: item)
+                                }
+                                .modifier(AttachSwipeActions(controller: controller, item: item, sheetManager: sheetManager))
                             if controller.showLineSeparator {
                                 Divider()
                                     .if(controller.lineSeparatorColor != nil) { view in
@@ -110,30 +109,22 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                         }
                     #endif
                     #if os(iOS)
-                        HStack(alignment: .center, spacing: 0) {
-                            controller.makeRow(item)
-                        }
-                        .background(currentColor(idx: idx))
-//                        .if(alternatesRows) { view in
-//                            view
-//                                .background(idx % 2 == 0 ? rowColor : rowAlternateColor)
-//                        }
-//                        .if(!alternatesRows) { view in
-//                            view
-//                                .background(rowColor)
-//                        }
-                        .onTapGesture {
-                            controller.select(item: item)
-                        }
-                        .if(!controller.showLineSeparator) { view in
-                            view
-                                .listRowSeparator(.hidden)
-                        }
-                        .if(controller.lineSeparatorColor != nil) { view in
-                            view
-                                .listRowSeparatorTint(controller.lineSeparatorColor!)
-                        }
-                        .modifier(AttachSwipeActions(controller: controller, item: item, sheetManager: sheetManager))
+                        // HStack(alignment: .center, spacing: 0) {
+                        controller.makeRow(item)
+                            .modifier(AttachActions(controller: controller, item: item, sheetManager: sheetManager))
+                            .background(currentColor(idx: idx))
+                            .onTapGesture {
+                                controller.select(item: item)
+                            }
+                            .if(!controller.showLineSeparator) { view in
+                                view
+                                    .listRowSeparator(.hidden)
+                            }
+                            .if(controller.lineSeparatorColor != nil) { view in
+                                view
+                                    .listRowSeparatorTint(controller.lineSeparatorColor!)
+                            }
+                            .modifier(AttachSwipeActions(controller: controller, item: item, sheetManager: sheetManager))
                     #endif
                 }
                 #if os(macOS)
@@ -157,6 +148,77 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
             return rowColor
         }
         return idx % 2 == 0 ? rowColor : rowAlternateColor
+    }
+}
+
+fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View>: ViewModifier {
+    var controller: ListController<Item, Row>
+    var item: Item
+    var sheetManager: SheetMananger
+
+    func body(content: Content) -> some View {
+        HStack(alignment: .center, spacing: 5) {
+            if !controller.swipeActions {
+                ForEach(0 ..< controller.leadingActions.count, id: \.self) { idx in
+                    let action = controller.leadingActions[idx]
+
+                    Button {
+                        controller.actionHandler!(action.key)
+                    } label: {
+                        Image(systemName: action.systemIcon!)
+                    }
+                    .frame(width: 30, height: 30)
+                    .border(action.color, width: 1)
+                    .tint(action.color)
+                    #if os(macOS)
+                        .buttonStyle(.plain)
+                    #endif
+                }
+            }
+            //
+            content
+            //
+            Button {
+                controller.delete(item: item)
+            } label: {
+                Image(systemName: "minus")
+            }
+            .frame(width: 30, height: 30)
+            .border(.red, width: 1)
+            .tint(.red)
+            #if os(macOS)
+                .buttonStyle(.plain)
+            #endif
+
+            Button {
+                controller.editingItem = item
+                sheetManager.whichSheet = .Form
+                sheetManager.showSheet.toggle()
+            } label: {
+                Image(systemName: "pencil")
+            }
+            .frame(width: 30, height: 30)
+            .border(Color.accentColor, width: 1)
+            .tint(Color.accentColor)
+            #if os(macOS)
+                .buttonStyle(.plain)
+            #endif
+
+            ForEach(Array(stride(from: controller.trailingActions.count - 1, to: -1, by: -1)), id: \.self) { idx in
+                let action = controller.trailingActions[idx]
+                Button {
+                    controller.actionHandler!(action.key)
+                } label: {
+                    Image(systemName: action.systemIcon!)
+                }
+                .frame(width: 30, height: 30)
+                .border(action.color, width: 1)
+                .tint(action.color)
+                #if os(macOS)
+                    .buttonStyle(.plain)
+                #endif
+            }
+        }
     }
 }
 
@@ -188,7 +250,7 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
                             sheetManager.whichSheet = .Form
                             sheetManager.showSheet.toggle()
                         }
-                        ForEach(Array(stride(from: controller.trailingActions.count - 1, to: -1, by: -1)), id: \.self) { idx in
+                        ForEach(0 ..< controller.leadingActions.count, id: \.self) { idx in
                             let action = controller.trailingActions[idx]
                             Button(action.label) {
                                 controller.actionHandler!(action.key)
@@ -219,13 +281,13 @@ struct SimpleListContainer: View {
 //                                                                 })
 
         let leadingActions = [
-            ListAction(key: "L1", label: "Action 1", color: .blue),
-            ListAction(key: "L2", label: "Action 2", color: .orange),
+            ListAction(key: "L1", label: "Action 1", systemIcon: "plus", color: .blue),
+            ListAction(key: "L2", label: "Action 2", systemIcon: "plus", color: .orange),
         ]
 
         let trailingActions = [
-            ListAction(key: "T1", label: "Action 1", color: .mint),
-            ListAction(key: "T2", label: "Action 2", color: .green),
+            ListAction(key: "T1", label: "Action 1", systemIcon: "plus", color: .mint),
+            ListAction(key: "T2", label: "Action 2", systemIcon: "plus", color: .red),
         ]
 
         _controller = StateObject(wrappedValue: ListController<ListItem, RowView>(items: items,
@@ -236,7 +298,7 @@ struct SimpleListContainer: View {
                                                                                   deleteButtonLabel: "Delete_",
                                                                                   backgroundColor: .green,
                                                                                   rowBackgroundColor: .purple,
-                                                                                  swipeActions: true,
+                                                                                  swipeActions: false,
                                                                                   leadingActions: leadingActions,
                                                                                   trailingActions: trailingActions,
                                                                                   actionHandler: { actionKey in

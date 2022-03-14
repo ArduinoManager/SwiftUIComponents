@@ -28,21 +28,31 @@ public struct ListAction: Hashable {
     var key: String
     var label: String
     var color: Color
+    var systemIcon: String?
+    var icon: Image?
     
     #if os(iOS)
-    public init(key: String, label: String, color: Color = Color(uiColor: .label)) {
+    public init(key: String, label: String, systemIcon: String? = nil, icon: Image? = nil, color: Color = Color(uiColor: .label)) {
         self.key = key
         self.label = label
         self.color = color
+        self.systemIcon = systemIcon
+        self.icon = icon
     }
     #endif
     #if os(macOS)
-    public init(key: String, label: String, color: Color = Color(NSColor.labelColor)) {
+    public init(key: String, label: String, systemIcon: String? = nil, icon: Image? = nil, color: Color = Color(NSColor.labelColor)) {
         self.key = key
         self.label = label
         self.color = color
+        self.systemIcon = systemIcon
+        self.icon = icon
     }
     #endif
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(key)
+    }
 }
 
 #if os(iOS)
