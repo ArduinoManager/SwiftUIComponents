@@ -173,6 +173,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                                 .padding(2)
                         }
                     }
+                    .frame(width: iconSize, height: iconSize)
                     .border(action.color, width: 1)
                     .tint(action.color)
                     #if os(macOS)
@@ -195,6 +196,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                     .frame(width: iconSize, height: iconSize)
                     .padding(2)
             }
+            .frame(width: iconSize, height: iconSize)
             .border(.red, width: 1)
             .tint(.red)
             #if os(macOS)
@@ -212,6 +214,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                     .frame(width: iconSize, height: iconSize)
                     .padding(2)
             }
+            .frame(width: iconSize, height: iconSize)
             .border(Color.accentColor, width: 1)
             .tint(Color.accentColor)
             #if os(macOS)
@@ -236,6 +239,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                             .padding(2)
                     }
                 }
+                .frame(width: iconSize, height: iconSize)
                 .border(action.color, width: 1)
                 .tint(action.color)
                 #if os(macOS)
