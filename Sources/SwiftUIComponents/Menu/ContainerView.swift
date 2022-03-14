@@ -112,37 +112,61 @@ import SwiftUI
 
         @State private var showInspector = true
         public var body: some View {
-            HSplitView {
-                // Main View
+            if controller.inspector == nil {
                 item.makeView()
-                    .layoutPriority(1)
-                // Inspector
-                if showInspector {
-                    controller.inspector!
-                        .frame(idealWidth: 300)
+            } else {
+                HSplitView {
+                    
+                    if controller.titleView == nil {
+                    // Main View
+                    item.makeView()
+                        .layoutPriority(1)
+                    
+                    // Inspector
+                    if showInspector {
+                        controller.inspector!
+                            .frame(idealWidth: 300)
+                    }
                 }
-            }
-            .if(controller.inspector != nil && controller.titleView == nil) { view in
-                view
-                    .overlay(
-                        VStack(spacing: 0) {
-                            HStack {
-                                Spacer()
-                                Button {
-                                    withAnimation {
-                                        showInspector.toggle()
-                                    }
-                                }
-                                label: {
-                                    Image(systemName: "line.3.horizontal")
-                                }
-                                .buttonStyle(.plain)
-                                .padding(.top, 5)
-                                .padding(.trailing, 5)
+                else {
+                    VStack(spacing:0) {
+                        controller.titleView
+                        HStack() {
+                            item.makeView()
+                                .layoutPriority(1)
+                            if showInspector {
+                                controller.inspector!
+                                    .frame(idealWidth: 300)
                             }
-                            Spacer()
                         }
-                    )
+                    }
+                }
+                    
+                    
+                    
+                }
+                .if(controller.inspector != nil && controller.titleView == nil) { view in
+                    view
+                        .overlay(
+                            VStack(spacing: 0) {
+                                HStack {
+                                    Spacer()
+                                    Button {
+                                        withAnimation {
+                                            showInspector.toggle()
+                                        }
+                                    }
+                                    label: {
+                                        Image(systemName: "line.3.horizontal")
+                                    }
+                                    .buttonStyle(.plain)
+                                    .padding(.top, 5)
+                                    .padding(.trailing, 5)
+                                }
+                                Spacer()
+                            }
+                        )
+                }
             }
         }
     }
@@ -181,8 +205,8 @@ struct MainViewContainer: View {
         sideTitleView: AnyView(SideTitleView()),
         backgroundColor: .blue,
         itemsColor: .red,
-//        titleView: AnyView(TitleView()),
-//        titleViewBackgroundColor: .accentColor,
+        titleView: AnyView(TitleView()),
+        titleViewBackgroundColor: .accentColor,
         inspector: AnyView(Inspector())
     )
 
