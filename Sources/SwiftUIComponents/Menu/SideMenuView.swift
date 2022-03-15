@@ -40,7 +40,7 @@ import SwiftUI
                                 CustomActionButton(item: item)
 
                             case is TabMenuSpacer:
-                                Spacer(minLength: item.height)
+                                Spacer(minLength: item.spacerHeight)
 
                             case is TabMenuDivider:
                                 let i = item as! TabMenuDivider
@@ -236,7 +236,7 @@ import SwiftUI
                             }
 
                         case is TabMenuSpacer:
-                            Spacer(minLength: item.height)
+                            Spacer(minLength: item.spacerHeight)
 
                         case is TabMenuDivider:
                             let i = item as! TabMenuDivider

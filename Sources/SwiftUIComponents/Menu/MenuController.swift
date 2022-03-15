@@ -11,13 +11,13 @@ import SwiftUI
 public typealias Key = Int
 
 public class MenuItem: Hashable {
-    var key: Key
-    var title: String
-    var systemIcon: String?
-    var icon: Image?
-    var view: AnyView?
-    var height: CGFloat?
-    var handler: (() -> Void)?
+    public var key: Key
+    public var title: String
+    public var systemIcon: String?
+    public var icon: Image?
+    public var spacerHeight: CGFloat?
+    public var handler: (() -> Void)?
+    public var view: AnyView?
 
     public init() {
         key = -1
@@ -64,7 +64,7 @@ public class TabMenuSpacer: MenuItem {
     
     public init(height: CGFloat) {
         super.init()
-        self.height = height
+        self.spacerHeight = height
     }
 }
 
