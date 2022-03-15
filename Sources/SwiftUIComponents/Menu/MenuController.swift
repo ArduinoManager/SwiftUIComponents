@@ -100,7 +100,7 @@ public class MenuController: ObservableObject {
     @Published var showMenu: Bool
     var sideTitleView: AnyView?
     @Published public var itemsColor: Color
-    var selectedItemBackgroundColor: Color
+    @Published public var selectedItemBackgroundColor: Color
     @Published public var backgroundColor: Color
     var autoClose: Bool
     var openButtonAtTop: Bool
@@ -109,7 +109,7 @@ public class MenuController: ObservableObject {
     var openButtonSize: CGFloat
     var titleView: AnyView?
     var titleViewBackgroundColor: Color
-    var menuItems: [MenuItem]
+    @Published public var menuItems: [MenuItem]
     var inspector: AnyView?
 
 #if os(iOS)
