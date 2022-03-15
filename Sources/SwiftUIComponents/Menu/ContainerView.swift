@@ -204,10 +204,10 @@ struct MainViewContainer: View {
                 print("Print")
             },
             TabMenuItem(key: 1, title: "Simple Table", systemIcon: "safari.fill", view: AnyView(TestView(text: "Discover").background(.blue))),
-            TabMenuItem(key: 4, title: "Devices", systemIcon: "applewatch", view: AnyView(TestView(text: "Devices").background(.gray))),
+            TabMenuItem(key: 2, title: "Devices", systemIcon: "applewatch", view: AnyView(TestView(text: "Devices").background(.gray))),
             TabMenuSpacer(height: 50),
-            TabMenuItem(key: 2, title: "Profile", systemIcon: "person.fill", view: AnyView(TestView(text: "Profile").background(.green))),
-            TabMenuItem(key: 3, title: "Profile2",
+            TabMenuItem(key: 3, title: "Profile", systemIcon: "person.fill", view: AnyView(TestView(text: "Profile").background(.green))),
+            TabMenuItem(key: 4, title: "Profile2",
                         icon: Image("logo", bundle: .module),
                         view: AnyView(TestView(text: "Profile").background(.green))),
 

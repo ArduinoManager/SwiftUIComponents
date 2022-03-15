@@ -20,7 +20,7 @@ public class MenuItem: Hashable {
     var handler: (() -> Void)?
 
     public init() {
-        key = 0
+        key = -1
         title = ""
         systemIcon = ""
     }

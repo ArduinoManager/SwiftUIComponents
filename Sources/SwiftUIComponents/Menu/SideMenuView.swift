@@ -32,6 +32,7 @@ import SwiftUI
                         ForEach(controller.menuItems, id: \.self) { item in
 
                             switch item {
+                                
                             case is TabMenuItem:
                                 CustomTabButton(item: item)
 
@@ -44,12 +45,8 @@ import SwiftUI
                             case is TabMenuDivider:
                                 let i = item as! TabMenuDivider
                                 Divider()
-                                #if os(iOS)
                                     .background(i.color != nil ? i.color! : Color(uiColor: .label))
-                                #endif
-                                #if os(macOS)
-                                    .background(i.color != nil ? i.color! : Color(NSColor.labelColor))
-                                #endif
+
                             default:
                                 EmptyView()
                             }
