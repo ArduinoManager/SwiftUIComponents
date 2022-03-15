@@ -99,9 +99,9 @@ public class MenuController: ObservableObject {
     @Published public var currentTab: Key
     @Published var showMenu: Bool
     var sideTitleView: AnyView?
-    var itemsColor: Color
+    @Published public var itemsColor: Color
     var selectedItemBackgroundColor: Color
-    var backgroundColor: Color
+    @Published public var backgroundColor: Color
     var autoClose: Bool
     var openButtonAtTop: Bool
     var openButtonColor: Color
@@ -146,6 +146,16 @@ public class MenuController: ObservableObject {
     
     #if os(macOS)
     
+    /// Creates a new Menu Controller
+    ///
+    /// - Parameters:
+    ///   - menuItems: menu items
+    ///   - sideTitleView: menu panel title view
+    ///   - backgroundColor: left side background color
+    ///   - itemsColor: items color
+    ///   - titleView: content panel title view
+    ///   - titleViewBackgroundColor: content panel title view color
+    ///   - inspector: right side inspector
     public init(menuItems: [MenuItem],
                 sideTitleView: AnyView? = nil,
                 backgroundColor: Color = Color(NSColor.windowBackgroundColor),
