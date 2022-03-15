@@ -14,7 +14,7 @@ public class MenuItem: Hashable {
     public var key: Key
     public var title: String
     public var systemIcon: String?
-    public var icon: Image?
+    public var icon: String?
     public var spacerHeight: CGFloat?
     public var handler: (() -> Void)?
     public var view: AnyView?
@@ -50,7 +50,7 @@ public class TabMenuItem: MenuItem {
         self.view = view
     }
     
-    public init(key: Key, title: String, icon: Image, view: AnyView) {
+    public init(key: Key, title: String, icon: String, view: AnyView) {
         super.init()
         self.key = key
         self.title = title
@@ -86,7 +86,7 @@ public class HandlerMenuItem: MenuItem {
         self.handler = handler
     }
     
-    public init(title: String, icon: Image, handler: @escaping (() -> Void)) {
+    public init(title: String, icon: String, handler: @escaping (() -> Void)) {
         super.init()
         self.title = title
         self.systemIcon = nil

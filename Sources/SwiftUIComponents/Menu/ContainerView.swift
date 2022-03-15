@@ -208,7 +208,7 @@ struct MainViewContainer: View {
             TabMenuSpacer(height: 50),
             TabMenuItem(key: 3, title: "Profile", systemIcon: "person.fill", view: AnyView(TestView(text: "Profile").background(.green))),
             TabMenuItem(key: 4, title: "Profile2",
-                        icon: Image("logo", bundle: .module),
+                        icon: "logo",
                         view: AnyView(TestView(text: "Profile").background(.green))),
 
             TabMenuDivider(color: .red),
@@ -221,7 +221,7 @@ struct MainViewContainer: View {
             },
 
             TabMenuDivider(color: .red),
-            HandlerMenuItem(title: "Kill!", icon: Image("logo", bundle: .module)) {
+            HandlerMenuItem(title: "Kill!", icon: "logo") {
                 print("Login")
             },
         ]

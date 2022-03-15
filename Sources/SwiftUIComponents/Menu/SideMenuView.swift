@@ -168,7 +168,7 @@ import SwiftUI
         @ViewBuilder
         func makeImage(item: MenuItem) -> some View {
             if item.icon != nil {
-                item.icon!
+                Image(item.icon!)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 22, height: 22)
@@ -268,7 +268,7 @@ import SwiftUI
         @ViewBuilder
         func makeImage(item: MenuItem) -> some View {
             if item.icon != nil {
-                item.icon!
+                Image(item.icon!)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 18, height: 18)
