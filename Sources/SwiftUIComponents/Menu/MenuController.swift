@@ -156,6 +156,7 @@ public class MenuController: ObservableObject {
     ///   - titleView: content panel title view
     ///   - titleViewBackgroundColor: content panel title view color
     ///   - inspector: right side inspector
+    ///   
     public init(menuItems: [MenuItem],
                 sideTitleView: AnyView? = nil,
                 backgroundColor: Color = Color(NSColor.windowBackgroundColor),

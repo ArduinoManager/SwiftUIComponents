@@ -11,28 +11,21 @@ import SwiftUI
     public struct SideMenuView: View {
         @ObservedObject var controller: MenuController
         @Namespace var animation
-        #if os(iOS)
-            let buttonHeight: CGFloat = 48.0
-        #endif
-        #if os(macOS)
-            let buttonHeight: CGFloat = 30.0
-        #endif
+        let buttonHeight: CGFloat = 48.0
 
         public var body: some View {
             VStack {
                 if controller.sideTitleView != nil {
                     HStack {
                         controller.sideTitleView
-                        #if os(iOS)
                             .frame(maxWidth: getRect().width / 2, alignment: .leading)
-                        #endif
                         Spacer()
                     }
                 } else {
                     Spacer(minLength: 20)
+                        .background(controller.titleViewBackgroundColor)
                 }
 
-                // Print("Redraw with Height \(getRect().height)")
                 ScrollView(.vertical, showsIndicators: false) {
                     // Tab Buttons
                     VStack(alignment: .leading, spacing: 25) {
@@ -66,20 +59,15 @@ import SwiftUI
                 }
                 .padding()
                 .padding(.top, 10)
-                #if os(iOS)
-                    .frame(width: getRect().width / 2, alignment: .leading)
-                #endif
-
+                .frame(width: getRect().width / 2, alignment: .leading)
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
             .padding(.leading, 10)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .background(controller.backgroundColor)
-            #if os(iOS)
-                .onRotate { _ in
-                    controller.objectWillChange.send() // Force redraw!
-                }
-            #endif
+            .onRotate { _ in
+                controller.objectWillChange.send() // Force redraw!
+            }
         }
 
         @ViewBuilder
@@ -207,16 +195,20 @@ import SwiftUI
                         controller.sideTitleView!
                     }
                 } else {
-                    Spacer(minLength: 20)
+                    HStack(spacing: 0) {
+                        Spacer()
+                    }
+                    .frame(minHeight: 20, idealHeight: 20, maxHeight: 20)
+                    .background(controller.backgroundColor)
                 }
-                
+
                 // Just a bit of space
-                HStack(spacing:0) {
+                HStack(spacing: 0) {
                     Spacer()
                 }
-                .frame( minHeight: 5, idealHeight: 5, maxHeight: 5)
+                .frame(minHeight: 5, idealHeight: 5, maxHeight: 5)
                 .background(controller.backgroundColor)
-                
+
                 List {
                     ForEach(controller.menuItems, id: \.self) { item in
 
@@ -272,7 +264,7 @@ import SwiftUI
                     }
                 }
             }
-            
+
             // .frame(minWidth: 150, idealWidth: 250, maxWidth: 300)
         }
 

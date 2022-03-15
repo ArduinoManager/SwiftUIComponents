@@ -227,9 +227,8 @@ struct MainViewContainer: View {
         ]
 
         #if os(iOS)
-            _controller = StateObject(wrappedValue: MenuController(menuItems: menuItems
-                                                                   ,
-                                                                   sideTitleView: AnyView(SideTitleView()),
+            _controller = StateObject(wrappedValue: MenuController(menuItems: menuItems,
+                                                                   //sideTitleView: AnyView(SideTitleView()),
                                                                    backgroundColor: .blue,
                                                                    itemsColor: .red
 //        titleView: AnyView(TitleView()),
@@ -237,17 +236,16 @@ struct MainViewContainer: View {
                 )
             )
         #endif
-         #if os(macOS)
-        _controller = StateObject(wrappedValue: MenuController(menuItems: menuItems
-         ,
-         sideTitleView: AnyView(SideTitleView()),
-         backgroundColor: .blue,
-         itemsColor: .red,
-        //        titleView: AnyView(TitleView()),
-        //        titleViewBackgroundColor: .accentColor,
-         inspector: AnyView(Inspector())
-         )
-      )
+        #if os(macOS)
+            _controller = StateObject(wrappedValue: MenuController(menuItems: menuItems,
+                                                                   // sideTitleView: AnyView(SideTitleView()),
+                                                                   backgroundColor: .blue,
+                                                                   itemsColor: .red,
+                                                                   //        titleView: AnyView(TitleView()),
+                                                                   //        titleViewBackgroundColor: .accentColor,
+                                                                   inspector: AnyView(Inspector())
+                )
+            )
         #endif
     }
 
