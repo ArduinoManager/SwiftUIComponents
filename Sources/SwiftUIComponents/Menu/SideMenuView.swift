@@ -32,7 +32,6 @@ import SwiftUI
                         ForEach(controller.menuItems, id: \.self) { item in
 
                             switch item {
-                                
                             case is TabMenuItem:
                                 CustomTabButton(item: item)
 
@@ -173,7 +172,9 @@ import SwiftUI
                     .scaledToFit()
                     .frame(width: 22, height: 22)
             } else {
-                Image(systemName: item.systemIcon!)
+                if let icon = item.systemIcon {
+                    Image(systemName: icon)
+                }
             }
         }
     }
@@ -273,10 +274,12 @@ import SwiftUI
                     .scaledToFit()
                     .frame(width: 18, height: 18)
             } else {
-                Image(systemName: item.systemIcon!)
+                if let icon = item.systemIcon {
+                    Image(systemName: icon)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 18, height: 18)
+                }
             }
         }
     }
