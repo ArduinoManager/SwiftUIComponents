@@ -18,11 +18,13 @@ public class MenuItem: Hashable {
     public var spacerHeight: CGFloat?
     public var handler: (() -> Void)?
     public var view: AnyView?
+    public var useSystemIcon: Bool
 
     public init() {
         key = -1
         title = ""
         systemIcon = ""
+        useSystemIcon = true
     }
     
     public static func == (lhs: MenuItem, rhs: MenuItem) -> Bool {
@@ -48,6 +50,7 @@ public class TabMenuItem: MenuItem {
         self.systemIcon = systemIcon
         self.icon = nil
         self.view = view
+        self.useSystemIcon = true
     }
     
     public init(key: Key, title: String, icon: String, view: AnyView) {
@@ -57,6 +60,7 @@ public class TabMenuItem: MenuItem {
         self.systemIcon = nil
         self.icon = icon
         self.view = view
+        self.useSystemIcon = false
     }
 }
 
