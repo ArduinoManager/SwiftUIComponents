@@ -216,7 +216,7 @@ struct MainViewContainer: View {
                 print("Login")
             },
 
-            HandlerMenuItem(title: "Logout", systemIcon: "rectangle.portrait.and.arrow.right") {
+            HandlerMenuItem(title: "Logout", systemIcon: "pippo") {
                 print("Logout")
             },
 

@@ -280,6 +280,12 @@ import SwiftUI
                     .scaledToFit()
                     .frame(width: 18, height: 18)
                 }
+                else {
+                    Image(systemName: "questionmark.app.dashed")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 18, height: 18)
+                }
             }
         }
     }
