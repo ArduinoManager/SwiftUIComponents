@@ -180,7 +180,7 @@ extension Color {
 
 func getSafeSystemImage(systemName: String) -> Image {
     #if os(macOS)
-        if let nsImage = NSImage(systemSymbolName: "questionmark.app.dashed", accessibilityDescription: "") {
+        if let nsImage = NSImage(systemSymbolName: systemName, accessibilityDescription: "") {
             return Image(nsImage: nsImage)
         } else {
             return Image(systemName: "questionmark.app.dashed")
