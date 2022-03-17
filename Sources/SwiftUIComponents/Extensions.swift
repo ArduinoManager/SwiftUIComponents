@@ -200,14 +200,14 @@ func getSafeImage(name: String) -> Image {
         if let nsImage = NSImage(named: name) {
             return Image(nsImage: nsImage)
         } else {
-            return Image(systemName: "questionmark.app.dashed")
+            return Image(systemName: "seal")
         }
     #endif
     #if os(iOS)
         if let uiImage = UIImage(named: name) {
             return Image(uiImage: uiImage)
         } else {
-            return Image(systemName: "questionmark.app.dashed")
+            return Image(systemName: "seal")
         }
     #endif
 }
