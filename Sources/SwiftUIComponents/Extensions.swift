@@ -177,3 +177,37 @@ extension Color {
         return (r, g, b, o)
     }
 }
+
+func getSafeSystemImage(systemName: String) -> Image {
+    #if os(macOS)
+        if let nsImage = NSImage(named: systemName) {
+            return Image(nsImage: nsImage)
+        } else {
+            return Image(systemName: "questionmark.app.dashed")
+        }
+    #endif
+    #if os(iOS)
+        if let uiImage = UIImage(systemName: systemName) {
+            return Image(uiImage: uiImage)
+        } else {
+            return Image(systemName: "questionmark.app.dashed")
+        }
+    #endif
+}
+
+func getSafeImage(name: String) -> Image {
+    #if os(macOS)
+        if let nsImage = NSImage(named: name) {
+            return Image(nsImage: nsImage)
+        } else {
+            return Image(systemName: "questionmark.app.dashed")
+        }
+    #endif
+    #if os(iOS)
+        if let uiImage = UIImage(named: name) {
+            return Image(uiImage: uiImage)
+        } else {
+            return Image(systemName: "questionmark.app.dashed")
+        }
+    #endif
+}

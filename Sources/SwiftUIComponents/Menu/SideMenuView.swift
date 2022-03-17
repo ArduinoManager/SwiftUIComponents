@@ -167,13 +167,16 @@ import SwiftUI
         @ViewBuilder
         func makeImage(item: MenuItem) -> some View {
             if item.icon != nil {
-                Image(item.icon!)
+                getSafeImage(name: item.icon!)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 22, height: 22)
             } else {
                 if let icon = item.systemIcon {
-                    Image(systemName: icon)
+                    getSafeSystemImage(systemName: icon)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 22, height: 22)
                 }
             }
         }
@@ -269,19 +272,13 @@ import SwiftUI
         @ViewBuilder
         func makeImage(item: MenuItem) -> some View {
             if item.icon != nil {
-                Image(item.icon!)
+                getSafeImage(name: item.icon!)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 18, height: 18)
             } else {
                 if let icon = item.systemIcon {
-                    Image(systemName: icon)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 18, height: 18)
-                }
-                else {
-                    Image(systemName: "questionmark.app.dashed")
+                    getSafeSystemImage(systemName: icon)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 18, height: 18)
