@@ -10,7 +10,8 @@ import SwiftUI
 
 public typealias Key = Int
 
-public class MenuItem: Hashable {
+public class MenuItem: Hashable, CustomDebugStringConvertible {
+    
     public var key: Key
     public var title: String
     public var systemIcon: String?
@@ -37,6 +38,10 @@ public class MenuItem: Hashable {
     func makeView() -> some View {
         view
     }
+    
+    public var debugDescription: String {
+        return "[\(key)]"
+    }
 }
 
 public class TabMenuItem: MenuItem {
@@ -59,6 +64,10 @@ public class TabMenuItem: MenuItem {
         self.icon = icon
         self.view = view
         self.useSystemIcon = false
+    }
+    
+    public override var debugDescription: String {
+        return "[\(key) Tab \(title)]"
     }
 }
 
@@ -108,6 +117,10 @@ public class TabMenuHandler: MenuItem {
         self.title = title
         self.systemIcon = nil
         self.icon = icon
+    }
+    
+    public override var debugDescription: String {
+        return "[\(key) Handler \(title)]"
     }
 }
 
