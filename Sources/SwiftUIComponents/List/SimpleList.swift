@@ -119,6 +119,9 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                                 view
                                     .listRowSeparatorTint(controller.lineSeparatorColor!)
                             }
+                            .onDrag {
+                                NSItemProvider() // To move rows even if the table is not in edit
+                            }
                     #endif
                 }
                 .onMove(perform: move)
@@ -141,7 +144,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
     private func move(from source: IndexSet, to destination: Int) {
         controller.items.move(fromOffsets: source, toOffset: destination)
     }
-    
+
     func currentColor(idx: Int) -> Color {
         if !alternatesRows {
             return rowColor
@@ -177,7 +180,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                             Image(systemName: action.systemIcon!)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(width: iconSize+1, height: iconSize+1)
+                                .frame(width: iconSize + 1, height: iconSize + 1)
                                 .padding(2)
                         }
                     }
@@ -259,7 +262,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                             img
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(width: iconSize+1, height: iconSize+1)
+                                .frame(width: iconSize + 1, height: iconSize + 1)
                         } else {
                             Image(systemName: action.systemIcon!)
                                 .resizable()
@@ -335,8 +338,8 @@ struct SimpleListContainer: View {
     init() {
         let items = [ListItem(firstName: "C", lastName: "C"),
                      ListItem(firstName: "A", lastName: "A"),
-                     ListItem(firstName: "B", lastName: "B")
-                     ]
+                     ListItem(firstName: "B", lastName: "B"),
+        ]
 
 //        controller = ListController<ListItem, RowView, FormView>(items: items,
 //                                                                 title: "Title",
@@ -393,7 +396,7 @@ struct SimpleList_Previews: PreviewProvider {
     }
 }
 
-func sortList(list : inout [ListItem]) {
+func sortList(list: inout [ListItem]) {
     list.sort {
         $0.lastName < $1.lastName
     }
