@@ -156,6 +156,12 @@ public class MenuController: ObservableObject {
         self.titleView = titleView
         self.titleViewBackgroundColor = titleViewBackgroundColor
         currentTab = menuItems[0].key
+        
+        let dups = Dictionary(grouping: self.menuItems, by: {$0.key}).filter { $1.count > 1 }.keys
+        if !dups.isEmpty {
+            fatalError("Duplicated keys: \(dups)")
+        }
+
     }
     
     #endif
@@ -196,6 +202,11 @@ public class MenuController: ObservableObject {
         self.titleViewBackgroundColor = titleViewBackgroundColor        
         self.inspector = inspector
         currentTab = menuItems[0].key
+        
+        let dups = Dictionary(grouping: self.menuItems, by: {$0.key}).filter { $1.count > 1 }.keys
+        if !dups.isEmpty {
+            fatalError("Duplicated keys: \(dups)")
+        }
     }
     
     #endif
