@@ -20,7 +20,7 @@ public class MenuItem: Hashable, CustomDebugStringConvertible {
     public var useSystemIcon: Bool
 
     public init() {
-        key = -1
+        key = UUID().hashValue
         title = ""
         systemIcon = ""
         useSystemIcon = true
@@ -108,7 +108,6 @@ public class TabMenuHandler: MenuItem {
         super.init()
         self.title = title
         self.systemIcon = systemIcon
-        
     }
     
     public init(title: String, icon: String, handler: @escaping (() -> Void)) {
@@ -174,7 +173,6 @@ public class MenuController: ObservableObject {
         if !dups.isEmpty {
             fatalError("Duplicated keys: \(dups)")
         }
-
     }
     
     #endif
