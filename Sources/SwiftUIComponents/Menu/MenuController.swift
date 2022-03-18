@@ -15,8 +15,6 @@ public class MenuItem: Hashable {
     public var title: String
     public var systemIcon: String?
     public var icon: String?
-    public var spacerHeight: CGFloat?
-    public var handler: (() -> Void)?
     public var view: AnyView?
     public var useSystemIcon: Bool
 
@@ -65,7 +63,8 @@ public class TabMenuItem: MenuItem {
 }
 
 public class TabMenuSpacer: MenuItem {
-    
+    public var spacerHeight: CGFloat?
+
     public init(height: CGFloat) {
         super.init()
         self.spacerHeight = height
@@ -73,7 +72,8 @@ public class TabMenuSpacer: MenuItem {
 }
 
 public class TabMenuDivider: MenuItem {
-    var color: Color?
+    public var color: Color?
+    
     public init(color: Color? = nil) {
         super.init()
         title = "\(UUID())"
@@ -81,21 +81,23 @@ public class TabMenuDivider: MenuItem {
     }
 }
 
-public class HandlerMenuItem: MenuItem {
-    
+public class TabMenuHandler: MenuItem {
+    public var handler: (() -> Void)
+
     public init(title: String, systemIcon: String, handler: @escaping (() -> Void)) {
+        self.handler = handler
         super.init()
         self.title = title
         self.systemIcon = systemIcon
-        self.handler = handler
+        
     }
     
     public init(title: String, icon: String, handler: @escaping (() -> Void)) {
+        self.handler = handler
         super.init()
         self.title = title
         self.systemIcon = nil
         self.icon = icon
-        self.handler = handler
     }
 }
 

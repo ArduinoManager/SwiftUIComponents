@@ -35,7 +35,7 @@ import SwiftUI
                             case is TabMenuItem:
                                 CustomTabButton(item: item)
 
-                            case is HandlerMenuItem:
+                            case is TabMenuHandler:
                                 CustomActionButton(item: item)
 
                             case is TabMenuSpacer:
@@ -224,10 +224,11 @@ import SwiftUI
                                 }
                             }
 
-                        case is HandlerMenuItem:
+                        case is TabMenuHandler:
+                            let thisItem = item as! TabMenuHandler
                             NavigationLink(destination: EmptyView()) {
                                 Button {
-                                    item.handler!()
+                                    thisItem.handler()
                                 } label: {
                                     HStack(alignment: .center) {
                                         makeImage(item: item)
@@ -240,7 +241,8 @@ import SwiftUI
                             }
 
                         case is TabMenuSpacer:
-                            Spacer(minLength: item.spacerHeight)
+                            let thisItem = item as! TabMenuSpacer
+                            Spacer(minLength: thisItem.spacerHeight)
 
                         case is TabMenuDivider:
                             let i = item as! TabMenuDivider
