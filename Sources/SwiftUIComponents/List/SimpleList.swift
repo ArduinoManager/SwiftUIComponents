@@ -130,7 +130,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                 #endif
                 .listRowBackground(Color.clear)
             }
-            .environment(\.editMode, .constant(EditMode.active))
+            //.environment(\.editMode, .constant(EditMode.active))
             .customStyle(type: controller.style)
             .background(controller.backgroundColor)
             .sheet(isPresented: $sheetManager.showSheet) {
