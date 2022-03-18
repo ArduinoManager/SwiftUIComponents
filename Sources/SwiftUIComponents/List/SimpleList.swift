@@ -17,8 +17,9 @@ class SheetMananger: ObservableObject {
 }
 
 public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View, Form: View>: View {
-    @ObservedObject var controller: ListController<Item, Row>
-    @StateObject var sheetManager = SheetMananger()
+    @ObservedObject private var controller: ListController<Item, Row>
+    @StateObject private var sheetManager = SheetMananger()
+    @State private var editingList = false
     private let rowColor: Color!
     private let rowAlternateColor: Color!
     private let alternatesRows: Bool!
@@ -119,6 +120,9 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                                 view
                                     .listRowSeparatorTint(controller.lineSeparatorColor!)
                             }
+                            .onLongPressGesture {
+                                editingList = true
+                            }
 //                            .onDrag {
 //                                NSItemProvider() // To move rows even if the table is not in edit
 //                            }
@@ -130,7 +134,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                 #endif
                 .listRowBackground(Color.clear)
             }
-            //.environment(\.editMode, .constant(EditMode.active))
+            .environment(\.editMode, editingList ? .constant(.active):.constant(.inactive))
             .customStyle(type: controller.style)
             .background(controller.backgroundColor)
             .sheet(isPresented: $sheetManager.showSheet) {
