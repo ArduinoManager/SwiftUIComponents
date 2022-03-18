@@ -170,6 +170,9 @@ import SwiftUI
                             }
                             label: {
                                 Image(systemName: "line.3.horizontal")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 20, height: 20)
                             }
                             .buttonStyle(.plain)
                             .padding(.trailing, 10)
