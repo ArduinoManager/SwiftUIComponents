@@ -121,7 +121,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                                     .listRowSeparatorTint(controller.lineSeparatorColor!)
                             }
                             .onLongPressGesture {
-                                editingList = true
+                                editingList.toggle()
                             }
 //                            .onDrag {
 //                                NSItemProvider() // To move rows even if the table is not in edit

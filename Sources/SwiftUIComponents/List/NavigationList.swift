@@ -8,8 +8,9 @@
 import SwiftUI
 
 public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View, Form: View>: View {
-    @ObservedObject var controller: ListController<Item, Row>
+    @ObservedObject private var controller: ListController<Item, Row>
     @State private var isTapped = false
+    @State private var editingList = false
     private var form: () -> Form
     private let rowColor: Color!
     private let rowAlternateColor: Color!
@@ -94,9 +95,9 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                     controller.makeRow(item)
                                         .modifier(AttachActions(controller: controller, item: item))
                                         .background(currentColor(idx: idx))
-//                                    .onTapGesture {
-//                                        controller.select(item: item)
-//                                    }
+                                        .onLongPressGesture {
+                                            editingList.toggle()
+                                        }
                                 }
                             )
                             .background(currentColor(idx: idx))
@@ -151,8 +152,10 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                             }
                         #endif
                     }
-                    .listRowBackground(Color.clear)
+                    .onMove(perform: move)
+                    .listRowBackground(Color.clear)                    
                 }
+                .environment(\.editMode, editingList ? .constant(.active):.constant(.inactive))
                 .customStyle(type: controller.style)
             }
             .background(controller.backgroundColor)
@@ -173,7 +176,11 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
         #endif
     }
 
-    func currentColor(idx: Int) -> Color {
+    private func move(from source: IndexSet, to destination: Int) {
+        controller.items.move(fromOffsets: source, toOffset: destination)
+    }
+
+    private func currentColor(idx: Int) -> Color {
         if !alternatesRows {
             return rowColor
         }
