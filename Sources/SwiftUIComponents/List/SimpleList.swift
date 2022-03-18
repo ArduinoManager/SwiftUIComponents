@@ -121,6 +121,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                             }
                     #endif
                 }
+                .onMove(perform: move)
                 #if os(macOS)
                     .removingScrollViewBackground()
                 #endif
@@ -137,6 +138,10 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
         .background(controller.backgroundColor)
     }
 
+    private func move(from source: IndexSet, to destination: Int) {
+        controller.items.move(fromOffsets: source, toOffset: destination)
+    }
+    
     func currentColor(idx: Int) -> Color {
         if !alternatesRows {
             return rowColor

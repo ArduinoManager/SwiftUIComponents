@@ -265,8 +265,13 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                         .buttonStyle(.plain)
                     #endif
                 }
+                .onMove(perform: move)
             }
         }
+    }
+    
+    private func move(from source: IndexSet, to destination: Int) {
+        controller.items.move(fromOffsets: source, toOffset: destination)
     }
 }
 
