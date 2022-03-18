@@ -123,9 +123,6 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                             .onLongPressGesture {
                                 editingList.toggle()
                             }
-//                            .onDrag {
-//                                NSItemProvider() // To move rows even if the table is not in edit
-//                            }
                     #endif
                 }
                 .onMove(perform: move)
@@ -134,14 +131,16 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                 #endif
                 .listRowBackground(Color.clear)
             }
-            .environment(\.editMode, editingList ? .constant(.active):.constant(.inactive))
+            #if os(iOS)
+                .environment(\.editMode, editingList ? .constant(.active) : .constant(.inactive))
+            #endif
             .customStyle(type: controller.style)
-            .background(controller.backgroundColor)
-            .sheet(isPresented: $sheetManager.showSheet) {
-                if sheetManager.whichSheet == .Form {
-                    form()
+                .background(controller.backgroundColor)
+                .sheet(isPresented: $sheetManager.showSheet) {
+                    if sheetManager.whichSheet == .Form {
+                        form()
+                    }
                 }
-            }
         }
         .background(controller.backgroundColor)
     }
