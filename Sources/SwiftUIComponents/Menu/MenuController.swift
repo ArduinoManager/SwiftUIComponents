@@ -72,13 +72,23 @@ public class TabMenuSpacer: MenuItem {
 }
 
 public class TabMenuDivider: MenuItem {
-    public var color: Color?
+    public var color: Color
     
-    public init(color: Color? = nil) {
+    #if os(iOS)
+    public init(color: Color = Color(uiColor: .label)) {
+        self.color = color
         super.init()
         title = "\(UUID())"
-        self.color = color
     }
+    #endif
+    
+#if os(macOS)
+    public init(color: Color = Color(nsColor: .labelColor)) {
+    self.color = color
+    super.init()
+    title = "\(UUID())"
+}
+#endif
 }
 
 public class TabMenuHandler: MenuItem {

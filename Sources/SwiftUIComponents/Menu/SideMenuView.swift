@@ -45,7 +45,7 @@ import SwiftUI
                             case is TabMenuDivider:
                                 let i = item as! TabMenuDivider
                                 Divider()
-                                    .background(i.color != nil ? i.color! : Color(uiColor: .label))
+                                    .background(i.color)
 
                             default:
                                 EmptyView()
@@ -248,7 +248,7 @@ import SwiftUI
                         case is TabMenuDivider:
                             let i = item as! TabMenuDivider
                             Divider()
-                                .background(i.color != nil ? i.color! : Color(NSColor.labelColor))
+                                .background(i.color)
 
                         default:
                             EmptyView()
