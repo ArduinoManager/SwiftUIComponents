@@ -148,6 +148,9 @@ import SwiftUI
                                         }
                                         label: {
                                             Image(systemName: "line.3.horizontal")
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 20, height: 20)
                                         }
                                         .buttonStyle(.plain)
                                         .padding(.top, 5)
@@ -169,11 +172,10 @@ import SwiftUI
                                 }
                             }
                             label: {
-                                //Image(systemName: "line.3.horizontal")
-                                Image(systemName: "sealed")
+                                Image(systemName: "line.3.horizontal")
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: 30, height: 30)
+                                    .frame(width: 20, height: 20)
                             }
                             .buttonStyle(.plain)
                             .padding(.trailing, 10)
