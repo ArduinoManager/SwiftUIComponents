@@ -125,6 +125,7 @@ import SwiftUI
                         // Main View
                         item.makeView()
                             .onAppear(perform: {
+                                print("---- Loading Menu \(item.title) with key \(item.key) ----")
                                 controller.currentTab = item.key
                             })
                             .layoutPriority(1)
