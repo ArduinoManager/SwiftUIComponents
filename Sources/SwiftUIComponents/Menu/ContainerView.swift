@@ -169,7 +169,8 @@ import SwiftUI
                                 }
                             }
                             label: {
-                                Image(systemName: "line.3.horizontal")
+                                //Image(systemName: "line.3.horizontal")
+                                Image(systemName: "sealed")
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 30, height: 30)
