@@ -119,9 +119,9 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                                 view
                                     .listRowSeparatorTint(controller.lineSeparatorColor!)
                             }
-                            .onDrag {
-                                NSItemProvider() // To move rows even if the table is not in edit
-                            }
+//                            .onDrag {
+//                                NSItemProvider() // To move rows even if the table is not in edit
+//                            }
                     #endif
                 }
                 .onMove(perform: move)
@@ -130,6 +130,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                 #endif
                 .listRowBackground(Color.clear)
             }
+            .environment(\.editMode, .constant(EditMode.active))
             .customStyle(type: controller.style)
             .background(controller.backgroundColor)
             .sheet(isPresented: $sheetManager.showSheet) {
