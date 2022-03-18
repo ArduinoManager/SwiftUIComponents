@@ -36,10 +36,11 @@ import SwiftUI
                                 CustomTabButton(item: item)
 
                             case is TabMenuHandler:
-                                CustomActionButton(item: item)
+                                CustomActionButton(item: item as! TabMenuHandler)
 
                             case is TabMenuSpacer:
-                                Spacer(minLength: item.spacerHeight)
+                                let thisItem = item as! TabMenuSpacer
+                                Spacer(minLength: thisItem.spacerHeight)
 
                             case is TabMenuDivider:
                                 let i = item as! TabMenuDivider
@@ -116,10 +117,10 @@ import SwiftUI
         }
 
         @ViewBuilder
-        func CustomActionButton(item: MenuItem) -> some View {
+        func CustomActionButton(item: TabMenuHandler) -> some View {
             Button {
                 withAnimation {
-                    item.handler!()
+                    item.handler()
                 }
             }
             label: {
