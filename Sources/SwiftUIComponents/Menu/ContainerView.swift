@@ -172,7 +172,7 @@ import SwiftUI
                                 Image(systemName: "line.3.horizontal")
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: 20, height: 20)
+                                    .frame(width: 30, height: 30)
                             }
                             .buttonStyle(.plain)
                             .padding(.trailing, 10)
