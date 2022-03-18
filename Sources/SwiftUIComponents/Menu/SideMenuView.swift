@@ -227,7 +227,7 @@ import SwiftUI
 
                         case is TabMenuHandler:
                             let thisItem = item as! TabMenuHandler
-                            NavigationLink(destination: EmptyView()) {
+                            
                                 Button {
                                     thisItem.handler()
                                 } label: {
@@ -239,7 +239,7 @@ import SwiftUI
                                     }
                                 }
                                 .buttonStyle(.plain)
-                            }
+                                .frame(maxWidth: .infinity, alignment: .leading)                                
 
                         case is TabMenuSpacer:
                             let thisItem = item as! TabMenuSpacer
