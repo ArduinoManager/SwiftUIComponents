@@ -27,11 +27,12 @@ public struct Menu: View {
                 // Left Panel
                 SideMenuView(controller: controller)
                 // Right Panel
-                //boostrapView()
-                ContainerView(controller: controller, item: controller.menuItems[0])
-                    .onAppear {
-                        controller.boostrap = false
-                    }
+                if controller.boostrap {
+                    ContainerView(controller: controller, item: controller.menuItems[0])
+                        .onAppear {
+                            controller.boostrap = false
+                        }
+                }
             }
         #endif
         #if os(iOS)
@@ -48,7 +49,7 @@ public struct Menu: View {
             }
         #endif
     }
-    
+
     /// The first view is loaded only at boostrap
     ///
     /// - Returns: Initial view at boostrap or an EmptyView
