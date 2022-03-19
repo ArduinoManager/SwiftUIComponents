@@ -139,6 +139,7 @@ public class MenuController: ObservableObject {
     var titleViewBackgroundColor: Color
     @Published public var menuItems: [MenuItem]
     var inspector: AnyView?
+    var boostrap: String? = "A"
     
 #if os(iOS)
 

@@ -112,88 +112,93 @@ import SwiftUI
         @State private var showInspector = false
 
         public var body: some View {
-            if controller.inspector == nil {
-                // No inspector
-                item.makeView()
-                    .onAppear {
-                        print("---- 1️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
-                        controller.currentTab = item.key
-                    }
-            } else {
-                if controller.titleView == nil {
-                    // Inspector without Title View
-                    HSplitView {
-                        // Main View
-                        item.makeView()
-                            .onAppear(perform: {
-                                print("---- 2️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
-                                controller.currentTab = item.key
-
-                            })
-                            .layoutPriority(1)
-
-                        // Inspector
-                        if showInspector {
-                            controller.inspector!
-                                .frame(idealWidth: 500)
+            VStack(spacing: 0) {
+                
+                NavigationLink(destination: controller.menuItems[0].view, tag: "A", selection: $controller.boostrap) { EmptyView() }
+                
+                if controller.inspector == nil {
+                    // No inspector
+                    item.makeView()
+                        .onAppear {
+                            print("---- 1️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
+                            controller.currentTab = item.key
                         }
-                    }
-                    .if(controller.inspector != nil && controller.titleView == nil) { view in
-                        view
-                            .overlay(
-                                VStack(spacing: 0) {
-                                    HStack {
-                                        Spacer()
-                                        Button {
-                                            withAnimation {
-                                                showInspector.toggle()
-                                            }
-                                        }
-                                        label: {
-                                            Image(systemName: "line.3.horizontal")
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(width: 20, height: 20)
-                                        }
-                                        .buttonStyle(.plain)
-                                        .padding(.top, 5)
-                                        .padding(.trailing, 5)
-                                    }
-                                    Spacer()
-                                }
-                            )
-                    }
                 } else {
-                    // Inspector with Title View
-                    VStack(spacing: 0) {
-                        HStack(spacing: 0) {
-                            controller.titleView
-                            Spacer()
-                            Button {
-                                withAnimation {
-                                    showInspector.toggle()
-                                }
-                            }
-                            label: {
-                                Image(systemName: "line.3.horizontal")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 20, height: 20)
-                            }
-                            .buttonStyle(.plain)
-                            .padding(.trailing, 10)
-                        }
-                        .background(controller.titleViewBackgroundColor)
+                    if controller.titleView == nil {
+                        // Inspector without Title View
                         HSplitView {
+                            // Main View
                             item.makeView()
                                 .onAppear(perform: {
-                                    print("---- 3️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
+                                    print("---- 2️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
                                     controller.currentTab = item.key
+
                                 })
                                 .layoutPriority(1)
+
+                            // Inspector
                             if showInspector {
                                 controller.inspector!
                                     .frame(idealWidth: 500)
+                            }
+                        }
+                        .if(controller.inspector != nil && controller.titleView == nil) { view in
+                            view
+                                .overlay(
+                                    VStack(spacing: 0) {
+                                        HStack {
+                                            Spacer()
+                                            Button {
+                                                withAnimation {
+                                                    showInspector.toggle()
+                                                }
+                                            }
+                                            label: {
+                                                Image(systemName: "line.3.horizontal")
+                                                    .resizable()
+                                                    .scaledToFit()
+                                                    .frame(width: 20, height: 20)
+                                            }
+                                            .buttonStyle(.plain)
+                                            .padding(.top, 5)
+                                            .padding(.trailing, 5)
+                                        }
+                                        Spacer()
+                                    }
+                                )
+                        }
+                    } else {
+                        // Inspector with Title View
+                        VStack(spacing: 0) {
+                            HStack(spacing: 0) {
+                                controller.titleView
+                                Spacer()
+                                Button {
+                                    withAnimation {
+                                        showInspector.toggle()
+                                    }
+                                }
+                                label: {
+                                    Image(systemName: "line.3.horizontal")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 20, height: 20)
+                                }
+                                .buttonStyle(.plain)
+                                .padding(.trailing, 10)
+                            }
+                            .background(controller.titleViewBackgroundColor)
+                            HSplitView {
+                                item.makeView()
+                                    .onAppear(perform: {
+                                        print("---- 3️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
+                                        controller.currentTab = item.key
+                                    })
+                                    .layoutPriority(1)
+                                if showInspector {
+                                    controller.inspector!
+                                        .frame(idealWidth: 500)
+                                }
                             }
                         }
                     }
