@@ -27,8 +27,11 @@ public struct Menu: View {
                 // Left Panel
                 SideMenuView(controller: controller)
                 // Right Panel
-                boostrapView()
-                //ContainerView(controller: controller, item: controller.menuItems[0])
+                //boostrapView()
+                ContainerView(controller: controller, item: controller.menuItems[0])
+                    .onAppear {
+                        controller.boostrap = false
+                    }
             }
         #endif
         #if os(iOS)
@@ -49,15 +52,16 @@ public struct Menu: View {
     /// The first view is loaded only at boostrap
     ///
     /// - Returns: Initial view at boostrap or an EmptyView
-    func boostrapView() -> AnyView {
-        if controller.boostrap {
-            controller.boostrap = false
-            return AnyView(ContainerView(controller: controller, item: controller.menuItems[0]))
-        }
-        else {
-            return AnyView(EmptyView())
-        }
-    }
+//    @ViewBuilder
+//    func boostrapView() -> some View {
+//        if controller.boostrap {
+//            controller.boostrap = false
+//            ContainerView(controller: controller, item: controller.menuItems[0])
+//        }
+//        else {
+//            EmptyView()
+//        }
+//    }
 }
 
 struct ContentView: View {
