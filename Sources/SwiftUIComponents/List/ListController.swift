@@ -78,15 +78,15 @@ public enum ListStyle {
 public class ListController<Item: Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View>: ObservableObject {
     @Published var items: [Item]
     var sort:((_: inout [Item]) -> Void)?
-    var style: ListStyle
-    var title: String?
-    var multipleSelection: Bool
+    @Published public var style: ListStyle
+    @Published public var title: String?
+    @Published public var multipleSelection: Bool
     var addButtonIcon: Image
     var addButtonColor: Color
     var editButtonLabel: String
     var deleteButtonLabel: String
-    var backgroundColor: Color
-    var rowBackgroundColor: Color
+    @Published public var backgroundColor: Color
+    @Published public var rowBackgroundColor: Color
     var swipeActions: Bool
     var leadingActions: [ListAction]
     var trailingActions: [ListAction]
