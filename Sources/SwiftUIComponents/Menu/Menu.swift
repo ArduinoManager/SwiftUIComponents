@@ -30,7 +30,6 @@ public struct Menu: View {
                 SideMenuView(controller: controller)
                 // Right Panel
                 ContainerView(controller: controller, item: controller.menuItems[0])
-                }
             }
         #endif
         #if os(iOS)
