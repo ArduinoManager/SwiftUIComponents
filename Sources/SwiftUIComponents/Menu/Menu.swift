@@ -12,7 +12,6 @@ import SwiftUI
 public struct Menu: View {
     @ObservedObject private var controller: MenuController
     @State var showInspector = false
-    @State var bootstrap = true
     
     public init(controller: MenuController) {
         self.controller = controller
@@ -30,11 +29,7 @@ public struct Menu: View {
                 // Left Panel
                 SideMenuView(controller: controller)
                 // Right Panel
-                if bootstrap {
-                    ContainerView(controller: controller, item: controller.menuItems[0])
-                        .onAppear {
-                            bootstrap = false
-                        }
+                ContainerView(controller: controller, item: controller.menuItems[0])
                 }
             }
         #endif
