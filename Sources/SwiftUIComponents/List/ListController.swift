@@ -30,54 +30,57 @@ public struct ListAction: Hashable {
     var color: Color
     var systemIcon: String?
     var icon: Image?
-    
+
     #if os(iOS)
-    public init(key: String, label: String, systemIcon: String? = nil, icon: Image? = nil, color: Color = Color(uiColor: .label)) {
-        self.key = key
-        self.label = label
-        self.color = color
-        self.systemIcon = systemIcon
-        self.icon = icon
-    }
+        public init(key: String, label: String, systemIcon: String? = nil, icon: Image? = nil, color: Color = Color(uiColor: .label)) {
+            self.key = key
+            self.label = label
+            self.color = color
+            self.systemIcon = systemIcon
+            self.icon = icon
+        }
     #endif
     #if os(macOS)
-    public init(key: String, label: String, systemIcon: String? = nil, icon: Image? = nil, color: Color = Color(NSColor.labelColor)) {
-        self.key = key
-        self.label = label
-        self.color = color
-        self.systemIcon = systemIcon
-        self.icon = icon
-    }
+        public init(key: String, label: String, systemIcon: String? = nil, icon: Image? = nil, color: Color = Color(NSColor.labelColor)) {
+            self.key = key
+            self.label = label
+            self.color = color
+            self.systemIcon = systemIcon
+            self.icon = icon
+        }
     #endif
-    
+
     public func hash(into hasher: inout Hasher) {
         hasher.combine(key)
     }
 }
 
 #if os(iOS)
-public enum ListStyle {
-    case plain(alternatesRows: Bool, alternateBackgroundColor: Color = Color(uiColor: UIColor.systemBackground))
-    case grouped(alternatesRows: Bool, alternateBackgroundColor: Color = Color(uiColor: UIColor.systemBackground))
-    case inset(alternatesRows: Bool, alternateBackgroundColor: Color = Color(uiColor: UIColor.systemBackground))
-    case insetGrouped(alternatesRows: Bool, alternateBackgroundColor: Color = Color(uiColor: UIColor.systemBackground))
-    case sidebar(alternatesRows: Bool, alternateBackgroundColor: Color = Color(uiColor: UIColor.systemBackground))
-}
+    public enum ListStyle: CaseIterable {
+        case plain(alternatesRows: Bool, alternateBackgroundColor: Color = Color(uiColor: UIColor.systemBackground))
+        case grouped(alternatesRows: Bool, alternateBackgroundColor: Color = Color(uiColor: UIColor.systemBackground))
+        case inset(alternatesRows: Bool, alternateBackgroundColor: Color = Color(uiColor: UIColor.systemBackground))
+        case insetGrouped(alternatesRows: Bool, alternateBackgroundColor: Color = Color(uiColor: UIColor.systemBackground))
+        case sidebar(alternatesRows: Bool, alternateBackgroundColor: Color = Color(uiColor: UIColor.systemBackground))
+    }
 #endif
 #if os(macOS)
-public enum ListStyle {
-    case plain(alternatesRows: Bool, alternateBackgroundColor: Color = Color(nsColor: NSColor.windowBackgroundColor))
-    case grouped(alternatesRows: Bool, alternateBackgroundColor: Color = Color(nsColor: NSColor.windowBackgroundColor))                // On macOS like inset
-    case inset(alternatesRows: Bool, alternateBackgroundColor: Color = Color(nsColor: NSColor.windowBackgroundColor))
-    case insetGrouped(alternatesRows: Bool, alternateBackgroundColor: Color = Color(nsColor: NSColor.windowBackgroundColor))           // On macOS like inset
-    case sidebar(alternatesRows: Bool, alternateBackgroundColor: Color = Color(nsColor: NSColor.windowBackgroundColor))
-}
-#endif
+    public enum ListStyle: CaseIterable {
+        public static var allCases: [ListStyle] {
+            return [.plain(alternatesRows: false), .grouped(alternatesRows: false), .inset(alternatesRows: false), .insetGrouped(alternatesRows:false), .sidebar(alternatesRows:false)]
+        }
 
+        case plain(alternatesRows: Bool, alternateBackgroundColor: Color = Color(nsColor: NSColor.windowBackgroundColor))
+        case grouped(alternatesRows: Bool, alternateBackgroundColor: Color = Color(nsColor: NSColor.windowBackgroundColor)) // On macOS like inset
+        case inset(alternatesRows: Bool, alternateBackgroundColor: Color = Color(nsColor: NSColor.windowBackgroundColor))
+        case insetGrouped(alternatesRows: Bool, alternateBackgroundColor: Color = Color(nsColor: NSColor.windowBackgroundColor)) // On macOS like inset
+        case sidebar(alternatesRows: Bool, alternateBackgroundColor: Color = Color(nsColor: NSColor.windowBackgroundColor))
+    }
+#endif
 
 public class ListController<Item: Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View>: ObservableObject {
     @Published var items: [Item]
-    var sort:((_: inout [Item]) -> Void)?
+    var sort: ((_: inout [Item]) -> Void)?
     @Published public var style: ListStyle
     @Published public var title: String?
     @Published public var multipleSelection: Bool
@@ -105,101 +108,99 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
     }
 
     @Published public var formItem: Item!
-    @Published var selectedItem: Item?    // Used only in the NavigationList to start the Form to enter a new Item or edit an existing one
-    @Published var startNewItem: String?  // Setting this to newItem a new Item is created
-    
+    @Published var selectedItem: Item? // Used only in the NavigationList to start the Form to enter a new Item or edit an existing one
+    @Published var startNewItem: String? // Setting this to newItem a new Item is created
+
     #if os(iOS)
-    public init(items: [Item],
-                sort: ((_: inout [Item]) -> Void)? = nil,
-                style: ListStyle,
-                title: String? = nil,
-                multipleSelection: Bool = false,
-                addButtonIcon: Image = Image(systemName: "plus.square"),
-                addButtonColor: Color = Color(uiColor: .label),
-                editButtonLabel: String,
-                deleteButtonLabel: String,
-                backgroundColor: Color = Color(uiColor: .systemGroupedBackground),
-                rowBackgroundColor: Color = Color(uiColor: .systemBackground),
-                swipeActions: Bool = true,
-                leadingActions: [ListAction] = [],
-                trailingActions: [ListAction] = [],
-                actionHandler: ((_ actionKey: String) -> Void)? = nil,
-                showLineSeparator: Bool = true,
-                lineSeparatorColor: Color? = nil,
-                makeRow: @escaping (_: Item) -> Row
-    )
-    {
-        self.items = items
-        self.sort = sort
-        self.style = style
-        self.title = title
-        self.multipleSelection = multipleSelection
-        self.addButtonIcon = addButtonIcon
-        self.addButtonColor = addButtonColor
-        self.editButtonLabel = editButtonLabel
-        self.deleteButtonLabel = deleteButtonLabel
-        self.backgroundColor = backgroundColor
-        self.rowBackgroundColor = rowBackgroundColor
-        self.swipeActions = swipeActions
-        self.leadingActions = leadingActions
-        self.trailingActions = trailingActions
-        self.actionHandler = actionHandler
-        self.showLineSeparator = showLineSeparator
-        self.lineSeparatorColor = lineSeparatorColor
-        self.makeRow = makeRow
-        if (!leadingActions.isEmpty || !trailingActions.isEmpty) && self.actionHandler == nil{
-            fatalError("No actiton Handler provided")
+        public init(items: [Item],
+                    sort: ((_: inout [Item]) -> Void)? = nil,
+                    style: ListStyle,
+                    title: String? = nil,
+                    multipleSelection: Bool = false,
+                    addButtonIcon: Image = Image(systemName: "plus.square"),
+                    addButtonColor: Color = Color(uiColor: .label),
+                    editButtonLabel: String,
+                    deleteButtonLabel: String,
+                    backgroundColor: Color = Color(uiColor: .systemGroupedBackground),
+                    rowBackgroundColor: Color = Color(uiColor: .systemBackground),
+                    swipeActions: Bool = true,
+                    leadingActions: [ListAction] = [],
+                    trailingActions: [ListAction] = [],
+                    actionHandler: ((_ actionKey: String) -> Void)? = nil,
+                    showLineSeparator: Bool = true,
+                    lineSeparatorColor: Color? = nil,
+                    makeRow: @escaping (_: Item) -> Row
+        ) {
+            self.items = items
+            self.sort = sort
+            self.style = style
+            self.title = title
+            self.multipleSelection = multipleSelection
+            self.addButtonIcon = addButtonIcon
+            self.addButtonColor = addButtonColor
+            self.editButtonLabel = editButtonLabel
+            self.deleteButtonLabel = deleteButtonLabel
+            self.backgroundColor = backgroundColor
+            self.rowBackgroundColor = rowBackgroundColor
+            self.swipeActions = swipeActions
+            self.leadingActions = leadingActions
+            self.trailingActions = trailingActions
+            self.actionHandler = actionHandler
+            self.showLineSeparator = showLineSeparator
+            self.lineSeparatorColor = lineSeparatorColor
+            self.makeRow = makeRow
+            if (!leadingActions.isEmpty || !trailingActions.isEmpty) && self.actionHandler == nil {
+                fatalError("No actiton Handler provided")
+            }
         }
-    }
     #endif
-    
+
     #if os(macOS)
-    
-    public init(items: [Item],
-                sort: ((_: inout [Item]) -> Void)? = nil,
-                style: ListStyle,
-                title: String? = nil,
-                multipleSelection: Bool = false,
-                addButtonIcon: Image = Image(systemName: "plus.square"),
-                addButtonColor: Color = Color(NSColor.labelColor),
-                editButtonLabel: String,
-                deleteButtonLabel: String,
-                backgroundColor: Color = Color(NSColor.windowBackgroundColor),
-                rowBackgroundColor: Color = Color(NSColor.windowBackgroundColor),
-                swipeActions: Bool = true,
-                leadingActions: [ListAction] = [],
-                trailingActions: [ListAction] = [],
-                actionHandler: ((_ actionKey: String) -> Void)? = nil,
-                showLineSeparator: Bool = true,
-                lineSeparatorColor: Color? = nil,
-                makeRow: @escaping (_: Item) -> Row
-    )
-    {
-        self.items = items
-        self.sort = sort
-        self.style = style
-        self.title = title
-        self.multipleSelection = multipleSelection
-        self.addButtonIcon = addButtonIcon
-        self.addButtonColor = addButtonColor
-        self.editButtonLabel = editButtonLabel
-        self.deleteButtonLabel = deleteButtonLabel
-        self.backgroundColor = backgroundColor
-        self.rowBackgroundColor = rowBackgroundColor
-        self.swipeActions = swipeActions
-        self.leadingActions = leadingActions
-        self.trailingActions = trailingActions
-        self.actionHandler = actionHandler
-        self.showLineSeparator = showLineSeparator
-        self.lineSeparatorColor = lineSeparatorColor
-        self.makeRow = makeRow
-        if (!leadingActions.isEmpty || !trailingActions.isEmpty) && self.actionHandler == nil{
-            fatalError("No actiton Handler provided")
+
+        public init(items: [Item],
+                    sort: ((_: inout [Item]) -> Void)? = nil,
+                    style: ListStyle,
+                    title: String? = nil,
+                    multipleSelection: Bool = false,
+                    addButtonIcon: Image = Image(systemName: "plus.square"),
+                    addButtonColor: Color = Color(NSColor.labelColor),
+                    editButtonLabel: String,
+                    deleteButtonLabel: String,
+                    backgroundColor: Color = Color(NSColor.windowBackgroundColor),
+                    rowBackgroundColor: Color = Color(NSColor.windowBackgroundColor),
+                    swipeActions: Bool = true,
+                    leadingActions: [ListAction] = [],
+                    trailingActions: [ListAction] = [],
+                    actionHandler: ((_ actionKey: String) -> Void)? = nil,
+                    showLineSeparator: Bool = true,
+                    lineSeparatorColor: Color? = nil,
+                    makeRow: @escaping (_: Item) -> Row
+        ) {
+            self.items = items
+            self.sort = sort
+            self.style = style
+            self.title = title
+            self.multipleSelection = multipleSelection
+            self.addButtonIcon = addButtonIcon
+            self.addButtonColor = addButtonColor
+            self.editButtonLabel = editButtonLabel
+            self.deleteButtonLabel = deleteButtonLabel
+            self.backgroundColor = backgroundColor
+            self.rowBackgroundColor = rowBackgroundColor
+            self.swipeActions = swipeActions
+            self.leadingActions = leadingActions
+            self.trailingActions = trailingActions
+            self.actionHandler = actionHandler
+            self.showLineSeparator = showLineSeparator
+            self.lineSeparatorColor = lineSeparatorColor
+            self.makeRow = makeRow
+            if (!leadingActions.isEmpty || !trailingActions.isEmpty) && self.actionHandler == nil {
+                fatalError("No actiton Handler provided")
+            }
+            if sort != nil {
+                sort!(&self.items)
+            }
         }
-        if sort != nil {
-            sort!(&self.items)
-        }
-    }
     #endif
     public var selectedItems: [Item] {
         items.filter({ $0.isSelected() })
@@ -222,7 +223,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
         if let idx = items.firstIndex(of: oldItem) {
             items.remove(at: idx)
             items.insert(newItem, at: idx)
-            //print(items)
+            // print(items)
             if sort != nil {
                 sort!(&items)
             }
@@ -248,7 +249,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
             selectedItem = nil
         }
     }
-    
+
     public func cancelForm() {
         startNewItem = nil
         selectedItem = nil
