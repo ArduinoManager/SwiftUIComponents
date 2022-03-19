@@ -27,7 +27,8 @@ public struct Menu: View {
                 // Left Panel
                 SideMenuView(controller: controller)
                 // Right Panel
-                // ContainerView(controller: controller, item: controller.menuItems[0])
+                
+                ContainerView(controller: controller, item: controller.menuItems[0])
             }
         #endif
         #if os(iOS)
@@ -43,6 +44,19 @@ public struct Menu: View {
                     .ignoresSafeArea()
             }
         #endif
+    }
+    
+    /// The first view is loaded only at boostrap
+    ///
+    /// - Returns: Initial view at boostrap or an EmptyView
+    func boostrapView() -> AnyView {
+        if controller.boostrap {
+            controller.boostrap = false
+            return AnyView(ContainerView(controller: controller, item: controller.menuItems[0]))
+        }
+        else {
+            return AnyView(EmptyView())
+        }
     }
 }
 

@@ -139,7 +139,8 @@ public class MenuController: ObservableObject {
     var titleViewBackgroundColor: Color
     @Published public var menuItems: [MenuItem]
     var inspector: AnyView?
-
+    var boostrap: Bool
+    
 #if os(iOS)
 
     public init(menuItems: [MenuItem],
@@ -215,7 +216,8 @@ public class MenuController: ObservableObject {
         self.titleViewBackgroundColor = titleViewBackgroundColor        
         self.inspector = inspector
         currentTab = menuItems[0].key
-        
+        self.boostrap = false
+
         let dups = Dictionary(grouping: self.menuItems, by: {$0.key}).filter { $1.count > 1 }.keys
         if !dups.isEmpty {
             fatalError("Duplicated keys: \(dups)")
