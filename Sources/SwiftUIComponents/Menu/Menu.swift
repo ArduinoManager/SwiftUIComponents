@@ -22,7 +22,8 @@ public struct Menu: View {
 
     public var body: some View {
         #if os(macOS)
-            let x = Self._printChanges()
+            //let x = Self._printChanges()
+            Print("^^^^^^ Building Menu ^^^^^^^^")
             NavigationView {
                 // Left Panel
                 SideMenuView(controller: controller)

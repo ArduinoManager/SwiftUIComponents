@@ -116,8 +116,10 @@ import SwiftUI
                 // No inspector
                 item.makeView()
                     .onAppear {
-                        print("---- 1️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
-                        controller.currentTab = item.key
+                        if !controller.boostrap {
+                            print("---- 1️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
+                            controller.currentTab = item.key
+                        }
                     }
             } else {
                 if controller.titleView == nil {
@@ -126,8 +128,10 @@ import SwiftUI
                         // Main View
                         item.makeView()
                             .onAppear(perform: {
-                                print("---- 2️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
-                                controller.currentTab = item.key
+                                if !controller.boostrap {
+                                    print("---- 2️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
+                                    controller.currentTab = item.key
+                                }
                             })
                             .layoutPriority(1)
 
@@ -186,8 +190,11 @@ import SwiftUI
                         HSplitView {
                             item.makeView()
                                 .onAppear(perform: {
-                                    print("---- 3️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
-                                    controller.currentTab = item.key
+                                    if !controller.boostrap {
+                                        print("---- 3️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
+
+                                        controller.currentTab = item.key
+                                    }
                                 })
                                 .layoutPriority(1)
                             if showInspector {
@@ -237,7 +244,7 @@ struct MainViewContainer: View {
 
         #if os(iOS)
             _controller = StateObject(wrappedValue: MenuController(menuItems: menuItems,
-                                                                   //sideTitleView: AnyView(SideTitleView()),
+                                                                   // sideTitleView: AnyView(SideTitleView()),
                                                                    backgroundColor: .blue,
                                                                    itemsColor: .red
 //        titleView: AnyView(TitleView()),
