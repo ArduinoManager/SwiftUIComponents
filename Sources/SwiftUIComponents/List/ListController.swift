@@ -25,11 +25,11 @@ public protocol ListItemCopyable: AnyObject {
 }
 
 public struct ListAction: Hashable {
-    var key: String
-    var label: String
-    var color: Color
-    var systemIcon: String?
-    var icon: Image?
+    public var key: String
+    public var label: String
+    public var color: Color
+    public var systemIcon: String?
+    public var icon: Image?
 
     #if os(iOS)
         public init(key: String, label: String, systemIcon: String? = nil, icon: Image? = nil, color: Color = Color(uiColor: .label)) {
