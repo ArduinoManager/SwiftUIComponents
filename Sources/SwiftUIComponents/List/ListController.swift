@@ -105,7 +105,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
     var deleteButtonLabel: String
     @Published public var backgroundColor: Color
     @Published public var rowBackgroundColor: Color
-    var swipeActions: Bool
+    @Published public var swipeActions: Bool
     var leadingActions: [ListAction]
     var trailingActions: [ListAction]
     var actionHandler: ((_ actionKey: String) -> Void)?
