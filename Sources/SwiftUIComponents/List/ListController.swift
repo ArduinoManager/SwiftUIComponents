@@ -67,7 +67,7 @@ public struct ListAction: Hashable {
 #if os(macOS)
     public enum ListStyle: CaseIterable {
         public static var allCases: [ListStyle] {
-            return [.plain(alternatesRows: false), .grouped(alternatesRows: false), .inset(alternatesRows: false), .insetGrouped(alternatesRows:false), .sidebar(alternatesRows:false)]
+            return [.plain(alternatesRows: false, alternateBackgroundColor: Color(nsColor: NSColor.windowBackgroundColor)), .grouped(alternatesRows: false, alternateBackgroundColor: Color(nsColor: NSColor.windowBackgroundColor)), .inset(alternatesRows: false, alternateBackgroundColor: Color(nsColor: NSColor.windowBackgroundColor)), .insetGrouped(alternatesRows:false), .sidebar(alternatesRows:false, alternateBackgroundColor: Color(nsColor: NSColor.windowBackgroundColor))]
         }
 
         case plain(alternatesRows: Bool, alternateBackgroundColor: Color = Color(nsColor: NSColor.windowBackgroundColor))
