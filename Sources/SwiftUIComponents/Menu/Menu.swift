@@ -27,8 +27,8 @@ public struct Menu: View {
                 // Left Panel
                 SideMenuView(controller: controller)
                 // Right Panel
-                
-                ContainerView(controller: controller, item: controller.menuItems[0])
+                boostrapView()
+                //ContainerView(controller: controller, item: controller.menuItems[0])
             }
         #endif
         #if os(iOS)
