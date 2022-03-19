@@ -192,10 +192,13 @@ import SwiftUI
         
         public var body: some View {
             
+            
+            
             VStack(alignment: .leading, spacing: 0) {
                 
-                NavigationLink(destination: controller.menuItems[0].view, tag: "A", selection: $controller.boostrap) { EmptyView().hidden() }
-                
+                NavigationLink(destination: controller.menuItems[0].view, tag: "A", selection: $controller.boostrap,label: {EmptyView().scaleEffect(0)})
+                    .frame(width: 0, height: 0)
+                    .hidden()
                 
                 if controller.sideTitleView != nil {
                     HStack {
@@ -273,7 +276,6 @@ import SwiftUI
                     }
                 }
             }
-
             // .frame(minWidth: 150, idealWidth: 250, maxWidth: 300)
         }
 
