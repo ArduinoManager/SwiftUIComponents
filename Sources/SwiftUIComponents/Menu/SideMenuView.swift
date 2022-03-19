@@ -189,17 +189,6 @@ import SwiftUI
         @ObservedObject var controller: MenuController
         @Namespace var animation
         let buttonHeight: CGFloat = 30.0
-        @State var _navLinkActive = false
-        var navLinkBinding : Binding<Bool> {
-                Binding<Bool> { () -> Bool in
-                    return _navLinkActive
-                } set: { (newValue) in
-                    if newValue {
-                        print("Side effect")
-                    }
-                    _navLinkActive = newValue
-                }
-            }
         
         public var body: some View {
             
@@ -228,27 +217,14 @@ import SwiftUI
 
                         switch item {
                         case is TabMenuItem:
-
-                            NavigationLink(
-                                destination: ContainerView(controller: controller, item: item),
-                                isActive: navLinkBinding,
-                                label: {
-                                    HStack(alignment: .center) {
-                                        makeImage(item: item)
-                                            .foregroundColor(controller.itemsColor)
-                                        Text(item.title)
-                                            .foregroundColor(controller.itemsColor)
-                                    }
-                                })
-
-//                            NavigationLink(destination: ContainerView(controller: controller, item: item)) {
-//                                HStack(alignment: .center) {
-//                                    makeImage(item: item)
-//                                        .foregroundColor(controller.itemsColor)
-//                                    Text(item.title)
-//                                        .foregroundColor(controller.itemsColor)
-//                                }
-//                            }
+                            NavigationLink(destination: ContainerView(controller: controller, item: item)) {
+                                HStack(alignment: .center) {
+                                    makeImage(item: item)
+                                        .foregroundColor(controller.itemsColor)
+                                    Text(item.title)
+                                        .foregroundColor(controller.itemsColor)
+                                }
+                            }
 
                         case is TabMenuHandler:
                             let thisItem = item as! TabMenuHandler
