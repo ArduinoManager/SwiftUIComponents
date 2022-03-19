@@ -115,20 +115,20 @@ import SwiftUI
             if controller.inspector == nil {
                 // No inspector
                 item.makeView()
-//                    .onAppear {
-//                        print("---- 1️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
-//                        controller.currentTab = item.key
-//                    }
+                    .onAppear {
+                        print("---- 1️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
+                        controller.currentTab = item.key
+                    }
             } else {
                 if controller.titleView == nil {
                     // Inspector without Title View
                     HSplitView {
                         // Main View
                         item.makeView()
-//                            .onAppear(perform: {
-//                                print("---- 2️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
-//                                controller.currentTab = item.key
-//                            })
+                            .onAppear(perform: {
+                                print("---- 2️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
+                                controller.currentTab = item.key
+                            })
                             .layoutPriority(1)
 
                         // Inspector
@@ -185,10 +185,10 @@ import SwiftUI
                         .background(controller.titleViewBackgroundColor)
                         HSplitView {
                             item.makeView()
-//                                .onAppear(perform: {
-//                                    print("---- 3️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
-//                                    controller.currentTab = item.key
-//                                })
+                                .onAppear(perform: {
+                                    print("---- 3️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
+                                    controller.currentTab = item.key
+                                })
                                 .layoutPriority(1)
                             if showInspector {
                                 controller.inspector!
