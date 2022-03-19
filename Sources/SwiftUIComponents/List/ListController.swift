@@ -109,8 +109,8 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
     var leadingActions: [ListAction]
     var trailingActions: [ListAction]
     var actionHandler: ((_ actionKey: String) -> Void)?
-    var showLineSeparator: Bool
-    var lineSeparatorColor: Color?
+    @Published public var showLineSeparator: Bool
+    @Published public var lineSeparatorColor: Color?
     var makeRow: (_: Item) -> Row
     public var editingItem: Item? {
         didSet {
