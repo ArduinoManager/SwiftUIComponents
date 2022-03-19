@@ -22,11 +22,6 @@ extension View {
             return UIScreen.main.bounds
         }
 
-        func Print(_ vars: Any...) -> some View {
-            for v in vars { print(v) }
-            return EmptyView()
-        }
-
         func getSafeArea() -> UIEdgeInsets {
             guard let screen = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
                 return .zero

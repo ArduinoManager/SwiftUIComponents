@@ -167,6 +167,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
     #if os(macOS)
         let iconSize: CGFloat = 18.0
     #endif
+    
     func body(content: Content) -> some View {
         HStack(alignment: .center, spacing: 5) {
             if !controller.swipeActions {
@@ -295,7 +296,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
 }
 
 fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View>: ViewModifier {
-    var controller: ListController<Item, Row>
+    @ObservedObject var controller: ListController<Item, Row>
     var item: Item
     var sheetManager: SheetMananger
 
