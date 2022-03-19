@@ -116,6 +116,7 @@ import SwiftUI
                 // No inspector
                 item.makeView()
                     .onAppear {
+                        print("---- Loading Menu \(item.title) with key \(item.key) ----")
                         controller.currentTab = item.key
                     }
             } else {
@@ -185,6 +186,7 @@ import SwiftUI
                         HSplitView {
                             item.makeView()
                                 .onAppear(perform: {
+                                    print("---- Loading Menu \(item.title) with key \(item.key) ----")
                                     controller.currentTab = item.key
                                 })
                                 .layoutPriority(1)
