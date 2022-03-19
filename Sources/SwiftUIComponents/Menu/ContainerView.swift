@@ -116,10 +116,8 @@ import SwiftUI
                 // No inspector
                 item.makeView()
                     .onAppear {
-                        if !controller.boostrap {
-                            print("---- 1️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
-                            controller.currentTab = item.key
-                        }
+                        print("---- 1️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
+                        controller.currentTab = item.key
                     }
             } else {
                 if controller.titleView == nil {
@@ -128,10 +126,9 @@ import SwiftUI
                         // Main View
                         item.makeView()
                             .onAppear(perform: {
-                                if !controller.boostrap {
-                                    print("---- 2️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
-                                    controller.currentTab = item.key
-                                }
+                                print("---- 2️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
+                                controller.currentTab = item.key
+
                             })
                             .layoutPriority(1)
 
@@ -190,11 +187,8 @@ import SwiftUI
                         HSplitView {
                             item.makeView()
                                 .onAppear(perform: {
-                                    if !controller.boostrap {
-                                        print("---- 3️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
-
-                                        controller.currentTab = item.key
-                                    }
+                                    print("---- 3️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
+                                    controller.currentTab = item.key
                                 })
                                 .layoutPriority(1)
                             if showInspector {

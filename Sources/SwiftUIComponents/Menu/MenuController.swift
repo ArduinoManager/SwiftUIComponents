@@ -124,7 +124,7 @@ public class TabMenuHandler: MenuItem {
 }
 
 public class MenuController: ObservableObject {
-    @Published public var currentTab: Key = 0
+    @Published public var currentTab: Key
     @Published var showMenu: Bool
     var sideTitleView: AnyView?
     @Published public var itemsColor: Color
@@ -139,7 +139,6 @@ public class MenuController: ObservableObject {
     var titleViewBackgroundColor: Color
     @Published public var menuItems: [MenuItem]
     var inspector: AnyView?
-    var boostrap: Bool
     
 #if os(iOS)
 
@@ -215,8 +214,7 @@ public class MenuController: ObservableObject {
         self.titleView = titleView
         self.titleViewBackgroundColor = titleViewBackgroundColor        
         self.inspector = inspector
-        //currentTab = menuItems[0].key
-        self.boostrap = true
+        currentTab = menuItems[0].key
 
         let dups = Dictionary(grouping: self.menuItems, by: {$0.key}).filter { $1.count > 1 }.keys
         if !dups.isEmpty {
