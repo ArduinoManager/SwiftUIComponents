@@ -175,9 +175,9 @@ import SwiftUI
             } else {
                 if let icon = item.systemIcon {
                     getSafeSystemImage(systemName: icon)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 22, height: 22)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 22, height: 22)
                 }
             }
         }
@@ -189,8 +189,20 @@ import SwiftUI
         @ObservedObject var controller: MenuController
         @Namespace var animation
         let buttonHeight: CGFloat = 30.0
-
+        @State var _navLinkActive = false
+        var navLinkBinding : Binding<Bool> {
+                Binding<Bool> { () -> Bool in
+                    return _navLinkActive
+                } set: { (newValue) in
+                    if newValue {
+                        print("Side effect")
+                    }
+                    _navLinkActive = newValue
+                }
+            }
+        
         public var body: some View {
+            
             VStack(alignment: .leading, spacing: 0) {
                 if controller.sideTitleView != nil {
                     HStack {
@@ -216,7 +228,34 @@ import SwiftUI
 
                         switch item {
                         case is TabMenuItem:
-                            NavigationLink(destination: ContainerView(controller: controller, item: item)) {
+
+                            NavigationLink(
+                                destination: ContainerView(controller: controller, item: item),
+                                isActive: navLinkBinding,
+                                label: {
+                                    HStack(alignment: .center) {
+                                        makeImage(item: item)
+                                            .foregroundColor(controller.itemsColor)
+                                        Text(item.title)
+                                            .foregroundColor(controller.itemsColor)
+                                    }
+                                })
+
+//                            NavigationLink(destination: ContainerView(controller: controller, item: item)) {
+//                                HStack(alignment: .center) {
+//                                    makeImage(item: item)
+//                                        .foregroundColor(controller.itemsColor)
+//                                    Text(item.title)
+//                                        .foregroundColor(controller.itemsColor)
+//                                }
+//                            }
+
+                        case is TabMenuHandler:
+                            let thisItem = item as! TabMenuHandler
+
+                            Button {
+                                thisItem.handler()
+                            } label: {
                                 HStack(alignment: .center) {
                                     makeImage(item: item)
                                         .foregroundColor(controller.itemsColor)
@@ -224,22 +263,8 @@ import SwiftUI
                                         .foregroundColor(controller.itemsColor)
                                 }
                             }
-
-                        case is TabMenuHandler:
-                            let thisItem = item as! TabMenuHandler
-                            
-                                Button {
-                                    thisItem.handler()
-                                } label: {
-                                    HStack(alignment: .center) {
-                                        makeImage(item: item)
-                                            .foregroundColor(controller.itemsColor)
-                                        Text(item.title)
-                                            .foregroundColor(controller.itemsColor)
-                                    }
-                                }
-                                .buttonStyle(.plain)
-                                .frame(maxWidth: .infinity, alignment: .leading)                                
+                            .buttonStyle(.plain)
+                            .frame(maxWidth: .infinity, alignment: .leading)
 
                         case is TabMenuSpacer:
                             let thisItem = item as! TabMenuSpacer
@@ -282,9 +307,9 @@ import SwiftUI
             } else {
                 if let icon = item.systemIcon {
                     getSafeSystemImage(systemName: icon)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 18, height: 18)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 18, height: 18)
                 }
             }
         }
