@@ -73,13 +73,23 @@ public struct ListAction: Hashable {
         case sidebar(alternatesRows: Bool, alternateBackgroundColor: Color = Color(nsColor: NSColor.windowBackgroundColor))
 
         public func hash(into hasher: inout Hasher) {
-            hasher.combine(self)
+            switch self {
+            case .plain(alternatesRows: _, alternateBackgroundColor: _):
+                hasher.combine("plain")
+            case .grouped(alternatesRows: _, alternateBackgroundColor: _):
+                hasher.combine("grouped")
+            case .inset(alternatesRows: _, alternateBackgroundColor: _):
+                hasher.combine("inset")
+            case .insetGrouped(alternatesRows: _, alternateBackgroundColor: _):
+                hasher.combine("insetGrouped")
+            case .sidebar(alternatesRows: _, alternateBackgroundColor: _):
+                hasher.combine("sidebar")
+            }
         }
 
         public static var allCases: [ListStyle] {
-            return [.plain(alternatesRows: false, alternateBackgroundColor: Color(nsColor: NSColor.windowBackgroundColor)), .grouped(alternatesRows: false, alternateBackgroundColor: Color(nsColor: NSColor.windowBackgroundColor)), .inset(alternatesRows: false, alternateBackgroundColor: Color(nsColor: NSColor.windowBackgroundColor)), .insetGrouped(alternatesRows:false), .sidebar(alternatesRows:false, alternateBackgroundColor: Color(nsColor: NSColor.windowBackgroundColor))]
+            return [.plain(alternatesRows: false, alternateBackgroundColor: Color(nsColor: NSColor.windowBackgroundColor)), .grouped(alternatesRows: false, alternateBackgroundColor: Color(nsColor: NSColor.windowBackgroundColor)), .inset(alternatesRows: false, alternateBackgroundColor: Color(nsColor: NSColor.windowBackgroundColor)), .insetGrouped(alternatesRows: false), .sidebar(alternatesRows: false, alternateBackgroundColor: Color(nsColor: NSColor.windowBackgroundColor))]
         }
-
     }
 #endif
 
