@@ -66,15 +66,20 @@ public struct ListAction: Hashable {
 #endif
 #if os(macOS)
     public enum ListStyle: CaseIterable, Hashable {
-        public static var allCases: [ListStyle] {
-            return [.plain(alternatesRows: false, alternateBackgroundColor: Color(nsColor: NSColor.windowBackgroundColor)), .grouped(alternatesRows: false, alternateBackgroundColor: Color(nsColor: NSColor.windowBackgroundColor)), .inset(alternatesRows: false, alternateBackgroundColor: Color(nsColor: NSColor.windowBackgroundColor)), .insetGrouped(alternatesRows:false), .sidebar(alternatesRows:false, alternateBackgroundColor: Color(nsColor: NSColor.windowBackgroundColor))]
-        }
-
         case plain(alternatesRows: Bool, alternateBackgroundColor: Color = Color(nsColor: NSColor.windowBackgroundColor))
         case grouped(alternatesRows: Bool, alternateBackgroundColor: Color = Color(nsColor: NSColor.windowBackgroundColor)) // On macOS like inset
         case inset(alternatesRows: Bool, alternateBackgroundColor: Color = Color(nsColor: NSColor.windowBackgroundColor))
         case insetGrouped(alternatesRows: Bool, alternateBackgroundColor: Color = Color(nsColor: NSColor.windowBackgroundColor)) // On macOS like inset
         case sidebar(alternatesRows: Bool, alternateBackgroundColor: Color = Color(nsColor: NSColor.windowBackgroundColor))
+
+        public func hash(into hasher: inout Hasher) {
+            hasher.combine(self)
+        }
+
+        public static var allCases: [ListStyle] {
+            return [.plain(alternatesRows: false, alternateBackgroundColor: Color(nsColor: NSColor.windowBackgroundColor)), .grouped(alternatesRows: false, alternateBackgroundColor: Color(nsColor: NSColor.windowBackgroundColor)), .inset(alternatesRows: false, alternateBackgroundColor: Color(nsColor: NSColor.windowBackgroundColor)), .insetGrouped(alternatesRows:false), .sidebar(alternatesRows:false, alternateBackgroundColor: Color(nsColor: NSColor.windowBackgroundColor))]
+        }
+
     }
 #endif
 
