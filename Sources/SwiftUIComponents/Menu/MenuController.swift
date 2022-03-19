@@ -198,6 +198,8 @@ public class MenuController: ObservableObject {
                 titleViewBackgroundColor: Color = Color(NSColor.windowBackgroundColor),
                 inspector: AnyView? = nil
     ) {
+        print(menuItems)
+        
         showMenu = false
         self.menuItems = menuItems
         self.autoClose = false
