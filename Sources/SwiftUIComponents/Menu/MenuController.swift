@@ -215,7 +215,7 @@ public class MenuController: ObservableObject {
         self.titleView = titleView
         self.titleViewBackgroundColor = titleViewBackgroundColor        
         self.inspector = inspector
-        currentTab = menuItems[0].key
+//        currentTab = menuItems[0].key
         self.boostrap = true
 
         let dups = Dictionary(grouping: self.menuItems, by: {$0.key}).filter { $1.count > 1 }.keys
