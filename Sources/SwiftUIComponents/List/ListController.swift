@@ -106,8 +106,8 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
     @Published public var backgroundColor: Color
     @Published public var rowBackgroundColor: Color
     @Published public var swipeActions: Bool
-    var leadingActions: [ListAction]
-    var trailingActions: [ListAction]
+    @Published public var leadingActions: [ListAction]
+    @Published public var trailingActions: [ListAction]
     var actionHandler: ((_ actionKey: String) -> Void)?
     @Published public var showLineSeparator: Bool
     @Published public var lineSeparatorColor: Color?
