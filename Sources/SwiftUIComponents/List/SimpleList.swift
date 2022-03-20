@@ -84,7 +84,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                 #if os(macOS)
                     .buttonStyle(PlainButtonStyle())
                 #endif
-                
+
                 Spacer()
                 Button {
                     controller.addAction()
@@ -186,7 +186,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
     #if os(macOS)
         let iconSize: CGFloat = 18.0
     #endif
-    
+
     func body(content: Content) -> some View {
         HStack(alignment: .center, spacing: 5) {
             if !controller.swipeActions {
@@ -403,18 +403,7 @@ struct SimpleListContainer: View {
                                                                                   showLineSeparator: true,
                                                                                   lineSeparatorColor: .blue,
                                                                                   makeRow: { item in
-                                                                                      //RowView(item: item)
-            
-            AnyView(VStack {
-                HStack {
-                    Text("\(item.firstName)")
-                    Text("\(item.lastName)")
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-                .background(item.selected ? Color.red : Color.clear)
-            }
-            )
-            
+                                                                                      RowView(item: item)
                                                                                   }))
     }
 
