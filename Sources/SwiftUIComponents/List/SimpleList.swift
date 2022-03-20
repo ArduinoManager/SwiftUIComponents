@@ -323,7 +323,7 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
                             sheetManager.whichSheet = .Form
                             sheetManager.showSheet.toggle()
                         }
-                        ForEach(0 ..< controller.leadingActions.count, id: \.self) { idx in
+                        ForEach(0 ..< controller.trailingActions.count, id: \.self) { idx in
                             let action = controller.trailingActions[idx]
                             Button(action.label) {
                                 controller.actionHandler!(action.key)
