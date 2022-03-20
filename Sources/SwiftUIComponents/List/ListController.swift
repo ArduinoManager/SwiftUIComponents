@@ -32,7 +32,7 @@ public struct ListAction: Hashable {
     public var icon: String?
 
     #if os(iOS)
-        public init(key: String, label: String, systemIcon: String? = nil, icon: String? = nil, color: Color = Color(uiColor: .label)) {
+    public init(key: String, label: String, systemIcon: String? = nil, icon: String? = nil, color: Color = Color(uiColor: .systemBackground)) {
             self.key = key
             self.label = label
             self.color = color
@@ -41,7 +41,7 @@ public struct ListAction: Hashable {
         }
     #endif
     #if os(macOS)
-        public init(key: String, label: String, systemIcon: String? = nil, icon: String? = nil, color: Color = Color(NSColor.labelColor)) {
+        public init(key: String, label: String, systemIcon: String? = nil, icon: String? = nil, color: Color = Color(NSColor.windowBackgroundColor)) {
             self.key = key
             self.label = label
             self.color = color
@@ -269,4 +269,9 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
         startNewItem = nil
         selectedItem = nil
     }
+    
+    public func addAction() {
+        leadingActions.append(  ListAction(key: "Key", label: "Key", systemIcon: "moon.fill") )
+    }
+    
 }

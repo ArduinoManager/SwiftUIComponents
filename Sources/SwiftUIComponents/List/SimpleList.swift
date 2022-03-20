@@ -84,6 +84,26 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                 #if os(macOS)
                     .buttonStyle(PlainButtonStyle())
                 #endif
+                
+                Spacer()
+                Button {
+                    controller.addAction()
+                    controller.objectWillChange.send()
+                } label: {
+                    controller.addButtonIcon
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                    #if os(iOS)
+                        .frame(width: 30, height: 30)
+                    #endif
+                    #if os(macOS)
+                        .frame(width: 20, height: 20)
+                    #endif
+                    .foregroundColor(controller.addButtonColor)
+                }
+                #if os(macOS)
+                    .buttonStyle(PlainButtonStyle())
+                #endif
             }
             .padding([.leading, .trailing])
             .background(controller.backgroundColor)
