@@ -113,7 +113,6 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                     let item = controller.items[idx]
                     #if os(macOS)
                         VStack(spacing: 0) {
-                            Text("\(item.id.hashValue)")
                             controller.makeRow(item)
                                 .modifier(AttachActions(controller: controller, item: item, sheetManager: sheetManager))
                                 .background(currentColor(idx: idx))
