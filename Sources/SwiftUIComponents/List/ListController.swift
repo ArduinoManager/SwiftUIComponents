@@ -272,9 +272,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
     
     public func addAction() {
         leadingActions.append(  ListAction(key: "Key", label: "Key", systemIcon: "moon.fill") )
-        let tempItems = items
-        items.removeAll()
-        items.append(contentsOf: tempItems)
+        self.objectWillChange.send()
     }
     
 }
