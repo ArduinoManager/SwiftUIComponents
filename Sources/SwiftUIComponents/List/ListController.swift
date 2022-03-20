@@ -92,7 +92,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
     var actionHandler: ((_ actionKey: String) -> Void)?
     @Published public var showLineSeparator: Bool
     @Published public var lineSeparatorColor: Color?
-    var makeRow: (_: Item) -> Row
+    var makeRow: (_: Item) ->  AnyView
     public var editingItem: Item? {
         didSet {
             if editingItem == nil {
@@ -170,7 +170,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
                     actionHandler: ((_ actionKey: String) -> Void)? = nil,
                     showLineSeparator: Bool = true,
                     lineSeparatorColor: Color? = nil,
-                    makeRow: @escaping (_: Item) -> Row
+                    makeRow: @escaping (_: Item) -> AnyView
         ) {
             self.items = items
             self.sort = sort

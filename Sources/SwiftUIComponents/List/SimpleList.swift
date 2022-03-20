@@ -128,7 +128,6 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                         }
                     #endif
                     #if os(iOS)
-                        // HStack(alignment: .center, spacing: 0) {
                         controller.makeRow(item)
                             .modifier(AttachActions(controller: controller, item: item, sheetManager: sheetManager))
                             .background(currentColor(idx: idx))
@@ -405,7 +404,18 @@ struct SimpleListContainer: View {
                                                                                   showLineSeparator: true,
                                                                                   lineSeparatorColor: .blue,
                                                                                   makeRow: { item in
-                                                                                      RowView(item: item)
+                                                                                      //RowView(item: item)
+            
+            AnyView(VStack {
+                HStack {
+                    Text("\(item.firstName)")
+                    Text("\(item.lastName)")
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                .background(item.selected ? Color.red : Color.clear)
+            }
+            )
+            
                                                                                   }))
     }
 

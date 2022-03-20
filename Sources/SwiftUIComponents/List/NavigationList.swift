@@ -362,7 +362,17 @@ struct NavigationListContainer: View {
                                                                                   showLineSeparator: true,
                                                                                   lineSeparatorColor: Color.blue,
                                                                                   makeRow: { item in
-                                                                                      RowView(item: item)
+                                                                                      //RowView(item: item)
+            
+            AnyView(VStack {
+                HStack {
+                    Text("\(item.firstName)")
+                    Text("\(item.lastName)")
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                .background(item.selected ? Color.red : Color.clear)
+            }
+            )
                                                                                   }))
     }
 
