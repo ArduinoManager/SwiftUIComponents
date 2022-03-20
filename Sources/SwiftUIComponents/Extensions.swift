@@ -212,3 +212,21 @@ func getSafeImage(name: String) -> Image {
         }
     #endif
 }
+
+
+@ViewBuilder
+func makeImage(action: ListAction, iconSize: CGFloat) -> some View {
+    if action.icon != nil {
+        getSafeImage(name: action.icon!)
+            .resizable()
+            .scaledToFit()
+            .frame(width: iconSize + 1, height: iconSize + 1)
+    } else {
+        if let icon = action.systemIcon {
+            getSafeSystemImage(systemName: icon)
+                .resizable()
+                .scaledToFit()
+                .frame(width: iconSize, height: iconSize)
+        }
+    }
+}

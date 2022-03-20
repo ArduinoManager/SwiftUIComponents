@@ -207,18 +207,19 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                     Button {
                         controller.actionHandler!(action.key)
                     } label: {
-                        if let img = action.icon {
-                            img
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: iconSize, height: iconSize)
-                        } else {
-                            Image(systemName: action.systemIcon!)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: iconSize + 1, height: iconSize + 1)
-                                .padding(2)
-                        }
+                        makeImage(action: action, iconSize: iconSize)
+//                        if let img = action.icon {
+//                            img
+//                                .resizable()
+//                                .aspectRatio(contentMode: .fit)
+//                                .frame(width: iconSize, height: iconSize)
+//                        } else {
+//                            Image(systemName: action.systemIcon!)
+//                                .resizable()
+//                                .aspectRatio(contentMode: .fit)
+//                                .frame(width: iconSize + 1, height: iconSize + 1)
+//                                .padding(2)
+//                        }
                     }
                     .frame(width: iconSize, height: iconSize)
                     .border(action.color, width: 1)
@@ -247,18 +248,19 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                     Button {
                         controller.actionHandler!(action.key)
                     } label: {
-                        if let img = action.icon {
-                            img
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: iconSize + 1, height: iconSize + 1)
-                        } else {
-                            Image(systemName: action.systemIcon!)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: iconSize, height: iconSize)
-                                .padding(2)
-                        }
+                        makeImage(action: action, iconSize: iconSize)
+//                        if let img = action.icon {
+//                            img
+//                                .resizable()
+//                                .aspectRatio(contentMode: .fit)
+//                                .frame(width: iconSize + 1, height: iconSize + 1)
+//                        } else {
+//                            Image(systemName: action.systemIcon!)
+//                                .resizable()
+//                                .aspectRatio(contentMode: .fit)
+//                                .frame(width: iconSize, height: iconSize)
+//                                .padding(2)
+//                        }
                     }
                     .frame(width: iconSize, height: iconSize)
                     .border(action.color, width: 1)
@@ -340,7 +342,7 @@ struct NavigationListContainer: View {
 
         let trailingActions = [
             ListAction(key: "T1", label: "Action 1", systemIcon: "plus", color: .mint),
-            ListAction(key: "T2", label: "Action 2", icon: Image("logo"), color: .red),
+            ListAction(key: "T2", label: "Action 2", icon: "logo", color: .red),
         ]
 
         _controller = StateObject(wrappedValue: ListController<ListItem, RowView>(items: items,

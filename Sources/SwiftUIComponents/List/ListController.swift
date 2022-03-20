@@ -29,10 +29,10 @@ public struct ListAction: Hashable {
     public var label: String
     public var color: Color
     public var systemIcon: String?
-    public var icon: Image?
+    public var icon: String?
 
     #if os(iOS)
-        public init(key: String, label: String, systemIcon: String? = nil, icon: Image? = nil, color: Color = Color(uiColor: .label)) {
+        public init(key: String, label: String, systemIcon: String? = nil, icon: String? = nil, color: Color = Color(uiColor: .label)) {
             self.key = key
             self.label = label
             self.color = color
@@ -41,7 +41,7 @@ public struct ListAction: Hashable {
         }
     #endif
     #if os(macOS)
-        public init(key: String, label: String, systemIcon: String? = nil, icon: Image? = nil, color: Color = Color(NSColor.labelColor)) {
+        public init(key: String, label: String, systemIcon: String? = nil, icon: String? = nil, color: Color = Color(NSColor.labelColor)) {
             self.key = key
             self.label = label
             self.color = color
