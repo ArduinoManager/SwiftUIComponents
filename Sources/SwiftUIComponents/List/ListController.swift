@@ -82,8 +82,8 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
     @Published public var multipleSelection: Bool
     var addButtonIcon: Image
     var addButtonColor: Color
-    var editButtonLabel: String
-    var deleteButtonLabel: String
+    @Published public var editButtonLabel: String
+    @Published public var deleteButtonLabel: String
     @Published public var backgroundColor: Color
     @Published public var rowBackgroundColor: Color
     @Published public var swipeActions: Bool
