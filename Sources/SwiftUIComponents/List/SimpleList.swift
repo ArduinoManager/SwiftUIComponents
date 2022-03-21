@@ -70,7 +70,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                     sheetManager.whichSheet = .Form
                     sheetManager.showSheet.toggle()
                 } label: {
-                    controller.addButtonIcon
+                    getSafeSystemImage(systemName: controller.addButtonIcon)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                     #if os(iOS)

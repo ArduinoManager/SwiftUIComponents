@@ -60,7 +60,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                         controller.editingItem = nil
                         controller.startNewItem = "newItem"
                     } label: {
-                        controller.addButtonIcon
+                        getSafeSystemImage(systemName: controller.addButtonIcon)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                         #if os(iOS)

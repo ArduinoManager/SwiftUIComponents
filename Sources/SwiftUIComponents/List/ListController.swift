@@ -80,8 +80,8 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
     @Published public var style: ListStyle
     @Published public var title: String?
     @Published public var multipleSelection: Bool
-    var addButtonIcon: Image
-    var addButtonColor: Color
+    @Published public var addButtonIcon: String
+    @Published public var addButtonColor: Color
     @Published public var editButtonLabel: String
     @Published public var deleteButtonLabel: String
     @Published public var backgroundColor: Color
@@ -113,7 +113,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
                     style: ListStyle,
                     title: String? = nil,
                     multipleSelection: Bool = false,
-                    addButtonIcon: Image = Image(systemName: "plus.square"),
+                    addButtonIcon: String = "plus.square",
                     addButtonColor: Color = Color(uiColor: .label),
                     editButtonLabel: String,
                     deleteButtonLabel: String,
@@ -158,7 +158,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
                     style: ListStyle,
                     title: String? = nil,
                     multipleSelection: Bool = false,
-                    addButtonIcon: Image = Image(systemName: "plus.square"),
+                    addButtonIcon: String = "plus.square",
                     addButtonColor: Color = Color(NSColor.labelColor),
                     editButtonLabel: String,
                     deleteButtonLabel: String,
