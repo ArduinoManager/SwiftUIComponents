@@ -256,7 +256,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
     }
     
     public func addTrailingAction(action: ListAction) {
-        leadingActions.append(action)
+        trailingActions.append(action)
     }
     
     public func deleteLeadingAction(action: ListAction) {
