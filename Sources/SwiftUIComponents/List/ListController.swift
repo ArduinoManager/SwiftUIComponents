@@ -32,7 +32,7 @@ public struct ListAction: Hashable {
     public var icon: String?
 
     #if os(iOS)
-    public init(key: String, label: String, systemIcon: String? = nil, icon: String? = nil, color: Color = Color(uiColor: .systemBackground)) {
+    public init(key: String, label: String, systemIcon: String? = nil, icon: String? = nil, color: Color = Color(uiColor: .label)) {
             self.key = key
             self.label = label
             self.color = color
@@ -41,7 +41,7 @@ public struct ListAction: Hashable {
         }
     #endif
     #if os(macOS)
-        public init(key: String, label: String, systemIcon: String? = nil, icon: String? = nil, color: Color = Color(NSColor.windowBackgroundColor)) {
+    public init(key: String, label: String, systemIcon: String? = nil, icon: String? = nil, color: Color = Color(.labelColor)) {
             self.key = key
             self.label = label
             self.color = color
@@ -71,25 +71,6 @@ public struct ListAction: Hashable {
         case inset(alternatesRows: Bool, alternateBackgroundColor: Color = Color(nsColor: NSColor.windowBackgroundColor))
         case insetGrouped(alternatesRows: Bool, alternateBackgroundColor: Color = Color(nsColor: NSColor.windowBackgroundColor)) // On macOS like inset
         case sidebar(alternatesRows: Bool, alternateBackgroundColor: Color = Color(nsColor: NSColor.windowBackgroundColor))
-
-//        public func hash(into hasher: inout Hasher) {
-//            switch self {
-//            case .plain(alternatesRows: _, alternateBackgroundColor: _):
-//                hasher.combine("plain")
-//            case .grouped(alternatesRows: _, alternateBackgroundColor: _):
-//                hasher.combine("grouped")
-//            case .inset(alternatesRows: _, alternateBackgroundColor: _):
-//                hasher.combine("inset")
-//            case .insetGrouped(alternatesRows: _, alternateBackgroundColor: _):
-//                hasher.combine("insetGrouped")
-//            case .sidebar(alternatesRows: _, alternateBackgroundColor: _):
-//                hasher.combine("sidebar")
-//            }
-//        }
-//
-//        public static var allCases: [ListStyle] {
-//            return [.plain(alternatesRows: false, alternateBackgroundColor: Color(nsColor: NSColor.windowBackgroundColor)), .grouped(alternatesRows: false, alternateBackgroundColor: Color(nsColor: NSColor.windowBackgroundColor)), .inset(alternatesRows: false, alternateBackgroundColor: Color(nsColor: NSColor.windowBackgroundColor)), .insetGrouped(alternatesRows: false), .sidebar(alternatesRows: false, alternateBackgroundColor: Color(nsColor: NSColor.windowBackgroundColor))]
-//        }
     }
 #endif
 
@@ -270,9 +251,24 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
         selectedItem = nil
     }
     
-    public func addAction() {
-        leadingActions.append(  ListAction(key: "Key", label: "Key", systemIcon: "moon.fill") )
-        self.objectWillChange.send()
+    public func addLeadingAction(action: ListAction) {
+        leadingActions.append(action)
     }
     
+    public func addTrailingAction(action: ListAction) {
+        leadingActions.append(action)
+    }
+    
+    public func deleteLeadingAction(action: ListAction) {
+        if let idx = leadingActions.firstIndex(of: action) {
+            leadingActions.remove(at: idx)
+        }
+    }
+
+    public func deleteTrailingAction(action: ListAction) {
+        if let idx = trailingActions.firstIndex(of: action) {
+            trailingActions.remove(at: idx)
+        }
+    }
+
 }
