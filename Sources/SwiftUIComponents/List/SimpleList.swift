@@ -115,8 +115,8 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                         VStack(spacing: 0) {
                             controller.makeRow(item)
                                 .modifier(AttachActions(controller: controller, item: item, sheetManager: sheetManager))
-                                .background(currentColor(idx: idx))
                                 .modifier(AttachSwipeActions(controller: controller, item: item, sheetManager: sheetManager))
+                                .background(currentColor(idx: idx))
                             if controller.showLineSeparator {
                                 Divider()
                                     .if(controller.lineSeparatorColor != nil) { view in
@@ -177,7 +177,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
 }
 
 fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View>: ViewModifier {
-    var controller: ListController<Item, Row>
+    @ObservedObject var controller: ListController<Item, Row>
     var item: Item
     var sheetManager: SheetMananger
     #if os(iOS)
@@ -196,18 +196,6 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                         controller.actionHandler!(action.key)
                     } label: {
                         makeImage(action: action, iconSize: iconSize)
-//                        if let img = action.icon {
-//                            img
-//                                .resizable()
-//                                .aspectRatio(contentMode: .fit)
-//                                .frame(width: iconSize, height: iconSize)
-//                        } else {
-//                            Image(systemName: action.systemIcon!)
-//                                .resizable()
-//                                .aspectRatio(contentMode: .fit)
-//                                .frame(width: iconSize + 1, height: iconSize + 1)
-//                                .padding(2)
-//                        }
                     }
                     .frame(width: iconSize, height: iconSize)
                     .border(action.color, width: 1)
@@ -284,18 +272,6 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                         controller.actionHandler!(action.key)
                     } label: {
                         makeImage(action: action, iconSize: iconSize)
-//                        if let img = action.icon {
-//                            img
-//                                .resizable()
-//                                .aspectRatio(contentMode: .fit)
-//                                .frame(width: iconSize + 1, height: iconSize + 1)
-//                        } else {
-//                            Image(systemName: action.systemIcon!)
-//                                .resizable()
-//                                .aspectRatio(contentMode: .fit)
-//                                .frame(width: iconSize, height: iconSize)
-//                                .padding(2)
-//                        }
                     }
                     .frame(width: iconSize, height: iconSize)
                     .border(action.color, width: 1)
