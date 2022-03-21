@@ -191,7 +191,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
 }
 
 fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View>: ViewModifier {
-    var controller: ListController<Item, Row>
+    @ObservedObject var controller: ListController<Item, Row>
     var item: Item
     #if os(iOS)
         let iconSize: CGFloat = 25.0
@@ -287,7 +287,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
 }
 
 fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View>: ViewModifier {
-    var controller: ListController<Item, Row>
+    @ObservedObject var controller: ListController<Item, Row>
     var item: Item
 
     func body(content: Content) -> some View {
