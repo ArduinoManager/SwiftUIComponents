@@ -116,13 +116,14 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                             }
                         #endif
                         #if os(macOS)
+                        VStack(alignment: .leading, spacing: 0) {
                             NavigationLink(
                                 destination: form(),
                                 tag: item,
                                 selection: $controller.selectedItem,
                                 label: {})
                                 .hidden()
-                            VStack(alignment: .leading, spacing: 0) {
+                            
                                 HStack(alignment: .center, spacing: 0) {
                                     controller.makeRow(item)
                                         .modifier(AttachActions(controller: controller, item: item))
