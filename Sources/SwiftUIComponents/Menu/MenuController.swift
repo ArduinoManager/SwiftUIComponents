@@ -216,7 +216,7 @@ public class TabMenuHandler: MenuItem {
 public class MenuController: ObservableObject, Encodable, Decodable {
     @Published public var currentTab: Key
     @Published var showMenu: Bool
-    var sideTitleView: AnyView?
+    @Published var sideTitleView: AnyView?
     @Published public var itemsColor: Color
     @Published public var selectedItemBackgroundColor: Color
     @Published public var backgroundColor: Color
@@ -225,7 +225,7 @@ public class MenuController: ObservableObject, Encodable, Decodable {
     var openButtonColor: Color
     var openButtonIcon: String
     var openButtonSize: CGFloat
-    var titleView: AnyView?
+    @Published var titleView: AnyView?
     var titleViewBackgroundColor: Color
     @Published public var menuItems: [MenuItem]
     var inspector: AnyView?
