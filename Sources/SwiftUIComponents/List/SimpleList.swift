@@ -341,7 +341,7 @@ struct SimpleListContainer: View {
             ListAction(key: "T2", label: "Action 2", icon: "logo", color: .red),
         ]
 
-        _controller = StateObject(wrappedValue: ListController<ListItem, RowView>(menuItems: items,
+        _controller = StateObject(wrappedValue: ListController<ListItem, RowView>(items: items,
                                                                                   sort: sortList,
                                                                                   style: .grouped(alternatesRows: true, alternateBackgroundColor: .white),
                                                                                   title: "Title",

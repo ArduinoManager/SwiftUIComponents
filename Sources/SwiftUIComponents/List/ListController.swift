@@ -108,7 +108,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
     @Published var startNewItem: String? // Setting this to newItem a new Item is created
 
     #if os(iOS)
-        public init(menuItems: [Item],
+        public init(items: [Item],
                     sort: ((_: inout [Item]) -> Void)? = nil,
                     style: ListStyle,
                     title: String? = nil,
@@ -127,7 +127,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
                     lineSeparatorColor: Color? = nil,
                     makeRow: @escaping (_: Item) -> Row
         ) {
-            self.items = menuItems
+            self.items = items
             self.sort = sort
             self.style = style
             self.title = title
