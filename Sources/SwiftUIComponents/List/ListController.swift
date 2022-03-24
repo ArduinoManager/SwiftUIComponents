@@ -127,7 +127,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
                     lineSeparatorColor: Color? = nil,
                     makeRow: @escaping (_: Item) -> Row
         ) {
-            self.menuItems = menuItems
+            self.items = menuItems
             self.sort = sort
             self.style = style
             self.title = title

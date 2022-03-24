@@ -120,7 +120,7 @@ import SwiftUI
         func CustomActionButton(item: TabMenuHandler) -> some View {
             Button {
                 withAnimation {
-                    item.handler()
+                    item.handler(item)
                 }
             }
             label: {
@@ -237,7 +237,7 @@ import SwiftUI
                             let thisItem = item as! TabMenuHandler
 
                             Button {
-                                thisItem.handler()
+                                thisItem.handler(thisItem)
                             } label: {
                                 HStack(alignment: .center) {
                                     makeImage(item: item)

@@ -346,7 +346,7 @@ struct NavigationListContainer: View {
             ListAction(key: "T2", label: "Action 2", icon: "logo", color: .red),
         ]
 
-        _controller = StateObject(wrappedValue: ListController<ListItem, RowView>(items: items,
+        _controller = StateObject(wrappedValue: ListController<ListItem, RowView>(menuItems: items,
                                                                                   style: .grouped(alternatesRows: true, alternateBackgroundColor: .gray),
                                                                                   title: "Title",
                                                                                   addButtonColor: .red,
