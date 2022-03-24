@@ -336,6 +336,9 @@ public class MenuController: ObservableObject, Encodable, Decodable {
     
     public func addItem(item: MenuItem) {
         menuItems.append(item)
+        if menuItems.count == 1 {
+            currentTab = menuItems[0].key
+        }
         let dups = Dictionary(grouping: self.menuItems, by: { $0.key }).filter { $1.count > 1 }.keys
         if !dups.isEmpty {
             fatalError("Duplicated keys: \(dups)")
