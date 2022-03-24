@@ -133,7 +133,7 @@ extension View {
             super.viewDidMoveToWindow()
 
             backgroundColor = NSColor.clear
-            enclosingScrollView!.drawsBackground = false
+            enclosingScrollView?.drawsBackground = false
         }
     }
 

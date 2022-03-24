@@ -315,23 +315,23 @@ public class MenuController: ObservableObject, Encodable, Decodable {
 
     #endif
 
-    public init() {
-        self.menuItems = [MenuItem]()
-        self.showMenu = false
-        self.autoClose = false
-        self.openButtonAtTop = false
-        self.openButtonColor = Color(NSColor.labelColor)
-        self.openButtonIcon = ""
-        self.openButtonSize = 0.0
-        self.sideTitleView = nil
-        self.backgroundColor = Color(NSColor.windowBackgroundColor)
-        self.itemsColor = .red
-        self.selectedItemBackgroundColor = .gray
-        self.titleView = nil
-        self.titleViewBackgroundColor = Color(NSColor.labelColor)
-        self.inspector = nil
-        self.currentTab = 0
-    }
+//    public init() {
+//        self.menuItems = [MenuItem]()
+//        self.showMenu = false
+//        self.autoClose = false
+//        self.openButtonAtTop = false
+//        self.openButtonColor = Color(NSColor.labelColor)
+//        self.openButtonIcon = ""
+//        self.openButtonSize = 0.0
+//        self.sideTitleView = nil
+//        self.backgroundColor = Color(NSColor.windowBackgroundColor)
+//        self.itemsColor = .red
+//        self.selectedItemBackgroundColor = .gray
+//        self.titleView = nil
+//        self.titleViewBackgroundColor = Color(NSColor.labelColor)
+//        self.inspector = nil
+//        self.currentTab = 0
+//    }
     
     
     public func addItem(item: MenuItem) {

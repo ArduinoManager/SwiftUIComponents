@@ -120,7 +120,7 @@ import SwiftUI
         func CustomActionButton(item: TabMenuHandler) -> some View {
             Button {
                 withAnimation {
-                    item.handler()
+                    item.handler(controller)
                 }
             }
             label: {
