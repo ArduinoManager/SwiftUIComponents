@@ -269,11 +269,14 @@ import SwiftUI
                 .padding([.leading], 0)
                 .toolbar {
                     
-                    ToolbarItem(placement: .principal) {
+                    ToolbarItemGroup(placement: .principal) {
+                    
+                    
                        
                         Button("Palle") {
                             
                         }
+                    
                     }
                     
                     ToolbarItem(placement: .navigation) {
