@@ -139,44 +139,44 @@ extension View {
 
 #endif
 
-extension Color {
-    var inverted: Color {
-        let r = components.0
-        let g = components.1
-        let b = components.2
-        let a = components.3
-
-        return Color(.sRGB, red: 1 - r, green: 1 - g, blue: 1 - b, opacity: a)
-    }
-
-    var components: (red: CGFloat, green: CGFloat, blue: CGFloat, opacity: CGFloat) {
-        #if canImport(UIKit)
-            typealias NativeColor = UIColor
-        #elseif canImport(AppKit)
-            typealias NativeColor = NSColor
-        #endif
-
-        var r: CGFloat = 0
-        var g: CGFloat = 0
-        var b: CGFloat = 0
-        var o: CGFloat = 0
-
-        #if os(iOS)
-            guard NativeColor(self).getRed(&r, green: &g, blue: &b, alpha: &o) else {
-                // You can handle the failure here as you want
-                return (0, 0, 0, 0)
-            }
-        #endif
-
-        #if os(macOS)
-            if let x = NativeColor(self).usingColorSpace(NSColorSpace.deviceRGB) {
-                x.getRed(&r, green: &g, blue: &b, alpha: &o)
-            }
-        #endif
-
-        return (r, g, b, o)
-    }
-}
+// extension Color {
+//    var inverted: Color {
+//        let r = components.0
+//        let g = components.1
+//        let b = components.2
+//        let a = components.3
+//
+//        return Color(.sRGB, red: 1 - r, green: 1 - g, blue: 1 - b, opacity: a)
+//    }
+//
+//    var components: (red: CGFloat, green: CGFloat, blue: CGFloat, opacity: CGFloat) {
+//        #if canImport(UIKit)
+//            typealias NativeColor = UIColor
+//        #elseif canImport(AppKit)
+//            typealias NativeColor = NSColor
+//        #endif
+//
+//        var r: CGFloat = 0
+//        var g: CGFloat = 0
+//        var b: CGFloat = 0
+//        var o: CGFloat = 0
+//
+//        #if os(iOS)
+//            guard NativeColor(self).getRed(&r, green: &g, blue: &b, alpha: &o) else {
+//                // You can handle the failure here as you want
+//                return (0, 0, 0, 0)
+//            }
+//        #endif
+//
+//        #if os(macOS)
+//            if let x = NativeColor(self).usingColorSpace(NSColorSpace.deviceRGB) {
+//                x.getRed(&r, green: &g, blue: &b, alpha: &o)
+//            }
+//        #endif
+//
+//        return (r, g, b, o)
+//    }
+// }
 
 func getSafeSystemImage(systemName: String) -> Image {
     #if os(macOS)
@@ -246,7 +246,11 @@ fileprivate extension Color {
             SystemColor(self).getRed(&r, green: &g, blue: &b, alpha: &a)
         // Note that non RGB color will raise an exception, that I don't now how to catch because it is an Objc exception.
         #else
-            guard SystemColor(self).getRed(&r, green: &g, blue: &b, alpha: &a) else {
+            let c1 = usingColorSpace(NSColorSpace.deviceRGB)
+            guard c1 != nil else {
+                return nil
+            }
+            guard c1.getRed(&r, green: &g, blue: &b, alpha: &a) else {
                 // Pay attention that the color should be convertible into RGB format
                 // Colors using hue, saturation and brightness won't work
                 return nil
