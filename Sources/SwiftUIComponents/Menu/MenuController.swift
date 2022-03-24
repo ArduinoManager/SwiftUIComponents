@@ -177,14 +177,16 @@ public class TabMenuHandler: MenuItem {
     public var handler: () -> Void
 
     public init(title: String, systemIcon: String, handler: @escaping (() -> Void)) {
-        self.handler = handler
+        let x = handler
+        self.handler = x
         super.init()
         self.title = title
         self.systemIcon = systemIcon
     }
 
     public init(title: String, icon: String, handler: @escaping (() -> Void)) {
-        self.handler = handler
+        let x = handler
+        self.handler = x
         super.init()
         self.title = title
         self.systemIcon = nil
