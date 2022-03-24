@@ -315,6 +315,14 @@ public class MenuController: ObservableObject, Encodable, Decodable {
 
     #endif
 
+    public func addItem(item: MenuItem) {
+        menuItems.append(item)
+    }
+    
+    public func setInspector(inspector: AnyView) {
+        self.inspector = inspector
+    }
+    
     // MARK: - Encodable & Decodable
 
     enum CodingKeys: CodingKey {
