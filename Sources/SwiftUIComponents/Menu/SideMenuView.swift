@@ -219,7 +219,7 @@ import SwiftUI
                 .background(controller.backgroundColor)
 
                 List {
-                    ForEach(controller.menuItems, id: \.self) { item in
+                    ForEach(controller.menuItems, id: \.key) { item in
 
                         switch item {
                         case is TabMenuItem:
