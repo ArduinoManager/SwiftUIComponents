@@ -269,15 +269,15 @@ import SwiftUI
                 .padding([.leading], 0)
                 .toolbar {
                     
-                    ToolbarItemGroup(placement: .principal) {
-                    
-                    
-                       
-                        Button("Palle") {
-                            
-                        }
-                    
-                    }
+//                    ToolbarItemGroup(placement: .principal) {
+//                    
+//                    
+//                       
+//                        Button("Palle") {
+//                            
+//                        }
+//                    
+//                    }
                     
                     ToolbarItem(placement: .navigation) {
                         Button(action: toggleSidebar, label: {
