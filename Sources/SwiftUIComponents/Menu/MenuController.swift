@@ -10,8 +10,7 @@ import SwiftUI
 
 public typealias Key = Int
 
-public class MenuItem: Hashable, CustomDebugStringConvertible {
-    
+public class MenuItem: Hashable, CustomDebugStringConvertible, Encodable, Decodable {
     public var key: Key
     public var title: String
     public var systemIcon: String?
@@ -25,7 +24,7 @@ public class MenuItem: Hashable, CustomDebugStringConvertible {
         systemIcon = ""
         useSystemIcon = true
     }
-    
+
     public static func == (lhs: MenuItem, rhs: MenuItem) -> Bool {
         return lhs.title == rhs.title
     }
@@ -33,14 +32,42 @@ public class MenuItem: Hashable, CustomDebugStringConvertible {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(key)
     }
-    
+
     @ViewBuilder
     func makeView() -> some View {
         view
     }
-    
+
     public var debugDescription: String {
         return "[\(key)]"
+    }
+    
+    // MARK: - Encodable & Decodable
+
+    enum CodingKeys: CodingKey {
+        case key
+        case title
+        case icon
+        case systemIcon
+        case useSystemIcon
+    }
+
+    public required init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        key = try values.decode(Int.self, forKey: .key)
+        title = try values.decode(String.self, forKey: .title)
+        icon = try values.decode(String.self, forKey: .icon)
+        systemIcon = try values.decode(String.self, forKey: .systemIcon)
+        useSystemIcon = try values.decode(Bool.self, forKey: .useSystemIcon)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(key, forKey: .key)
+        try container.encode(title, forKey: .title)
+        try container.encode(icon, forKey: .icon)
+        try container.encode(systemIcon, forKey: .systemIcon)
+        try container.encode(useSystemIcon, forKey: .useSystemIcon)
     }
 }
 
@@ -55,7 +82,7 @@ public class TabMenuItem: MenuItem {
         self.view = view
         self.useSystemIcon = true
     }
-    
+
     public init(key: Key, title: String, icon: String, view: AnyView) {
         super.init()
         self.key = key
@@ -65,9 +92,19 @@ public class TabMenuItem: MenuItem {
         self.view = view
         self.useSystemIcon = false
     }
-    
-    public override var debugDescription: String {
+
+    override public var debugDescription: String {
         return "[\(key) Tab \(title)]"
+    }
+    
+    // MARK: - Encodable & Decodable
+
+    public required init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+    }
+   
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
     }
 }
 
@@ -76,32 +113,68 @@ public class TabMenuSpacer: MenuItem {
 
     public init(height: CGFloat) {
         super.init()
-        self.spacerHeight = height
+        spacerHeight = height
+    }
+    
+    // MARK: - Encodable & Decodable
+    
+    enum CodingKeys: CodingKey {
+        case spacerHeight
+    }
+    
+    public required init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        spacerHeight = try values.decode(CGFloat.self, forKey: .spacerHeight)
+        try super.init(from: decoder)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(spacerHeight, forKey: .spacerHeight)
+        try super.encode(to: encoder)
     }
 }
 
 public class TabMenuDivider: MenuItem {
     public var color: Color
-    
+
     #if os(iOS)
-    public init(color: Color = Color(uiColor: .label)) {
-        self.color = color
-        super.init()
-        title = "\(UUID())"
-    }
+        public init(color: Color = Color(uiColor: .label)) {
+            self.color = color
+            super.init()
+            title = "\(UUID())"
+        }
+    #endif
+
+    #if os(macOS)
+        public init(color: Color = Color(nsColor: .labelColor)) {
+            self.color = color
+            super.init()
+            title = "\(UUID())"
+        }
     #endif
     
-#if os(macOS)
-    public init(color: Color = Color(nsColor: .labelColor)) {
-    self.color = color
-    super.init()
-    title = "\(UUID())"
-}
-#endif
+    // MARK: - Encodable & Decodable
+    
+    enum CodingKeys: CodingKey {
+        case color
+    }
+    
+    public required init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        color = try values.decode(Color.self, forKey: .color)
+        try super.init(from: decoder)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(color, forKey: .color)
+        try super.encode(to: encoder)
+    }
 }
 
 public class TabMenuHandler: MenuItem {
-    public var handler: (() -> Void)
+    public var handler: () -> Void
 
     public init(title: String, systemIcon: String, handler: @escaping (() -> Void)) {
         self.handler = handler
@@ -109,7 +182,7 @@ public class TabMenuHandler: MenuItem {
         self.title = title
         self.systemIcon = systemIcon
     }
-    
+
     public init(title: String, icon: String, handler: @escaping (() -> Void)) {
         self.handler = handler
         super.init()
@@ -118,12 +191,29 @@ public class TabMenuHandler: MenuItem {
         self.icon = icon
     }
     
-    public override var debugDescription: String {
+    override public var debugDescription: String {
         return "[\(key) Handler \(title)]"
+    }
+    
+    // MARK: - Encodable & Decodable
+    
+    enum CodingKeys: CodingKey {
+        case handler
+    }
+    
+    public required init(from decoder: Decoder) throws {
+        handler = {
+            fatalError("Something went wrong!")
+        }
+        try super.init(from: decoder)
+    }
+    
+    override public func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
     }
 }
 
-public class MenuController: ObservableObject {
+public class MenuController: ObservableObject, Encodable, Decodable {
     @Published public var currentTab: Key
     @Published var showMenu: Bool
     var sideTitleView: AnyView?
@@ -140,90 +230,142 @@ public class MenuController: ObservableObject {
     @Published public var menuItems: [MenuItem]
     var inspector: AnyView?
     var boostrap: String? = "A"
-    
-#if os(iOS)
 
-    public init(menuItems: [MenuItem],
-                autoClose: Bool = true,
-                openButtonAtTop: Bool = true,
-                openButtonColor: Color = Color(uiColor: .label),
-                openButtonIcon: String = "line.3.horizontal",
-                openButtonSize: CGFloat = 20.0,
-                sideTitleView: AnyView? = nil,
-                backgroundColor: Color = Color(uiColor: .systemBackground),
-                itemsColor: Color = Color(uiColor: .label),
-                selectedItemBackgroundColor: Color = Color(uiColor: .systemGray4),
-                titleView: AnyView? = nil,
-                titleViewBackgroundColor: Color = Color(uiColor: .systemBackground)) {
-        showMenu = false
-        self.menuItems = menuItems
-        self.autoClose = autoClose
-        self.openButtonAtTop = openButtonAtTop
-        self.openButtonColor = openButtonColor
-        self.openButtonIcon = openButtonIcon
-        self.openButtonSize = openButtonSize
-        self.sideTitleView = sideTitleView
-        self.backgroundColor = backgroundColor
-        self.itemsColor = itemsColor
-        self.selectedItemBackgroundColor = selectedItemBackgroundColor
-        self.titleView = titleView
-        self.titleViewBackgroundColor = titleViewBackgroundColor
-        currentTab = menuItems[0].key
-        
-        let dups = Dictionary(grouping: self.menuItems, by: {$0.key}).filter { $1.count > 1 }.keys
-        if !dups.isEmpty {
-            fatalError("Duplicated keys: \(dups)")
+    #if os(iOS)
+
+        public init(menuItems: [MenuItem],
+                    autoClose: Bool = true,
+                    openButtonAtTop: Bool = true,
+                    openButtonColor: Color = Color(uiColor: .label),
+                    openButtonIcon: String = "line.3.horizontal",
+                    openButtonSize: CGFloat = 20.0,
+                    sideTitleView: AnyView? = nil,
+                    backgroundColor: Color = Color(uiColor: .systemBackground),
+                    itemsColor: Color = Color(uiColor: .label),
+                    selectedItemBackgroundColor: Color = Color(uiColor: .systemGray4),
+                    titleView: AnyView? = nil,
+                    titleViewBackgroundColor: Color = Color(uiColor: .systemBackground)) {
+            showMenu = false
+            self.menuItems = menuItems
+            self.autoClose = autoClose
+            self.openButtonAtTop = openButtonAtTop
+            self.openButtonColor = openButtonColor
+            self.openButtonIcon = openButtonIcon
+            self.openButtonSize = openButtonSize
+            self.sideTitleView = sideTitleView
+            self.backgroundColor = backgroundColor
+            self.itemsColor = itemsColor
+            self.selectedItemBackgroundColor = selectedItemBackgroundColor
+            self.titleView = titleView
+            self.titleViewBackgroundColor = titleViewBackgroundColor
+            currentTab = menuItems[0].key
+
+            let dups = Dictionary(grouping: self.menuItems, by: { $0.key }).filter { $1.count > 1 }.keys
+            if !dups.isEmpty {
+                fatalError("Duplicated keys: \(dups)")
+            }
         }
-    }
-    
+
     #endif
-    
+
     #if os(macOS)
-    
-    /// Creates a new Menu Controller
-    ///
-    /// - Parameters:
-    ///   - menuItems: menu items
-    ///   - sideTitleView: menu panel title view
-    ///   - backgroundColor: left side background color
-    ///   - itemsColor: items color
-    ///   - titleView: content panel title view
-    ///   - titleViewBackgroundColor: content panel title view color
-    ///   - inspector: right side inspector
-    ///   
-    public init(menuItems: [MenuItem],
-                sideTitleView: AnyView? = nil,
-                backgroundColor: Color = Color(NSColor.windowBackgroundColor),
-                itemsColor: Color = Color(NSColor.labelColor),
-                titleView: AnyView? = nil,
-                titleViewBackgroundColor: Color = Color(NSColor.windowBackgroundColor),
-                inspector: AnyView? = nil
-    ) {
-        print(menuItems)
+
+        /// Creates a new Menu Controller
+        ///
+        /// - Parameters:
+        ///   - menuItems: menu items
+        ///   - sideTitleView: menu panel title view
+        ///   - backgroundColor: left side background color
+        ///   - itemsColor: items color
+        ///   - titleView: content panel title view
+        ///   - titleViewBackgroundColor: content panel title view color
+        ///   - inspector: right side inspector
+        ///
+        public init(menuItems: [MenuItem],
+                    sideTitleView: AnyView? = nil,
+                    backgroundColor: Color = Color(NSColor.windowBackgroundColor),
+                    itemsColor: Color = Color(NSColor.labelColor),
+                    titleView: AnyView? = nil,
+                    titleViewBackgroundColor: Color = Color(NSColor.windowBackgroundColor),
+                    inspector: AnyView? = nil
+        ) {
+            print(menuItems)
+
+            self.showMenu = false
+            self.menuItems = menuItems
+            self.autoClose = false
+            self.openButtonAtTop = false
+            self.openButtonColor = Color(NSColor.labelColor)
+            self.openButtonIcon = ""
+            self.openButtonSize = 0.0
+            self.sideTitleView = sideTitleView
+            self.backgroundColor = backgroundColor
+            self.itemsColor = itemsColor
+            self.selectedItemBackgroundColor = Color(NSColor.labelColor)
+            self.titleView = titleView
+            self.titleViewBackgroundColor = titleViewBackgroundColor
+            self.inspector = inspector
+            self.currentTab = menuItems[0].key
+
+            let dups = Dictionary(grouping: self.menuItems, by: { $0.key }).filter { $1.count > 1 }.keys
+            if !dups.isEmpty {
+                fatalError("Duplicated keys: \(dups)")
+            }
+        }
+
+    #endif
+
+    // MARK: - Encodable & Decodable
+
+    enum CodingKeys: CodingKey {
+        case autoClose
+        case menuItems
+        case openButtonAtTop
+        case openButtonColor
+        case openButtonIcon
+        case openButtonSize
+        case backgroundColor
+        case itemsColor
+        case selectedItemBackgroundColor
+        case titleViewBackgroundColor
+        
+    }
+
+    public required init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        autoClose = try values.decode(Bool.self, forKey: .autoClose)
+        let items = try values.decode([MenuItem].self, forKey: .menuItems)
+        menuItems = items
+        openButtonAtTop = try values.decode(Bool.self, forKey: .openButtonAtTop)
+        openButtonColor = try values.decode(Color.self, forKey: .openButtonColor)
+        openButtonIcon = try values.decode(String.self, forKey: .openButtonIcon)
+        openButtonSize = try values.decode(CGFloat.self, forKey: .openButtonSize)
+        backgroundColor = try values.decode(Color.self, forKey: .backgroundColor)
+        itemsColor = try values.decode(Color.self, forKey: .itemsColor)
+        selectedItemBackgroundColor = try values.decode(Color.self, forKey: .selectedItemBackgroundColor)
+        titleViewBackgroundColor = try values.decode(Color.self, forKey: .titleViewBackgroundColor)
         
         showMenu = false
-        self.menuItems = menuItems
-        self.autoClose = false
-        self.openButtonAtTop = false
-        self.openButtonColor = Color(NSColor.labelColor)
-        self.openButtonIcon = ""
-        self.openButtonSize = 0.0
-        self.sideTitleView = sideTitleView
-        self.backgroundColor = backgroundColor
-        self.itemsColor = itemsColor
-        self.selectedItemBackgroundColor = Color(NSColor.labelColor)
-        self.titleView = titleView
-        self.titleViewBackgroundColor = titleViewBackgroundColor        
-        self.inspector = inspector
-        currentTab = menuItems[0].key
-
-        let dups = Dictionary(grouping: self.menuItems, by: {$0.key}).filter { $1.count > 1 }.keys
-        if !dups.isEmpty {
-            fatalError("Duplicated keys: \(dups)")
-        }
+        sideTitleView = nil
+        titleView = nil
+        inspector = nil
+        currentTab = items[0].key
     }
-    
-    #endif
-    
-    
+
+    public func encode(to encoder: Encoder) throws {
+        
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(autoClose, forKey: .autoClose)
+        try container.encode(menuItems, forKey: .menuItems)
+        try container.encode(openButtonAtTop, forKey: .openButtonAtTop)
+        try container.encode(openButtonColor, forKey: .openButtonColor)
+        try container.encode(openButtonIcon, forKey: .openButtonIcon)
+        try container.encode(openButtonSize, forKey: .openButtonSize)
+        try container.encode(backgroundColor, forKey: .backgroundColor)
+        try container.encode(itemsColor, forKey: .itemsColor)
+        try container.encode(selectedItemBackgroundColor, forKey: .selectedItemBackgroundColor)
+        try container.encode(titleViewBackgroundColor, forKey: .titleViewBackgroundColor)
+
+        
+    }
 }
