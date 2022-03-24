@@ -264,8 +264,6 @@ import SwiftUI
                 }
                 .background(controller.backgroundColor)
                 .listStyle(SidebarListStyle())
-                // .navigationTitle("Explore")
-                //
                 .padding([.leading], 0)
                 .toolbar {
                     ToolbarItem(placement: .navigation) {
