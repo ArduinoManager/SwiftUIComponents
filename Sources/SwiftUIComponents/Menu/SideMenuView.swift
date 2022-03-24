@@ -268,54 +268,11 @@ import SwiftUI
                 //
                 .padding([.leading], 0)
                 .toolbar {
-                    
-//                    ToolbarItemGroup(placement: .principal) {
-//
-//
-//
-//                        Button("Palle") {
-//
-//                        }
-//
-//                    }
-                    
                     ToolbarItem(placement: .navigation) {
                         Button(action: toggleSidebar, label: {
                             Image(systemName: "sidebar.left")
                         })
                     }
-                    
-                    ToolbarItem(placement: .navigation) {
-                        Button("Ancora") {
-                            
-                        }
-                    }
-                    
-                    ToolbarItem(placement: .primaryAction) {
-                       Text("Cazzo")
-                    }
-                    
-                    ToolbarItem(placement: .destructiveAction) {
-                        Button("Culo") {
-                            
-                        }
-                    }
-
-                    ToolbarItem(placement: .confirmationAction) {
-                        Button("Culone") {
-                            
-                        }
-                    }
-
-                    ToolbarItem(placement: .cancellationAction) {
-                       
-                        Button("Cazzone") {
-                            
-                        }
-                    }
-                    
-                    
-
                 }
             }
             // .frame(minWidth: 150, idealWidth: 250, maxWidth: 300)
