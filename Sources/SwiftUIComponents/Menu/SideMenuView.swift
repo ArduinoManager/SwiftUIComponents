@@ -270,19 +270,25 @@ import SwiftUI
                 .toolbar {
                     
 //                    ToolbarItemGroup(placement: .principal) {
-//                    
-//                    
-//                       
+//
+//
+//
 //                        Button("Palle") {
-//                            
+//
 //                        }
-//                    
+//
 //                    }
                     
                     ToolbarItem(placement: .navigation) {
                         Button(action: toggleSidebar, label: {
                             Image(systemName: "sidebar.left")
                         })
+                    }
+                    
+                    ToolbarItem(placement: .navigation) {
+                        Button("Ancora") {
+                            
+                        }
                     }
                     
                     ToolbarItem(placement: .primaryAction) {
