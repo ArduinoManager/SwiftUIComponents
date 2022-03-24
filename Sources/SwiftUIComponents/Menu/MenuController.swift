@@ -174,16 +174,16 @@ public class TabMenuDivider: MenuItem {
 }
 
 public class TabMenuHandler: MenuItem {
-    public var handler: (TabMenuHandler) -> Void
+    public var handler: () -> Void
 
-    public init(title: String, systemIcon: String, handler: @escaping ((TabMenuHandler) -> Void)) {
+    public init(title: String, systemIcon: String, handler: @escaping (() -> Void)) {
         self.handler = handler
         super.init()
         self.title = title
         self.systemIcon = systemIcon
     }
 
-    public init(title: String, icon: String, handler: @escaping ((TabMenuHandler) -> Void)) {
+    public init(title: String, icon: String, handler: @escaping (() -> Void)) {
         self.handler = handler
         super.init()
         self.title = title
@@ -202,7 +202,7 @@ public class TabMenuHandler: MenuItem {
     }
     
     public required init(from decoder: Decoder) throws {
-        handler = { _ in
+        handler = { 
             fatalError("Something went wrong!")
         }
         try super.init(from: decoder)
