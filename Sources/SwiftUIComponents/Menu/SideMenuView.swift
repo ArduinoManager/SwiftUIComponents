@@ -273,6 +273,9 @@ import SwiftUI
                             Image(systemName: "sidebar.left")
                         })
                     }
+                    ToolbarItem(placement: .navigation) {
+                       Text("Cazzo")
+                    }
                 }
             }
             // .frame(minWidth: 150, idealWidth: 250, maxWidth: 300)
