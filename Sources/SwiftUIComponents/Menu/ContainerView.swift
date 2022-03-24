@@ -210,7 +210,7 @@ struct MainViewContainer: View {
     init() {
         let menuItems = [
             TabMenuItem(key: 0, title: "Home", systemIcon: "theatermasks.fill", view: AnyView(TestView(text: "Home").background(.yellow))),
-            TabMenuHandler(title: "Print", systemIcon: "rectangle.portrait.and.arrow.right") {
+            TabMenuHandler(title: "Print", systemIcon: "rectangle.portrait.and.arrow.right") { controller in
                 print("Print")
             },
             TabMenuItem(key: 1, title: "Simple Table", systemIcon: "safari.fill", view: AnyView(TestView(text: "Discover").background(.blue))),
@@ -222,16 +222,18 @@ struct MainViewContainer: View {
                         view: AnyView(TestView(text: "Profile").background(.green))),
 
             TabMenuDivider(color: .red),
-            TabMenuHandler(title: "Login", systemIcon: "rectangle.portrait.and.arrow.right") {
+            TabMenuHandler(title: "Login", systemIcon: "rectangle.portrait.and.arrow.right") { controller in
                 print("Login")
             },
 
-            TabMenuHandler(title: "Logout", systemIcon: "pippo") {
+            TabMenuHandler(title: "Logout", systemIcon: "pippo") { controller in
                 print("Logout")
             },
 
             TabMenuDivider(color: .red),
-            TabMenuHandler(title: "Kill!", icon: "logo") {
+            TabMenuHandler(title: "Kill!", icon: "logo") { controller in
+                
+                controller.addItem(item: TabMenuItem(key: 0, title: "X", icon: "plus", view: AnyView(EmptyView())))
                 print("Login")
             },
         ]
