@@ -269,7 +269,12 @@ import SwiftUI
                 .padding([.leading], 0)
                 .toolbar {
                     
-                   
+                    ToolbarItem(placement: .principal) {
+                       
+                        Button("Palle") {
+                            
+                        }
+                    }
                     
                     ToolbarItem(placement: .navigation) {
                         Button(action: toggleSidebar, label: {
@@ -300,12 +305,7 @@ import SwiftUI
                         }
                     }
                     
-                    ToolbarItem(placement: .principal) {
-                       
-                        Button("Palle") {
-                            
-                        }
-                    }
+                    
 
                 }
             }
