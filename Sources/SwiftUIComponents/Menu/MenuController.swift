@@ -315,8 +315,31 @@ public class MenuController: ObservableObject, Encodable, Decodable {
 
     #endif
 
+    public init() {
+        self.menuItems = [MenuItem]()
+        self.showMenu = false
+        self.autoClose = false
+        self.openButtonAtTop = false
+        self.openButtonColor = Color(NSColor.labelColor)
+        self.openButtonIcon = ""
+        self.openButtonSize = 0.0
+        self.sideTitleView = nil
+        self.backgroundColor = Color(NSColor.windowBackgroundColor)
+        self.itemsColor = .red
+        self.selectedItemBackgroundColor = .gray
+        self.titleView = nil
+        self.titleViewBackgroundColor = Color(NSColor.labelColor)
+        self.inspector = nil
+        self.currentTab = 0
+    }
+    
+    
     public func addItem(item: MenuItem) {
         menuItems.append(item)
+        let dups = Dictionary(grouping: self.menuItems, by: { $0.key }).filter { $1.count > 1 }.keys
+        if !dups.isEmpty {
+            fatalError("Duplicated keys: \(dups)")
+        }
     }
     
     public func setInspector(inspector: AnyView) {
