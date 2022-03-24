@@ -268,14 +268,31 @@ import SwiftUI
                 //
                 .padding([.leading], 0)
                 .toolbar {
+                    
+                   
+                    
                     ToolbarItem(placement: .navigation) {
                         Button(action: toggleSidebar, label: {
                             Image(systemName: "sidebar.left")
                         })
                     }
-                    ToolbarItem(placement: .navigation) {
+                    
+                    ToolbarItem(placement: .primaryAction) {
                        Text("Cazzo")
                     }
+                    
+                    ToolbarItem(placement: .destructiveAction) {
+                       Text("Culo")
+                    }
+
+                    ToolbarItem(placement: .confirmationAction) {
+                       Text("Culone")
+                    }
+
+                    ToolbarItem(placement: .cancellationAction) {
+                       Text("Cazzone")
+                    }
+
                 }
             }
             // .frame(minWidth: 150, idealWidth: 250, maxWidth: 300)
