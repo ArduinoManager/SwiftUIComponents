@@ -282,15 +282,22 @@ import SwiftUI
                     }
                     
                     ToolbarItem(placement: .destructiveAction) {
-                       Text("Culo")
+                        Button("Culo") {
+                            
+                        }
                     }
 
                     ToolbarItem(placement: .confirmationAction) {
-                       Text("Culone")
+                        Button("Culone") {
+                            
+                        }
                     }
 
                     ToolbarItem(placement: .cancellationAction) {
-                       Text("Cazzone")
+                       
+                        Button("Cazzone") {
+                            
+                        }
                     }
 
                 }
