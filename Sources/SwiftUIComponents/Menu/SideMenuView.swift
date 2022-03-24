@@ -299,6 +299,13 @@ import SwiftUI
                             
                         }
                     }
+                    
+                    ToolbarItem(placement: .principal) {
+                       
+                        Button("Palle") {
+                            
+                        }
+                    }
 
                 }
             }
