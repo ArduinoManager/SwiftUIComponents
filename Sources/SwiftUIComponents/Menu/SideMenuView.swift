@@ -189,17 +189,16 @@ import SwiftUI
         @ObservedObject var controller: MenuController
         @Namespace var animation
         let buttonHeight: CGFloat = 30.0
-        
+
         public var body: some View {
-            
-            
-            
             VStack(alignment: .leading, spacing: 0) {
                 
-                NavigationLink(destination: controller.menuItems[0].view, tag: "A", selection: $controller.boostrap,label: {EmptyView().scaleEffect(0)})
-                    .frame(width: 0, height: 0)
-                    .hidden()
-                
+                if controller.menuItems.count >= 1 {
+                    NavigationLink(destination: controller.menuItems[0].view, tag: "A", selection: $controller.boostrap, label: { EmptyView().scaleEffect(0) })
+                        .frame(width: 0, height: 0)
+                        .hidden()
+                }
+
                 if controller.sideTitleView != nil {
                     HStack {
                         controller.sideTitleView!
