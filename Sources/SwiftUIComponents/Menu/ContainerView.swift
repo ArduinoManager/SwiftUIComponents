@@ -111,16 +111,16 @@ import SwiftUI
         @State private var showInspector = false
 
         public var body: some View {
-            if controller.inspector == nil {
+            //if controller.inspector == nil {
                 // No Inspector
                 viewNoInspector(controller: controller)
                     .onAppear {
                         print("---- 1️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
                         controller.currentTab = item.key
                     }
-            } else {
-                // Inspector Inspector
-            }
+//            } else {
+//                // Inspector Inspector
+//            }
         }
 
 //        public var body: some View {
