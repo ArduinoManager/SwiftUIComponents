@@ -13,7 +13,6 @@ import SwiftUI
         @State private var orientation = UIDeviceOrientation.unknown
 
         public var body: some View {
-            
             VStack(spacing: 0) {
                 if controller.openButtonAtTop {
                     HStack(spacing: 0) {
@@ -112,6 +111,9 @@ import SwiftUI
         @State private var showInspector = false
 
         public var body: some View {
+            
+            Print(">>>>>>>>>>>>>>>>>>>>>>ContainerView")
+            
             if controller.inspector == nil {
                 // No inspector
                 item.makeView()
@@ -210,7 +212,7 @@ struct MainViewContainer: View {
     init() {
         let menuItems = [
             TabMenuItem(key: 0, title: "Home", systemIcon: "theatermasks.fill", view: AnyView(TestView(text: "Home").background(.yellow))),
-            TabMenuHandler(title: "Print", systemIcon: "rectangle.portrait.and.arrow.right") { controller in
+            TabMenuHandler(title: "Print", systemIcon: "rectangle.portrait.and.arrow.right") { _ in
                 print("Print")
             },
             TabMenuItem(key: 1, title: "Simple Table", systemIcon: "safari.fill", view: AnyView(TestView(text: "Discover").background(.blue))),
@@ -222,19 +224,17 @@ struct MainViewContainer: View {
                         view: AnyView(TestView(text: "Profile").background(.green))),
 
             TabMenuDivider(color: .red),
-            TabMenuHandler(title: "Login", systemIcon: "rectangle.portrait.and.arrow.right") { controller in
+            TabMenuHandler(title: "Login", systemIcon: "rectangle.portrait.and.arrow.right") { _ in
                 print("Login")
             },
 
-            TabMenuHandler(title: "Logout", systemIcon: "pippo") { controller in
+            TabMenuHandler(title: "Logout", systemIcon: "pippo") { _ in
                 print("Logout")
             },
 
             TabMenuDivider(color: .red),
-            TabMenuHandler(title: "Kill!", icon: "logo") { controller in
-                
-                controller.addItem(item: TabMenuItem(key: 0, title: "X", icon: "plus", view: AnyView(EmptyView())))
-                print("Login")
+            TabMenuHandler(title: "Kill!", icon: "logo") { _ in
+                print("Kill")
             },
         ]
 
@@ -249,15 +249,18 @@ struct MainViewContainer: View {
             )
         #endif
         #if os(macOS)
-            _controller = StateObject(wrappedValue: MenuController(menuItems: menuItems,
-                                                                   // sideTitleView: AnyView(SideTitleView()),
-                                                                   backgroundColor: .blue,
-                                                                   itemsColor: .red,
-                                                                   //        titleView: AnyView(TitleView()),
-                                                                   //        titleViewBackgroundColor: .accentColor,
-                                                                   inspector: AnyView(Inspector())
-                )
-            )
+        
+            let x = MenuController(menuItems: menuItems,
+                                   sideTitleView: nil,
+                                   backgroundColor: Color(nsColor: .windowBackgroundColor),
+                                   itemsColor: .red,
+                                   titleView: AnyView(TitleView()),
+                                   titleViewBackgroundColor: Color(nsColor: .labelColor),
+                                   inspector: nil)
+        
+        
+            _controller = StateObject(wrappedValue: x)
+                                                                            
         #endif
     }
 
