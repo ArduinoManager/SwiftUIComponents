@@ -111,13 +111,13 @@ import SwiftUI
         @State private var showInspector = false
 
         public var body: some View {
-            //if controller.inspector == nil {
-                // No Inspector
-                viewNoInspector(controller: controller)
-                    .onAppear {
-                        print("---- 1️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
-                        controller.currentTab = item.key
-                    }
+            // if controller.inspector == nil {
+            // No Inspector
+            viewNoInspector(controller: controller)
+//                    .onAppear {
+//                        print("---- 1️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
+//                        controller.currentTab = item.key
+//                    }
 //            } else {
 //                // Inspector Inspector
 //            }
@@ -219,7 +219,9 @@ import SwiftUI
         @ViewBuilder
         func viewNoInspector(controller: MenuController) -> some View {
             if controller.titleView == nil {
+                //
                 // No Title View
+                //
                 HSplitView {
                     // Main View
                     item.makeView()
@@ -235,7 +237,7 @@ import SwiftUI
                             .frame(idealWidth: 500)
                     }
                 }
-                .if(controller.inspector != nil && controller.titleView == nil) { view in
+                .if(controller.inspector != nil) { view in
                     view
                         .overlay(
                             VStack(spacing: 0) {
@@ -262,7 +264,40 @@ import SwiftUI
                 }
             } else {
                 // Title View
-                EmptyView()
+                VStack(spacing: 0) {
+                    
+                    HStack(spacing: 0) {
+                        controller.titleView
+                        Spacer()
+                        Button {
+                            withAnimation {
+                                showInspector.toggle()
+                            }
+                        }
+                        label: {
+                            Image(systemName: "line.3.horizontal")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 20, height: 20)
+                        }
+                        .buttonStyle(.plain)
+                        .padding(.trailing, 10)
+                    }
+                    .background(controller.titleViewBackgroundColor)
+                    
+                    HSplitView {
+                        item.makeView()
+                            .onAppear(perform: {
+                                print("---- 3️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
+                                controller.currentTab = item.key
+                            })
+                            .layoutPriority(1)
+                        if showInspector {
+                            controller.inspector!
+                                .frame(idealWidth: 500)
+                        }
+                    }
+                }
             }
         }
     }
