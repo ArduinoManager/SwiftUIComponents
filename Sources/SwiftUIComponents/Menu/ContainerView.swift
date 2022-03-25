@@ -258,50 +258,50 @@ import SwiftUI
                 //
                 // No Title View
                 //
-                if controller.titleView == nil {
-                    // Inspector without Title View
-                    HSplitView {
-                        // Main View
-                        item.makeView()
-                            .onAppear(perform: {
-                                print("---- 2️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
-                                controller.currentTab = item.key
 
-                            })
-                            .layoutPriority(1)
+                // Inspector without Title View
+                HSplitView {
+                    // Main View
+                    item.makeView()
+                        .onAppear(perform: {
+                            print("---- 2️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
+                            controller.currentTab = item.key
 
-                        // Inspector
-                        if showInspector {
-                            controller.inspector!
-                                .frame(idealWidth: 500)
-                        }
-                    }
-                    .if(controller.inspector != nil && controller.titleView == nil) { view in
-                        view
-                            .overlay(
-                                VStack(spacing: 0) {
-                                    HStack {
-                                        Spacer()
-                                        Button {
-                                            withAnimation {
-                                                showInspector.toggle()
-                                            }
-                                        }
-                                        label: {
-                                            Image(systemName: "line.3.horizontal")
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(width: 20, height: 20)
-                                        }
-                                        .buttonStyle(.plain)
-                                        .padding(.top, 5)
-                                        .padding(.trailing, 5)
-                                    }
-                                    Spacer()
-                                }
-                            )
+                        })
+                        .layoutPriority(1)
+
+                    // Inspector
+                    if showInspector {
+                        controller.inspector!
+                            .frame(idealWidth: 500)
                     }
                 }
+                .if(controller.inspector != nil && controller.titleView == nil) { view in
+                    view
+                        .overlay(
+                            VStack(spacing: 0) {
+                                HStack {
+                                    Spacer()
+                                    Button {
+                                        withAnimation {
+                                            showInspector.toggle()
+                                        }
+                                    }
+                                    label: {
+                                        Image(systemName: "line.3.horizontal")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 20, height: 20)
+                                    }
+                                    .buttonStyle(.plain)
+                                    .padding(.top, 5)
+                                    .padding(.trailing, 5)
+                                }
+                                Spacer()
+                            }
+                        )
+                }
+            } else {
                 //
                 // Title View
                 //
