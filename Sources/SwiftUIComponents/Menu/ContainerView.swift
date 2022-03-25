@@ -389,13 +389,47 @@ struct MainViewContainer: View {
         #endif
         #if os(macOS)
 
+            // No Title View - No Inspector
+
+//            let x = MenuController(menuItems: menuItems,
+//                                   sideTitleView: nil,
+//                                   backgroundColor: Color(nsColor: .windowBackgroundColor),
+//                                   itemsColor: .red,
+//                                   titleView: nil,
+//                                   titleViewBackgroundColor: Color(nsColor: .labelColor),
+//                                   inspector: nil)
+
+            // Title View - No Inspector
+
+//            let x = MenuController(menuItems: menuItems,
+//                                   sideTitleView: nil,
+//                                   backgroundColor: Color(nsColor: .windowBackgroundColor),
+//                                   itemsColor: .red,
+//                                   titleView: AnyView(TitleView()),
+//                                   titleViewBackgroundColor: Color(nsColor: .labelColor),
+//                                   inspector: nil)
+
+        // No Title View - Inspector
+
+//        let x = MenuController(menuItems: menuItems,
+//                               sideTitleView: nil,
+//                               backgroundColor: Color(nsColor: .windowBackgroundColor),
+//                               itemsColor: .red,
+//                               titleView: nil,
+//                               titleViewBackgroundColor: .cyan,
+//                               inspector: AnyView(Inspector()))
+
+        
+            // Title View - Inspector
+
             let x = MenuController(menuItems: menuItems,
                                    sideTitleView: nil,
                                    backgroundColor: Color(nsColor: .windowBackgroundColor),
                                    itemsColor: .red,
                                    titleView: AnyView(TitleView()),
-                                   titleViewBackgroundColor: Color(nsColor: .labelColor),
-                                   inspector: nil)
+                                   titleViewBackgroundColor: .cyan,
+                                   inspector: AnyView(Inspector()))
+
 
             _controller = StateObject(wrappedValue: x)
 
