@@ -112,7 +112,7 @@ import SwiftUI
 
         public var body: some View {
             
-            Print(">>>>>>>>>>>>>>>>>>>>>>ContainerView [\(item.title)] \(controller.titleView ?? "Nope")")
+            Print(">>>>>>>>>>>>>>>>>>>>>>ContainerView [\(item.title)] \(controller.titleView)")
             
             if controller.inspector == nil {
                 // No inspector
