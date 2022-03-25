@@ -194,7 +194,7 @@ import SwiftUI
             VStack(alignment: .leading, spacing: 0) {
                 
                 if controller.menuItems.count >= 1 {
-                    NavigationLink(destination: controller.menuItems[0].view, tag: "A", selection: $controller.boostrap, label: { EmptyView().scaleEffect(0) })
+                    NavigationLink(destination: ContainerView(controller: controller, item: controller.menuItems[0]), tag: "A", selection: $controller.boostrap, label: { EmptyView().scaleEffect(0) })
                         .frame(width: 0, height: 0)
                         .hidden()
                 }
