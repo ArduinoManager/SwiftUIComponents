@@ -226,7 +226,7 @@ public class MenuController: ObservableObject, Encodable, Decodable {
     var openButtonIcon: String
     var openButtonSize: CGFloat
     @Published public var titleView: AnyView?
-    var titleViewBackgroundColor: Color
+    @Published public var titleViewBackgroundColor: Color
     @Published public var menuItems: [MenuItem]
     var inspector: AnyView?
     var boostrap: String? = "A"
@@ -399,7 +399,5 @@ public class MenuController: ObservableObject, Encodable, Decodable {
         try container.encode(itemsColor, forKey: .itemsColor)
         try container.encode(selectedItemBackgroundColor, forKey: .selectedItemBackgroundColor)
         try container.encode(titleViewBackgroundColor, forKey: .titleViewBackgroundColor)
-
-        
     }
 }
