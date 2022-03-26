@@ -213,7 +213,7 @@ public class TabMenuHandler: MenuItem {
     }
 }
 
-public class MenuController: ObservableObject, Encodable, Decodable {
+public class MenuController: SuperController, ObservableObject, Encodable, Decodable {
     @Published public var currentTab: Key
     @Published var showMenu: Bool
     @Published public var sideTitleView: AnyView?
@@ -260,6 +260,8 @@ public class MenuController: ObservableObject, Encodable, Decodable {
             self.titleViewBackgroundColor = titleViewBackgroundColor
             currentTab = menuItems[0].key
 
+            super.init()
+            
             let dups = Dictionary(grouping: self.menuItems, by: { $0.key }).filter { $1.count > 1 }.keys
             if !dups.isEmpty {
                 fatalError("Duplicated keys: \(dups)")
@@ -307,6 +309,8 @@ public class MenuController: ObservableObject, Encodable, Decodable {
             self.inspector = inspector
             self.currentTab = menuItems[0].key
 
+            super.init()
+            
             let dups = Dictionary(grouping: self.menuItems, by: { $0.key }).filter { $1.count > 1 }.keys
             if !dups.isEmpty {
                 fatalError("Duplicated keys: \(dups)")

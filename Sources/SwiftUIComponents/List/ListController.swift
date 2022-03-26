@@ -74,7 +74,7 @@ public struct ListAction: Hashable {
     }
 #endif
 
-public class ListController<Item: Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View>: ObservableObject {
+public class ListController<Item: Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View>: SuperController, ObservableObject {
     @Published var items: [Item]
     var sort: ((_: inout [Item]) -> Void)?
     @Published public var style: ListStyle
@@ -145,8 +145,15 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
             self.showLineSeparator = showLineSeparator
             self.lineSeparatorColor = lineSeparatorColor
             self.makeRow = makeRow
+            
+            super.init()
+            
             if (!leadingActions.isEmpty || !trailingActions.isEmpty) && self.actionHandler == nil {
                 fatalError("No actiton Handler provided")
+            }
+            
+            if sort != nil {
+                sort!(&self.items)
             }
         }
     #endif
@@ -190,6 +197,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
             self.showLineSeparator = showLineSeparator
             self.lineSeparatorColor = lineSeparatorColor
             self.makeRow = makeRow
+            super.init()
             if (!leadingActions.isEmpty || !trailingActions.isEmpty) && self.actionHandler == nil {
                 fatalError("No actiton Handler provided")
             }
