@@ -9,17 +9,17 @@ import SwiftUI
 
 /// Menu Item associated to an action activated when the item is clicked
 ///
-public class TabMenuHandler: MenuItem {
-    public var handler: (_ controller: MenuController, _ item: TabMenuHandler) -> Void
+public class TabMenuAction: MenuItem {
+    public var handler: (_ controller: MenuController, _ item: TabMenuAction) -> Void
 
-    public init(title: String, systemIcon: String, handler: @escaping ((_ controller: MenuController, _ item: TabMenuHandler) -> Void)) {
+    public init(title: String, systemIcon: String, handler: @escaping ((_ controller: MenuController, _ item: TabMenuAction) -> Void)) {
         self.handler = handler
         super.init()
         self.title = title
         self.systemIcon = systemIcon
     }
 
-    public init(title: String, icon: String, handler: @escaping ((_ controller: MenuController, _ item: TabMenuHandler) -> Void)) {
+    public init(title: String, icon: String, handler: @escaping ((_ controller: MenuController, _ item: TabMenuAction) -> Void)) {
         self.handler = handler
         super.init()
         self.title = title
