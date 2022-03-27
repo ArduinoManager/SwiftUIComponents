@@ -10,7 +10,7 @@ import SwiftUI
 
 
 
-public class MenuController: SuperController, ObservableObject, Encodable, Decodable {
+public class MenuController: SuperController, ObservableObject {
     @Published public var currentTab: Key
     @Published var showMenu: Bool
     @Published public var sideTitleView: AnyView?
@@ -185,10 +185,11 @@ public class MenuController: SuperController, ObservableObject, Encodable, Decod
         titleView = nil
         inspector = nil
         currentTab = items[0].key
+        
+        super.init()
     }
 
-    public func encode(to encoder: Encoder) throws {
-        
+    public override func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(autoClose, forKey: .autoClose)
         try container.encode(menuItems, forKey: .menuItems)

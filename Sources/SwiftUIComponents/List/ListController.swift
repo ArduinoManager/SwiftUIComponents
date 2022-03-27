@@ -205,7 +205,12 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
                 sort!(&self.items)
             }
         }
-    #endif
+    
+    required init(from decoder: Decoder) throws {
+        fatalError("init(from:) has not been implemented")
+    }
+    
+#endif
     public var selectedItems: [Item] {
         items.filter({ $0.isSelected() })
     }

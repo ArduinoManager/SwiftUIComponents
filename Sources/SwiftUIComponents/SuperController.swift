@@ -7,6 +7,6 @@
 
 import Foundation
 
-public class SuperController {
+public class SuperController: Encodable, Decodable {
     
 }
