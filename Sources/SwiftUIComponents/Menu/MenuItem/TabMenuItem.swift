@@ -10,8 +10,10 @@ import SwiftUI
 /// Item associated to a View shown when the item is clicked
 ///
 public class TabMenuItem: MenuItem {
+    public var view: AnyView?
     
     public init(key: Key, title: String, systemIcon: String, view: AnyView) {
+        self.view = view
         super.init(type: .item)
         self.key = key
         self.title = title
@@ -22,6 +24,7 @@ public class TabMenuItem: MenuItem {
     }
 
     public init(key: Key, title: String, icon: String, view: AnyView) {
+        self.view = view
         super.init(type: .item)
         self.key = key
         self.title = title
@@ -32,9 +35,14 @@ public class TabMenuItem: MenuItem {
     }
 
     override public var debugDescription: String {
-        return "[\(key) Tab \(title)]"
+        return "[\(key) Tab \(title) View \(view)]"
     }
     
+    @ViewBuilder
+    func makeView() -> some View {
+        view
+    }
+
     // MARK: - Encodable & Decodable
 
     public required init(from decoder: Decoder) throws {

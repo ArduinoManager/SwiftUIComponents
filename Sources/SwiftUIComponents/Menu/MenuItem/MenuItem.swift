@@ -23,7 +23,6 @@ public class MenuItem: Hashable, CustomDebugStringConvertible, Encodable, Decoda
     public var title: String
     public var systemIcon: String?
     public var icon: String?
-    public var view: AnyView?
     public var useSystemIcon: Bool
     var type: MenuItemType
 
@@ -41,11 +40,6 @@ public class MenuItem: Hashable, CustomDebugStringConvertible, Encodable, Decoda
 
     public func hash(into hasher: inout Hasher) {
         hasher.combine(key)
-    }
-
-    @ViewBuilder
-    func makeView() -> some View {
-        view
     }
 
     public var debugDescription: String {

@@ -134,7 +134,7 @@ import SwiftUI
                 //
                 // No Title View
                 //
-                item.makeView()
+                (item as! TabMenuItem).makeView()
                     .onAppear(perform: {
                         print("---- 2️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
                         controller.currentTab = item.key
@@ -149,7 +149,7 @@ import SwiftUI
                         controller.titleView
                     }
                     .background(controller.titleViewBackgroundColor)
-                    item.makeView()
+                    (item as! TabMenuItem).makeView()
                         .onAppear(perform: {
                             print("---- 3️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
                             controller.currentTab = item.key
@@ -169,7 +169,7 @@ import SwiftUI
                 // Inspector without Title View
                 HSplitView {
                     // Main View
-                    item.makeView()
+                    (item as! TabMenuItem).makeView()
                         .onAppear(perform: {
                             print("---- 2️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
                             controller.currentTab = item.key
@@ -233,7 +233,7 @@ import SwiftUI
                         }
                         .background(controller.titleViewBackgroundColor)
                         HSplitView {
-                            item.makeView()
+                            (item as! TabMenuItem).makeView()
                                 .onAppear(perform: {
                                     print("---- 3️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
                                     controller.currentTab = item.key
