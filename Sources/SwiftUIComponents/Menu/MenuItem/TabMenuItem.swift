@@ -12,7 +12,7 @@ import SwiftUI
 public class TabMenuItem: MenuItem {
     
     public init(key: Key, title: String, systemIcon: String, view: AnyView) {
-        super.init()
+        super.init(type: .item)
         self.key = key
         self.title = title
         self.systemIcon = systemIcon
@@ -22,7 +22,7 @@ public class TabMenuItem: MenuItem {
     }
 
     public init(key: Key, title: String, icon: String, view: AnyView) {
-        super.init()
+        super.init(type: .item)
         self.key = key
         self.title = title
         self.systemIcon = nil

@@ -16,7 +16,7 @@ public class TabMenuAction: MenuItem {
                 //, handler: @escaping ((_ controller: MenuController, _ item: TabMenuAction) -> Void)
     ) {
         //self.handler = handler
-        super.init()
+        super.init(type: .action)
         self.key = key
         self.title = title
         self.systemIcon = systemIcon
@@ -26,7 +26,7 @@ public class TabMenuAction: MenuItem {
                 //, handler: @escaping ((_ controller: MenuController, _ item: TabMenuAction) -> Void)
     ) {
         //self.handler = handler
-        super.init()
+        super.init(type: .action)
         self.title = title
         self.systemIcon = nil
         self.icon = icon

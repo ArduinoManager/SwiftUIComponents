@@ -9,6 +9,13 @@ import SwiftUI
 
 public typealias Key = Int
 
+public enum MenuItemType: String, Codable {
+    case item
+    case action
+    case divider
+    case spacer
+}
+
 /// Generic Menu Item - Do not instantiate this but the subclasses
 ///
 public class MenuItem: Hashable, CustomDebugStringConvertible, Encodable, Decodable {
@@ -18,8 +25,10 @@ public class MenuItem: Hashable, CustomDebugStringConvertible, Encodable, Decoda
     public var icon: String?
     public var view: AnyView?
     public var useSystemIcon: Bool
+    var type: MenuItemType
 
-    public init() {
+    public init(type: MenuItemType) {
+        self.type = type
         key = UUID().hashValue
         title = ""
         systemIcon = ""
@@ -46,6 +55,7 @@ public class MenuItem: Hashable, CustomDebugStringConvertible, Encodable, Decoda
     // MARK: - Encodable & Decodable
 
     enum CodingKeys: CodingKey {
+        case type
         case key
         case title
         case icon
@@ -55,6 +65,7 @@ public class MenuItem: Hashable, CustomDebugStringConvertible, Encodable, Decoda
 
     public required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
+        type = try values.decode(MenuItemType.self, forKey: .type)
         key = try values.decode(Int.self, forKey: .key)
         title = try values.decode(String.self, forKey: .title)
         icon = try? values.decode(String.self, forKey: .icon)
@@ -64,6 +75,7 @@ public class MenuItem: Hashable, CustomDebugStringConvertible, Encodable, Decoda
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(type, forKey: .type)
         try container.encode(key, forKey: .key)
         try container.encode(title, forKey: .title)
         try container.encode(icon, forKey: .icon)

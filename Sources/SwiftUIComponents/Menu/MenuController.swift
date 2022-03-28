@@ -8,8 +8,6 @@
 import Foundation
 import SwiftUI
 
-
-
 public class MenuController: SuperController, ObservableObject {
     @Published public var currentTab: Key
     @Published var showMenu: Bool
@@ -59,7 +57,7 @@ public class MenuController: SuperController, ObservableObject {
             currentTab = menuItems[0].key
 
             super.init(type: .menu)
-            
+
             let dups = Dictionary(grouping: self.menuItems, by: { $0.key }).filter { $1.count > 1 }.keys
             if !dups.isEmpty {
                 fatalError("Duplicated keys: \(dups)")
@@ -88,28 +86,28 @@ public class MenuController: SuperController, ObservableObject {
                     titleView: AnyView? = nil,
                     titleViewBackgroundColor: Color = Color(NSColor.windowBackgroundColor),
                     inspector: AnyView? = nil,
-                    menuHandler:  @escaping (_ controller: MenuController, _ item: TabMenuAction) -> Void ) {
+                    menuHandler: @escaping (_ controller: MenuController, _ item: TabMenuAction) -> Void) {
             print(menuItems)
 
-            self.showMenu = false
+            showMenu = false
             self.menuItems = menuItems
-            self.autoClose = false
-            self.openButtonAtTop = false
-            self.openButtonColor = Color(NSColor.labelColor)
-            self.openButtonIcon = ""
-            self.openButtonSize = 0.0
+            autoClose = false
+            openButtonAtTop = false
+            openButtonColor = Color(NSColor.labelColor)
+            openButtonIcon = ""
+            openButtonSize = 0.0
             self.sideTitleView = sideTitleView
             self.backgroundColor = backgroundColor
             self.itemsColor = itemsColor
-            self.selectedItemBackgroundColor = Color(NSColor.labelColor)
+            selectedItemBackgroundColor = Color(NSColor.labelColor)
             self.titleView = titleView
             self.titleViewBackgroundColor = titleViewBackgroundColor
             self.inspector = inspector
             self.menuHandler = menuHandler
-            self.currentTab = menuItems[0].key
+            currentTab = menuItems[0].key
 
             super.init(type: .menu)
-            
+
             let dups = Dictionary(grouping: self.menuItems, by: { $0.key }).filter { $1.count > 1 }.keys
             if !dups.isEmpty {
                 fatalError("Duplicated keys: \(dups)")
@@ -135,23 +133,22 @@ public class MenuController: SuperController, ObservableObject {
 //        self.inspector = nil
 //        self.currentTab = 0
 //    }
-    
-    
+
     public func addItem(item: MenuItem) {
         menuItems.append(item)
         if menuItems.count == 1 {
             currentTab = menuItems[0].key
         }
-        let dups = Dictionary(grouping: self.menuItems, by: { $0.key }).filter { $1.count > 1 }.keys
+        let dups = Dictionary(grouping: menuItems, by: { $0.key }).filter { $1.count > 1 }.keys
         if !dups.isEmpty {
             fatalError("Duplicated keys: \(dups)")
         }
     }
-    
+
     public func setInspector(inspector: AnyView) {
         self.inspector = inspector
     }
-    
+
     // MARK: - Encodable & Decodable
 
     enum CodingKeys: CodingKey {
@@ -165,14 +162,45 @@ public class MenuController: SuperController, ObservableObject {
         case itemsColor
         case selectedItemBackgroundColor
         case titleViewBackgroundColor
-        
+    }
+
+    enum ArrayKeys: CodingKey {
+        case menuItems
+    }
+
+    enum ClassTypeKey: CodingKey {
+        case type
     }
 
     public required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         autoClose = try values.decode(Bool.self, forKey: .autoClose)
-        let items = try values.decode([MenuItem].self, forKey: .menuItems)
-        menuItems = items
+        // let items = try values.decode([MenuItem].self, forKey: .menuItems)
+
+        let container = try decoder.container(keyedBy: ArrayKeys.self)
+
+        var menuItemsArrayForType = try container.nestedUnkeyedContainer(forKey: ArrayKeys.menuItems)
+        var menuItems = [MenuItem]()
+        var menuItemsArray = menuItemsArrayForType
+        while !menuItemsArrayForType.isAtEnd {
+            let menuItem = try menuItemsArrayForType.nestedContainer(keyedBy: ClassTypeKey.self)
+            let type = try menuItem.decode(MenuItemType.self, forKey: ClassTypeKey.type)
+            switch type {
+            case .item:
+                menuItems.append(try menuItemsArray.decode(TabMenuItem.self))
+
+            case .action:
+                menuItems.append(try menuItemsArray.decode(TabMenuAction.self))
+
+            case .divider:
+                menuItems.append(try menuItemsArray.decode(TabMenuDivider.self))
+
+            case .spacer:
+                menuItems.append(try menuItemsArray.decode(TabMenuSpacer.self))
+            }
+        }
+        self.menuItems = menuItems
+
         openButtonAtTop = try values.decode(Bool.self, forKey: .openButtonAtTop)
         openButtonColor = try values.decode(Color.self, forKey: .openButtonColor)
         openButtonIcon = try values.decode(String.self, forKey: .openButtonIcon)
@@ -181,16 +209,16 @@ public class MenuController: SuperController, ObservableObject {
         itemsColor = try values.decode(Color.self, forKey: .itemsColor)
         selectedItemBackgroundColor = try values.decode(Color.self, forKey: .selectedItemBackgroundColor)
         titleViewBackgroundColor = try values.decode(Color.self, forKey: .titleViewBackgroundColor)
-        
+
         showMenu = false
         sideTitleView = nil
         titleView = nil
         inspector = nil
-        currentTab = items[0].key
+        currentTab = menuItems[0].key
         super.init(type: .menu)
     }
 
-    public override func encode(to encoder: Encoder) throws {
+    override public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(autoClose, forKey: .autoClose)
         try container.encode(menuItems, forKey: .menuItems)

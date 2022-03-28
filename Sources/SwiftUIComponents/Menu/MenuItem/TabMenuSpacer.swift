@@ -13,7 +13,7 @@ public class TabMenuSpacer: MenuItem {
     public var spacerHeight: CGFloat?
 
     public init(height: CGFloat) {
-        super.init()
+        super.init(type: .spacer)
         spacerHeight = height
     }
     

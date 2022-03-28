@@ -15,7 +15,7 @@ public class TabMenuDivider: MenuItem {
     #if os(iOS)
         public init(color: Color = Color(uiColor: .label)) {
             self.color = color
-            super.init()
+            super.init(type: .divider)
             title = "\(UUID())"
         }
     #endif
@@ -23,7 +23,7 @@ public class TabMenuDivider: MenuItem {
     #if os(macOS)
         public init(color: Color = Color(nsColor: .labelColor)) {
             self.color = color
-            super.init()
+            super.init(type: .divider)
             title = "\(UUID())"
         }
     #endif
