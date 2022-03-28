@@ -220,7 +220,7 @@ import SwiftUI
 
                 List {
                     ForEach(controller.menuItems, id: \.key) { item in
-
+                        Print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% \(item.self) ")
                         switch item {
                         case is TabMenuItem:
                             NavigationLink(destination: ContainerView(controller: controller, item: item)) {
