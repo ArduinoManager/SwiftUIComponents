@@ -200,5 +200,6 @@ public class MenuController: SuperController, ObservableObject {
         try container.encode(itemsColor, forKey: .itemsColor)
         try container.encode(selectedItemBackgroundColor, forKey: .selectedItemBackgroundColor)
         try container.encode(titleViewBackgroundColor, forKey: .titleViewBackgroundColor)
+        try super.encode(to: encoder)
     }
 }
