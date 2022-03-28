@@ -146,7 +146,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
             self.lineSeparatorColor = lineSeparatorColor
             self.makeRow = makeRow
             
-            super.init()
+            super.init(type: .list)
             
             if (!leadingActions.isEmpty || !trailingActions.isEmpty) && self.actionHandler == nil {
                 fatalError("No actiton Handler provided")
@@ -156,7 +156,11 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
                 sort!(&self.items)
             }
         }
-    #endif
+    
+    required init(from decoder: Decoder) throws {
+        fatalError("init(from:) has not been implemented")
+    }
+#endif
 
     #if os(macOS)
 
@@ -197,7 +201,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
             self.showLineSeparator = showLineSeparator
             self.lineSeparatorColor = lineSeparatorColor
             self.makeRow = makeRow
-            super.init()
+            super.init(type: .list)
             if (!leadingActions.isEmpty || !trailingActions.isEmpty) && self.actionHandler == nil {
                 fatalError("No actiton Handler provided")
             }

@@ -57,7 +57,7 @@ public class MenuController: SuperController, ObservableObject {
             self.titleViewBackgroundColor = titleViewBackgroundColor
             currentTab = menuItems[0].key
 
-            super.init()
+            super.init(type: .menu)
             
             let dups = Dictionary(grouping: self.menuItems, by: { $0.key }).filter { $1.count > 1 }.keys
             if !dups.isEmpty {
@@ -106,7 +106,7 @@ public class MenuController: SuperController, ObservableObject {
             self.inspector = inspector
             self.currentTab = menuItems[0].key
 
-            super.init()
+            super.init(type: .menu)
             
             let dups = Dictionary(grouping: self.menuItems, by: { $0.key }).filter { $1.count > 1 }.keys
             if !dups.isEmpty {
@@ -185,8 +185,7 @@ public class MenuController: SuperController, ObservableObject {
         titleView = nil
         inspector = nil
         currentTab = items[0].key
-        
-        super.init()
+        super.init(type: .menu)
     }
 
     public override func encode(to encoder: Encoder) throws {
