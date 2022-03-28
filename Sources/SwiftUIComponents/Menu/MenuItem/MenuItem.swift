@@ -57,8 +57,8 @@ public class MenuItem: Hashable, CustomDebugStringConvertible, Encodable, Decoda
         let values = try decoder.container(keyedBy: CodingKeys.self)
         key = try values.decode(Int.self, forKey: .key)
         title = try values.decode(String.self, forKey: .title)
-        icon = try values.decode(String.self, forKey: .icon)
-        systemIcon = try values.decode(String.self, forKey: .systemIcon)
+        icon = try? values.decode(String.self, forKey: .icon)
+        systemIcon = try? values.decode(String.self, forKey: .systemIcon)
         useSystemIcon = try values.decode(Bool.self, forKey: .useSystemIcon)
     }
 
