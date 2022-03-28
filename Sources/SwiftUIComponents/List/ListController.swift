@@ -320,7 +320,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
         leadingActions = try values.decode([ListAction].self, forKey: .leadingActions)
         trailingActions = try values.decode([ListAction].self, forKey: .trailingActions)
         showLineSeparator = try values.decode(Bool.self, forKey: .showLineSeparator)
-        lineSeparatorColor = try? values.decode(Bool.self, forKey: .lineSeparatorColor)
+        lineSeparatorColor = try? values.decode(Color.self, forKey: .lineSeparatorColor)
         makeRow = { _ in
             fatalError("What about this?")
         }
