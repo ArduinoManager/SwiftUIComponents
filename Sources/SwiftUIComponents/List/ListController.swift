@@ -24,7 +24,7 @@ public protocol ListItemCopyable: AnyObject {
     init(copy: Self)
 }
 
-public struct ListAction: Hashable {
+public struct ListAction: Hashable, Codable {
     public var key: String
     public var label: String
     public var color: Color
@@ -288,32 +288,39 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
 
     enum CodingKeys: CodingKey {
         case style
+        case title
         case multipleSelection
         case addButtonIcon
         case addButtonColor
+        case editButtonLabel
+        case deleteButtonLabel
+        case backgroundColor
+        case rowBackgroundColor
+        case swipeActions
+        case leadingActions
+        case trailingActions
+        case showLineSeparator
     }
 
     public required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-
-        
-        // TODO: Complete reading properties
         
         items = [Item]()
-        style = .inset(alternatesRows: false)
-        multipleSelection = false
-        addButtonIcon = ""
-        addButtonColor = .blue
-        editButtonLabel = ""
-        deleteButtonLabel = ""
-        backgroundColor = .brown
-        rowBackgroundColor = .cyan
-        swipeActions = false
-        leadingActions = [ListAction]()
-        trailingActions = [ListAction]()
-        showLineSeparator = false
+        style = try values.decode(ListStyle.self, forKey: .style)
+        multipleSelection = try values.decode(Bool.self, forKey: .multipleSelection)
+        title = try values.decode(String.self, forKey: .title)
+        addButtonIcon = try values.decode(String.self, forKey: .addButtonIcon)
+        addButtonColor = try values.decode(Color.self, forKey: .addButtonColor)
+        editButtonLabel = try values.decode(String.self, forKey: .editButtonLabel)
+        deleteButtonLabel = try values.decode(String.self, forKey: .deleteButtonLabel)
+        backgroundColor = try values.decode(Color.self, forKey: .backgroundColor)
+        rowBackgroundColor = try values.decode(Color.self, forKey: .rowBackgroundColor)
+        swipeActions = try values.decode(Bool.self, forKey: .swipeActions)
+        leadingActions = try values.decode([ListAction].self, forKey: .leadingActions)
+        trailingActions = try values.decode([ListAction].self, forKey: .trailingActions)
+        showLineSeparator = try values.decode(Bool.self, forKey: .showLineSeparator)
         makeRow = { _ in
-            fatalError("What about this")
+            fatalError("What about this?")
         }
         super.init(type: .list)
     }
@@ -321,13 +328,23 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
     override public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        
         try container.encode(style, forKey: .style)
         try container.encode(multipleSelection, forKey: .multipleSelection)
+        try container.encode(title, forKey: .title)
         try container.encode(addButtonIcon, forKey: .addButtonIcon)
         try container.encode(addButtonColor, forKey: .addButtonColor)
-
-        // TODO: Complete with other properties
+        try container.encode(editButtonLabel, forKey: .editButtonLabel)
+        try container.encode(deleteButtonLabel, forKey: .deleteButtonLabel)
+        try container.encode(backgroundColor, forKey: .backgroundColor)
+        
+        try container.encode(backgroundColor, forKey: .backgroundColor)
+        try container.encode(rowBackgroundColor, forKey: .rowBackgroundColor)
+        try container.encode(swipeActions, forKey: .swipeActions)
+        try container.encode(leadingActions, forKey: .leadingActions)
+        
+        try container.encode(leadingActions, forKey: .leadingActions)
+        try container.encode(trailingActions, forKey: .trailingActions)
+        try container.encode(showLineSeparator, forKey: .showLineSeparator)
         
         try super.encode(to: encoder)
     }
