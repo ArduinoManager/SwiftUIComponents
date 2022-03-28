@@ -169,13 +169,15 @@ import SwiftUI
                 // Inspector without Title View
                 HSplitView {
                     // Main View
-                    (item as! TabMenuItem).makeView()
-                        .onAppear(perform: {
-                            print("---- 2️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
-                            controller.currentTab = item.key
+                    if let i = item as? TabMenuItem {
+                        i.makeView()
+                            .onAppear(perform: {
+                                print("---- 2️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
+                                controller.currentTab = item.key
 
-                        })
-                        .layoutPriority(1)
+                            })
+                            .layoutPriority(1)
+                    }
 
                     // Inspector
                     if showInspector {
@@ -233,12 +235,15 @@ import SwiftUI
                         }
                         .background(controller.titleViewBackgroundColor)
                         HSplitView {
-                            (item as! TabMenuItem).makeView()
-                                .onAppear(perform: {
-                                    print("---- 3️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
-                                    controller.currentTab = item.key
-                                })
-                                .layoutPriority(1)
+                            if let i = item as? TabMenuItem {
+                                i.makeView()
+                                    .onAppear(perform: {
+                                        print("---- 3️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
+                                        controller.currentTab = item.key
+                                    })
+                                    .layoutPriority(1)
+                            }
+
                             if showInspector {
                                 controller.inspector!
                                     .frame(idealWidth: 500)
@@ -308,7 +313,7 @@ struct MainViewContainer: View {
 //                                   titleViewBackgroundColor: Color(nsColor: .labelColor),
 //                                   inspector: nil)
 
-        // No Title View - Inspector
+            // No Title View - Inspector
 
 //        let x = MenuController(menuItems: menuItems,
 //                               sideTitleView: nil,
@@ -318,7 +323,6 @@ struct MainViewContainer: View {
 //                               titleViewBackgroundColor: .cyan,
 //                               inspector: AnyView(Inspector()))
 
-        
             // Title View - Inspector
 
             let x = MenuController(menuItems: menuItems,
@@ -328,14 +332,12 @@ struct MainViewContainer: View {
                                    titleView: AnyView(TitleView()),
                                    titleViewBackgroundColor: .cyan,
                                    inspector: AnyView(Inspector()),
-                                   menuHandler: { c, i in
-                
-            })
+                                   menuHandler: { _, _ in
 
-        
+                                   })
+
 //
-        
-        
+
             _controller = StateObject(wrappedValue: x)
 
         #endif
@@ -344,10 +346,8 @@ struct MainViewContainer: View {
     var body: some View {
         Menu(controller: controller)
     }
-    
-    
+
     func handler(controller: MenuController, item: TabMenuAction) {
-        
     }
 }
 
