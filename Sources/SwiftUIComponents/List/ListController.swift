@@ -300,6 +300,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
         case leadingActions
         case trailingActions
         case showLineSeparator
+        case lineSeparatorColor
     }
 
     public required init(from decoder: Decoder) throws {
@@ -308,7 +309,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
         items = [Item]()
         style = try values.decode(ListStyle.self, forKey: .style)
         multipleSelection = try values.decode(Bool.self, forKey: .multipleSelection)
-        title = try values.decode(String.self, forKey: .title)
+        title = try? values.decode(String.self, forKey: .title)
         addButtonIcon = try values.decode(String.self, forKey: .addButtonIcon)
         addButtonColor = try values.decode(Color.self, forKey: .addButtonColor)
         editButtonLabel = try values.decode(String.self, forKey: .editButtonLabel)
@@ -319,6 +320,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
         leadingActions = try values.decode([ListAction].self, forKey: .leadingActions)
         trailingActions = try values.decode([ListAction].self, forKey: .trailingActions)
         showLineSeparator = try values.decode(Bool.self, forKey: .showLineSeparator)
+        lineSeparatorColor = try? values.decode(Bool.self, forKey: .lineSeparatorColor)
         makeRow = { _ in
             fatalError("What about this?")
         }
@@ -345,6 +347,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
         try container.encode(leadingActions, forKey: .leadingActions)
         try container.encode(trailingActions, forKey: .trailingActions)
         try container.encode(showLineSeparator, forKey: .showLineSeparator)
+        try container.encode(lineSeparatorColor, forKey: .lineSeparatorColor)
         
         try super.encode(to: encoder)
     }
