@@ -209,18 +209,6 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                         controller.actionHandler!(action.key)
                     } label: {
                         makeImage(action: action, iconSize: iconSize)
-//                        if let img = action.icon {
-//                            img
-//                                .resizable()
-//                                .aspectRatio(contentMode: .fit)
-//                                .frame(width: iconSize, height: iconSize)
-//                        } else {
-//                            Image(systemName: action.systemIcon!)
-//                                .resizable()
-//                                .aspectRatio(contentMode: .fit)
-//                                .frame(width: iconSize + 1, height: iconSize + 1)
-//                                .padding(2)
-//                        }
                     }
                     .frame(width: iconSize, height: iconSize)
                     .border(action.color, width: 1)

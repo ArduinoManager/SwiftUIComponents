@@ -351,9 +351,7 @@ struct MainViewContainer: View {
     init() {
         let menuItems = [
             TabMenuItem(key: 0, title: "Home", systemIcon: "theatermasks.fill", view: AnyView(TestView(text: "Home").background(.yellow))),
-            TabMenuAction(title: "Print", systemIcon: "rectangle.portrait.and.arrow.right") { _,_  in
-                print("Print")
-            },
+            TabMenuAction(key: 100, title: "Print", systemIcon: "rectangle.portrait.and.arrow.right"),
             TabMenuItem(key: 1, title: "Simple Table", systemIcon: "safari.fill", view: AnyView(TestView(text: "Discover").background(.blue))),
             TabMenuItem(key: 2, title: "Devices", systemIcon: "applewatch", view: AnyView(TestView(text: "Devices").background(.gray))),
             TabMenuSpacer(height: 50),
@@ -363,18 +361,12 @@ struct MainViewContainer: View {
                         view: AnyView(TestView(text: "Profile").background(.green))),
 
             TabMenuDivider(color: .red),
-            TabMenuAction(title: "Login", systemIcon: "rectangle.portrait.and.arrow.right") { _,_  in
-                print("Login")
-            },
+            TabMenuAction(key: 101, title: "Login", systemIcon: "rectangle.portrait.and.arrow.right"),
 
-            TabMenuAction(title: "Logout", systemIcon: "pippo") { _,_  in
-                print("Logout")
-            },
+            TabMenuAction(key: 102, title: "Logout", systemIcon: "pippo"),
 
             TabMenuDivider(color: .red),
-            TabMenuAction(title: "Kill!", icon: "logo") { _,_  in
-                print("Kill")
-            },
+            TabMenuAction(title: "Kill!", icon: "logo"),
         ]
 
         #if os(iOS)
@@ -428,7 +420,25 @@ struct MainViewContainer: View {
                                    itemsColor: .red,
                                    titleView: AnyView(TitleView()),
                                    titleViewBackgroundColor: .cyan,
-                                   inspector: AnyView(Inspector()))
+                                   inspector: AnyView(Inspector())) { controller, item in
+                
+                if item.title == "Print" {
+                    print("Print")
+                }
+                
+                if item.title == "Login" {
+                    print("Login")
+                }
+                
+                if item.title == "Logout" {
+                    print("Logout")
+                }
+                
+                if item.title == "Kill" {
+                    print("Kills")
+                }
+                
+            }
 
 
             _controller = StateObject(wrappedValue: x)

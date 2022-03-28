@@ -236,7 +236,7 @@ import SwiftUI
                             let thisItem = item as! TabMenuAction
 
                             Button {
-                                thisItem.handler(controller, thisItem)
+                                controller.menuHandler?(controller, thisItem)
                             } label: {
                                 HStack(alignment: .center) {
                                     makeImage(item: item)

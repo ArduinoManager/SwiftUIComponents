@@ -25,6 +25,7 @@ public class MenuController: SuperController, ObservableObject {
     @Published public var titleView: AnyView?
     @Published public var titleViewBackgroundColor: Color
     @Published public var menuItems: [MenuItem]
+    var menuHandler: ((_ controller: MenuController, _ item: TabMenuAction) -> Void)?
     var inspector: AnyView?
     var boostrap: String? = "A"
 
@@ -86,8 +87,8 @@ public class MenuController: SuperController, ObservableObject {
                     itemsColor: Color = Color(NSColor.labelColor),
                     titleView: AnyView? = nil,
                     titleViewBackgroundColor: Color = Color(NSColor.windowBackgroundColor),
-                    inspector: AnyView? = nil
-        ) {
+                    inspector: AnyView? = nil,
+                    menuHandler: ((_ controller: MenuController, _ item: TabMenuAction) -> Void)? = nil ) {
             print(menuItems)
 
             self.showMenu = false
@@ -104,6 +105,7 @@ public class MenuController: SuperController, ObservableObject {
             self.titleView = titleView
             self.titleViewBackgroundColor = titleViewBackgroundColor
             self.inspector = inspector
+            self.menuHandler = menuHandler
             self.currentTab = menuItems[0].key
 
             super.init(type: .menu)

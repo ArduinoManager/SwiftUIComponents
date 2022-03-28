@@ -10,17 +10,22 @@ import SwiftUI
 /// Menu Item associated to an action activated when the item is clicked
 ///
 public class TabMenuAction: MenuItem {
-    public var handler: (_ controller: MenuController, _ item: TabMenuAction) -> Void
+    //public var handler: (_ controller: MenuController, _ item: TabMenuAction) -> Void
 
-    public init(title: String, systemIcon: String, handler: @escaping ((_ controller: MenuController, _ item: TabMenuAction) -> Void)) {
-        self.handler = handler
+    public init(key: Key, title: String, systemIcon: String
+                //, handler: @escaping ((_ controller: MenuController, _ item: TabMenuAction) -> Void)
+    ) {
+        //self.handler = handler
         super.init()
+        self.key = key
         self.title = title
         self.systemIcon = systemIcon
     }
 
-    public init(title: String, icon: String, handler: @escaping ((_ controller: MenuController, _ item: TabMenuAction) -> Void)) {
-        self.handler = handler
+    public init(title: String, icon: String
+                //, handler: @escaping ((_ controller: MenuController, _ item: TabMenuAction) -> Void)
+    ) {
+        //self.handler = handler
         super.init()
         self.title = title
         self.systemIcon = nil
@@ -38,9 +43,6 @@ public class TabMenuAction: MenuItem {
     }
     
     public required init(from decoder: Decoder) throws {
-        handler = { controller, item in
-            fatalError("Something went wrong!")
-        }
         try super.init(from: decoder)
     }
     
