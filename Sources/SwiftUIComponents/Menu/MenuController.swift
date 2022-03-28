@@ -24,7 +24,7 @@ public class MenuController: SuperController, ObservableObject {
     @Published public var titleViewBackgroundColor: Color
     @Published public var menuItems: [MenuItem]
     public var menuHandler: ((_ controller: MenuController, _ item: TabMenuAction) -> Void)?
-    var inspector: AnyView?
+    @Published public var inspector: AnyView?
     var boostrap: String? = "A"
 
     #if os(iOS)
@@ -145,9 +145,9 @@ public class MenuController: SuperController, ObservableObject {
         }
     }
 
-    public func setInspector(inspector: AnyView) {
-        self.inspector = inspector
-    }
+//    public func setInspector(inspector: AnyView) {
+//        self.inspector = inspector
+//    }
 
     // MARK: - Encodable & Decodable
 
