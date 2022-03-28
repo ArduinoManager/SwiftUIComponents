@@ -128,99 +128,6 @@ import SwiftUI
             }
         }
 
-//        public var body: some View {
-//
-//            Print(">>>>>>>>>>>>>>>>>>>>>>ContainerView [\(item.title)] \(controller.titleView)")
-//
-//            if controller.inspector == nil {
-//                // No inspector
-//                item.makeView()
-//                    .onAppear {
-//                        print("---- 1️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
-//                        controller.currentTab = item.key
-//                    }
-//            } else {
-//                if controller.titleView == nil {
-//                    // Inspector without Title View
-//                    HSplitView {
-//                        // Main View
-//                        item.makeView()
-//                            .onAppear(perform: {
-//                                print("---- 2️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
-//                                controller.currentTab = item.key
-//
-//                            })
-//                            .layoutPriority(1)
-//
-//                        // Inspector
-//                        if showInspector {
-//                            controller.inspector!
-//                                .frame(idealWidth: 500)
-//                        }
-//                    }
-//                    .if(controller.inspector != nil && controller.titleView == nil) { view in
-//                        view
-//                            .overlay(
-//                                VStack(spacing: 0) {
-//                                    HStack {
-//                                        Spacer()
-//                                        Button {
-//                                            withAnimation {
-//                                                showInspector.toggle()
-//                                            }
-//                                        }
-//                                        label: {
-//                                            Image(systemName: "line.3.horizontal")
-//                                                .resizable()
-//                                                .scaledToFit()
-//                                                .frame(width: 20, height: 20)
-//                                        }
-//                                        .buttonStyle(.plain)
-//                                        .padding(.top, 5)
-//                                        .padding(.trailing, 5)
-//                                    }
-//                                    Spacer()
-//                                }
-//                            )
-//                    }
-//                } else {
-//                    // Inspector with Title View
-//                    VStack(spacing: 0) {
-//                        HStack(spacing: 0) {
-//                            controller.titleView
-//                            Spacer()
-//                            Button {
-//                                withAnimation {
-//                                    showInspector.toggle()
-//                                }
-//                            }
-//                            label: {
-//                                Image(systemName: "line.3.horizontal")
-//                                    .resizable()
-//                                    .scaledToFit()
-//                                    .frame(width: 20, height: 20)
-//                            }
-//                            .buttonStyle(.plain)
-//                            .padding(.trailing, 10)
-//                        }
-//                        .background(controller.titleViewBackgroundColor)
-//                        HSplitView {
-//                            item.makeView()
-//                                .onAppear(perform: {
-//                                    print("---- 3️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
-//                                    controller.currentTab = item.key
-//                                })
-//                                .layoutPriority(1)
-//                            if showInspector {
-//                                controller.inspector!
-//                                    .frame(idealWidth: 500)
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-
         @ViewBuilder
         func viewNoInspector(controller: MenuController) -> some View {
             if controller.titleView == nil {
@@ -420,27 +327,15 @@ struct MainViewContainer: View {
                                    itemsColor: .red,
                                    titleView: AnyView(TitleView()),
                                    titleViewBackgroundColor: .cyan,
-                                   inspector: AnyView(Inspector())) { controller, item in
+                                   inspector: AnyView(Inspector()),
+                                   menuHandler: { c, i in
                 
-                if item.title == "Print" {
-                    print("Print")
-                }
-                
-                if item.title == "Login" {
-                    print("Login")
-                }
-                
-                if item.title == "Logout" {
-                    print("Logout")
-                }
-                
-                if item.title == "Kill" {
-                    print("Kills")
-                }
-                
-            }
+            })
 
-
+        
+//
+        
+        
             _controller = StateObject(wrappedValue: x)
 
         #endif
@@ -448,6 +343,11 @@ struct MainViewContainer: View {
 
     var body: some View {
         Menu(controller: controller)
+    }
+    
+    
+    func handler(controller: MenuController, item: TabMenuAction) {
+        
     }
 }
 

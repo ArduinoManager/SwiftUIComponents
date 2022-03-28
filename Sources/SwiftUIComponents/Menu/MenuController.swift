@@ -88,7 +88,7 @@ public class MenuController: SuperController, ObservableObject {
                     titleView: AnyView? = nil,
                     titleViewBackgroundColor: Color = Color(NSColor.windowBackgroundColor),
                     inspector: AnyView? = nil,
-                    menuHandler: ((_ controller: MenuController, _ item: TabMenuAction) -> Void)? = nil ) {
+                    menuHandler:  @escaping (_ controller: MenuController, _ item: TabMenuAction) -> Void ) {
             print(menuItems)
 
             self.showMenu = false
