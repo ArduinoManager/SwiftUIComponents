@@ -32,7 +32,7 @@ public struct ListAction: Hashable {
     public var icon: String?
 
     #if os(iOS)
-    public init(key: String, label: String, systemIcon: String? = nil, icon: String? = nil, color: Color = Color(uiColor: .label)) {
+        public init(key: String, label: String, systemIcon: String? = nil, icon: String? = nil, color: Color = Color(uiColor: .label)) {
             self.key = key
             self.label = label
             self.color = color
@@ -41,7 +41,7 @@ public struct ListAction: Hashable {
         }
     #endif
     #if os(macOS)
-    public init(key: String, label: String, systemIcon: String? = nil, icon: String? = nil, color: Color = Color(.labelColor)) {
+        public init(key: String, label: String, systemIcon: String? = nil, icon: String? = nil, color: Color = Color(.labelColor)) {
             self.key = key
             self.label = label
             self.color = color
@@ -56,7 +56,7 @@ public struct ListAction: Hashable {
 }
 
 #if os(iOS)
-    public enum ListStyle {
+    public enum ListStyle: Codable {
         case plain(alternatesRows: Bool, alternateBackgroundColor: Color = Color(uiColor: UIColor.systemBackground))
         case grouped(alternatesRows: Bool, alternateBackgroundColor: Color = Color(uiColor: UIColor.systemBackground))
         case inset(alternatesRows: Bool, alternateBackgroundColor: Color = Color(uiColor: UIColor.systemBackground))
@@ -65,7 +65,7 @@ public struct ListAction: Hashable {
     }
 #endif
 #if os(macOS)
-    public enum ListStyle {
+    public enum ListStyle: Codable {
         case plain(alternatesRows: Bool, alternateBackgroundColor: Color = Color(nsColor: NSColor.windowBackgroundColor))
         case grouped(alternatesRows: Bool, alternateBackgroundColor: Color = Color(nsColor: NSColor.windowBackgroundColor)) // On macOS like inset
         case inset(alternatesRows: Bool, alternateBackgroundColor: Color = Color(nsColor: NSColor.windowBackgroundColor))
@@ -92,7 +92,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
     var actionHandler: ((_ actionKey: String) -> Void)?
     @Published public var showLineSeparator: Bool
     @Published public var lineSeparatorColor: Color?
-    var makeRow: (_: Item) ->  Row
+    var makeRow: (_: Item) -> Row
     public var editingItem: Item? {
         didSet {
             if editingItem == nil {
@@ -145,22 +145,22 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
             self.showLineSeparator = showLineSeparator
             self.lineSeparatorColor = lineSeparatorColor
             self.makeRow = makeRow
-            
+
             super.init(type: .list)
-            
+
             if (!leadingActions.isEmpty || !trailingActions.isEmpty) && self.actionHandler == nil {
                 fatalError("No actiton Handler provided")
             }
-            
+
             if sort != nil {
                 sort!(&self.items)
             }
         }
-    
-    required init(from decoder: Decoder) throws {
-        fatalError("init(from:) has not been implemented")
-    }
-#endif
+
+        required init(from decoder: Decoder) throws {
+            fatalError("init(from:) has not been implemented")
+        }
+    #endif
 
     #if os(macOS)
 
@@ -209,12 +209,8 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
                 sort!(&self.items)
             }
         }
-    
-    required init(from decoder: Decoder) throws {
-        fatalError("init(from:) has not been implemented")
-    }
-    
-#endif
+
+    #endif
     public var selectedItems: [Item] {
         items.filter({ $0.isSelected() })
     }
@@ -267,15 +263,15 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
         startNewItem = nil
         selectedItem = nil
     }
-    
+
     public func addLeadingAction(action: ListAction) {
         leadingActions.append(action)
     }
-    
+
     public func addTrailingAction(action: ListAction) {
         trailingActions.append(action)
     }
-    
+
     public func deleteLeadingAction(action: ListAction) {
         if let idx = leadingActions.firstIndex(of: action) {
             leadingActions.remove(at: idx)
@@ -288,4 +284,48 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
         }
     }
 
+    // MARK: - Encodable & Decodable
+
+    enum CodingKeys: CodingKey {
+        case style
+        case multipleSelection
+        case addButtonIcon
+        case addButtonColor
+    }
+
+    public required init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+
+        items = [Item]()
+        style = .inset(alternatesRows: false)
+        multipleSelection = false
+        addButtonIcon = ""
+        addButtonColor = .blue
+        editButtonLabel = ""
+        deleteButtonLabel = ""
+        backgroundColor = .brown
+        rowBackgroundColor = .cyan
+        swipeActions = false
+        leadingActions = [ListAction]()
+        trailingActions = [ListAction]()
+        showLineSeparator = false
+        makeRow = { _ in
+            fatalError("What about this")
+        }
+        super.init(type: .list)
+    }
+
+    override public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        
+        try container.encode(style, forKey: .style)
+        try container.encode(multipleSelection, forKey: .multipleSelection)
+        try container.encode(addButtonIcon, forKey: .addButtonIcon)
+        try container.encode(addButtonColor, forKey: .addButtonColor)
+
+        // Provide all the other fields here!
+        
+        try super.encode(to: encoder)
+    }
 }
