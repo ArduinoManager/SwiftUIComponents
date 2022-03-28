@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ControllerType: Codable {
+enum ControllerType: String, Codable {
     case menu
     case list
 }

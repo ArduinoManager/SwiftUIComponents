@@ -296,6 +296,9 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
     public required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
 
+        
+        // TODO: Complete reading properties
+        
         items = [Item]()
         style = .inset(alternatesRows: false)
         multipleSelection = false
@@ -324,7 +327,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
         try container.encode(addButtonIcon, forKey: .addButtonIcon)
         try container.encode(addButtonColor, forKey: .addButtonColor)
 
-        // Provide all the other fields here!
+        // TODO: Complete with other properties
         
         try super.encode(to: encoder)
     }
