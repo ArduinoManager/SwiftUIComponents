@@ -25,7 +25,7 @@ public class MenuController: SuperController, ObservableObject {
     @Published public var titleView: AnyView?
     @Published public var titleViewBackgroundColor: Color
     @Published public var menuItems: [MenuItem]
-    var menuHandler: ((_ controller: MenuController, _ item: TabMenuAction) -> Void)?
+    public var menuHandler: ((_ controller: MenuController, _ item: TabMenuAction) -> Void)?
     var inspector: AnyView?
     var boostrap: String? = "A"
 
