@@ -150,7 +150,7 @@ public class MenuController: SuperController, ObservableObject {
     }
 
     public func deleteItemsFrom(index: Int) {
-        menuItems.removeSubrange((4...))
+        menuItems.removeSubrange((index...))
     }
 
     // MARK: - Encodable & Decodable
