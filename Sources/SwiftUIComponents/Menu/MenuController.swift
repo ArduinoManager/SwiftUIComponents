@@ -149,9 +149,9 @@ public class MenuController: SuperController, ObservableObject {
         menuItems.remove(at: index)
     }
 
-//    public func setInspector(inspector: AnyView) {
-//        self.inspector = inspector
-//    }
+    public func deleteItemsFrom(index: Int) {
+        menuItems.removeSubrange((4...))
+    }
 
     // MARK: - Encodable & Decodable
 
