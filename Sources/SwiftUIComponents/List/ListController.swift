@@ -89,7 +89,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
     @Published public var swipeActions: Bool
     @Published public var leadingActions: [ListAction]
     @Published public var trailingActions: [ListAction]
-    var actionHandler: ((_ actionKey: String) -> Void)?
+    public var actionHandler: ((_ actionKey: String) -> Void)?
     @Published public var showLineSeparator: Bool
     @Published public var lineSeparatorColor: Color?
     public var makeRow: (_: Item) -> Row
