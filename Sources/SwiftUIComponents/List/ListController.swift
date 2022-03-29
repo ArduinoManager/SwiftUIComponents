@@ -92,7 +92,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
     var actionHandler: ((_ actionKey: String) -> Void)?
     @Published public var showLineSeparator: Bool
     @Published public var lineSeparatorColor: Color?
-    var makeRow: (_: Item) -> Row
+    public var makeRow: (_: Item) -> Row
     public var editingItem: Item? {
         didSet {
             if editingItem == nil {
