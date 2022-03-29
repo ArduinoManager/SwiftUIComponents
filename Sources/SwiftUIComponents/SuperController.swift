@@ -12,26 +12,31 @@ public enum ControllerType: String, Codable {
     case list
 }
 
-public class SuperController: Codable {
+public class SuperController: Identifiable, Codable {
+    public let id: UUID
     var type: ControllerType
     
     init(type: ControllerType) {
+        self.id = UUID()
         self.type = type
     }
     
     // MARK: - Encodable & Decodable
     
     enum CodingKeys: CodingKey {
+        case id
         case type
     }
     
     required public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(UUID.self, forKey: .id)
         type = try container.decode(ControllerType.self, forKey: .type)
     }
     
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
         try container.encode(type, forKey: .type)
     }
 }
