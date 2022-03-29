@@ -173,7 +173,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                 ForEach(0 ..< controller.leadingActions.count, id: \.self) { idx in
                     let action = controller.leadingActions[idx]
                     Button {
-                        controller.actionHandler!(action.key)
+                        controller.actionHandler?(action.key)
                     } label: {
                         makeImage(action: action, iconSize: iconSize)
                     }
@@ -249,7 +249,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                 ForEach(0 ..< controller.trailingActions.count, id: \.self) { idx in
                     let action = controller.trailingActions[idx]
                     Button {
-                        controller.actionHandler!(action.key)
+                        controller.actionHandler?(action.key)
                     } label: {
                         makeImage(action: action, iconSize: iconSize)
                     }
@@ -285,7 +285,7 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
                         ForEach(0 ..< controller.leadingActions.count, id: \.self) { idx in
                             let action = controller.leadingActions[idx]
                             Button(action.label) {
-                                controller.actionHandler!(action.key)
+                                controller.actionHandler?(action.key)
                             }
                             .tint(action.color)
                         }
@@ -303,7 +303,7 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
                         ForEach(0 ..< controller.trailingActions.count, id: \.self) { idx in
                             let action = controller.trailingActions[idx]
                             Button(action.label) {
-                                controller.actionHandler!(action.key)
+                                controller.actionHandler?(action.key)
                             }
                             .tint(action.color)
                         }
