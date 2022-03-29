@@ -144,6 +144,10 @@ public class MenuController: SuperController, ObservableObject {
             fatalError("Duplicated keys: \(dups)")
         }
     }
+    
+    public func deleteItemAt(index: Int) {
+        menuItems.remove(at: index)
+    }
 
 //    public func setInspector(inspector: AnyView) {
 //        self.inspector = inspector
