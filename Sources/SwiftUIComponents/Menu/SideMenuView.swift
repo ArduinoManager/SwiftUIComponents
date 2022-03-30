@@ -35,8 +35,8 @@ import SwiftUI
                             case is MenuView:
                                 CustomTabButton(item: item)
 
-                            case is TabMenuAction:
-                                CustomActionButton(item: item as! TabMenuAction)
+                            case is MenuAction:
+                                CustomActionButton(item: item as! MenuAction)
 
                             case is TabMenuSpacer:
                                 let thisItem = item as! TabMenuSpacer
@@ -117,7 +117,7 @@ import SwiftUI
         }
 
         @ViewBuilder
-        func CustomActionButton(item: TabMenuAction) -> some View {
+        func CustomActionButton(item: MenuAction) -> some View {
             Button {
                 withAnimation {
                     controller.menuHandler?(controller, item)
@@ -233,8 +233,8 @@ import SwiftUI
                                 }
                             }
 
-                        case is TabMenuAction:
-                            let thisItem = item as! TabMenuAction
+                        case is MenuAction:
+                            let thisItem = item as! MenuAction
 
                             Button {
                                 controller.menuHandler?(controller, thisItem)

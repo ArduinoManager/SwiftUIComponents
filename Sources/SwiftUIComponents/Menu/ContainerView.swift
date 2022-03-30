@@ -263,7 +263,7 @@ struct MainViewContainer: View {
     init() {
         let menuItems = [
             MenuView(key: 0, title: "Home", systemIcon: "theatermasks.fill", view: AnyView(TestView(text: "Home").background(.yellow))),
-            TabMenuAction(key: 100, title: "Print", systemIcon: "rectangle.portrait.and.arrow.right"),
+            MenuAction(key: 100, title: "Print", systemIcon: "rectangle.portrait.and.arrow.right"),
             MenuView(key: 1, title: "Simple Table", systemIcon: "safari.fill", view: AnyView(TestView(text: "Discover").background(.blue))),
             MenuView(key: 2, title: "Devices", systemIcon: "applewatch", view: AnyView(TestView(text: "Devices").background(.gray))),
             TabMenuSpacer(height: 50),
@@ -273,12 +273,12 @@ struct MainViewContainer: View {
                         view: AnyView(TestView(text: "Profile").background(.green))),
 
             TabMenuDivider(color: .red),
-            TabMenuAction(key: 101, title: "Login", systemIcon: "rectangle.portrait.and.arrow.right"),
+            MenuAction(key: 101, title: "Login", systemIcon: "rectangle.portrait.and.arrow.right"),
 
-            TabMenuAction(key: 102, title: "Logout", systemIcon: "pippo"),
+            MenuAction(key: 102, title: "Logout", systemIcon: "pippo"),
 
             TabMenuDivider(color: .red),
-            TabMenuAction(title: "Kill!", icon: "logo"),
+            MenuAction(title: "Kill!", icon: "logo"),
         ]
 
         #if os(iOS)
@@ -347,7 +347,7 @@ struct MainViewContainer: View {
         Menu(controller: controller)
     }
 
-    func handler(controller: MenuController, item: TabMenuAction) {
+    func handler(controller: MenuController, item: MenuAction) {
     }
 }
 

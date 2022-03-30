@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  MenuAction.swift
 //  
 //
 //  Created by Fabrizio Boco on 3/26/22.
@@ -9,7 +9,7 @@ import SwiftUI
 
 /// Menu Item associated to an action activated when the item is clicked
 ///
-public class TabMenuAction: MenuItem {
+public class MenuAction: MenuItem {
     //public var handler: (_ controller: MenuController, _ item: TabMenuAction) -> Void
 
     public init(key: Key, title: String, systemIcon: String

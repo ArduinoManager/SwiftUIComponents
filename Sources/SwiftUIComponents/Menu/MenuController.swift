@@ -23,7 +23,7 @@ public class MenuController: SuperController, ObservableObject {
     @Published public var titleView: AnyView?
     @Published public var titleViewBackgroundColor: Color
     @Published public var menuItems: [MenuItem]
-    public var menuHandler: ((_ controller: MenuController, _ item: TabMenuAction) -> Void)?
+    public var menuHandler: ((_ controller: MenuController, _ item: MenuAction) -> Void)?
     @Published public var inspector: AnyView?
     var boostrap: String? = "A"
 
@@ -86,7 +86,7 @@ public class MenuController: SuperController, ObservableObject {
                     titleView: AnyView? = nil,
                     titleViewBackgroundColor: Color = Color(NSColor.windowBackgroundColor),
                     inspector: AnyView? = nil,
-                    menuHandler: @escaping (_ controller: MenuController, _ item: TabMenuAction) -> Void) {
+                    menuHandler: @escaping (_ controller: MenuController, _ item: MenuAction) -> Void) {
             print(menuItems)
 
             showMenu = false
@@ -194,7 +194,7 @@ public class MenuController: SuperController, ObservableObject {
                 menuItems.append(try menuItemsArray.decode(MenuView.self))
 
             case .action:
-                menuItems.append(try menuItemsArray.decode(TabMenuAction.self))
+                menuItems.append(try menuItemsArray.decode(MenuAction.self))
 
             case .divider:
                 menuItems.append(try menuItemsArray.decode(TabMenuDivider.self))
