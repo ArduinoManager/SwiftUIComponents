@@ -9,7 +9,7 @@ import SwiftUI
 
 /// Item which only creates a space between other items
 ///
-public class TabMenuSpacer: MenuItem {
+public class MenuSpacer: MenuItem {
     public var spacerHeight: CGFloat?
 
     public init(height: CGFloat) {

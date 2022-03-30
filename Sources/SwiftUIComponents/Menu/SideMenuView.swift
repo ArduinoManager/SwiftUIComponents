@@ -38,8 +38,8 @@ import SwiftUI
                             case is MenuAction:
                                 CustomActionButton(item: item as! MenuAction)
 
-                            case is TabMenuSpacer:
-                                let thisItem = item as! TabMenuSpacer
+                            case is MenuSpacer:
+                                let thisItem = item as! MenuSpacer
                                 Spacer(minLength: thisItem.spacerHeight)
 
                             case is MenuDivider:
