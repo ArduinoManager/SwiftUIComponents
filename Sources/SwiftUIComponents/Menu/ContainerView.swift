@@ -272,12 +272,12 @@ struct MainViewContainer: View {
                         icon: "logo",
                         view: AnyView(TestView(text: "Profile").background(.green))),
 
-            TabMenuDivider(color: .red),
+            MenuDivider(color: .red),
             MenuAction(key: 101, title: "Login", systemIcon: "rectangle.portrait.and.arrow.right"),
 
             MenuAction(key: 102, title: "Logout", systemIcon: "pippo"),
 
-            TabMenuDivider(color: .red),
+            MenuDivider(color: .red),
             MenuAction(title: "Kill!", icon: "logo"),
         ]
 

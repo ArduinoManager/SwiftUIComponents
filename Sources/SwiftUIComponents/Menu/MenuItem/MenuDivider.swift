@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  TabMenuDivider.swift
 //  
 //
 //  Created by Fabrizio Boco on 3/26/22.
@@ -9,7 +9,7 @@ import SwiftUI
 
 /// Line Separator between items
 ///
-public class TabMenuDivider: MenuItem {
+public class MenuDivider: MenuItem {
     public var color: Color
 
     #if os(iOS)

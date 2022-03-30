@@ -42,8 +42,8 @@ import SwiftUI
                                 let thisItem = item as! TabMenuSpacer
                                 Spacer(minLength: thisItem.spacerHeight)
 
-                            case is TabMenuDivider:
-                                let i = item as! TabMenuDivider
+                            case is MenuDivider:
+                                let i = item as! MenuDivider
                                 Divider()
                                     .background(i.color)
 
@@ -253,8 +253,8 @@ import SwiftUI
                             let thisItem = item as! TabMenuSpacer
                             Spacer(minLength: thisItem.spacerHeight)
 
-                        case is TabMenuDivider:
-                            let i = item as! TabMenuDivider
+                        case is MenuDivider:
+                            let i = item as! MenuDivider
                             Divider()
                                 .background(i.color)
 

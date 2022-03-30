@@ -197,7 +197,7 @@ public class MenuController: SuperController, ObservableObject {
                 menuItems.append(try menuItemsArray.decode(MenuAction.self))
 
             case .divider:
-                menuItems.append(try menuItemsArray.decode(TabMenuDivider.self))
+                menuItems.append(try menuItemsArray.decode(MenuDivider.self))
 
             case .spacer:
                 menuItems.append(try menuItemsArray.decode(TabMenuSpacer.self))
