@@ -237,7 +237,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
 
     func select(item: Item) {
         if !multipleSelection {
-            items.forEach { $0.deselect() }
+            items.filter({$0 != item}).forEach { $0.deselect() }
         }
         let newItem = item
         newItem.toggleSelection()
