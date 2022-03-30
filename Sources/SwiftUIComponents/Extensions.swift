@@ -229,7 +229,7 @@ func makeImage(action: ListAction, iconSize: CGFloat) -> some View {
     }
 }
 
-fileprivate extension Color {
+extension Color {
     #if os(macOS)
         typealias SystemColor = NSColor
     #else
