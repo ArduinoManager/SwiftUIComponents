@@ -32,7 +32,7 @@ import SwiftUI
                         ForEach(controller.menuItems, id: \.self) { item in
 
                             switch item {
-                            case is ViewMenuItem:
+                            case is MenuView:
                                 CustomTabButton(item: item)
 
                             case is TabMenuAction:
@@ -120,7 +120,8 @@ import SwiftUI
         func CustomActionButton(item: TabMenuAction) -> some View {
             Button {
                 withAnimation {
-                    item.handler(controller, item)
+                    controller.menuHandler?(controller, item)
+                    //item.handler(controller, item)
                 }
             }
             label: {
@@ -192,7 +193,7 @@ import SwiftUI
 
         public var body: some View {
             VStack(alignment: .leading, spacing: 0) {
-                Print("%%%%%%%%%%%%%%%%%%%%%%% Side Menu View \(controller.menuItems)")
+                //Print("%%%%%%%%%%%%%%%%%%%%%%% Side Menu View \(controller.menuItems)")
                 if controller.menuItems.count >= 1 {
                     NavigationLink(destination: ContainerView(controller: controller, item: controller.menuItems[0]), tag: "A", selection: $controller.boostrap, label: { EmptyView().scaleEffect(0) })
                         .frame(width: 0, height: 0)
@@ -220,9 +221,9 @@ import SwiftUI
 
                 List {
                     ForEach(controller.menuItems, id: \.key) { item in
-                        Print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% \(item.self) ")
+                        //Print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% \(item.self) ")
                         switch item {
-                        case is ViewMenuItem:
+                        case is MenuView:
                             NavigationLink(destination: ContainerView(controller: controller, item: item)) {
                                 HStack(alignment: .center) {
                                     makeImage(item: item)

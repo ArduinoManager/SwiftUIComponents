@@ -191,7 +191,7 @@ public class MenuController: SuperController, ObservableObject {
             let type = try menuItem.decode(MenuItemType.self, forKey: ClassTypeKey.type)
             switch type {
             case .item:
-                menuItems.append(try menuItemsArray.decode(ViewMenuItem.self))
+                menuItems.append(try menuItemsArray.decode(MenuView.self))
 
             case .action:
                 menuItems.append(try menuItemsArray.decode(TabMenuAction.self))

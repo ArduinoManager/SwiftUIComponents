@@ -29,7 +29,7 @@ import SwiftUI
 
                 TabView(selection: $controller.currentTab) {
                     ForEach(controller.menuItems, id: \.self) { item in
-                        item.makeView()
+                        (item as! MenuView).makeView()
                             .tag(item.title)
                     }
                 }
@@ -134,7 +134,7 @@ import SwiftUI
                 //
                 // No Title View
                 //
-                (item as! ViewMenuItem).makeView()
+                (item as! MenuView).makeView()
                     .onAppear(perform: {
                         print("---- 2️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
                         controller.currentTab = item.key
@@ -149,7 +149,7 @@ import SwiftUI
                         controller.titleView
                     }
                     .background(controller.titleViewBackgroundColor)
-                    (item as! ViewMenuItem).makeView()
+                    (item as! MenuView).makeView()
                         .onAppear(perform: {
                             print("---- 3️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
                             controller.currentTab = item.key
@@ -169,7 +169,7 @@ import SwiftUI
                 // Inspector without Title View
                 HSplitView {
                     // Main View
-                    if let i = item as? ViewMenuItem {
+                    if let i = item as? MenuView {
                         i.makeView()
                             .onAppear(perform: {
                                 print("---- 2️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
@@ -235,7 +235,7 @@ import SwiftUI
                         }
                         .background(controller.titleViewBackgroundColor)
                         HSplitView {
-                            if let i = item as? ViewMenuItem {
+                            if let i = item as? MenuView {
                                 i.makeView()
                                     .onAppear(perform: {
                                         print("---- 3️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
@@ -262,13 +262,13 @@ struct MainViewContainer: View {
 
     init() {
         let menuItems = [
-            ViewMenuItem(key: 0, title: "Home", systemIcon: "theatermasks.fill", view: AnyView(TestView(text: "Home").background(.yellow))),
+            MenuView(key: 0, title: "Home", systemIcon: "theatermasks.fill", view: AnyView(TestView(text: "Home").background(.yellow))),
             TabMenuAction(key: 100, title: "Print", systemIcon: "rectangle.portrait.and.arrow.right"),
-            ViewMenuItem(key: 1, title: "Simple Table", systemIcon: "safari.fill", view: AnyView(TestView(text: "Discover").background(.blue))),
-            ViewMenuItem(key: 2, title: "Devices", systemIcon: "applewatch", view: AnyView(TestView(text: "Devices").background(.gray))),
+            MenuView(key: 1, title: "Simple Table", systemIcon: "safari.fill", view: AnyView(TestView(text: "Discover").background(.blue))),
+            MenuView(key: 2, title: "Devices", systemIcon: "applewatch", view: AnyView(TestView(text: "Devices").background(.gray))),
             TabMenuSpacer(height: 50),
-            ViewMenuItem(key: 3, title: "Profile", systemIcon: "person.fill", view: AnyView(TestView(text: "Profile").background(.green))),
-            ViewMenuItem(key: 4, title: "Profile2",
+            MenuView(key: 3, title: "Profile", systemIcon: "person.fill", view: AnyView(TestView(text: "Profile").background(.green))),
+            MenuView(key: 4, title: "Profile2",
                         icon: "logo",
                         view: AnyView(TestView(text: "Profile").background(.green))),
 
