@@ -107,7 +107,9 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                         }
                     #endif
                     #if os(iOS)
+                    HStack {
                         controller.makeRow(item)
+                    }
                             .modifier(AttachActions(controller: controller, item: item, sheetManager: sheetManager))
                             .background(Color.yellow)
                             //.background(currentColor(idx: idx))
