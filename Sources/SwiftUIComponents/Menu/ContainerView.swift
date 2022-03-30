@@ -29,6 +29,7 @@ import SwiftUI
 
                 TabView(selection: $controller.currentTab) {
                     ForEach(controller.menuItems, id: \.self) { item in
+                        Print(".")
                         if item is MenuView {
                             (item as! MenuView).makeView()
                                 .tag(item.title)
