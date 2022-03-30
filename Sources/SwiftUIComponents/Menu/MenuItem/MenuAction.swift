@@ -10,11 +10,8 @@ import SwiftUI
 /// Menu Item associated to an action activated when the item is clicked
 ///
 public class MenuAction: MenuItem {
-    //public var handler: (_ controller: MenuController, _ item: TabMenuAction) -> Void
 
-    public init(key: Key, title: String, systemIcon: String
-                //, handler: @escaping ((_ controller: MenuController, _ item: TabMenuAction) -> Void)
-    ) {
+    public init(key: Key, title: String, systemIcon: String) {
         //self.handler = handler
         super.init(type: .action)
         self.key = key
@@ -22,10 +19,7 @@ public class MenuAction: MenuItem {
         self.systemIcon = systemIcon
     }
 
-    public init(title: String, icon: String
-                //, handler: @escaping ((_ controller: MenuController, _ item: TabMenuAction) -> Void)
-    ) {
-        //self.handler = handler
+    public init(key: Key, title: String, icon: String) {
         super.init(type: .action)
         self.title = title
         self.systemIcon = nil
