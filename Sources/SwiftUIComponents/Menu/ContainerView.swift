@@ -16,14 +16,16 @@ import SwiftUI
             VStack(spacing: 0) {
                 if controller.openButtonAtTop {
                     HStack(spacing: 0) {
-                        OpenButton()
-                        Spacer()
-                        if controller.titleView != nil {
-                            controller.titleView
+                        if let titleView = controller.titleView {
+                            titleView
+                                .overlay(alignment: .leading) {
+                                    OpenButton()
+                                        .padding(.leading, 20)
+                                }
                         }
                     }
-                    .padding([.horizontal], isLandscape() ? 40 : 20)
-                    .padding(.bottom)
+                    //.padding([.horizontal], isLandscape() ? 40 : 20)
+                    .padding(.bottom, 2)
                     .padding(.top, isLandscape() ? 10.0 : getSafeArea().top)
                 }
 
@@ -289,6 +291,9 @@ struct MainViewContainer: View {
                                                                    // sideTitleView: AnyView(SideTitleView()),
                                                                    backgroundColor: .blue,
                                                                    itemsColor: .red,
+                                                                   titleView : AnyView(TitleView()),
+                                                                   titleViewBackgroundColor: .red,
+                                                                   //titleViewBackgroundColor: Color(.sRGB, red: 0.9254902601242065, green: 0.9254902601242065, blue: 0.9254902601242065, opacity: 1.0),
                                                                    menuHandler: { _, item in
                                                                        print("Action \(item.title) [\(item.key)]")
                                                                    }
