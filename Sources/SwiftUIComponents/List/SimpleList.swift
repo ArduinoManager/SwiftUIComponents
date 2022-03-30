@@ -107,10 +107,9 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                         }
                     #endif
                     #if os(iOS)
-                    HStack {
                         controller.makeRow(item)
-                    }
                             .modifier(AttachActions(controller: controller, item: item, sheetManager: sheetManager))
+                    //TODO: Remove this!
                             .background(Color.yellow)
                             //.background(currentColor(idx: idx))
                             .modifier(AttachSwipeActions(controller: controller, item: item, sheetManager: sheetManager))
@@ -197,6 +196,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
             }
             //
             content
+                .contentShape(Rectangle())
                 .onTapGesture {
                     controller.select(item: item)
                 }
