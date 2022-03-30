@@ -278,7 +278,7 @@ struct MainViewContainer: View {
             MenuAction(key: 102, title: "Logout", systemIcon: "pippo"),
 
             MenuDivider(color: .red),
-            MenuAction(title: "Kill!", icon: "logo"),
+            MenuAction(key: 103, title: "Kill!", icon: "logo"),
         ]
 
         #if os(iOS)
