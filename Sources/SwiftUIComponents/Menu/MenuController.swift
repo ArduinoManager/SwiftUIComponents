@@ -40,7 +40,8 @@ public class MenuController: SuperController, ObservableObject {
                     itemsColor: Color = Color(uiColor: .label),
                     selectedItemBackgroundColor: Color = Color(uiColor: .systemGray4),
                     titleView: AnyView? = nil,
-                    titleViewBackgroundColor: Color = Color(uiColor: .systemBackground)) {
+                    titleViewBackgroundColor: Color = Color(uiColor: .systemBackground),
+                    menuHandler: @escaping (_ controller: MenuController, _ item: MenuAction) -> Void) {
             showMenu = false
             self.menuItems = menuItems
             self.autoClose = autoClose
@@ -54,6 +55,7 @@ public class MenuController: SuperController, ObservableObject {
             self.selectedItemBackgroundColor = selectedItemBackgroundColor
             self.titleView = titleView
             self.titleViewBackgroundColor = titleViewBackgroundColor
+            self.menuHandler = menuHandler
             currentTab = menuItems[0].key
 
             super.init(type: .menu)
@@ -87,7 +89,7 @@ public class MenuController: SuperController, ObservableObject {
                     titleViewBackgroundColor: Color = Color(NSColor.windowBackgroundColor),
                     inspector: AnyView? = nil,
                     menuHandler: @escaping (_ controller: MenuController, _ item: MenuAction) -> Void) {
-            print(menuItems)
+            //print(menuItems)
 
             showMenu = false
             self.menuItems = menuItems

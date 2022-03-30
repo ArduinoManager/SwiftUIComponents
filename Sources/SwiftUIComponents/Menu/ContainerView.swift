@@ -30,8 +30,8 @@ import SwiftUI
                 TabView(selection: $controller.currentTab) {
                     ForEach(controller.menuItems, id: \.self) { item in
                         if item is MenuView {
-                        (item as! MenuView).makeView()
-                            .tag(item.title)
+                            (item as! MenuView).makeView()
+                                .tag(item.title)
                         }
                     }
                 }
@@ -271,8 +271,8 @@ struct MainViewContainer: View {
             MenuSpacer(height: 50),
             MenuView(key: 3, title: "Profile", systemIcon: "person.fill", view: AnyView(TestView(text: "Profile").background(.green))),
             MenuView(key: 4, title: "Profile2",
-                        icon: "logo",
-                        view: AnyView(TestView(text: "Profile").background(.green))),
+                     icon: "logo",
+                     view: AnyView(TestView(text: "Profile").background(.green))),
 
             MenuDivider(color: .red),
             MenuAction(key: 101, title: "Login", systemIcon: "rectangle.portrait.and.arrow.right"),
@@ -287,7 +287,10 @@ struct MainViewContainer: View {
             _controller = StateObject(wrappedValue: MenuController(menuItems: menuItems,
                                                                    // sideTitleView: AnyView(SideTitleView()),
                                                                    backgroundColor: .blue,
-                                                                   itemsColor: .red
+                                                                   itemsColor: .red,
+                                                                   menuHandler: { _, item in
+                                                                       print("Action \(item.title) [\(item.key)]")
+                                                                   }
 //        titleView: AnyView(TitleView()),
 //        titleViewBackgroundColor: .accentColor,
                 )
