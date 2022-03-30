@@ -50,6 +50,8 @@ public class MenuView: MenuItem {
     // MARK: - Encodable & Decodable
 
     public required init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        viewName = try values.decode(String.self, forKey: .viewName)
         try super.init(from: decoder)
     }
    
