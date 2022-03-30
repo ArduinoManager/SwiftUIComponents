@@ -15,11 +15,11 @@ public class MenuController: SuperController, ObservableObject {
     @Published public var itemsColor: Color
     @Published public var selectedItemBackgroundColor: Color
     @Published public var backgroundColor: Color
-    var autoClose: Bool
-    var openButtonAtTop: Bool
-    var openButtonColor: Color
-    var openButtonIcon: String
-    var openButtonSize: CGFloat
+    @Published public var autoClose: Bool
+    @Published public var openButtonAtTop: Bool
+    @Published public var openButtonColor: Color
+    @Published public var openButtonIcon: String
+    @Published public var openButtonSize: CGFloat
     @Published public var titleView: AnyView?
     @Published public var titleViewBackgroundColor: Color
     @Published public var menuItems: [MenuItem]
