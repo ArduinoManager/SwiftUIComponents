@@ -32,7 +32,7 @@ import SwiftUI
                         ForEach(controller.menuItems, id: \.self) { item in
 
                             switch item {
-                            case is TabMenuItem:
+                            case is ViewMenuItem:
                                 CustomTabButton(item: item)
 
                             case is TabMenuAction:
@@ -222,7 +222,7 @@ import SwiftUI
                     ForEach(controller.menuItems, id: \.key) { item in
                         Print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% \(item.self) ")
                         switch item {
-                        case is TabMenuItem:
+                        case is ViewMenuItem:
                             NavigationLink(destination: ContainerView(controller: controller, item: item)) {
                                 HStack(alignment: .center) {
                                     makeImage(item: item)

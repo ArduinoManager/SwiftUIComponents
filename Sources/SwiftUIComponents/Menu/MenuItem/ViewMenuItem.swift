@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  ViewMenuItem.swift
 //  
 //
 //  Created by Fabrizio Boco on 3/26/22.
@@ -9,7 +9,7 @@ import SwiftUI
 
 /// Item associated to a View shown when the item is clicked
 ///
-public class TabMenuItem: MenuItem {
+public class ViewMenuItem: MenuItem {
     public var view: AnyView?
     public var viewName: String? /// Reserved for the generarator
     

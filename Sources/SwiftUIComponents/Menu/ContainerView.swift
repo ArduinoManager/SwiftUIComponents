@@ -134,7 +134,7 @@ import SwiftUI
                 //
                 // No Title View
                 //
-                (item as! TabMenuItem).makeView()
+                (item as! ViewMenuItem).makeView()
                     .onAppear(perform: {
                         print("---- 2️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
                         controller.currentTab = item.key
@@ -149,7 +149,7 @@ import SwiftUI
                         controller.titleView
                     }
                     .background(controller.titleViewBackgroundColor)
-                    (item as! TabMenuItem).makeView()
+                    (item as! ViewMenuItem).makeView()
                         .onAppear(perform: {
                             print("---- 3️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
                             controller.currentTab = item.key
@@ -169,7 +169,7 @@ import SwiftUI
                 // Inspector without Title View
                 HSplitView {
                     // Main View
-                    if let i = item as? TabMenuItem {
+                    if let i = item as? ViewMenuItem {
                         i.makeView()
                             .onAppear(perform: {
                                 print("---- 2️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
@@ -235,7 +235,7 @@ import SwiftUI
                         }
                         .background(controller.titleViewBackgroundColor)
                         HSplitView {
-                            if let i = item as? TabMenuItem {
+                            if let i = item as? ViewMenuItem {
                                 i.makeView()
                                     .onAppear(perform: {
                                         print("---- 3️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
@@ -262,13 +262,13 @@ struct MainViewContainer: View {
 
     init() {
         let menuItems = [
-            TabMenuItem(key: 0, title: "Home", systemIcon: "theatermasks.fill", view: AnyView(TestView(text: "Home").background(.yellow))),
+            ViewMenuItem(key: 0, title: "Home", systemIcon: "theatermasks.fill", view: AnyView(TestView(text: "Home").background(.yellow))),
             TabMenuAction(key: 100, title: "Print", systemIcon: "rectangle.portrait.and.arrow.right"),
-            TabMenuItem(key: 1, title: "Simple Table", systemIcon: "safari.fill", view: AnyView(TestView(text: "Discover").background(.blue))),
-            TabMenuItem(key: 2, title: "Devices", systemIcon: "applewatch", view: AnyView(TestView(text: "Devices").background(.gray))),
+            ViewMenuItem(key: 1, title: "Simple Table", systemIcon: "safari.fill", view: AnyView(TestView(text: "Discover").background(.blue))),
+            ViewMenuItem(key: 2, title: "Devices", systemIcon: "applewatch", view: AnyView(TestView(text: "Devices").background(.gray))),
             TabMenuSpacer(height: 50),
-            TabMenuItem(key: 3, title: "Profile", systemIcon: "person.fill", view: AnyView(TestView(text: "Profile").background(.green))),
-            TabMenuItem(key: 4, title: "Profile2",
+            ViewMenuItem(key: 3, title: "Profile", systemIcon: "person.fill", view: AnyView(TestView(text: "Profile").background(.green))),
+            ViewMenuItem(key: 4, title: "Profile2",
                         icon: "logo",
                         view: AnyView(TestView(text: "Profile").background(.green))),
 
