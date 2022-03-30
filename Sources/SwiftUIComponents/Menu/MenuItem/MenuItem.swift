@@ -24,7 +24,7 @@ public class MenuItem: Hashable, CustomDebugStringConvertible, Encodable, Decoda
     public var systemIcon: String?
     public var icon: String?
     public var useSystemIcon: Bool
-    var type: MenuItemType
+    public var type: MenuItemType
 
     public init(type: MenuItemType) {
         self.type = type
