@@ -190,7 +190,7 @@ import SwiftUI
         @ObservedObject var controller: MenuController
         @Namespace var animation
         let buttonHeight: CGFloat = 30.0
-
+        
         public var body: some View {
             VStack(alignment: .leading, spacing: 0) {
                 //Print("%%%%%%%%%%%%%%%%%%%%%%% Side Menu View \(controller.menuItems)")
@@ -221,7 +221,7 @@ import SwiftUI
 
                 List {
                     ForEach(controller.menuItems, id: \.key) { item in
-                        //Print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% \(item.self) ")
+//                        //Print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% \(item.self) ")
                         switch item {
                         case is MenuView:
                             NavigationLink(destination: ContainerView(controller: controller, item: item)) {
@@ -249,8 +249,8 @@ import SwiftUI
                             .buttonStyle(.plain)
                             .frame(maxWidth: .infinity, alignment: .leading)
 
-                        case is TabMenuSpacer:
-                            let thisItem = item as! TabMenuSpacer
+                        case is MenuSpacer:
+                            let thisItem = item as! MenuSpacer
                             Spacer(minLength: thisItem.spacerHeight)
 
                         case is MenuDivider:
@@ -274,7 +274,6 @@ import SwiftUI
                     }
                 }
             }
-            // .frame(minWidth: 150, idealWidth: 250, maxWidth: 300)
         }
 
         @ViewBuilder
