@@ -19,3 +19,7 @@ This is a Test Package which will contains all the Swiftui Components for the co
     - Sections in Menu
     - Sections in List
 
+
+- To Fix:
+
+    - iOS Can activate swipe actions only in the my content row, not on all the row
