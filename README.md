@@ -23,3 +23,4 @@ This is a Test Package which will contains all the Swiftui Components for the co
 - To Fix:
 
     - iOS Can activate swipe actions only in the my content row, not on all the row
+    - iOS Cannot deselect row
