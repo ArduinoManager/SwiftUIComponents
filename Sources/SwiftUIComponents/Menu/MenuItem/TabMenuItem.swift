@@ -11,6 +11,7 @@ import SwiftUI
 ///
 public class TabMenuItem: MenuItem {
     public var view: AnyView?
+    public var viewName: String? /// Reserved for the generarator
     
     public init(key: Key, title: String, systemIcon: String, view: AnyView) {
         self.view = view
@@ -35,7 +36,7 @@ public class TabMenuItem: MenuItem {
     }
 
     override public var debugDescription: String {
-        return "[\(key) Tab \(title) View \(view)]"
+        return "[\(key) Tab \(title) View \(viewName ?? "?")]"
     }
     
     @ViewBuilder
@@ -43,6 +44,9 @@ public class TabMenuItem: MenuItem {
         view
     }
 
+    enum CodingKeys: CodingKey {
+        case viewName
+    }
     // MARK: - Encodable & Decodable
 
     public required init(from decoder: Decoder) throws {
@@ -50,6 +54,8 @@ public class TabMenuItem: MenuItem {
     }
    
     public override func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(viewName, forKey: .viewName)
         try super.encode(to: encoder)
     }
 }
