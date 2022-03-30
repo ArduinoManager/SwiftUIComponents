@@ -121,7 +121,7 @@ import SwiftUI
             Button {
                 withAnimation {
                     controller.menuHandler?(controller, item)
-                    //item.handler(controller, item)
+                    // item.handler(controller, item)
                 }
             }
             label: {
@@ -190,10 +190,10 @@ import SwiftUI
         @ObservedObject var controller: MenuController
         @Namespace var animation
         let buttonHeight: CGFloat = 30.0
-        
+
         public var body: some View {
             VStack(alignment: .leading, spacing: 0) {
-                //Print("%%%%%%%%%%%%%%%%%%%%%%% Side Menu View \(controller.menuItems)")
+                // Print("%%%%%%%%%%%%%%%%%%%%%%% Side Menu View \(controller.menuItems)")
                 if controller.menuItems.count >= 1 {
                     NavigationLink(destination: ContainerView(controller: controller, item: controller.menuItems[0]), tag: "A", selection: $controller.boostrap, label: { EmptyView().scaleEffect(0) })
                         .frame(width: 0, height: 0)
