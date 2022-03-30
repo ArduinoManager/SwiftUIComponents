@@ -109,7 +109,8 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                     #if os(iOS)
                         controller.makeRow(item)
                             .modifier(AttachActions(controller: controller, item: item, sheetManager: sheetManager))
-                            .background(currentColor(idx: idx))
+                            .background(Color.yellow)
+                            //.background(currentColor(idx: idx))
                             .modifier(AttachSwipeActions(controller: controller, item: item, sheetManager: sheetManager))
                             .if(!controller.showLineSeparator) { view in
                                 view
