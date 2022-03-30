@@ -97,11 +97,11 @@ public class MenuController: SuperController, ObservableObject {
             openButtonAtTop = false
             openButtonColor = Color(NSColor.labelColor)
             openButtonIcon = "line.3.horizontal"
-            openButtonSize = 0.0
+            openButtonSize = 20.0
             self.sideTitleView = sideTitleView
             self.backgroundColor = backgroundColor
             self.itemsColor = itemsColor
-            selectedItemBackgroundColor = Color(NSColor.labelColor)
+            self.selectedItemBackgroundColor = Color(NSColor.systemGray)
             self.titleView = titleView
             self.titleViewBackgroundColor = titleViewBackgroundColor
             self.inspector = inspector
