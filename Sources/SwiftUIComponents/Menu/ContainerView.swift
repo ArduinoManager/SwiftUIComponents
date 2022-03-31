@@ -141,7 +141,7 @@ import SwiftUI
                 // No Title View
                 //
                 controller.makeView(item: item as! MenuView)
-                //(item as! MenuView).makeView()
+                    // (item as! MenuView).makeView()
                     .onAppear(perform: {
                         print("---- 2️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
                         controller.currentTab = item.key
@@ -157,7 +157,7 @@ import SwiftUI
                     }
                     .background(controller.titleViewBackgroundColor)
                     controller.makeView(item: item as! MenuView)
-                    //(item as! MenuView).makeView()
+                        // (item as! MenuView).makeView()
                         .onAppear(perform: {
                             print("---- 3️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
                             controller.currentTab = item.key
@@ -179,7 +179,7 @@ import SwiftUI
                     // Main View
                     if let i = item as? MenuView {
                         controller.makeView(item: i)
-                        //i.makeView()
+                            // i.makeView()
                             .onAppear(perform: {
                                 print("---- 2️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
                                 controller.currentTab = item.key
@@ -246,7 +246,7 @@ import SwiftUI
                         HSplitView {
                             if let i = item as? MenuView {
                                 controller.makeView(item: i)
-                                //i.makeView()
+                                    // i.makeView()
                                     .onAppear(perform: {
                                         print("---- 3️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
                                         controller.currentTab = item.key
@@ -369,7 +369,31 @@ struct MainViewContainer: View {
                                    inspector: AnyView(Inspector()),
                                    menuHandler: { _, _ in
 
-                                   })
+                                   },
+                                   viewProvider: { _, menuItem in
+
+                                       if menuItem.key == 0 {
+                                           return AnyView(TestView(text: "Home").background(.yellow))
+                                       }
+
+                                       if menuItem.key == 1 {
+                                           return AnyView(TestView(text: "Discover").background(.blue))
+                                       }
+
+                                       if menuItem.key == 2 {
+                                           return AnyView(TestView(text: "Devices").background(.gray))
+                                       }
+
+                                       if menuItem.key == 3 {
+                                           return AnyView(TestView(text: "Profile").background(.green))
+                                       }
+
+                                       if menuItem.key == 4 {
+                                           return AnyView(TestView(text: "Profile").background(.green))
+                                       }
+                                       return AnyView(EmptyView())
+                                   }
+            )
 
 //
 
