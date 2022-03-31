@@ -28,6 +28,10 @@ public class MenuDivider: MenuItem {
         }
     #endif
     
+    override public var debugDescription: String {
+        return "[\(key) Divider]"
+    }
+    
     // MARK: - Encodable & Decodable
     
     enum CodingKeys: CodingKey {

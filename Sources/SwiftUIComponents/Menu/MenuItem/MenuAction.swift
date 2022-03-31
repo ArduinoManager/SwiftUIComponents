@@ -27,7 +27,7 @@ public class MenuAction: MenuItem {
     }
     
     override public var debugDescription: String {
-        return "[\(key) Handler \(title)]"
+        return "[\(key) Action \(title)]"
     }
     
     // MARK: - Encodable & Decodable

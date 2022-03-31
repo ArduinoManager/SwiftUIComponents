@@ -17,6 +17,10 @@ public class MenuSpacer: MenuItem {
         super.init(type: .spacer)
     }
     
+    override public var debugDescription: String {
+        return "[\(key) Spacer]"
+    }
+    
     // MARK: - Encodable & Decodable
     
     enum CodingKeys: CodingKey {

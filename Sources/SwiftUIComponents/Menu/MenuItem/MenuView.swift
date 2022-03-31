@@ -36,7 +36,7 @@ public class MenuView: MenuItem {
     }
 
     override public var debugDescription: String {
-        return "[\(key) Tab \(title) View \(viewName ?? "?")]"
+        return "[\(key) View \(title) View \(viewName ?? "?")]"
     }
     
     @ViewBuilder
