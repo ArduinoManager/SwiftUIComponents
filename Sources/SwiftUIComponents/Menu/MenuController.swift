@@ -141,7 +141,7 @@ public class MenuController: SuperController, ObservableObject {
     }
 
     func makeView(item: MenuView) -> some View {
-        return EmptyView()
+        return viewProvider?(self,item)
     }
     
     
