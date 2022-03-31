@@ -16,7 +16,7 @@ import SwiftUI
             VStack(spacing: 0) {
                 if controller.openButtonAtTop {
                     HStack(spacing: 0) {
-                        if let titleView = controller.titleView {
+                        if let titleView = controller.titleViewProvider?() {
                             titleView
                                 .overlay(alignment: .leading) {
                                     OpenButton()
@@ -51,8 +51,8 @@ import SwiftUI
                     HStack(spacing: 0) {
                         OpenButton()
                         Spacer()
-                        if controller.titleView != nil {
-                            controller.titleView
+                        if controller.titleViewProvider != nil {
+                            controller.titleViewProvider?()
                         }
                     }
                     .padding([.horizontal])
@@ -136,7 +136,7 @@ import SwiftUI
 
         @ViewBuilder
         func viewNoInspector(controller: MenuController) -> some View {
-            if controller.titleView == nil {
+            if controller.titleViewProvider == nil {
                 //
                 // No Title View
                 //
@@ -153,7 +153,7 @@ import SwiftUI
                 //
                 VStack(spacing: 0) {
                     HStack(spacing: 0) {
-                        controller.titleView
+                        controller.titleViewProvider!()
                     }
                     .background(controller.titleViewBackgroundColor)
                     controller.makeView(item: item as! MenuView)
@@ -169,7 +169,7 @@ import SwiftUI
 
         @ViewBuilder
         func viewWithInspector(controller: MenuController) -> some View {
-            if controller.titleView == nil {
+            if controller.titleViewProvider == nil {
                 //
                 // No Title View
                 //
@@ -194,7 +194,7 @@ import SwiftUI
                             .frame(idealWidth: 500)
                     }
                 }
-                .if(controller.inspector != nil && controller.titleView == nil) { view in
+                .if(controller.inspector != nil && controller.titleViewProvider == nil) { view in
                     view
                         .overlay(
                             VStack(spacing: 0) {
@@ -226,7 +226,8 @@ import SwiftUI
                 VStack(spacing: 0) {
                     VStack(spacing: 0) {
                         HStack(spacing: 0) {
-                            controller.titleView
+                            // controller.titleView
+                            controller.titleViewProvider?()
                             Spacer()
                             Button {
                                 withAnimation {
@@ -294,7 +295,10 @@ struct MainViewContainer: View {
                                                                    // sideTitleView: AnyView(SideTitleView()),
                                                                    backgroundColor: .blue,
                                                                    itemsColor: .red,
-                                                                   titleView: AnyView(TitleView()),
+                                                                   // titleView: AnyView(TitleView()),
+                                                                   titleViewProvider: {
+                                                                       AnyView(TitleView())
+                                                                   },
                                                                    titleViewBackgroundColor: .red,
                                                                    // titleViewBackgroundColor: Color(.sRGB, red: 0.9254902601242065, green: 0.9254902601242065, blue: 0.9254902601242065, opacity: 1.0),
                                                                    menuHandler: { _, item in
@@ -364,7 +368,10 @@ struct MainViewContainer: View {
                                    sideTitleView: nil,
                                    backgroundColor: Color(nsColor: .windowBackgroundColor),
                                    itemsColor: .red,
-                                   titleView: AnyView(TitleView()),
+                                   titleViewProvider: {
+                                       AnyView(TitleView())
+                                   },
+                                   // titleView: AnyView(TitleView()),
                                    titleViewBackgroundColor: .cyan,
                                    inspector: AnyView(Inspector()),
                                    menuHandler: { _, _ in
