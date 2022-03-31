@@ -24,6 +24,7 @@ public class MenuController: SuperController, ObservableObject {
     @Published public var titleViewBackgroundColor: Color
     @Published public var menuItems: [MenuItem]
     public var menuHandler: ((_ controller: MenuController, _ item: MenuAction) -> Void)?
+    public var viewProvider: ((_ controller: MenuController, _ item: MenuView) -> AnyView)?
     @Published public var inspector: AnyView?
     var boostrap: String? = "A"
 
@@ -41,7 +42,8 @@ public class MenuController: SuperController, ObservableObject {
                     selectedItemBackgroundColor: Color = Color(uiColor: .systemGray4),
                     titleView: AnyView? = nil,
                     titleViewBackgroundColor: Color = Color(uiColor: .systemBackground),
-                    menuHandler: @escaping (_ controller: MenuController, _ item: MenuAction) -> Void) {
+                    menuHandler: @escaping (_ controller: MenuController, _ item: MenuAction) -> Void,
+                    viewProvider: ((_ controller: MenuController, _ item: MenuView) -> AnyView)?) {
             showMenu = false
             self.menuItems = menuItems
             self.autoClose = autoClose
@@ -56,6 +58,7 @@ public class MenuController: SuperController, ObservableObject {
             self.titleView = titleView
             self.titleViewBackgroundColor = titleViewBackgroundColor
             self.menuHandler = menuHandler
+            self.viewProvider = viewProvider
             currentTab = menuItems[0].key
 
             super.init(type: .menu)
@@ -118,24 +121,6 @@ public class MenuController: SuperController, ObservableObject {
 
     #endif
 
-//    public init() {
-//        self.menuItems = [MenuItem]()
-//        self.showMenu = false
-//        self.autoClose = false
-//        self.openButtonAtTop = false
-//        self.openButtonColor = Color(NSColor.labelColor)
-//        self.openButtonIcon = ""
-//        self.openButtonSize = 0.0
-//        self.sideTitleView = nil
-//        self.backgroundColor = Color(NSColor.windowBackgroundColor)
-//        self.itemsColor = .red
-//        self.selectedItemBackgroundColor = .gray
-//        self.titleView = nil
-//        self.titleViewBackgroundColor = Color(NSColor.labelColor)
-//        self.inspector = nil
-//        self.currentTab = 0
-//    }
-
     public func addItem(item: MenuItem) {
         menuItems.append(item)
         if menuItems.count == 1 {
@@ -155,6 +140,12 @@ public class MenuController: SuperController, ObservableObject {
         menuItems.removeSubrange((index...))
     }
 
+    func makeView(item: MenuView) -> some View {
+        return EmptyView()
+    }
+    
+    
+    
     // MARK: - Encodable & Decodable
 
     enum CodingKeys: CodingKey {

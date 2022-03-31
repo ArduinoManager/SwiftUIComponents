@@ -10,28 +10,23 @@ import SwiftUI
 /// Item associated to a View shown when the item is clicked
 ///
 public class MenuView: MenuItem {
-    public var view: AnyView?
     public var viewName: String? /// Reserved for the generarator
     
-    public init(key: Key, title: String, systemIcon: String, view: AnyView) {
-        self.view = view
+    public init(key: Key, title: String, systemIcon: String) {
         super.init(type: .item)
         self.key = key
         self.title = title
         self.systemIcon = systemIcon
         self.icon = nil
-        self.view = view
         self.useSystemIcon = true
     }
 
-    public init(key: Key, title: String, icon: String, view: AnyView) {
-        self.view = view
+    public init(key: Key, title: String, icon: String) {
         super.init(type: .item)
         self.key = key
         self.title = title
         self.systemIcon = nil
         self.icon = icon
-        self.view = view
         self.useSystemIcon = false
     }
 
@@ -39,10 +34,10 @@ public class MenuView: MenuItem {
         return "[\(key) View \(title) View \(viewName ?? "?")]"
     }
     
-    @ViewBuilder
-    func makeView() -> some View {
-        view
-    }
+//    @ViewBuilder
+//    func makeView() -> some View {
+//        view
+//    }
 
     enum CodingKeys: CodingKey {
         case viewName

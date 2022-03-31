@@ -24,7 +24,7 @@ import SwiftUI
                                 }
                         }
                     }
-                    //.padding([.horizontal], isLandscape() ? 40 : 20)
+                    // .padding([.horizontal], isLandscape() ? 40 : 20)
                     .padding(.bottom, 2)
                     .padding(.top, isLandscape() ? 10.0 : getSafeArea().top)
                 }
@@ -33,7 +33,8 @@ import SwiftUI
                     ForEach(controller.menuItems, id: \.self) { item in
                         if item is MenuView {
                             Print("\(item.title)")
-                            (item as! MenuView).makeView()
+                            controller.makeView(item: item as! MenuView)
+                                // (item as! MenuView).makeView()
                                 .tag(item.key)
                         }
                     }
@@ -139,7 +140,8 @@ import SwiftUI
                 //
                 // No Title View
                 //
-                (item as! MenuView).makeView()
+                controller.makeView(item: item as! MenuView)
+                //(item as! MenuView).makeView()
                     .onAppear(perform: {
                         print("---- 2️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
                         controller.currentTab = item.key
@@ -154,7 +156,8 @@ import SwiftUI
                         controller.titleView
                     }
                     .background(controller.titleViewBackgroundColor)
-                    (item as! MenuView).makeView()
+                    controller.makeView(item: item as! MenuView)
+                    //(item as! MenuView).makeView()
                         .onAppear(perform: {
                             print("---- 3️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
                             controller.currentTab = item.key
@@ -175,7 +178,8 @@ import SwiftUI
                 HSplitView {
                     // Main View
                     if let i = item as? MenuView {
-                        i.makeView()
+                        controller.makeView(item: i)
+                        //i.makeView()
                             .onAppear(perform: {
                                 print("---- 2️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
                                 controller.currentTab = item.key
@@ -241,7 +245,8 @@ import SwiftUI
                         .background(controller.titleViewBackgroundColor)
                         HSplitView {
                             if let i = item as? MenuView {
-                                i.makeView()
+                                controller.makeView(item: i)
+                                //i.makeView()
                                     .onAppear(perform: {
                                         print("---- 3️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
                                         controller.currentTab = item.key
@@ -267,15 +272,13 @@ struct MainViewContainer: View {
 
     init() {
         let menuItems = [
-            MenuView(key: 0, title: "Home", systemIcon: "theatermasks.fill", view: AnyView(TestView(text: "Home").background(.yellow))),
+            MenuView(key: 0, title: "Home", systemIcon: "theatermasks.fill"),
             MenuAction(key: 100, title: "Print", systemIcon: "rectangle.portrait.and.arrow.right"),
-            MenuView(key: 1, title: "Simple Table", systemIcon: "safari.fill", view: AnyView(TestView(text: "Discover").background(.blue))),
-            MenuView(key: 2, title: "Devices", systemIcon: "applewatch", view: AnyView(TestView(text: "Devices").background(.gray))),
+            MenuView(key: 1, title: "Simple Table", systemIcon: "safari.fill"),
+            MenuView(key: 2, title: "Devices", systemIcon: "applewatch"),
             MenuSpacer(height: 50),
-            MenuView(key: 3, title: "Profile", systemIcon: "person.fill", view: AnyView(TestView(text: "Profile").background(.green))),
-            MenuView(key: 4, title: "Profile2",
-                     icon: "logo",
-                     view: AnyView(TestView(text: "Profile").background(.green))),
+            MenuView(key: 3, title: "Profile", systemIcon: "person.fill"),
+            MenuView(key: 4, title: "Profile2", icon: "logo"),
 
             MenuDivider(color: .red),
             MenuAction(key: 101, title: "Login", systemIcon: "rectangle.portrait.and.arrow.right"),
@@ -291,14 +294,35 @@ struct MainViewContainer: View {
                                                                    // sideTitleView: AnyView(SideTitleView()),
                                                                    backgroundColor: .blue,
                                                                    itemsColor: .red,
-                                                                   titleView : AnyView(TitleView()),
+                                                                   titleView: AnyView(TitleView()),
                                                                    titleViewBackgroundColor: .red,
-                                                                   //titleViewBackgroundColor: Color(.sRGB, red: 0.9254902601242065, green: 0.9254902601242065, blue: 0.9254902601242065, opacity: 1.0),
+                                                                   // titleViewBackgroundColor: Color(.sRGB, red: 0.9254902601242065, green: 0.9254902601242065, blue: 0.9254902601242065, opacity: 1.0),
                                                                    menuHandler: { _, item in
                                                                        print("Action \(item.title) [\(item.key)]")
+                                                                   },
+                                                                   viewProvider: { _, menuItem in
+
+                                                                       if menuItem.key == 0 {
+                                                                           return AnyView(TestView(text: "Home").background(.yellow))
+                                                                       }
+
+                                                                       if menuItem.key == 1 {
+                                                                           return AnyView(TestView(text: "Discover").background(.blue))
+                                                                       }
+
+                                                                       if menuItem.key == 2 {
+                                                                           return AnyView(TestView(text: "Devices").background(.gray))
+                                                                       }
+
+                                                                       if menuItem.key == 3 {
+                                                                           return AnyView(TestView(text: "Profile").background(.green))
+                                                                       }
+
+                                                                       if menuItem.key == 4 {
+                                                                           return AnyView(TestView(text: "Profile").background(.green))
+                                                                       }
+                                                                       return AnyView(EmptyView())
                                                                    }
-//        titleView: AnyView(TitleView()),
-//        titleViewBackgroundColor: .accentColor,
                 )
             )
         #endif
