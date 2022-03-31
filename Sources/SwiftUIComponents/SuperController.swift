@@ -17,7 +17,7 @@ public class SuperController: Identifiable, Codable {
     public let id: UUID
     var type: ControllerType
     
-    init(type: ControllerType) {
+    public init(type: ControllerType) {
         self.id = UUID()
         self.type = type
     }
