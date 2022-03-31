@@ -12,7 +12,6 @@ import SwiftUI
 public class MenuAction: MenuItem {
 
     public init(key: Key, title: String, systemIcon: String) {
-        //self.handler = handler
         super.init(type: .action)
         self.key = key
         self.title = title
