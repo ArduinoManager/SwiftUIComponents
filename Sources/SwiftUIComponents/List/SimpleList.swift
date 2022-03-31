@@ -194,7 +194,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
             }
             //
             content
-                .contentShape(Rectangle())
+                .contentShape(Rectangle()) // This makes all the row selectable!
                 .onTapGesture {
                     controller.select(item: item)
                 }

@@ -10,6 +10,7 @@ import Foundation
 public enum ControllerType: String, Codable {
     case menu
     case list
+    case view
 }
 
 public class SuperController: Identifiable, Codable {
