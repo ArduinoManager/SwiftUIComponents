@@ -10,7 +10,7 @@ import SwiftUI
 /// Item associated to a View shown when the item is clicked
 ///
 public class MenuView: MenuItem {
-    public var viewName: String? /// Reserved for the generarator
+    public var targetViewId: UUID? /// Reserved for the generarator
     
     public init(key: Key, title: String, systemIcon: String) {
         super.init(type: .item)
@@ -31,7 +31,12 @@ public class MenuView: MenuItem {
     }
 
     override public var debugDescription: String {
-        return "[\(key) View \(title) ViewName \(viewName ?? "?")]"
+        if let id = targetViewId {
+            return "[\(key) Menu: \(title) View ID: \(id)]"
+        }
+        else {
+            return "[\(key) Menu: \(title) View ID: -]"
+        }
     }
     
 //    @ViewBuilder
@@ -46,13 +51,13 @@ public class MenuView: MenuItem {
 
     public required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        viewName = try values.decode(String.self, forKey: .viewName)
+        targetViewId = try values.decode(UUID.self, forKey: .viewName)
         try super.init(from: decoder)
     }
    
     public override func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(viewName, forKey: .viewName)
+        try container.encode(targetViewId, forKey: .viewName)
         try super.encode(to: encoder)
     }
 }
