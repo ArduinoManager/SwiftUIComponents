@@ -16,7 +16,7 @@ import SwiftUI
             VStack(spacing: 0) {
                 if controller.openButtonAtTop {
                     HStack(spacing: 0) {
-                        if let titleView = controller.titleViewProvider?() {
+                        if let titleView = controller.titleViewProvider?(controller) {
                             titleView
                                 .overlay(alignment: .leading) {
                                     OpenButton()
@@ -52,7 +52,7 @@ import SwiftUI
                         OpenButton()
                         Spacer()
                         if controller.titleViewProvider != nil {
-                            controller.titleViewProvider?()
+                            controller.titleViewProvider?(controller)
                         }
                     }
                     .padding([.horizontal])
@@ -153,7 +153,7 @@ import SwiftUI
                 //
                 VStack(spacing: 0) {
                     HStack(spacing: 0) {
-                        controller.titleViewProvider!()
+                        controller.titleViewProvider!(controller)
                     }
                     .background(controller.titleViewBackgroundColor)
                     controller.makeView(item: item as! MenuView)
@@ -227,7 +227,7 @@ import SwiftUI
                     VStack(spacing: 0) {
                         HStack(spacing: 0) {
                             // controller.titleView
-                            controller.titleViewProvider?()
+                            controller.titleViewProvider?(controller)
                             Spacer()
                             Button {
                                 withAnimation {
@@ -296,7 +296,7 @@ struct MainViewContainer: View {
                                                                    backgroundColor: .blue,
                                                                    itemsColor: .red,
                                                                    // titleView: AnyView(TitleView()),
-                                                                   titleViewProvider: {
+                                                                   titleViewProvider: {controller in
                                                                        AnyView(TitleView())
                                                                    },
                                                                    titleViewBackgroundColor: .red,
@@ -368,7 +368,7 @@ struct MainViewContainer: View {
                                    sideTitleView: nil,
                                    backgroundColor: Color(nsColor: .windowBackgroundColor),
                                    itemsColor: .red,
-                                   titleViewProvider: {
+                                   titleViewProvider: {controller in 
                                        AnyView(TitleView())
                                    },
                                    // titleView: AnyView(TitleView()),

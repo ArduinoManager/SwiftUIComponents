@@ -21,7 +21,7 @@ public class MenuController: SuperController, ObservableObject {
     @Published public var openButtonIcon: String
     @Published public var openButtonSize: CGFloat
     //@Published public var titleView: AnyView?
-    public var titleViewProvider: (() -> AnyView)?
+    public var titleViewProvider: ((_ controller: MenuController) -> AnyView)?
     @Published public var titleViewBackgroundColor: Color
     @Published public var menuItems: [MenuItem]
     public var menuHandler: ((_ controller: MenuController, _ item: MenuAction) -> Void)?
@@ -41,7 +41,7 @@ public class MenuController: SuperController, ObservableObject {
                     backgroundColor: Color = Color(uiColor: .systemBackground),
                     itemsColor: Color = Color(uiColor: .label),
                     selectedItemBackgroundColor: Color = Color(uiColor: .systemGray4),
-                    titleViewProvider: (() -> AnyView)?,
+                    titleViewProvider: ((_ controller: MenuController) -> AnyView)?,
                     //titleView: AnyView? = nil,
                     titleViewBackgroundColor: Color = Color(uiColor: .systemBackground),
                     menuHandler: @escaping (_ controller: MenuController, _ item: MenuAction) -> Void,
@@ -92,7 +92,7 @@ public class MenuController: SuperController, ObservableObject {
                     backgroundColor: Color = Color(NSColor.windowBackgroundColor),
                     itemsColor: Color = Color(NSColor.labelColor),
                     //titleView: AnyView? = nil,
-                    titleViewProvider: (() -> AnyView)?,
+                    titleViewProvider: ((_ controller: MenuController) -> AnyView)?,
                     titleViewBackgroundColor: Color = Color(NSColor.windowBackgroundColor),
                     inspector: AnyView? = nil,
                     menuHandler: @escaping (_ controller: MenuController, _ item: MenuAction) -> Void,
