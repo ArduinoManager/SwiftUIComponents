@@ -25,7 +25,7 @@ public class MenuController: SuperController, ObservableObject {
     @Published public var menuItems: [MenuItem]
     public var menuHandler: ((_ controller: MenuController, _ item: MenuAction) -> Void)?
     public var viewProvider: ((_ controller: MenuController, _ item: MenuView) -> AnyView)?
-    public var inspectorViewProvider: ((_ controller: MenuController) -> AnyView)?
+    public var inspectorViewProvider: ((_ controller: MenuController) -> AnyView?)?
     var boostrap: String? = "A"
 
     #if os(iOS)
@@ -90,7 +90,7 @@ public class MenuController: SuperController, ObservableObject {
                     itemsColor: Color = Color(NSColor.labelColor),
                     titleViewProvider: ((_ controller: MenuController) -> AnyView)?,
                     titleViewBackgroundColor: Color = Color(NSColor.windowBackgroundColor),
-                    inspectorViewProvider: ((_ controller: MenuController) -> AnyView)? = nil,
+                    inspectorViewProvider: ((_ controller: MenuController) -> AnyView?)? = nil,
                     menuHandler: @escaping (_ controller: MenuController, _ item: MenuAction) -> Void,
                     viewProvider: ((_ controller: MenuController, _ item: MenuView) -> AnyView)?) {
             
