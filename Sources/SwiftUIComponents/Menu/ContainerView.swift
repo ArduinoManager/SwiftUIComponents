@@ -330,51 +330,84 @@ struct MainViewContainer: View {
 
             // No Title View - No Inspector
 
-                    let x = MenuController(menuItems: menuItems,
-                                           sideTitleViewProvider: nil,
-                                           backgroundColor: Color(nsColor: .windowBackgroundColor),
-                                           itemsColor: .red,
-                                           titleViewProvider: nil,
-                                           titleViewBackgroundColor: .cyan,
-                                           inspectorViewProvider: { _ in
-                                               nil
-                                           },
-                                           menuHandler: { _, _ in
-        
-                                           },
-                                           viewProvider: { _, menuItem in
-        
-                                               if menuItem.key == 0 {
-                                                   return AnyView(TestView(text: "Home").background(.yellow))
-                                               }
-        
-                                               if menuItem.key == 1 {
-                                                   return AnyView(TestView(text: "Discover").background(.blue))
-                                               }
-        
-                                               if menuItem.key == 2 {
-                                                   return AnyView(TestView(text: "Devices").background(.gray))
-                                               }
-        
-                                               if menuItem.key == 3 {
-                                                   return AnyView(TestView(text: "Profile").background(.green))
-                                               }
-        
-                                               if menuItem.key == 4 {
-                                                   return AnyView(TestView(text: "Profile").background(.green))
-                                               }
-                                               return AnyView(EmptyView())
-                                           }
-                    )
+//                    let x = MenuController(menuItems: menuItems,
+//                                           sideTitleViewProvider: nil,
+//                                           backgroundColor: Color(nsColor: .windowBackgroundColor),
+//                                           itemsColor: .red,
+//                                           titleViewProvider: nil,
+//                                           titleViewBackgroundColor: .cyan,
+//                                           inspectorViewProvider: { _ in
+//                                               nil
+//                                           },
+//                                           menuHandler: { _, _ in
+//
+//                                           },
+//                                           viewProvider: { _, menuItem in
+//
+//                                               if menuItem.key == 0 {
+//                                                   return AnyView(TestView(text: "Home").background(.yellow))
+//                                               }
+//
+//                                               if menuItem.key == 1 {
+//                                                   return AnyView(TestView(text: "Discover").background(.blue))
+//                                               }
+//
+//                                               if menuItem.key == 2 {
+//                                                   return AnyView(TestView(text: "Devices").background(.gray))
+//                                               }
+//
+//                                               if menuItem.key == 3 {
+//                                                   return AnyView(TestView(text: "Profile").background(.green))
+//                                               }
+//
+//                                               if menuItem.key == 4 {
+//                                                   return AnyView(TestView(text: "Profile").background(.green))
+//                                               }
+//                                               return AnyView(EmptyView())
+//                                           }
+//                    )
+
             // Title View - No Inspector
 
-//            let x = MenuController(menuItems: menuItems,
-//                                   sideTitleView: nil,
-//                                   backgroundColor: Color(nsColor: .windowBackgroundColor),
-//                                   itemsColor: .red,
-//                                   titleView: AnyView(TitleView()),
-//                                   titleViewBackgroundColor: Color(nsColor: .labelColor),
-//                                   inspector: nil)
+            let x = MenuController(menuItems: menuItems,
+                                   sideTitleViewProvider: { _ in
+                                       AnyView(TitleView())
+                                   },
+                                   backgroundColor: Color(nsColor: .windowBackgroundColor),
+                                   itemsColor: .red,
+                                   titleViewProvider: { _ in
+                                       AnyView(TitleView())
+                                   },
+                                   titleViewBackgroundColor: .cyan,
+                                   inspectorViewProvider: { _ in
+                                       nil
+                                   },
+                                   menuHandler: { _, _ in
+                                   },
+                                   viewProvider: { _, menuItem in
+
+                                       if menuItem.key == 0 {
+                                           return AnyView(TestView(text: "Home").background(.yellow))
+                                       }
+
+                                       if menuItem.key == 1 {
+                                           return AnyView(TestView(text: "Discover").background(.blue))
+                                       }
+
+                                       if menuItem.key == 2 {
+                                           return AnyView(TestView(text: "Devices").background(.gray))
+                                       }
+
+                                       if menuItem.key == 3 {
+                                           return AnyView(TestView(text: "Profile").background(.green))
+                                       }
+
+                                       if menuItem.key == 4 {
+                                           return AnyView(TestView(text: "Profile").background(.green))
+                                       }
+                                       return AnyView(EmptyView())
+                                   }
+            )
 
             // No Title View - Inspector
 
