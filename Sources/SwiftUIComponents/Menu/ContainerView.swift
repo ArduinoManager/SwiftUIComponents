@@ -117,7 +117,7 @@ import SwiftUI
         @State private var showInspector = false
 
         public var body: some View {
-            if controller.inspector == nil {
+            if controller.inspectorViewProvider == nil {
                 //
                 // No Inspector
                 //
@@ -190,11 +190,11 @@ import SwiftUI
 
                     // Inspector
                     if showInspector {
-                        controller.inspector!
+                        controller.inspectorViewProvider!(controller)
                             .frame(idealWidth: 500)
                     }
                 }
-                .if(controller.inspector != nil && controller.titleViewProvider == nil) { view in
+                .if(controller.inspectorViewProvider != nil && controller.titleViewProvider == nil) { view in
                     view
                         .overlay(
                             VStack(spacing: 0) {
@@ -256,7 +256,7 @@ import SwiftUI
                             }
 
                             if showInspector {
-                                controller.inspector!
+                                controller.inspectorViewProvider!(controller)
                                     .frame(idealWidth: 500)
                             }
                         }
@@ -375,7 +375,9 @@ struct MainViewContainer: View {
                                    },
                                    // titleView: AnyView(TitleView()),
                                    titleViewBackgroundColor: .cyan,
-                                   inspector: AnyView(Inspector()),
+                                   inspectorViewProvider: { _ in
+                                       AnyView(Inspector())
+                                   },
                                    menuHandler: { _, _ in
 
                                    },
