@@ -11,7 +11,7 @@ import SwiftUI
 public class MenuController: SuperController, ObservableObject {
     @Published public var currentTab: Key
     @Published var showMenu: Bool
-    @Published public var sideTitleView: AnyView?
+    public var sideTitleViewProvider: ((_ controller: MenuController) -> AnyView)?
     @Published public var itemsColor: Color
     @Published public var selectedItemBackgroundColor: Color
     @Published public var backgroundColor: Color
@@ -20,7 +20,6 @@ public class MenuController: SuperController, ObservableObject {
     @Published public var openButtonColor: Color
     @Published public var openButtonIcon: String
     @Published public var openButtonSize: CGFloat
-    //@Published public var titleView: AnyView?
     public var titleViewProvider: ((_ controller: MenuController) -> AnyView)?
     @Published public var titleViewBackgroundColor: Color
     @Published public var menuItems: [MenuItem]
@@ -37,7 +36,7 @@ public class MenuController: SuperController, ObservableObject {
                     openButtonColor: Color = Color(uiColor: .label),
                     openButtonIcon: String = "line.3.horizontal",
                     openButtonSize: CGFloat = 20.0,
-                    sideTitleView: AnyView? = nil,
+                    sideTitleViewProvider: ((_ controller: MenuController) -> AnyView)? = nil,
                     backgroundColor: Color = Color(uiColor: .systemBackground),
                     itemsColor: Color = Color(uiColor: .label),
                     selectedItemBackgroundColor: Color = Color(uiColor: .systemGray4),
@@ -53,7 +52,7 @@ public class MenuController: SuperController, ObservableObject {
             self.openButtonColor = openButtonColor
             self.openButtonIcon = openButtonIcon
             self.openButtonSize = openButtonSize
-            self.sideTitleView = sideTitleView
+            self.sideTitleViewProvider = sideTitleViewProvider
             self.backgroundColor = backgroundColor
             self.itemsColor = itemsColor
             self.selectedItemBackgroundColor = selectedItemBackgroundColor
@@ -88,7 +87,7 @@ public class MenuController: SuperController, ObservableObject {
         ///   - inspector: right side inspector
         ///
         public init(menuItems: [MenuItem],
-                    sideTitleView: AnyView? = nil,
+                    sideTitleViewProvider: ((_ controller: MenuController) -> AnyView)? = nil,
                     backgroundColor: Color = Color(NSColor.windowBackgroundColor),
                     itemsColor: Color = Color(NSColor.labelColor),
                     //titleView: AnyView? = nil,
@@ -106,11 +105,10 @@ public class MenuController: SuperController, ObservableObject {
             openButtonColor = Color(NSColor.labelColor)
             openButtonIcon = "line.3.horizontal"
             openButtonSize = 20.0
-            self.sideTitleView = sideTitleView
+            self.sideTitleViewProvider = sideTitleViewProvider
             self.backgroundColor = backgroundColor
             self.itemsColor = itemsColor
             self.selectedItemBackgroundColor = Color(NSColor.systemGray)
-            //self.titleView = titleView
             self.titleViewProvider = titleViewProvider
             self.titleViewBackgroundColor = titleViewBackgroundColor
             self.inspector = inspector
@@ -215,8 +213,6 @@ public class MenuController: SuperController, ObservableObject {
         titleViewBackgroundColor = try values.decode(Color.self, forKey: .titleViewBackgroundColor)
 
         showMenu = false
-        sideTitleView = nil
-//        titleView = nil
         inspector = nil
         currentTab = menuItems[0].key
         super.init(type: .menu)

@@ -38,11 +38,6 @@ public class MenuView: MenuItem {
             return "[\(key) Menu: \(title) View ID: -]"
         }
     }
-    
-//    @ViewBuilder
-//    func makeView() -> some View {
-//        view
-//    }
 
     enum CodingKeys: CodingKey {
         case viewName

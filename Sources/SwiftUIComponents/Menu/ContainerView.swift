@@ -296,7 +296,7 @@ struct MainViewContainer: View {
                                                                    backgroundColor: .blue,
                                                                    itemsColor: .red,
                                                                    // titleView: AnyView(TitleView()),
-                                                                   titleViewProvider: {controller in
+                                                                   titleViewProvider: { _ in
                                                                        AnyView(TitleView())
                                                                    },
                                                                    titleViewBackgroundColor: .red,
@@ -365,10 +365,12 @@ struct MainViewContainer: View {
             // Title View - Inspector
 
             let x = MenuController(menuItems: menuItems,
-                                   sideTitleView: nil,
+                                   sideTitleViewProvider: { _ in
+                                       AnyView(TitleView())
+                                   },
                                    backgroundColor: Color(nsColor: .windowBackgroundColor),
                                    itemsColor: .red,
-                                   titleViewProvider: {controller in 
+                                   titleViewProvider: { _ in
                                        AnyView(TitleView())
                                    },
                                    // titleView: AnyView(TitleView()),

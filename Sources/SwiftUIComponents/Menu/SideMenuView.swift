@@ -15,9 +15,9 @@ import SwiftUI
 
         public var body: some View {
             VStack {
-                if controller.sideTitleView != nil {
+                if controller.sideTitleViewProvider != nil {
                     HStack {
-                        controller.sideTitleView
+                        controller.sideTitleViewProvider!(controller)
                             .frame(maxWidth: getRect().width / 2, alignment: .leading)
                         Spacer()
                     }
@@ -200,9 +200,9 @@ import SwiftUI
                         .hidden()
                 }
 
-                if controller.sideTitleView != nil {
+                if controller.sideTitleViewProvider != nil {
                     HStack {
-                        controller.sideTitleView!
+                        controller.sideTitleViewProvider!(controller)
                     }
                 } else {
                     HStack(spacing: 0) {
