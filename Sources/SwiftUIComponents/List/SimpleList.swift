@@ -206,7 +206,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                     Image(systemName: "minus")
                         .scaledToFit()
                         .frame(width: iconSize + 1, height: iconSize + 1)
-                        .border(Color.accentColor, width: 1)
+                        .border(.red, width: 1)
                 }
                 .frame(width: iconSize, height: iconSize)
                 .border(.red, width: 1)
