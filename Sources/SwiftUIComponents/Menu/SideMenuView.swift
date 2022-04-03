@@ -56,7 +56,7 @@ import SwiftUI
                 }
                 .padding()
                 .padding(.top, 10)
-                .frame(width: getRect().width / 2, alignment: .leading)
+                .frame(width: getRect().width / 3, alignment: .leading)
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
             .padding(.leading, 10)
