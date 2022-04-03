@@ -11,6 +11,7 @@ import SwiftUI
     public struct SideMenuView: View {
         @ObservedObject var controller: MenuController
         @Namespace var animation
+        // TODO: Move in the controller for configuration?
         let buttonHeight: CGFloat = 36.0
         let rightShiftWhenSelected: CGFloat = 5.0
 
