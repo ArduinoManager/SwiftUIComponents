@@ -297,7 +297,7 @@ struct MainViewContainer: View {
                                                                    },
                                                                    titleViewBackgroundColor: .red,
                                                                    // titleViewBackgroundColor: Color(.sRGB, red: 0.9254902601242065, green: 0.9254902601242065, blue: 0.9254902601242065, opacity: 1.0),
-                                                                   menuHandler: { _, item in
+                                                                   actionsHandler: { _, item in
                                                                        print("Action \(item.title) [\(item.key)]")
                                                                    },
                                                                    viewProvider: { _, menuItem in
@@ -339,7 +339,7 @@ struct MainViewContainer: View {
 //                                           inspectorViewProvider: { _ in
 //                                               nil
 //                                           },
-//                                           menuHandler: { _, _ in
+//                                           actionsHandler: { _, _ in
 //
 //                                           },
 //                                           viewProvider: { _, menuItem in
@@ -382,7 +382,7 @@ struct MainViewContainer: View {
                                    inspectorViewProvider: { _ in
                                        nil
                                    },
-                                   menuHandler: { _, _ in
+                                   actionsHandler: { _, _ in
                                    },
                                    viewProvider: { _, menuItem in
 
@@ -435,7 +435,7 @@ struct MainViewContainer: View {
 //                                   inspectorViewProvider: { _ in
 //                                       AnyView(Inspector())
 //                                   },
-//                                   menuHandler: { _, _ in
+//                                   actionsHandler: { _, _ in
 //
 //                                   },
 //                                   viewProvider: { _, menuItem in

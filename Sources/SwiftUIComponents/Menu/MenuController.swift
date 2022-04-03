@@ -23,7 +23,7 @@ public class MenuController: SuperController, ObservableObject {
     public var titleViewProvider: ((_ controller: MenuController) -> AnyView)?
     @Published public var titleViewBackgroundColor: Color
     @Published public var menuItems: [MenuItem]
-    public var menuHandler: ((_ controller: MenuController, _ item: MenuAction) -> Void)?
+    public var actionsHandler: ((_ controller: MenuController, _ item: MenuAction) -> Void)?
     public var viewProvider: ((_ controller: MenuController, _ item: MenuView) -> AnyView)?
     public var inspectorViewProvider: ((_ controller: MenuController) -> AnyView?)?
     var boostrap: String? = "A"
@@ -42,7 +42,7 @@ public class MenuController: SuperController, ObservableObject {
                     selectedItemBackgroundColor: Color = Color(uiColor: .systemGray4),
                     titleViewProvider: ((_ controller: MenuController) -> AnyView)?,
                     titleViewBackgroundColor: Color = Color(uiColor: .systemBackground),
-                    menuHandler: @escaping (_ controller: MenuController, _ item: MenuAction) -> Void,
+                    actionsHandler: @escaping (_ controller: MenuController, _ item: MenuAction) -> Void,
                     viewProvider: ((_ controller: MenuController, _ item: MenuView) -> AnyView)?) {
             showMenu = false
             self.menuItems = menuItems
@@ -57,7 +57,7 @@ public class MenuController: SuperController, ObservableObject {
             self.selectedItemBackgroundColor = selectedItemBackgroundColor
             self.titleViewProvider = titleViewProvider
             self.titleViewBackgroundColor = titleViewBackgroundColor
-            self.menuHandler = menuHandler
+            self.actionsHandler = actionsHandler
             self.viewProvider = viewProvider
             currentTab = menuItems[0].key
 
@@ -91,7 +91,7 @@ public class MenuController: SuperController, ObservableObject {
                     titleViewProvider: ((_ controller: MenuController) -> AnyView)?,
                     titleViewBackgroundColor: Color = Color(NSColor.windowBackgroundColor),
                     inspectorViewProvider: ((_ controller: MenuController) -> AnyView?)? = nil,
-                    menuHandler: @escaping (_ controller: MenuController, _ item: MenuAction) -> Void,
+                    actionsHandler: @escaping (_ controller: MenuController, _ item: MenuAction) -> Void,
                     viewProvider: ((_ controller: MenuController, _ item: MenuView) -> AnyView)?) {
             
             showMenu = false
@@ -108,7 +108,7 @@ public class MenuController: SuperController, ObservableObject {
             self.titleViewProvider = titleViewProvider
             self.titleViewBackgroundColor = titleViewBackgroundColor
             self.inspectorViewProvider = inspectorViewProvider
-            self.menuHandler = menuHandler
+            self.actionsHandler = actionsHandler
             self.viewProvider = viewProvider
             currentTab = menuItems[0].key
 
