@@ -158,7 +158,7 @@ import SwiftUI
                 )
             }
             #if os(iOS)
-                .offset(x: controller.currentTab == item.key ? 15 : 0)
+                .offset(x: controller.currentTab == item.key ? 10 : 0)
             #endif
             #if os(macOS)
                 .buttonStyle(PlainButtonStyle())
