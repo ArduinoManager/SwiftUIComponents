@@ -176,10 +176,10 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                         controller.actionHandler?(action.key)
                     } label: {
                         makeImage(action: action, iconSize: iconSize)
+                            .border(action.color, width: 1)
                     }
                     .frame(width: iconSize, height: iconSize)
-                    .border(action.color, width: 1)
-                    .padding(.top, 2)
+                    .padding(.top,2)
                     .padding(.bottom, controller.showLineSeparator ? 2 : 0)
                     .padding(.leading, idx == 0 ? 2 : 0)
                     #if os(iOS)
@@ -204,10 +204,9 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                     controller.delete(item: item)
                 } label: {
                     Image(systemName: "minus")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: iconSize, height: iconSize)
-                        .padding(2)
+                        .scaledToFit()
+                        .frame(width: iconSize + 1, height: iconSize + 1)
+                        .border(Color.accentColor, width: 1)
                 }
                 .frame(width: iconSize, height: iconSize)
                 .border(.red, width: 1)
@@ -228,13 +227,11 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                     sheetManager.showSheet.toggle()
                 } label: {
                     Image(systemName: "pencil")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: iconSize, height: iconSize)
-                        .padding(2)
+                        .scaledToFit()
+                        .frame(width: iconSize + 1, height: iconSize + 1)
+                        .border(Color.accentColor, width: 1)
                 }
                 .frame(width: iconSize, height: iconSize)
-                .border(Color.accentColor, width: 1)
                 .padding(.top, 2)
                 .padding(.bottom, controller.showLineSeparator ? 2 : 0)
                 .padding(.trailing, controller.trailingActions.count == 0 ? 2 : 0)
@@ -253,6 +250,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                         controller.actionHandler?(action.key)
                     } label: {
                         makeImage(action: action, iconSize: iconSize)
+                            .border(Color.accentColor, width: 1)
                     }
                     .frame(width: iconSize, height: iconSize)
                     .border(action.color, width: 1)
@@ -333,12 +331,12 @@ struct SimpleListContainer: View {
 //                                                                 })
 
         let leadingActions = [
-            ListAction(key: "L1", label: "Action 1", systemIcon: "plus", color: .blue),
+            ListAction(key: "L1", label: "Action 1", systemIcon: "pencil", color: .blue),
             ListAction(key: "L2", label: "Action 2", systemIcon: "plus", color: .orange),
         ]
 
         let trailingActions = [
-            ListAction(key: "T1", label: "Action 1", systemIcon: "plus", color: .mint),
+            ListAction(key: "T1", label: "Action 1", systemIcon: "pencil", color: .mint),
             ListAction(key: "T2", label: "Action 2", icon: "logo", color: .red),
         ]
 
