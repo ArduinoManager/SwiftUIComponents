@@ -22,13 +22,13 @@ import SwiftUI
                         Spacer()
                     }
                 } else {
-                    Spacer(minLength: 20)
+                    Spacer(minLength: 15)
                         .background(controller.titleViewBackgroundColor)
                 }
 
                 ScrollView(.vertical, showsIndicators: false) {
                     // Tab Buttons
-                    VStack(alignment: .leading, spacing: 25) {
+                    VStack(alignment: .leading, spacing: 15) {
                         ForEach(controller.menuItems, id: \.self) { item in
 
                             switch item {
@@ -56,7 +56,7 @@ import SwiftUI
                 }
                 .padding()
                 .padding(.top, 10)
-                .frame(width: getRect().width / 3, alignment: .leading)
+                .frame(width: getRect().width, alignment: .leading)
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
             .padding(.leading, 10)
@@ -294,8 +294,79 @@ import SwiftUI
     }
 #endif
 
-struct SideMenu_Previews: PreviewProvider {
+//struct SideMenu_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MainViewContainer()
+//    }
+//}
+
+
+struct SideMenuContainer: View {
+    
+    @State var controller = MenuController(menuItems:
+                                            [
+                                                MenuView(key: 0, title: "Home xxxxxx", systemIcon: "theatermasks.fill"),
+                                                MenuAction(key: 100, title: "Print", systemIcon: "rectangle.portrait.and.arrow.right"),
+                                                MenuView(key: 1, title: "Simple Table", systemIcon: "safari.fill"),
+                                                MenuView(key: 2, title: "Devices", systemIcon: "applewatch"),
+                                                MenuSpacer(height: 50),
+                                                MenuView(key: 3, title: "Profile", systemIcon: "person.fill"),
+                                                MenuView(key: 4, title: "Profile2", icon: "logo"),
+
+                                                MenuDivider(color: .red),
+                                                MenuAction(key: 101, title: "Login", systemIcon: "rectangle.portrait.and.arrow.right"),
+
+                                                MenuAction(key: 102, title: "Logout", systemIcon: "pippo"),
+
+                                                MenuDivider(color: .red),
+                                                MenuAction(key: 103, title: "Kill!", icon: "logo"),
+                                            ]
+                                            ,
+                                                           // sideTitleView: AnyView(SideTitleView()),
+                                                           backgroundColor: .blue,
+                                                           itemsColor: .red,
+                                                           // titleView: AnyView(TitleView()),
+                                                           titleViewProvider: { _ in
+                                                               AnyView(TitleView())
+                                                           },
+                                                           titleViewBackgroundColor: .red,
+                                                           // titleViewBackgroundColor: Color(.sRGB, red: 0.9254902601242065, green: 0.9254902601242065, blue: 0.9254902601242065, opacity: 1.0),
+                                                           actionsHandler: { _, item in
+                                                               print("Action \(item.title) [\(item.key)]")
+                                                           },
+                                                           viewProvider: { _, menuItem in
+
+                                                               if menuItem.key == 0 {
+                                                                   return AnyView(TestView(text: "Home").background(.yellow))
+                                                               }
+
+                                                               if menuItem.key == 1 {
+                                                                   return AnyView(TestView(text: "Discover").background(.blue))
+                                                               }
+
+                                                               if menuItem.key == 2 {
+                                                                   return AnyView(TestView(text: "Devices").background(.gray))
+                                                               }
+
+                                                               if menuItem.key == 3 {
+                                                                   return AnyView(TestView(text: "Profile").background(.green))
+                                                               }
+
+                                                               if menuItem.key == 4 {
+                                                                   return AnyView(TestView(text: "Profile").background(.green))
+                                                               }
+                                                               return AnyView(EmptyView())
+                                                           }
+    )
+    
+
+    var body: some View {
+        SideMenuView(controller: controller)
+    }
+}
+
+struct SideMenuView_Previews: PreviewProvider {
     static var previews: some View {
-        MainViewContainer()
+        SideMenuContainer()
     }
 }
