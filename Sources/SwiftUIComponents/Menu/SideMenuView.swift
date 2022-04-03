@@ -11,7 +11,8 @@ import SwiftUI
     public struct SideMenuView: View {
         @ObservedObject var controller: MenuController
         @Namespace var animation
-        let buttonHeight: CGFloat = 48.0
+        let buttonHeight: CGFloat = 36.0
+        let rightShiftWhenSelected: CGFloat = 5.0
 
         public var body: some View {
             VStack {
@@ -109,10 +110,7 @@ import SwiftUI
                 )
             }
             #if os(iOS)
-                .offset(x: controller.currentTab == item.key ? 15 : 0)
-            #endif
-            #if os(macOS)
-                .buttonStyle(PlainButtonStyle())
+                .offset(x: controller.currentTab == item.key ? rightShiftWhenSelected : 0)
             #endif
         }
 
@@ -157,12 +155,6 @@ import SwiftUI
                     }
                 )
             }
-            #if os(iOS)
-                .offset(x: controller.currentTab == item.key ? 10 : 0)
-            #endif
-            #if os(macOS)
-                .buttonStyle(PlainButtonStyle())
-            #endif
         }
 
         @ViewBuilder
@@ -294,71 +286,68 @@ import SwiftUI
     }
 #endif
 
-//struct SideMenu_Previews: PreviewProvider {
+// struct SideMenu_Previews: PreviewProvider {
 //    static var previews: some View {
 //        MainViewContainer()
 //    }
-//}
-
+// }
 
 struct SideMenuContainer: View {
-    
     @State var controller = MenuController(menuItems:
-                                            [
-                                                MenuView(key: 0, title: "Home xxxxxx", systemIcon: "theatermasks.fill"),
-                                                MenuAction(key: 100, title: "Print", systemIcon: "rectangle.portrait.and.arrow.right"),
-                                                MenuView(key: 1, title: "Simple Table", systemIcon: "safari.fill"),
-                                                MenuView(key: 2, title: "Devices", systemIcon: "applewatch"),
-                                                MenuSpacer(height: 50),
-                                                MenuView(key: 3, title: "Profile", systemIcon: "person.fill"),
-                                                MenuView(key: 4, title: "Profile2", icon: "logo"),
+        [
+            MenuView(key: 0, title: "Home xxxxxx", systemIcon: "theatermasks.fill"),
+            MenuAction(key: 100, title: "Print", systemIcon: "rectangle.portrait.and.arrow.right"),
+            MenuView(key: 1, title: "Simple Table", systemIcon: "safari.fill"),
+            MenuView(key: 2, title: "Devices", systemIcon: "applewatch"),
+            MenuSpacer(height: 50),
+            MenuView(key: 3, title: "Profile", systemIcon: "person.fill"),
+            MenuView(key: 4, title: "Profile2", icon: "logo"),
 
-                                                MenuDivider(color: .red),
-                                                MenuAction(key: 101, title: "Login", systemIcon: "rectangle.portrait.and.arrow.right"),
+            MenuDivider(color: .red),
+            MenuAction(key: 101, title: "Login", systemIcon: "rectangle.portrait.and.arrow.right"),
 
-                                                MenuAction(key: 102, title: "Logout", systemIcon: "pippo"),
+            MenuAction(key: 102, title: "Logout", systemIcon: "pippo"),
 
-                                                MenuDivider(color: .red),
-                                                MenuAction(key: 103, title: "Kill!", icon: "logo"),
-                                            ]
-                                            ,
-                                                           // sideTitleView: AnyView(SideTitleView()),
-                                                           backgroundColor: .blue,
-                                                           itemsColor: .red,
-                                                           // titleView: AnyView(TitleView()),
-                                                           titleViewProvider: { _ in
-                                                               AnyView(TitleView())
-                                                           },
-                                                           titleViewBackgroundColor: .red,
-                                                           // titleViewBackgroundColor: Color(.sRGB, red: 0.9254902601242065, green: 0.9254902601242065, blue: 0.9254902601242065, opacity: 1.0),
-                                                           actionsHandler: { _, item in
-                                                               print("Action \(item.title) [\(item.key)]")
-                                                           },
-                                                           viewProvider: { _, menuItem in
+            MenuDivider(color: .red),
+            MenuAction(key: 103, title: "Kill!", icon: "logo"),
+        ]
+        ,
+        // sideTitleView: AnyView(SideTitleView()),
+        backgroundColor: .blue,
+        itemsColor: .red,
+        // titleView: AnyView(TitleView()),
+        titleViewProvider: { _ in
+            AnyView(TitleView())
+        },
+        titleViewBackgroundColor: .red,
+        // titleViewBackgroundColor: Color(.sRGB, red: 0.9254902601242065, green: 0.9254902601242065, blue: 0.9254902601242065, opacity: 1.0),
+        actionsHandler: { _, item in
+            print("Action \(item.title) [\(item.key)]")
+        },
+        viewProvider: { _, menuItem in
 
-                                                               if menuItem.key == 0 {
-                                                                   return AnyView(TestView(text: "Home").background(.yellow))
-                                                               }
+            if menuItem.key == 0 {
+                return AnyView(TestView(text: "Home").background(.yellow))
+            }
 
-                                                               if menuItem.key == 1 {
-                                                                   return AnyView(TestView(text: "Discover").background(.blue))
-                                                               }
+            if menuItem.key == 1 {
+                return AnyView(TestView(text: "Discover").background(.blue))
+            }
 
-                                                               if menuItem.key == 2 {
-                                                                   return AnyView(TestView(text: "Devices").background(.gray))
-                                                               }
+            if menuItem.key == 2 {
+                return AnyView(TestView(text: "Devices").background(.gray))
+            }
 
-                                                               if menuItem.key == 3 {
-                                                                   return AnyView(TestView(text: "Profile").background(.green))
-                                                               }
+            if menuItem.key == 3 {
+                return AnyView(TestView(text: "Profile").background(.green))
+            }
 
-                                                               if menuItem.key == 4 {
-                                                                   return AnyView(TestView(text: "Profile").background(.green))
-                                                               }
-                                                               return AnyView(EmptyView())
-                                                           }
+            if menuItem.key == 4 {
+                return AnyView(TestView(text: "Profile").background(.green))
+            }
+            return AnyView(EmptyView())
+        }
     )
-    
 
     var body: some View {
         SideMenuView(controller: controller)
