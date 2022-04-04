@@ -40,19 +40,19 @@ public class MenuView: MenuItem {
     }
 
     enum CodingKeys: CodingKey {
-        case viewName
+        case targetViewId
     }
     // MARK: - Encodable & Decodable
 
     public required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        targetViewId = try values.decode(UUID.self, forKey: .viewName)
+        targetViewId = try? values.decode(UUID.self, forKey: .targetViewId)
         try super.init(from: decoder)
     }
    
     public override func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(targetViewId, forKey: .viewName)
+        try container.encode(targetViewId, forKey: .targetViewId)
         try super.encode(to: encoder)
     }
 }
