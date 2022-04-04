@@ -1,6 +1,6 @@
 //
 //  MenuAction.swift
-//  
+//
 //
 //  Created by Fabrizio Boco on 3/26/22.
 //
@@ -10,7 +10,6 @@ import SwiftUI
 /// Menu Item associated to an action activated when the item is clicked
 ///
 public class MenuAction: MenuItem {
-
     public init(key: Key, title: String, systemIcon: String) {
         super.init(type: .action)
         self.key = key
@@ -21,29 +20,28 @@ public class MenuAction: MenuItem {
     public init(key: Key, title: String, icon: String) {
         super.init(type: .action)
         self.title = title
-        self.systemIcon = nil
+        systemIcon = nil
         self.icon = icon
     }
-    
+
     override public var debugDescription: String {
         if useSystemIcon {
-            return "[\(key) Action: \(title) System Icon \(systemIcon!)]"
-        }
-        else {
-            return "[\(key) Action: \(title) Icon \(icon!)]"
+            return "[\(key) Action: \(title) System Icon \(systemIcon ?? "")]"
+        } else {
+            return "[\(key) Action: \(title) Icon \(icon ?? "")]"
         }
     }
-    
+
     // MARK: - Encodable & Decodable
-    
+
     enum CodingKeys: CodingKey {
         case handler
     }
-    
+
     public required init(from decoder: Decoder) throws {
         try super.init(from: decoder)
     }
-    
+
     override public func encode(to encoder: Encoder) throws {
         try super.encode(to: encoder)
     }
