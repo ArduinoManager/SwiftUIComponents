@@ -32,10 +32,20 @@ public class MenuView: MenuItem {
 
     override public var debugDescription: String {
         if let id = targetViewId {
-            return "[\(key) Menu: \(title) View ID: \(id)]"
+            if useSystemIcon {
+                return "[\(key) Menu: \(title) View ID: \(id) System Icon \(systemIcon!)]"
+            }
+            else {
+                return "[\(key) Menu: \(title) View ID: \(id) Icon \(icon!)]"
+            }
         }
         else {
-            return "[\(key) Menu: \(title) View ID: -]"
+            if useSystemIcon {
+                return "[\(key) Menu: \(title) View ID: - System Icon \(systemIcon!)]"
+            }
+            else {
+                return "[\(key) Menu: \(title) View ID: - Icon \(icon!)]"
+            }
         }
     }
 
