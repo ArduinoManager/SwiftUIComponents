@@ -26,7 +26,12 @@ public class MenuAction: MenuItem {
     }
     
     override public var debugDescription: String {
-        return "[\(key) Action \(title)]"
+        if useSystemIcon {
+            return "[\(key) Action: \(title) System Icon \(systemIcon!)]"
+        }
+        else {
+            return "[\(key) Action: \(title) Icon \(icon!)]"
+        }
     }
     
     // MARK: - Encodable & Decodable
