@@ -11,80 +11,88 @@ public struct TabBar: View {
     @StateObject var controller: TabBarController
     @State var selectedTab: TabItem
 
-#if os(iOS)
-    public init(controller: TabBarController) {
-        _controller = StateObject(wrappedValue: controller)
-        _selectedTab = State(initialValue: controller.tabs[0])
-        UITabBar.appearance().backgroundColor = UIColor(controller.backgroundColor)
-    }
+    #if os(iOS)
+        public init(controller: TabBarController) {
+            _controller = StateObject(wrappedValue: controller)
+            _selectedTab = State(initialValue: controller.tabs[0])
+            UITabBar.appearance().backgroundColor = UIColor(controller.backgroundColor)
+        }
 
-    public var body: some View {
-        VStack(spacing: 0) {
-            ForEach(controller.tabs, id: \.self) { tab in
+        public var body: some View {
+            VStack(spacing: 0) {
+                ForEach(controller.tabs, id: \.self) { tab in
 
-                if tab == selectedTab {
-                    tab.makeTab()
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                }
-            }
-            HStack {
-                ForEach(0 ..< controller.tabs.count, id: \.self) { idx in
-                    let tab = controller.tabs[idx]
-                    Button(action:
-                        { selectedTab = tab }) {
-                        VStack {
-                            if let systemIcon = tab.systemIcon {
-                                Image(systemName: systemIcon)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .padding(.bottom, 2)
-                            } else {
-                                Image(tab.icon!, bundle: .module)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .padding(.bottom, 2)
-                            }
-                            Text(tab.title).font(.caption)
-                        }
-                        .foregroundColor(tab.iconColor == nil ? controller.itemsColor : tab.iconColor)
-                    }.opacity(tab == selectedTab ? 0.5 : 1.0)
-
-                    if idx < controller.tabs.count - 1 {
-                        Spacer()
+                    if tab == selectedTab {
+                        tab.makeTab()
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
                     }
                 }
+                HStack {
+                    ForEach(0 ..< controller.tabs.count, id: \.self) { idx in
+                        let tab = controller.tabs[idx]
+                        Button(action:
+                            { selectedTab = tab }) {
+                            VStack {
+                                if let systemIcon = tab.systemIcon {
+                                    Image(systemName: systemIcon)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .padding(.bottom, 2)
+                                } else {
+                                    Image(tab.icon!, bundle: .module)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .padding(.bottom, 2)
+                                }
+                                Text(tab.title).font(.caption)
+                            }
+                            .foregroundColor(tab.iconColor == nil ? controller.itemsColor : tab.iconColor)
+                        }.opacity(tab == selectedTab ? 0.5 : 1.0)
+
+                        if idx < controller.tabs.count - 1 {
+                            Spacer()
+                        }
+                    }
+                }
+                .padding(.top, 6)
+                .padding(.horizontal, getRect().width / CGFloat(4 * controller.tabs.count))
+                .frame(height: 48.0)
+                .background(controller.backgroundColor)
             }
-            .padding(.top, 6)
-            .padding(.horizontal, getRect().width / CGFloat(4 * controller.tabs.count))
-            .frame(height: 48.0)
-            .background(controller.backgroundColor)
         }
-    }
     #endif
-    
-#if os(macOS)
-    
-    public init(controller: TabBarController) {
-        _controller = StateObject(wrappedValue: controller)
-        _selectedTab = State(initialValue: controller.tabs[0])
-    }
-    
-    public var body: some View {
-        Text("BAR!")
-    }
-    
+
+    #if os(macOS)
+
+        public init(controller: TabBarController) {
+            _controller = StateObject(wrappedValue: controller)
+            _selectedTab = State(initialValue: controller.tabs[0])
+        }
+
+        public var body: some View {
+            TabView {
+                ForEach(0 ..< controller.tabs.count, id: \.self) { idx in
+                    let tab = controller.tabs[idx]
+
+                    tab.makeTab()
+                        .tabItem {
+                            Text(tab.title)
+                        }
+                }
+            }
+        }
     #endif
 }
 
 struct TabBarContainer: View {
     @ObservedObject private var controller = TabBarController(views: [
-        TabItem(title: "Tab 1", systemIcon: "list.dash", tab: AnyView(Tab1().background(.red))),
-        TabItem(title: "Tab 2", systemIcon: "square.and.pencil", tab: AnyView(Tab2())),
-        TabItem(title: "Tab 3", systemIcon: "person.2.circle", iconColor: .yellow, tab: AnyView(Tab3())),
-        TabItem(title: "Tab 4", icon: "tabIcon", tab: AnyView(Tab3())),
-        TabItem(title: "Tab 5", icon: "tabIcon", iconColor: .black, tab: AnyView(Tab3())),
+        TabItem(key: 0, title: "Tab 1", systemIcon: "list.dash", tab: AnyView(Tab1().background(.red))),
+        TabItem(key: 1, title: "Tab 2", systemIcon: "square.and.pencil", tab: AnyView(Tab2())),
+        TabItem(key: 2, title: "Tab 3", systemIcon: "person.2.circle", iconColor: .yellow, tab: AnyView(Tab3())),
+        TabItem(key: 3, title: "Tab 4", icon: "tabIcon", tab: AnyView(Tab4())),
+        TabItem(key: 4, title: "Tab 5", icon: "tabIcon", iconColor: .black, tab: AnyView(Tab5())),
     ],
-                                                              backgroundColor: Color(.gray),
+    backgroundColor: Color(.gray),
     itemsColor: .green
     )
 
@@ -125,5 +133,17 @@ struct Tab2: View {
 struct Tab3: View {
     var body: some View {
         Text("Tab 3")
+    }
+}
+
+struct Tab4: View {
+    var body: some View {
+        Text("Tab 4")
+    }
+}
+
+struct Tab5: View {
+    var body: some View {
+        Text("Tab 5")
     }
 }
