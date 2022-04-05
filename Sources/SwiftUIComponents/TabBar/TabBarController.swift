@@ -25,20 +25,43 @@ public class TabBarController: SuperController, ObservableObject {
             self.itemsColor = itemsColor
             self.viewProvider = viewProvider
             super.init(type: .tabBar)
+
+            let dups = Dictionary(grouping: tabs, by: { $0.key }).filter { $1.count > 1 }.keys
+            if !dups.isEmpty {
+                fatalError("Duplicated keys: \(dups)")
+            }
         }
     #endif
     #if os(macOS)
         public init(tabs: [TabItem],
-            viewProvider: ((_ controller: TabBarController, _ tab: TabItem) -> AnyView)?)
+                    viewProvider: ((_ controller: TabBarController, _ tab: TabItem) -> AnyView)?)
         {
             self.tabs = tabs
-            self.backgroundColor = .red
-            self.itemsColor = .red
+            backgroundColor = .red
+            itemsColor = .red
             self.viewProvider = viewProvider
             super.init(type: .tabBar)
+
+            let dups = Dictionary(grouping: tabs, by: { $0.key }).filter { $1.count > 1 }.keys
+            if !dups.isEmpty {
+                fatalError("Duplicated keys: \(dups)")
+            }
         }
     #endif
-    
+
+    public func addTab(tab: TabItem) {
+        tabs.append(tab)
+
+        let dups = Dictionary(grouping: tabs, by: { $0.key }).filter { $1.count > 1 }.keys
+        if !dups.isEmpty {
+            fatalError("Duplicated keys: \(dups)")
+        }
+    }
+
+    public func deleteTabAt(index: Int) {
+        tabs.remove(at: index)
+    }
+
     // MARK: - Encodable & Decodable
 
     enum CodingKeys: CodingKey {
@@ -46,19 +69,19 @@ public class TabBarController: SuperController, ObservableObject {
         case backgroundColor
         case itemsColor
     }
-    
+
     public required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         tabs = try values.decode([TabItem].self, forKey: .tabs)
         backgroundColor = try values.decode(Color.self, forKey: .backgroundColor)
         itemsColor = try values.decode(Color.self, forKey: .itemsColor)
-        viewProvider = { _,_ in
+        viewProvider = { _, _ in
             AnyView(EmptyView())
         }
         super.init(type: .menu)
     }
 
-    public override func encode(to encoder: Encoder) throws {
+    override public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(tabs, forKey: .tabs)
         try container.encode(backgroundColor, forKey: .backgroundColor)
