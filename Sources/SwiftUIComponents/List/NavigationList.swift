@@ -86,7 +86,10 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                 form()
                                     .navigationBarHidden(true)
                                 ,
-                                isActive: Binding<Bool>(get: { isTapped },
+                                isActive: Binding<Bool>(get: {
+                                                            print("Is Tapped \(isTapped)")
+                                                            return isTapped
+                                                        },
                                                         set: {
                                                             isTapped = $0
                                                             controller.editingItem = item
@@ -116,14 +119,14 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                             }
                         #endif
                         #if os(macOS)
-                        VStack(alignment: .leading, spacing: 0) {
-                            NavigationLink(
-                                destination: form(),
-                                tag: item,
-                                selection: $controller.selectedItem,
-                                label: {})
-                                .hidden()
-                            
+                            VStack(alignment: .leading, spacing: 0) {
+                                NavigationLink(
+                                    destination: form(),
+                                    tag: item,
+                                    selection: $controller.selectedItem,
+                                    label: {})
+                                    .hidden()
+
                                 HStack(alignment: .center, spacing: 0) {
                                     controller.makeRow(item)
                                         .modifier(AttachActions(controller: controller, item: item))
@@ -154,10 +157,10 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                         #endif
                     }
                     .onMove(perform: move)
-                    .listRowBackground(Color.clear)                    
+                    .listRowBackground(Color.clear)
                 }
                 #if os(iOS)
-                .environment(\.editMode, editingList ? .constant(.active):.constant(.inactive))
+                    .environment(\.editMode, editingList ? .constant(.active) : .constant(.inactive))
                 #endif
                 .customStyle(type: controller.style)
             }
@@ -269,7 +272,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
             }
         }
     }
-    
+
     private func move(from source: IndexSet, to destination: Int) {
         controller.items.move(fromOffsets: source, toOffset: destination)
     }
