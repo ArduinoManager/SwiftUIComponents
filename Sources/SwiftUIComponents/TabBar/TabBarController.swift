@@ -8,32 +8,34 @@
 import Foundation
 import SwiftUI
 
-public class TabBarController: ObservableObject, Codable {
+public class TabBarController: SuperController, ObservableObject {
     @Published public var tabs: [TabItem]
-    @Published public var viewProvider: (_ controller: TabBarController, _ tab: TabItem) -> AnyView
+    @Published public var viewProvider: ((_ controller: TabBarController, _ tab: TabItem) -> AnyView)?
     public var backgroundColor: Color
     public var itemsColor: Color
 
     #if os(iOS)
-        public init(views: [TabItem],
-                    viewProvider: @escaping (_ controller: TabBarController, _ tab: TabItem) -> AnyView,
+        public init(tabs: [TabItem],
+                    viewProvider: ((_ controller: TabBarController, _ tab: TabItem) -> AnyView)?,
                     backgroundColor: Color = Color(uiColor: .systemBackground),
                     itemsColor: Color = Color(uiColor: .label))
         {
-            tabs = views
+            self.tabs = tabs
             self.backgroundColor = backgroundColor
             self.itemsColor = itemsColor
             self.viewProvider = viewProvider
+            super.init(type: .tabBar)
         }
     #endif
     #if os(macOS)
-        public init(views: [TabItem],
-                    viewProvider: @escaping (_ controller: TabBarController, _ tab: TabItem) -> AnyView)
+        public init(tabs: [TabItem],
+            viewProvider: ((_ controller: TabBarController, _ tab: TabItem) -> AnyView)?)
         {
-            tabs = views
-            backgroundColor = .red
-            itemsColor = .red
+            self.tabs = tabs
+            self.backgroundColor = .red
+            self.itemsColor = .red
             self.viewProvider = viewProvider
+            super.init(type: .tabBar)
         }
     #endif
     
@@ -53,12 +55,14 @@ public class TabBarController: ObservableObject, Codable {
         viewProvider = { _,_ in
             AnyView(EmptyView())
         }
+        super.init(type: .menu)
     }
 
-    public func encode(to encoder: Encoder) throws {
+    public override func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(tabs, forKey: .tabs)
         try container.encode(backgroundColor, forKey: .backgroundColor)
         try container.encode(itemsColor, forKey: .itemsColor)
+        try super.encode(to: encoder)
     }
 }

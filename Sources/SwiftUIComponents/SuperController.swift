@@ -11,6 +11,7 @@ public enum ControllerType: String, Codable {
     case menu
     case list
     case view
+    case tabBar
 }
 
 public class SuperController: Identifiable, Codable {

@@ -23,7 +23,7 @@ public struct TabBar: View {
                 ForEach(controller.tabs, id: \.self) { tab in
 
                     if tab == selectedTab {
-                        controller.viewProvider(controller,tab)
+                        controller.viewProvider?(controller,tab)
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                     }
                 }
@@ -73,8 +73,7 @@ public struct TabBar: View {
             TabView {
                 ForEach(0 ..< controller.tabs.count, id: \.self) { idx in
                     let tab = controller.tabs[idx]
-
-                    controller.viewProvider(controller, tab)
+                    controller.viewProvider?(controller, tab)
                         .tabItem {
                             Text(tab.title)
                         }
@@ -86,7 +85,7 @@ public struct TabBar: View {
 
 struct TabBarContainer: View {
     #if os(iOS)
-        @ObservedObject private var controller = TabBarController(views: [
+        @ObservedObject private var controller = TabBarController(tabs: [
             TabItem(key: 0, title: "Tab 1", systemIcon: "list.dash"),
             TabItem(key: 1, title: "Tab 2", systemIcon: "square.and.pencil"),
             TabItem(key: 2, title: "Tab 3", systemIcon: "person.2.circle", iconColor: .yellow),
@@ -99,7 +98,7 @@ struct TabBarContainer: View {
         )
     #endif
     #if os(macOS)
-        @ObservedObject private var controller = TabBarController(views: [
+        @ObservedObject private var controller = TabBarController(tabs: [
             TabItem(key: 0, title: "Tab 1", systemIcon: "list.dash"),
             TabItem(key: 1, title: "Tab 2", systemIcon: "square.and.pencil"),
             TabItem(key: 2, title: "Tab 3", systemIcon: "person.2.circle", iconColor: .yellow),
