@@ -82,41 +82,42 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                         let item = controller.items[idx]
 
                         #if os(iOS)
-                        VStack(alignment: .leading, spacing: 0) {
-                            NavigationLink(
-                                destination: form().navigationBarBackButtonHidden(true),
-                                tag: item,
-                                selection: $controller.selectedItem,
-                                label: {})
-                                .hidden()
+                            VStack(alignment: .leading, spacing: 0) {
+                                NavigationLink(
+                                    destination: form(),
+                                    tag: item,
+                                    selection: $controller.selectedItem,
+                                    label: {})
+                                    .hidden()
 
-                            HStack(alignment: .center, spacing: 0) {
-                                controller.makeRow(item)
-                                    .modifier(AttachActions(controller: controller, item: item))
-                                    .modifier(AttachSwipeActions(controller: controller, item: item))
-                                    .background(currentColor(idx: idx))
-                                    .layoutPriority(1)
-                                Button {
-                                    controller.selectedItem = item
-                                    controller.editingItem = item
-                                } label: {
-                                    Image(systemName: "chevron.right")
-                                        .resizable()
-                                        .foregroundColor(Color(uiColor: .label))
-                                        .scaledToFill()
-                                        .padding(2)
-                                }
-                                .buttonStyle(.plain)
-                                .background(currentColor(idx: idx))
-                            }
-                            if controller.showLineSeparator {
-                                Divider()
-                                    .if(controller.lineSeparatorColor != nil) { view in
-                                        view
-                                            .background(controller.lineSeparatorColor!)
+                                HStack(alignment: .center, spacing: 0) {
+                                    controller.makeRow(item)
+                                        .modifier(AttachActions(controller: controller, item: item))
+                                        .modifier(AttachSwipeActions(controller: controller, item: item))
+                                        .background(currentColor(idx: idx))
+                                        .layoutPriority(1)
+                                    Button {
+                                        controller.selectedItem = item
+                                        controller.editingItem = item
+                                    } label: {
+                                        Image(systemName: "chevron.right")
+                                            .resizable()
+                                            .foregroundColor(Color(uiColor: .label))
+                                            .scaledToFill()
+                                            .padding(2)
                                     }
+                                    .buttonStyle(.plain)
+                                    .background(currentColor(idx: idx))
+                                }
+                                if controller.showLineSeparator {
+                                    Divider()
+                                        .if(controller.lineSeparatorColor != nil) { view in
+                                            view
+                                                .background(controller.lineSeparatorColor!)
+                                        }
+                                }
                             }
-                        }
+                            .navigationBarHidden(true)
                         #endif
                         #if os(macOS)
                             VStack(alignment: .leading, spacing: 0) {
