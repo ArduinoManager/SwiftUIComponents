@@ -251,6 +251,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
             selectedItem = nil
         } else {
             update(oldItem: editingItem!, newItem: formItem)
+            startNewItem = nil
             selectedItem = nil
         }
     }
