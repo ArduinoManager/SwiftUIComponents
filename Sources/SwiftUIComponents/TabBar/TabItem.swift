@@ -13,22 +13,19 @@ public class TabItem: Hashable {
     public var systemIcon: String?
     public var icon: String?
     public var iconColor: Color?
-    public var tab: AnyView
 
-    public init(key: Key, title: String, systemIcon: String, iconColor: Color? = nil, tab: AnyView) {
+    public init(key: Key, title: String, systemIcon: String, iconColor: Color? = nil) {
         self.key = key
         self.title = title
         self.systemIcon = systemIcon
         self.iconColor = iconColor
-        self.tab = tab
     }
 
-    public init(key: Key, title: String, icon: String, iconColor: Color? = nil, tab: AnyView) {
+    public init(key: Key, title: String, icon: String, iconColor: Color? = nil) {
         self.key = key
         self.title = title
         self.icon = icon
         self.iconColor = iconColor
-        self.tab = tab
     }
 
     public static func == (lhs: TabItem, rhs: TabItem) -> Bool {
@@ -37,10 +34,5 @@ public class TabItem: Hashable {
 
     public func hash(into hasher: inout Hasher) {
         hasher.combine(title)
-    }
-
-    @ViewBuilder
-    func makeTab() -> some View {
-        tab
     }
 }

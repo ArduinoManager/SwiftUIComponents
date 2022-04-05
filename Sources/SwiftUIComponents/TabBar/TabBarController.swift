@@ -10,13 +10,13 @@ import SwiftUI
 
 public class TabBarController: ObservableObject {
     @Published public var tabs: [TabItem]
-    @Published public var viewProvider: ((_ controller: TabBarController, _ item: TabItem) -> AnyView)
+    @Published public var viewProvider: (_ controller: TabBarController, _ tab: TabItem) -> AnyView
     var backgroundColor: Color
     var itemsColor: Color
 
     #if os(iOS)
         public init(views: [TabItem],
-                    viewProvider: ((_ controller: TabBarController, _ item: TabItem) -> AnyView),
+                    viewProvider: @escaping (_ controller: TabBarController, _ tab: TabItem) -> AnyView,
                     backgroundColor: Color = Color(uiColor: .systemBackground),
                     itemsColor: Color = Color(uiColor: .label))
         {
@@ -28,7 +28,7 @@ public class TabBarController: ObservableObject {
     #endif
     #if os(macOS)
         public init(views: [TabItem],
-                    viewProvider: @escaping (_ controller: TabBarController, _ item: TabItem) -> AnyView)
+                    viewProvider: @escaping (_ controller: TabBarController, _ tab: TabItem) -> AnyView)
         {
             tabs = views
             backgroundColor = .red

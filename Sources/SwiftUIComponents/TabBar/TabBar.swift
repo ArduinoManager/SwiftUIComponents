@@ -15,7 +15,6 @@ public struct TabBar: View {
         public init(controller: TabBarController) {
             _controller = StateObject(wrappedValue: controller)
             _selectedTab = State(initialValue: controller.tabs[0])
-            viewProvider = viewProvider
             UITabBar.appearance().backgroundColor = UIColor(controller.backgroundColor)
         }
 
@@ -24,7 +23,7 @@ public struct TabBar: View {
                 ForEach(controller.tabs, id: \.self) { tab in
 
                     if tab == selectedTab {
-                        tab.makeTab()
+                        controller.viewProvider(controller,tab)
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                     }
                 }
@@ -75,7 +74,7 @@ public struct TabBar: View {
                 ForEach(0 ..< controller.tabs.count, id: \.self) { idx in
                     let tab = controller.tabs[idx]
 
-                    tab.makeTab()
+                    controller.viewProvider(controller, tab)
                         .tabItem {
                             Text(tab.title)
                         }
@@ -88,11 +87,11 @@ public struct TabBar: View {
 struct TabBarContainer: View {
     #if os(iOS)
         @ObservedObject private var controller = TabBarController(views: [
-            TabItem(key: 0, title: "Tab 1", systemIcon: "list.dash", tab: AnyView(Tab1().background(.red))),
-            TabItem(key: 1, title: "Tab 2", systemIcon: "square.and.pencil", tab: AnyView(Tab2())),
-            TabItem(key: 2, title: "Tab 3", systemIcon: "person.2.circle", iconColor: .yellow, tab: AnyView(Tab3())),
-            TabItem(key: 3, title: "Tab 4", icon: "tabIcon", tab: AnyView(Tab4())),
-            TabItem(key: 4, title: "Tab 5", icon: "tabIcon", iconColor: .black, tab: AnyView(Tab5())),
+            TabItem(key: 0, title: "Tab 1", systemIcon: "list.dash"),
+            TabItem(key: 1, title: "Tab 2", systemIcon: "square.and.pencil"),
+            TabItem(key: 2, title: "Tab 3", systemIcon: "person.2.circle", iconColor: .yellow),
+            TabItem(key: 3, title: "Tab 4", icon: "tabIcon"),
+            TabItem(key: 4, title: "Tab 5", icon: "tabIcon", iconColor: .black),
         ],
         viewProvider: viewProvider,
         backgroundColor: Color(.gray),
@@ -101,11 +100,11 @@ struct TabBarContainer: View {
     #endif
     #if os(macOS)
         @ObservedObject private var controller = TabBarController(views: [
-            TabItem(key: 0, title: "Tab 1", systemIcon: "list.dash", tab: AnyView(Tab1().background(.red))),
-            TabItem(key: 1, title: "Tab 2", systemIcon: "square.and.pencil", tab: AnyView(Tab2())),
-            TabItem(key: 2, title: "Tab 3", systemIcon: "person.2.circle", iconColor: .yellow, tab: AnyView(Tab3())),
-            TabItem(key: 3, title: "Tab 4", icon: "tabIcon", tab: AnyView(Tab4())),
-            TabItem(key: 4, title: "Tab 5", icon: "tabIcon", iconColor: .black, tab: AnyView(Tab5())),
+            TabItem(key: 0, title: "Tab 1", systemIcon: "list.dash"),
+            TabItem(key: 1, title: "Tab 2", systemIcon: "square.and.pencil"),
+            TabItem(key: 2, title: "Tab 3", systemIcon: "person.2.circle", iconColor: .yellow),
+            TabItem(key: 3, title: "Tab 4", icon: "tabIcon"),
+            TabItem(key: 4, title: "Tab 5", icon: "tabIcon", iconColor: .black),
         ],
         viewProvider: viewProvider
         )
@@ -117,6 +116,20 @@ struct TabBarContainer: View {
 
 fileprivate func viewProvider(controller: TabBarController, item: TabItem) -> AnyView {
     switch item.key {
+    case 0:
+        return AnyView(Tab1().background(.red))
+        
+    case 1:
+        return AnyView(Tab2())
+
+    case 2:
+        return AnyView(Tab3())
+
+    case 3:
+        return AnyView(Tab4())
+
+    case 4:
+        return AnyView(Tab5())
         
     default:
         return AnyView(EmptyView())
