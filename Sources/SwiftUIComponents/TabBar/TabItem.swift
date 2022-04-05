@@ -13,7 +13,8 @@ public class TabItem: Hashable, Codable {
     public var systemIcon: String?
     public var icon: String?
     public var iconColor: Color?
-
+    public var targetViewId: UUID? /// Reserved for the generarator
+    
     public init(key: Key, title: String, systemIcon: String, iconColor: Color? = nil) {
         self.key = key
         self.title = title
@@ -44,7 +45,7 @@ public class TabItem: Hashable, Codable {
         case icon
         case systemIcon
         case iconColor
-        //case useSystemIcon
+        case targetViewId
     }
 
     public required init(from decoder: Decoder) throws {
@@ -54,7 +55,7 @@ public class TabItem: Hashable, Codable {
         icon = try? values.decode(String.self, forKey: .icon)
         systemIcon = try? values.decode(String.self, forKey: .systemIcon)
         iconColor = try? values.decode(Color.self, forKey: .iconColor)
-        //useSystemIcon = try values.decode(Bool.self, forKey: .useSystemIcon)
+        targetViewId = try? values.decode(UUID.self, forKey: .targetViewId)
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -64,6 +65,6 @@ public class TabItem: Hashable, Codable {
         try container.encode(icon, forKey: .icon)
         try container.encode(systemIcon, forKey: .systemIcon)
         try container.encode(iconColor, forKey: .iconColor)
-//        try container.encode(useSystemIcon, forKey: .useSystemIcon)
+        try container.encode(targetViewId, forKey: .targetViewId)
     }
 }
