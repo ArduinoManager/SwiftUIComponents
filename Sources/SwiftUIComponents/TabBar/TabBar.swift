@@ -15,6 +15,7 @@ public struct TabBar: View {
         public init(controller: TabBarController) {
             _controller = StateObject(wrappedValue: controller)
             _selectedTab = State(initialValue: controller.tabs[0])
+            viewProvider = viewProvider
             UITabBar.appearance().backgroundColor = UIColor(controller.backgroundColor)
         }
 
@@ -85,19 +86,40 @@ public struct TabBar: View {
 }
 
 struct TabBarContainer: View {
-    @ObservedObject private var controller = TabBarController(views: [
-        TabItem(key: 0, title: "Tab 1", systemIcon: "list.dash", tab: AnyView(Tab1().background(.red))),
-        TabItem(key: 1, title: "Tab 2", systemIcon: "square.and.pencil", tab: AnyView(Tab2())),
-        TabItem(key: 2, title: "Tab 3", systemIcon: "person.2.circle", iconColor: .yellow, tab: AnyView(Tab3())),
-        TabItem(key: 3, title: "Tab 4", icon: "tabIcon", tab: AnyView(Tab4())),
-        TabItem(key: 4, title: "Tab 5", icon: "tabIcon", iconColor: .black, tab: AnyView(Tab5())),
-    ],
-    backgroundColor: Color(.gray),
-    itemsColor: .green
-    )
-
+    #if os(iOS)
+        @ObservedObject private var controller = TabBarController(views: [
+            TabItem(key: 0, title: "Tab 1", systemIcon: "list.dash", tab: AnyView(Tab1().background(.red))),
+            TabItem(key: 1, title: "Tab 2", systemIcon: "square.and.pencil", tab: AnyView(Tab2())),
+            TabItem(key: 2, title: "Tab 3", systemIcon: "person.2.circle", iconColor: .yellow, tab: AnyView(Tab3())),
+            TabItem(key: 3, title: "Tab 4", icon: "tabIcon", tab: AnyView(Tab4())),
+            TabItem(key: 4, title: "Tab 5", icon: "tabIcon", iconColor: .black, tab: AnyView(Tab5())),
+        ],
+        viewProvider: viewProvider,
+        backgroundColor: Color(.gray),
+        itemsColor: .green
+        )
+    #endif
+    #if os(macOS)
+        @ObservedObject private var controller = TabBarController(views: [
+            TabItem(key: 0, title: "Tab 1", systemIcon: "list.dash", tab: AnyView(Tab1().background(.red))),
+            TabItem(key: 1, title: "Tab 2", systemIcon: "square.and.pencil", tab: AnyView(Tab2())),
+            TabItem(key: 2, title: "Tab 3", systemIcon: "person.2.circle", iconColor: .yellow, tab: AnyView(Tab3())),
+            TabItem(key: 3, title: "Tab 4", icon: "tabIcon", tab: AnyView(Tab4())),
+            TabItem(key: 4, title: "Tab 5", icon: "tabIcon", iconColor: .black, tab: AnyView(Tab5())),
+        ],
+        viewProvider: viewProvider
+        )
+    #endif
     var body: some View {
         TabBar(controller: controller)
+    }
+}
+
+fileprivate func viewProvider(controller: TabBarController, item: TabItem) -> AnyView {
+    switch item.key {
+        
+    default:
+        return AnyView(EmptyView())
     }
 }
 
