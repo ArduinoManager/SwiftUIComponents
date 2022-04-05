@@ -78,7 +78,7 @@ public class TabBarController: SuperController, ObservableObject {
         viewProvider = { _, _ in
             AnyView(EmptyView())
         }
-        super.init(type: .menu)
+        super.init(type: .tabBar)
     }
 
     override public func encode(to encoder: Encoder) throws {
