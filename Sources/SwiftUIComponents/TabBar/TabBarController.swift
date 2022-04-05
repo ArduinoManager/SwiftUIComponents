@@ -8,11 +8,11 @@
 import Foundation
 import SwiftUI
 
-public class TabBarController: ObservableObject {
+public class TabBarController: ObservableObject, Codable {
     @Published public var tabs: [TabItem]
     @Published public var viewProvider: (_ controller: TabBarController, _ tab: TabItem) -> AnyView
-    var backgroundColor: Color
-    var itemsColor: Color
+    public var backgroundColor: Color
+    public var itemsColor: Color
 
     #if os(iOS)
         public init(views: [TabItem],
@@ -36,4 +36,29 @@ public class TabBarController: ObservableObject {
             self.viewProvider = viewProvider
         }
     #endif
+    
+    // MARK: - Encodable & Decodable
+
+    enum CodingKeys: CodingKey {
+        case tabs
+        case backgroundColor
+        case itemsColor
+    }
+    
+    public required init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        tabs = try values.decode([TabItem].self, forKey: .tabs)
+        backgroundColor = try values.decode(Color.self, forKey: .backgroundColor)
+        itemsColor = try values.decode(Color.self, forKey: .itemsColor)
+        viewProvider = { _,_ in
+            AnyView(EmptyView())
+        }
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(tabs, forKey: .tabs)
+        try container.encode(backgroundColor, forKey: .backgroundColor)
+        try container.encode(itemsColor, forKey: .itemsColor)
+    }
 }
