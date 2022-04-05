@@ -82,41 +82,41 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                         let item = controller.items[idx]
 
                         #if os(iOS)
-                            NavigationLink(destination:
-                                form()
-                                    .navigationBarHidden(true)
-                                ,
-                                isActive: Binding<Bool>(get: {
-                                                            print("Is Tapped \(isTapped)")
-                                                            return isTapped
-                                                        },
-                                                        set: {
-                                                            isTapped = $0
-                                                            controller.editingItem = item
-                                                        }),
-                                label: {
-                                    controller.makeRow(item)
-                                        .modifier(AttachActions(controller: controller, item: item))
-                                        .background(currentColor(idx: idx))
-                                        .onLongPressGesture {
-                                            editingList.toggle()
-                                        }
+                        VStack(alignment: .leading, spacing: 0) {
+                            NavigationLink(
+                                destination: form(),
+                                tag: item,
+                                selection: $controller.selectedItem,
+                                label: {})
+                                .hidden()
+
+                            HStack(alignment: .center, spacing: 0) {
+                                controller.makeRow(item)
+                                    .modifier(AttachActions(controller: controller, item: item))
+                                    .modifier(AttachSwipeActions(controller: controller, item: item))
+                                    .background(currentColor(idx: idx))
+                                    .layoutPriority(1)
+                                Button {
+                                    controller.selectedItem = item
+                                    controller.editingItem = item
+                                } label: {
+                                    Image(systemName: "chevron.right")
+                                        .resizable()
+                                        .foregroundColor(Color(uiColor: .label))
+                                        .scaledToFill()
+                                        .padding(2)
                                 }
-                            )
-                            .background(currentColor(idx: idx))
-                            .modifier(AttachSwipeActions(controller: controller, item: item))
-                            .if(!controller.showLineSeparator) { view in
-                                view
-                                #if os(iOS)
-                                    .listRowSeparator(.hidden)
-                                #endif
+                                .buttonStyle(.plain)
+                                .background(currentColor(idx: idx))
                             }
-                            .if(controller.lineSeparatorColor != nil) { view in
-                                view
-                                #if os(iOS)
-                                    .listRowSeparatorTint(controller.lineSeparatorColor!)
-                                #endif
+                            if controller.showLineSeparator {
+                                Divider()
+                                    .if(controller.lineSeparatorColor != nil) { view in
+                                        view
+                                            .background(controller.lineSeparatorColor!)
+                                    }
                             }
+                        }
                         #endif
                         #if os(macOS)
                             VStack(alignment: .leading, spacing: 0) {
