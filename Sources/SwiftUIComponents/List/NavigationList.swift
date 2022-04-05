@@ -117,7 +117,6 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                         }
                                 }
                             }
-                            .navigationBarHidden(true)
                         #endif
                         #if os(macOS)
                             VStack(alignment: .leading, spacing: 0) {
@@ -175,6 +174,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                     , tag: "newItem", selection: $controller.startNewItem, label: { EmptyView() }).hidden()
             })
             #if os(iOS)
+                .navigationBarTitle("")
                 .navigationBarHidden(true)
             #endif
         }
