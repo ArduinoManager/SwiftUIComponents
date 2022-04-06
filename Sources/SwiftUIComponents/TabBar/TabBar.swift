@@ -13,24 +13,22 @@ public struct TabBar: View {
 
     @State private var selection = 0
 
-    public enum TabBarPosition { // Where the tab bar will be located within the view
+    // Where the tab bar will be located within the view
+    public enum TabBarPosition {
         case top
         case bottom
     }
 
-    private let tabBarPosition: TabBarPosition = .top
+    public init(controller: TabBarController) {
+        _controller = StateObject(wrappedValue: controller)
+        _selectedTab = State(initialValue: controller.tabs[0])
+    }
 
     #if os(iOS)
-        public init(controller: TabBarController) {
-            _controller = StateObject(wrappedValue: controller)
-            _selectedTab = State(initialValue: controller.tabs[0])
-            //UITabBar.appearance().backgroundColor = UIColor(controller.backgroundColor)
-        }
 
         public var body: some View {
             VStack(spacing: 0) {
                 ForEach(controller.tabs, id: \.self) { tab in
-
                     if tab == selectedTab {
                         controller.viewProvider?(controller, tab)
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -72,21 +70,15 @@ public struct TabBar: View {
     #endif
 
     #if os(macOS)
-
-        public init(controller: TabBarController) {
-            _controller = StateObject(wrappedValue: controller)
-            _selectedTab = State(initialValue: controller.tabs[0])
-        }
-
         public var body: some View {
             VStack(spacing: 0) {
-                if self.tabBarPosition == .top {
+                if controller.tabBarPosition == .top {
                     tabBar
                 }
                 controller.viewProvider?(controller, controller.tabs[selection])
                     .padding(0)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                if self.tabBarPosition == .bottom {
+                if controller.tabBarPosition == .bottom {
                     tabBar
                 }
             }
@@ -105,8 +97,7 @@ public struct TabBar: View {
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
                                 .frame(width: 15, height: 15)
-                        }
-                        else {
+                        } else {
                             getSafeImage(name: tab.icon!)
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
@@ -132,7 +123,7 @@ public struct TabBar: View {
                 color: Color.black.opacity(0.25),
                 radius: 3,
                 x: 0,
-                y: tabBarPosition == .top ? 1 : -1
+                y: controller.tabBarPosition == .top ? 1 : -1
             )
             .zIndex(99) // Raised so that shadow is visible above view backgrounds
         }
@@ -148,6 +139,7 @@ struct TabBarContainer: View {
             TabItem(key: 3, title: "Tab 4", icon: "tabIcon"),
             TabItem(key: 4, title: "Tab 5", icon: "tabIcon", iconColor: .black),
         ],
+        tabBarPosition: .bottom,
         viewProvider: viewProvider,
         backgroundColor: Color(.gray),
         itemsColor: .green
@@ -161,6 +153,7 @@ struct TabBarContainer: View {
             TabItem(key: 3, title: "Tab 4", icon: "tabIcon"),
             TabItem(key: 4, title: "Tab 5", icon: "tabIcon", iconColor: .black),
         ],
+        tabBarPosition: .bottom,
         viewProvider: viewProvider,
         backgroundColor: Color.backgroundColor
         )
