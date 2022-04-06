@@ -12,22 +12,40 @@ public class TabItem: Hashable, Codable {
     public var title: String
     public var systemIcon: String?
     public var icon: String?
-    public var iconColor: Color?
+    public var color: Color
     public var targetViewId: UUID? /// Reserved for the generarator
-    
-    public init(key: Key, title: String, systemIcon: String, iconColor: Color? = nil) {
-        self.key = key
-        self.title = title
-        self.systemIcon = systemIcon
-        self.iconColor = iconColor
-    }
 
-    public init(key: Key, title: String, icon: String, iconColor: Color? = nil) {
-        self.key = key
-        self.title = title
-        self.icon = icon
-        self.iconColor = iconColor
-    }
+    #if os(iOS)
+        public init(key: Key, title: String, systemIcon: String, color: Color = Color(.label)) {
+            self.key = key
+            self.title = title
+            self.systemIcon = systemIcon
+            self.color = color
+        }
+
+        public init(key: Key, title: String, icon: String, color: Color = Color(.label)) {
+            self.key = key
+            self.title = title
+            self.icon = icon
+            self.color = color
+        }
+    #endif
+
+    #if os(macOS)
+        public init(key: Key, title: String, systemIcon: String, color: Color = Color(.labelColor)) {
+            self.key = key
+            self.title = title
+            self.systemIcon = systemIcon
+            self.color = color
+        }
+
+        public init(key: Key, title: String, icon: String, color: Color = Color(.labelColor)) {
+            self.key = key
+            self.title = title
+            self.icon = icon
+            self.color = color
+        }
+    #endif
 
     public static func == (lhs: TabItem, rhs: TabItem) -> Bool {
         return lhs.title == rhs.title
@@ -36,7 +54,7 @@ public class TabItem: Hashable, Codable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(title)
     }
-    
+
     // MARK: - Encodable & Decodable
 
     enum CodingKeys: CodingKey {
@@ -44,7 +62,7 @@ public class TabItem: Hashable, Codable {
         case title
         case icon
         case systemIcon
-        case iconColor
+        case color
         case targetViewId
     }
 
@@ -54,7 +72,7 @@ public class TabItem: Hashable, Codable {
         title = try values.decode(String.self, forKey: .title)
         icon = try? values.decode(String.self, forKey: .icon)
         systemIcon = try? values.decode(String.self, forKey: .systemIcon)
-        iconColor = try? values.decode(Color.self, forKey: .iconColor)
+        color = try values.decode(Color.self, forKey: .color)
         targetViewId = try? values.decode(UUID.self, forKey: .targetViewId)
     }
 
@@ -64,7 +82,7 @@ public class TabItem: Hashable, Codable {
         try container.encode(title, forKey: .title)
         try container.encode(icon, forKey: .icon)
         try container.encode(systemIcon, forKey: .systemIcon)
-        try container.encode(iconColor, forKey: .iconColor)
+        try container.encode(color, forKey: .color)
         try container.encode(targetViewId, forKey: .targetViewId)
     }
 }

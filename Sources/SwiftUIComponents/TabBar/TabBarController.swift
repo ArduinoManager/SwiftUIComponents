@@ -12,7 +12,7 @@ public class TabBarController: SuperController, ObservableObject {
     @Published public var tabs: [TabItem]
     @Published public var viewProvider: ((_ controller: TabBarController, _ tab: TabItem) -> AnyView)?
     @Published public var tabBarPosition: TabBar.TabBarPosition
-    public var backgroundColor: Color
+    @Published public var backgroundColor: Color
 
     #if os(iOS)
         public init(tabs: [TabItem],
@@ -57,7 +57,6 @@ public class TabBarController: SuperController, ObservableObject {
 
     public func addTab(tab: TabItem) {
         tabs.append(tab)
-
         let dups = Dictionary(grouping: tabs, by: { $0.key }).filter { $1.count > 1 }.keys
         if !dups.isEmpty {
             fatalError("Duplicated keys: \(dups)")

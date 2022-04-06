@@ -55,7 +55,7 @@ public struct TabBar: View {
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 15, height: 15)
-                                    .foregroundColor(tab.iconColor)
+                                    .foregroundColor(tab.color)
 
                             } else {
                                 getSafeImage(name: tab.icon!)
@@ -64,7 +64,7 @@ public struct TabBar: View {
                                     .frame(width: 15, height: 15)
                             }
                             Text(tab.title)
-                                .foregroundColor(self.selection == index ? Color.accentColor : tab.iconColor)
+                                .foregroundColor(self.selection == index ? Color.accentColor : tab.color)
                         }
                         .frame(height: 48)
                         .padding(.vertical, 5)
@@ -174,7 +174,7 @@ public struct TabBar: View {
                     }
                     .frame(height: 20)
                     .padding(5)
-                    .foregroundColor(self.selection == index ? Color.accentColor : tab.iconColor)
+                    .foregroundColor(self.selection == index ? Color.accentColor : tab.color)
                     // .background(controller.backgroundColor)
                     .onTapGesture {
                         self.selection = index
@@ -200,11 +200,11 @@ public struct TabBar: View {
 struct TabBarContainer: View {
     #if os(iOS)
         @ObservedObject private var controller = TabBarController(tabs: [
-            TabItem(key: 0, title: "Tab 1", systemIcon: "list.dash", iconColor: .blue),
-            TabItem(key: 1, title: "Tab 2", systemIcon: "square.and.pencil", iconColor: .green),
-            TabItem(key: 2, title: "Tab 3", systemIcon: "person.2.circle", iconColor: .yellow),
+            TabItem(key: 0, title: "Tab 1", systemIcon: "list.dash", color: .blue),
+            TabItem(key: 1, title: "Tab 2", systemIcon: "square.and.pencil", color: .green),
+            TabItem(key: 2, title: "Tab 3", systemIcon: "person.2.circle", color: .yellow),
             TabItem(key: 3, title: "Tab 4", icon: "tabIcon"),
-            TabItem(key: 4, title: "Tab 5", icon: "tabIcon", iconColor: .black),
+            TabItem(key: 4, title: "Tab 5", icon: "tabIcon", color: .black),
         ],
         tabBarPosition: .bottom,
         viewProvider: viewProvider,
@@ -214,16 +214,11 @@ struct TabBarContainer: View {
     #endif
     #if os(macOS)
         @ObservedObject private var controller = TabBarController(tabs: [
-            
-            TabItem(key: 0, title: "Tab 1", systemIcon: "plus", iconColor: .blue),
-            TabItem(key: 1, title: "Tab 2", systemIcon: "minus", iconColor: .green),
-
-            
-//            TabItem(key: 0, title: "Tab 1", systemIcon: "list.dash", iconColor: .blue),
-//            TabItem(key: 1, title: "Tab 2", systemIcon: "square.and.pencil", iconColor: .green),
-//            TabItem(key: 2, title: "Tab 3", systemIcon: "person.2.circle", iconColor: .yellow),
-//            TabItem(key: 3, title: "Tab 4", icon: "tabIcon"),
-//            TabItem(key: 4, title: "Tab 5", icon: "tabIcon", iconColor: .black),
+            TabItem(key: 0, title: "Tab 1", systemIcon: "list.dash", color: .blue),
+            TabItem(key: 1, title: "Tab 2", systemIcon: "square.and.pencil", color: .green),
+            TabItem(key: 2, title: "Tab 3", systemIcon: "person.2.circle", color: .yellow),
+            TabItem(key: 3, title: "Tab 4", icon: "tabIcon"),
+            TabItem(key: 4, title: "Tab 5", icon: "tabIcon", color: .black),
         ],
         tabBarPosition: .bottom,
         viewProvider: viewProvider,
