@@ -32,13 +32,17 @@ public class TabBarController: SuperController, ObservableObject {
             }
         }
     #endif
+    
     #if os(macOS)
         public init(tabs: [TabItem],
-                    viewProvider: ((_ controller: TabBarController, _ tab: TabItem) -> AnyView)?)
+                    viewProvider: ((_ controller: TabBarController, _ tab: TabItem) -> AnyView)?,
+                    backgroundColor: Color = Color(nsColor: .windowBackgroundColor),
+                    itemsColor: Color = Color(nsColor: .labelColor)
+        )
         {
             self.tabs = tabs
-            backgroundColor = .red
-            itemsColor = .red
+            self.backgroundColor = backgroundColor
+            self.itemsColor = itemsColor
             self.viewProvider = viewProvider
             super.init(type: .tabBar)
 

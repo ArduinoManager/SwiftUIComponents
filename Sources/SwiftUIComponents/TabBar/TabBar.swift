@@ -11,11 +11,20 @@ public struct TabBar: View {
     @StateObject var controller: TabBarController
     @State var selectedTab: TabItem
 
+    @State private var selection = 0
+
+    public enum TabBarPosition { // Where the tab bar will be located within the view
+        case top
+        case bottom
+    }
+
+    private let tabBarPosition: TabBarPosition = .top
+
     #if os(iOS)
         public init(controller: TabBarController) {
             _controller = StateObject(wrappedValue: controller)
             _selectedTab = State(initialValue: controller.tabs[0])
-            UITabBar.appearance().backgroundColor = UIColor(controller.backgroundColor)
+            //UITabBar.appearance().backgroundColor = UIColor(controller.backgroundColor)
         }
 
         public var body: some View {
@@ -23,7 +32,7 @@ public struct TabBar: View {
                 ForEach(controller.tabs, id: \.self) { tab in
 
                     if tab == selectedTab {
-                        controller.viewProvider?(controller,tab)
+                        controller.viewProvider?(controller, tab)
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                     }
                 }
@@ -70,15 +79,62 @@ public struct TabBar: View {
         }
 
         public var body: some View {
-            TabView {
-                ForEach(0 ..< controller.tabs.count, id: \.self) { idx in
-                    let tab = controller.tabs[idx]
-                    controller.viewProvider?(controller, tab)
-                        .tabItem {
-                            Text(tab.title)
-                        }
+            VStack(spacing: 0) {
+                if self.tabBarPosition == .top {
+                    tabBar
+                }
+                controller.viewProvider?(controller, controller.tabs[selection])
+                    .padding(0)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                if self.tabBarPosition == .bottom {
+                    tabBar
                 }
             }
+            .padding(0)
+        }
+
+        public var tabBar: some View {
+            HStack {
+                Spacer()
+                ForEach(0 ..< controller.tabs.count, id: \.self) { index in
+                    let tab = controller.tabs[index]
+
+                    HStack {
+                        if let icon = tab.systemIcon {
+                            getSafeSystemImage(systemName: icon)
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 15, height: 15)
+                        }
+                        else {
+                            getSafeImage(name: tab.icon!)
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 15, height: 15)
+                        }
+                        Text(tab.title)
+                    }
+                    .frame(height: 20)
+                    .padding(5)
+                    .foregroundColor(self.selection == index ? Color.accentColor : tab.iconColor)
+                    // .background(controller.backgroundColor)
+                    .onTapGesture {
+                        self.selection = index
+                    }
+                }
+                Spacer()
+            }
+            .padding(0)
+            .background(controller.backgroundColor) // Extra background layer to reset the shadow and stop it applying to every sub-view
+            .shadow(color: Color.clear, radius: 0, x: 0, y: 0)
+            .background(controller.backgroundColor)
+            .shadow(
+                color: Color.black.opacity(0.25),
+                radius: 3,
+                x: 0,
+                y: tabBarPosition == .top ? 1 : -1
+            )
+            .zIndex(99) // Raised so that shadow is visible above view backgrounds
         }
     #endif
 }
@@ -86,8 +142,8 @@ public struct TabBar: View {
 struct TabBarContainer: View {
     #if os(iOS)
         @ObservedObject private var controller = TabBarController(tabs: [
-            TabItem(key: 0, title: "Tab 1", systemIcon: "list.dash"),
-            TabItem(key: 1, title: "Tab 2", systemIcon: "square.and.pencil"),
+            TabItem(key: 0, title: "Tab 1", systemIcon: "list.dash", iconColor: .blue),
+            TabItem(key: 1, title: "Tab 2", systemIcon: "square.and.pencil", iconColor: .green),
             TabItem(key: 2, title: "Tab 3", systemIcon: "person.2.circle", iconColor: .yellow),
             TabItem(key: 3, title: "Tab 4", icon: "tabIcon"),
             TabItem(key: 4, title: "Tab 5", icon: "tabIcon", iconColor: .black),
@@ -99,13 +155,14 @@ struct TabBarContainer: View {
     #endif
     #if os(macOS)
         @ObservedObject private var controller = TabBarController(tabs: [
-            TabItem(key: 0, title: "Tab 1", systemIcon: "list.dash"),
-            TabItem(key: 1, title: "Tab 2", systemIcon: "square.and.pencil"),
+            TabItem(key: 0, title: "Tab 1", systemIcon: "list.dash", iconColor: .blue),
+            TabItem(key: 1, title: "Tab 2", systemIcon: "square.and.pencil", iconColor: .green),
             TabItem(key: 2, title: "Tab 3", systemIcon: "person.2.circle", iconColor: .yellow),
             TabItem(key: 3, title: "Tab 4", icon: "tabIcon"),
             TabItem(key: 4, title: "Tab 5", icon: "tabIcon", iconColor: .black),
         ],
-        viewProvider: viewProvider
+        viewProvider: viewProvider,
+        backgroundColor: Color.backgroundColor
         )
     #endif
     var body: some View {
@@ -117,7 +174,7 @@ fileprivate func viewProvider(controller: TabBarController, item: TabItem) -> An
     switch item.key {
     case 0:
         return AnyView(Tab1().background(.red))
-        
+
     case 1:
         return AnyView(Tab2())
 
@@ -129,7 +186,7 @@ fileprivate func viewProvider(controller: TabBarController, item: TabItem) -> An
 
     case 4:
         return AnyView(Tab5())
-        
+
     default:
         return AnyView(EmptyView())
     }
