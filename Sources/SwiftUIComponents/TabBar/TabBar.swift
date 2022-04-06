@@ -53,14 +53,14 @@ public struct TabBar: View {
                             if let icon = tab.systemIcon {
                                 Image(systemName: icon)
                                     .resizable()
-                                    .aspectRatio(contentMode: .fill)
+                                    .aspectRatio(contentMode: .fit)
                                     .frame(width: 15, height: 15)
                                     .foregroundColor(tab.iconColor)
 
                             } else {
                                 getSafeImage(name: tab.icon!)
                                     .resizable()
-                                    .aspectRatio(contentMode: .fill)
+                                    .aspectRatio(contentMode: .fit)
                                     .frame(width: 15, height: 15)
                             }
                             Text(tab.title)
@@ -162,12 +162,12 @@ public struct TabBar: View {
                         if let icon = tab.systemIcon {
                             getSafeSystemImage(systemName: icon)
                                 .resizable()
-                                .aspectRatio(contentMode: .fill)
+                                .aspectRatio(contentMode: .fit)
                                 .frame(width: 15, height: 15)
                         } else {
                             getSafeImage(name: tab.icon!)
                                 .resizable()
-                                .aspectRatio(contentMode: .fill)
+                                .aspectRatio(contentMode: .fit)
                                 .frame(width: 15, height: 15)
                         }
                         Text(tab.title)
@@ -214,11 +214,16 @@ struct TabBarContainer: View {
     #endif
     #if os(macOS)
         @ObservedObject private var controller = TabBarController(tabs: [
-            TabItem(key: 0, title: "Tab 1", systemIcon: "list.dash", iconColor: .blue),
-            TabItem(key: 1, title: "Tab 2", systemIcon: "square.and.pencil", iconColor: .green),
-            TabItem(key: 2, title: "Tab 3", systemIcon: "person.2.circle", iconColor: .yellow),
-            TabItem(key: 3, title: "Tab 4", icon: "tabIcon"),
-            TabItem(key: 4, title: "Tab 5", icon: "tabIcon", iconColor: .black),
+            
+            TabItem(key: 0, title: "Tab 1", systemIcon: "plus", iconColor: .blue),
+            TabItem(key: 1, title: "Tab 2", systemIcon: "minus", iconColor: .green),
+
+            
+//            TabItem(key: 0, title: "Tab 1", systemIcon: "list.dash", iconColor: .blue),
+//            TabItem(key: 1, title: "Tab 2", systemIcon: "square.and.pencil", iconColor: .green),
+//            TabItem(key: 2, title: "Tab 3", systemIcon: "person.2.circle", iconColor: .yellow),
+//            TabItem(key: 3, title: "Tab 4", icon: "tabIcon"),
+//            TabItem(key: 4, title: "Tab 5", icon: "tabIcon", iconColor: .black),
         ],
         tabBarPosition: .bottom,
         viewProvider: viewProvider,
