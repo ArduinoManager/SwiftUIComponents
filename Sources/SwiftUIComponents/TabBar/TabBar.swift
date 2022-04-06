@@ -208,8 +208,7 @@ struct TabBarContainer: View {
         ],
         tabBarPosition: .bottom,
         viewProvider: viewProvider,
-        backgroundColor: Color(.gray),
-        itemsColor: .green
+        backgroundColor: Color(.gray)
         )
     #endif
     #if os(macOS)

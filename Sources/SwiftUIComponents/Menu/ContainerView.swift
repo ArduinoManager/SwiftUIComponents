@@ -33,7 +33,8 @@ import SwiftUI
                     ForEach(controller.menuItems, id: \.self) { item in
                         if item is MenuView {
                             Print("\(item.title)")
-                            controller.makeView(item: item as! MenuView)
+                            controller.viewProvider?(controller, item as! MenuView)
+                            //controller.makeView(item: item as! MenuView)
                                 // (item as! MenuView).makeView()
                                 .tag(item.key)
                         }

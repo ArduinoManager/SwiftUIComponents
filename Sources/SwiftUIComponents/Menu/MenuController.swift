@@ -141,9 +141,9 @@ public class MenuController: SuperController, ObservableObject {
         menuItems.removeSubrange((index...))
     }
 
-    func makeView(item: MenuView) -> some View {
-        return viewProvider?(self,item)
-    }
+//    func makeView(item: MenuView) -> some View {
+//        return viewProvider?(self,item)
+//    }
     
     // MARK: - Encodable & Decodable
 

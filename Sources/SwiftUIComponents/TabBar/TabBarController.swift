@@ -18,8 +18,7 @@ public class TabBarController: SuperController, ObservableObject {
         public init(tabs: [TabItem],
                     tabBarPosition: TabBar.TabBarPosition,
                     viewProvider: ((_ controller: TabBarController, _ tab: TabItem) -> AnyView)?,
-                    backgroundColor: Color = Color(uiColor: .systemBackground),
-                    itemsColor: Color = Color(uiColor: .label))
+                    backgroundColor: Color = Color(uiColor: .systemBackground))
         {
             self.tabs = tabs
             self.tabBarPosition = tabBarPosition
@@ -38,8 +37,7 @@ public class TabBarController: SuperController, ObservableObject {
         public init(tabs: [TabItem],
                     tabBarPosition: TabBar.TabBarPosition,
                     viewProvider: ((_ controller: TabBarController, _ tab: TabItem) -> AnyView)?,
-                    backgroundColor: Color = Color(nsColor: .windowBackgroundColor),
-                    itemsColor: Color = Color(nsColor: .labelColor)
+                    backgroundColor: Color = Color(nsColor: .windowBackgroundColor)
         )
         {
             self.tabs = tabs
@@ -63,6 +61,12 @@ public class TabBarController: SuperController, ObservableObject {
         }
     }
 
+    public func deleteTab(tab: TabItem) {
+        if let idx = tabs.firstIndex(of: tab) {
+            deleteTabAt(index: idx)
+        }
+    }
+    
     public func deleteTabAt(index: Int) {
         tabs.remove(at: index)
     }
