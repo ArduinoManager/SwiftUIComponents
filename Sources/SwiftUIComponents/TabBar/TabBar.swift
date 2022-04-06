@@ -64,7 +64,7 @@ public struct TabBar: View {
                                     .frame(width: 15, height: 15)
                             }
                             Text(tab.title)
-                                .foregroundColor(self.selection == index ? Color.accentColor : tab.color)
+                                .foregroundColor(self.selection == index ? controller.selectionColor : tab.color)
                         }
                         .frame(height: 48)
                         .padding(.vertical, 5)
@@ -174,7 +174,7 @@ public struct TabBar: View {
                     }
                     .frame(height: 20)
                     .padding(5)
-                    .foregroundColor(self.selection == index ? Color.accentColor : tab.color)
+                    .foregroundColor(self.selection == index ? controller.selectionColor : tab.color)
                     // .background(controller.backgroundColor)
                     .onTapGesture {
                         self.selection = index

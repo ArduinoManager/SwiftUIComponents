@@ -13,16 +13,19 @@ public class TabBarController: SuperController, ObservableObject {
     @Published public var viewProvider: ((_ controller: TabBarController, _ tab: TabItem) -> AnyView)?
     @Published public var tabBarPosition: TabBar.TabBarPosition
     @Published public var backgroundColor: Color
+    @Published public var selectionColor: Color
 
     #if os(iOS)
         public init(tabs: [TabItem],
                     tabBarPosition: TabBar.TabBarPosition,
                     viewProvider: ((_ controller: TabBarController, _ tab: TabItem) -> AnyView)?,
-                    backgroundColor: Color = Color(uiColor: .systemBackground))
+                    backgroundColor: Color = Color(uiColor: .systemBackground),
+                    selectionColor: Color = .accentColor)
         {
             self.tabs = tabs
             self.tabBarPosition = tabBarPosition
             self.backgroundColor = backgroundColor
+            self.selectionColor = selectionColor
             self.viewProvider = viewProvider
             super.init(type: .tabBar)
 
@@ -37,12 +40,14 @@ public class TabBarController: SuperController, ObservableObject {
         public init(tabs: [TabItem],
                     tabBarPosition: TabBar.TabBarPosition,
                     viewProvider: ((_ controller: TabBarController, _ tab: TabItem) -> AnyView)?,
-                    backgroundColor: Color = Color(nsColor: .windowBackgroundColor)
+                    backgroundColor: Color = Color(nsColor: .windowBackgroundColor),
+                    selectionColor: Color = .accentColor
         )
         {
             self.tabs = tabs
             self.tabBarPosition = tabBarPosition
             self.backgroundColor = backgroundColor
+            self.selectionColor = selectionColor
             self.viewProvider = viewProvider
             super.init(type: .tabBar)
 
@@ -76,6 +81,7 @@ public class TabBarController: SuperController, ObservableObject {
     enum CodingKeys: CodingKey {
         case tabs
         case backgroundColor
+        case selectionColor
         case position
     }
 
@@ -83,6 +89,7 @@ public class TabBarController: SuperController, ObservableObject {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         tabs = try values.decode([TabItem].self, forKey: .tabs)
         backgroundColor = try values.decode(Color.self, forKey: .backgroundColor)
+        selectionColor = try values.decode(Color.self, forKey: .selectionColor)
         tabBarPosition = try values.decode(TabBar.TabBarPosition.self, forKey: .position)
         viewProvider = { _, _ in
             AnyView(EmptyView())
@@ -94,6 +101,7 @@ public class TabBarController: SuperController, ObservableObject {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(tabs, forKey: .tabs)
         try container.encode(backgroundColor, forKey: .backgroundColor)
+        try container.encode(selectionColor, forKey: .selectionColor)
         try container.encode(tabBarPosition, forKey: .position)
         try super.encode(to: encoder)
     }
