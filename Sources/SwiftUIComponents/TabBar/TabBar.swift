@@ -14,7 +14,7 @@ public struct TabBar: View {
     @State private var selection = 0
 
     // Where the tab bar will be located within the view
-    public enum TabBarPosition {
+    public enum TabBarPosition: Codable {
         case top
         case bottom
     }
@@ -25,47 +25,114 @@ public struct TabBar: View {
     }
 
     #if os(iOS)
-
         public var body: some View {
             VStack(spacing: 0) {
-                ForEach(controller.tabs, id: \.self) { tab in
-                    if tab == selectedTab {
-                        controller.viewProvider?(controller, tab)
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    }
+                if controller.tabBarPosition == .top {
+                    tabBar
                 }
-                HStack {
-                    ForEach(0 ..< controller.tabs.count, id: \.self) { idx in
-                        let tab = controller.tabs[idx]
-                        Button(action:
-                            { selectedTab = tab }) {
-                            VStack {
-                                if let systemIcon = tab.systemIcon {
-                                    Image(systemName: systemIcon)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .padding(.bottom, 2)
-                                } else {
-                                    Image(tab.icon!, bundle: .module)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .padding(.bottom, 2)
-                                }
-                                Text(tab.title).font(.caption)
-                            }
-                            .foregroundColor(tab.iconColor == nil ? controller.itemsColor : tab.iconColor)
-                        }.opacity(tab == selectedTab ? 0.5 : 1.0)
-
-                        if idx < controller.tabs.count - 1 {
-                            Spacer()
-                        }
-                    }
+                controller.viewProvider?(controller, controller.tabs[selection])
+                    .padding(0)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                if controller.tabBarPosition == .bottom {
+                    tabBar
                 }
-                .padding(.top, 6)
-                .padding(.horizontal, getRect().width / CGFloat(4 * controller.tabs.count))
-                .frame(height: 48.0)
-                .background(controller.backgroundColor)
             }
+            .padding(0)
+        }
+
+        public var tabBar: some View {
+            VStack {
+                HStack {
+                    
+                    ForEach(0 ..< controller.tabs.count, id: \.self) { index in
+                        let tab = controller.tabs[index]
+
+                        Spacer()
+                        
+                        VStack {
+                            if let icon = tab.systemIcon {
+                                Image(systemName: icon)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 15, height: 15)
+                                    .foregroundColor(tab.iconColor)
+
+                            } else {
+                                getSafeImage(name: tab.icon!)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 15, height: 15)
+                            }
+                            Text(tab.title)
+                                .foregroundColor(self.selection == index ? Color.accentColor : tab.iconColor)
+                        }
+                        .frame(height: 48)
+                        .padding(.vertical, 5)
+                        .padding(.horizontal, 8)
+                        //.border(.white, width: 2)
+                        .onTapGesture {
+                            self.selection = index
+                        }
+                        
+                        Spacer()
+                    }
+                    
+                }
+                .padding(0)
+                .background(controller.backgroundColor) // Extra background layer to reset the shadow and stop it applying to every sub-view
+                .shadow(color: Color.clear, radius: 0, x: 0, y: 0)
+                .background(controller.backgroundColor)
+//        .shadow(
+//            color: Color.black.opacity(0.25),
+//            radius: 3,
+//            x: 0,
+//            y: controller.tabBarPosition == .top ? 1 : -1
+//        )
+//        .zIndex(99) // Raised so that shadow is visible above view backgrounds
+            }
+            .background(controller.backgroundColor)
+
+//        public var body: some View {
+//            VStack(spacing: 0) {
+//                ForEach(controller.tabs, id: \.self) { tab in
+//                    if tab == selectedTab {
+//                        controller.viewProvider?(controller, tab)
+//                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+//                    }
+//                }
+//                HStack {
+//                    ForEach(0 ..< controller.tabs.count, id: \.self) { idx in
+//                        let tab = controller.tabs[idx]
+//                        Button(action:
+//                            { selectedTab = tab }) {
+//                            VStack {
+//                                if let systemIcon = tab.systemIcon {
+//                                    Image(systemName: systemIcon)
+//                                        .resizable()
+//                                        .aspectRatio(contentMode: .fit)
+//                                        .padding(.bottom, 2)
+//                                } else {
+//                                    Image(tab.icon!, bundle: .module)
+//                                        .resizable()
+//                                        .aspectRatio(contentMode: .fit)
+//                                        .padding(.bottom, 2)
+//                                }
+//                                Text(tab.title).font(.caption)
+//                            }
+//                            .foregroundColor(tab.iconColor == nil ? controller.itemsColor : tab.iconColor)
+//                        }.opacity(tab == selectedTab ? 0.5 : 1.0)
+//
+//                        if idx < controller.tabs.count - 1 {
+//                            Spacer()
+//                        }
+//                    }
+//                }
+//                .padding(.top, 6)
+//                .padding(.horizontal, getRect().width / CGFloat(4 * controller.tabs.count))
+//                .frame(height: 48.0)
+//                .background(controller.backgroundColor)
+//            }
+//        }
         }
     #endif
 
