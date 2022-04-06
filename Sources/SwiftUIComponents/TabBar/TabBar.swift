@@ -175,7 +175,6 @@ public struct TabBar: View {
                     .frame(height: 20)
                     .padding(5)
                     .foregroundColor(self.selection == index ? controller.selectionColor : tab.color)
-                    // .background(controller.backgroundColor)
                     .onTapGesture {
                         self.selection = index
                     }
