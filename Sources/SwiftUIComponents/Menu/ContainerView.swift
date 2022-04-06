@@ -137,8 +137,7 @@ import SwiftUI
                 //
                 // No Title View
                 //
-                controller.makeView(item: item as! MenuView)
-                    // (item as! MenuView).makeView()
+                controller.viewProvider?(controller, item as! MenuView)
                     .onAppear(perform: {
                         print("---- 2️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
                         controller.currentTab = item.key
@@ -153,8 +152,7 @@ import SwiftUI
                         controller.titleViewProvider!(controller)
                     }
                     .background(controller.titleViewBackgroundColor)
-                    controller.makeView(item: item as! MenuView)
-                        // (item as! MenuView).makeView()
+                    controller.viewProvider?(controller, item as! MenuView)
                         .onAppear(perform: {
                             print("---- 3️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
                             controller.currentTab = item.key
@@ -175,8 +173,7 @@ import SwiftUI
                 HSplitView {
                     // Main View
                     if let i = item as? MenuView {
-                        controller.makeView(item: i)
-                            // i.makeView()
+                        controller.viewProvider?(controller, i)
                             .onAppear(perform: {
                                 print("---- 2️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
                                 controller.currentTab = item.key
@@ -243,8 +240,7 @@ import SwiftUI
                         .background(controller.titleViewBackgroundColor)
                         HSplitView {
                             if let i = item as? MenuView {
-                                controller.makeView(item: i)
-                                    // i.makeView()
+                                controller.viewProvider?(controller, i)
                                     .onAppear(perform: {
                                         print("---- 3️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
                                         controller.currentTab = item.key
