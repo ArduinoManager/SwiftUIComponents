@@ -217,7 +217,7 @@ func getSafeImage(name: String) -> Image {
         }
     #endif
     #if os(iOS)
-        if let uiImage = UIImage(named: name) {
+        if let _ = UIImage(named: name) {
             return Image(name)
                 .resizable()
         } else {

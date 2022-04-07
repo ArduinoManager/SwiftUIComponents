@@ -91,7 +91,11 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                         .modifier(AttachActions(controller: controller, item: item))
                                         .modifier(AttachSwipeActions(controller: controller, item: item))
                                         .background(currentColor(idx: idx))
+                                        .onLongPressGesture {
+                                            editingList.toggle()
+                                        }
                                         .layoutPriority(1)
+                                        
                                     Button {
                                         controller.selectedItem = item
                                         controller.editingItem = item
