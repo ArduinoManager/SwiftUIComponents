@@ -250,13 +250,13 @@ func makeImage(action: ListAction, iconSize: CGFloat, color: Color) -> some View
 
 extension Color {
     #if os(macOS)
-        static let label = Color(NSColor.labelColor)
-        static let backgroundColor = Color(NSColor.windowBackgroundColor)
-        static let secondaryBackgroundColor = Color(NSColor.controlBackgroundColor)
+        public static let label = Color(NSColor.labelColor)
+        public static let backgroundColor = Color(NSColor.windowBackgroundColor)
+        public static let secondaryBackgroundColor = Color(NSColor.controlBackgroundColor)
     #else
-        static let label = Color(UIColor.label)
-        static let backgroundColor = Color(UIColor.systemBackground)
-        static let secondaryBackgroundColor = Color(UIColor.secondarySystemBackground)
+        public static let label = Color(UIColor.label)
+        public static let backgroundColor = Color(UIColor.systemBackground)
+        public static let secondaryBackgroundColor = Color(UIColor.secondarySystemBackground)
     #endif
 
     #if os(macOS)
