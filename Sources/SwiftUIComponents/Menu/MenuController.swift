@@ -96,7 +96,7 @@ public class MenuController: SuperController, ObservableObject {
             
             showMenu = false
             self.menuItems = menuItems
-            autoClose = false
+            autoClose = true
             openButtonAtTop = false
             openButtonColor = Color(NSColor.labelColor)
             openButtonIcon = "line.3.horizontal"

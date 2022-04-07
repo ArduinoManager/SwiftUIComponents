@@ -99,7 +99,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                             editingList.toggle()
                                         }
                                         .layoutPriority(1)
-                                        
+
                                     Button {
                                         controller.selectedItem = item
                                         controller.editingItem = item
@@ -202,7 +202,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
 fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View>: ViewModifier {
     @ObservedObject var controller: ListController<Item, Row>
     var item: Item
-   
+
     func body(content: Content) -> some View {
         HStack(alignment: .center, spacing: 5) {
             if !controller.swipeActions {
