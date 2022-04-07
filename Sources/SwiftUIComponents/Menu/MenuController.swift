@@ -12,7 +12,7 @@ public class MenuController: SuperController, ObservableObject {
     @Published public var currentTab: Key
     @Published var showMenu: Bool
     public var sideTitleViewProvider: ((_ controller: MenuController) -> AnyView)?
-    @Published public var itemsColor: Color
+    @Published public var itemsColor: GenericColor
     @Published public var selectedItemBackgroundColor: Color
     @Published public var backgroundColor: GenericColor
     @Published public var autoClose: Bool
@@ -38,8 +38,8 @@ public class MenuController: SuperController, ObservableObject {
                     openButtonSize: CGFloat = 20.0,
                     sideTitleViewProvider: ((_ controller: MenuController) -> AnyView)? = nil,
                     backgroundColor: GenericColor = GenericColor(systemColor: .background),
-                    itemsColor: Color = Color(uiColor: .label),
-                    selectedItemBackgroundColor: Color = Color(uiColor: .systemGray4),
+                    itemsColor: GenericColor = GenericColor(systemColor: .label),
+                    selectedItemBackgroundColor: Color = Color(uiColor: .systemGray3),
                     titleViewProvider: ((_ controller: MenuController) -> AnyView)?,
                     titleViewBackgroundColor: Color = Color(uiColor: .systemBackground),
                     actionsHandler: @escaping (_ controller: MenuController, _ item: MenuAction) -> Void,
@@ -87,7 +87,7 @@ public class MenuController: SuperController, ObservableObject {
         public init(menuItems: [MenuItem],
                     sideTitleViewProvider: ((_ controller: MenuController) -> AnyView)? = nil,
                     backgroundColor: GenericColor = GenericColor(systemColor: .background),
-                    itemsColor: Color = Color(NSColor.labelColor),
+                    itemsColor: GenericColor = GenericColor(systemColor: .label),
                     titleViewProvider: ((_ controller: MenuController) -> AnyView)?,
                     titleViewBackgroundColor: Color = Color(NSColor.windowBackgroundColor),
                     inspectorViewProvider: ((_ controller: MenuController) -> AnyView?)? = nil,
@@ -202,7 +202,7 @@ public class MenuController: SuperController, ObservableObject {
         openButtonIcon = try values.decode(String.self, forKey: .openButtonIcon)
         openButtonSize = try values.decode(CGFloat.self, forKey: .openButtonSize)
         backgroundColor = try values.decode(GenericColor.self, forKey: .backgroundColor)
-        itemsColor = try values.decode(Color.self, forKey: .itemsColor)
+        itemsColor = try values.decode(GenericColor.self, forKey: .itemsColor)
         selectedItemBackgroundColor = try values.decode(Color.self, forKey: .selectedItemBackgroundColor)
         titleViewBackgroundColor = try values.decode(Color.self, forKey: .titleViewBackgroundColor)
 

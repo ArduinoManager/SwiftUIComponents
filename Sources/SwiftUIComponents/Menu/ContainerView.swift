@@ -287,7 +287,7 @@ struct MainViewContainer: View {
             _controller = StateObject(wrappedValue: MenuController(menuItems: menuItems,
                                                                    // sideTitleView: AnyView(SideTitleView()),
                                                                    backgroundColor: GenericColor(systemColor: .background),
-                                                                   itemsColor: .red,
+                                                                   itemsColor: GenericColor(systemColor: .label),
                                                                    // titleView: AnyView(TitleView()),
                                                                    titleViewProvider: { _ in
                                                                        AnyView(TitleView())
@@ -371,7 +371,7 @@ struct MainViewContainer: View {
                                        AnyView(TitleView())
                                    },
                                    backgroundColor: GenericColor(systemColor: .background),
-                                   itemsColor: .red,
+                                   itemsColor: GenericColor(systemColor: .label),
                                    titleViewProvider: { _ in
                                        AnyView(TitleView())
                                    },

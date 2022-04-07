@@ -81,22 +81,22 @@ import SwiftUI
                     makeImage(item: item)
                         .font(.title3)
                         .frame(width: controller.currentTab == item.key ? buttonHeight : nil, height: buttonHeight)
-                        .foregroundColor(controller.currentTab == item.key ? controller.selectedItemBackgroundColor : controller.itemsColor)
+                        .foregroundColor(controller.currentTab == item.key ? controller.backgroundColor.color : controller.itemsColor.color)
                         .background(
                             ZStack {
                                 if controller.currentTab == item.key {
-                                    Color.white
+                                    controller.itemsColor.color
                                         .clipShape(Circle())
                                         .matchedGeometryEffect(id: "TABCIRCLE", in: animation)
                                 }
                             }
                         )
-                        .padding([.leading, .trailing], 1)
+                        .padding([.leading, .trailing], 0)
 
                     Text(item.title)
                         .font(.callout)
                         .fontWeight(.semibold)
-                        .foregroundColor(controller.itemsColor)
+                        .foregroundColor(controller.itemsColor.color)
                 }
 
                 .padding(.trailing, 18)
@@ -127,7 +127,7 @@ import SwiftUI
                     makeImage(item: item)
                         .font(.title3)
                         .frame(width: controller.currentTab == item.key ? buttonHeight : nil, height: buttonHeight)
-                        .foregroundColor(controller.currentTab == item.key ? controller.selectedItemBackgroundColor : controller.itemsColor)
+                        .foregroundColor(controller.currentTab == item.key ? controller.selectedItemBackgroundColor : controller.itemsColor.color)
                         .background(
                             ZStack {
                                 if controller.currentTab == item.key {
@@ -142,7 +142,7 @@ import SwiftUI
                     Text(item.title)
                         .font(.callout)
                         .fontWeight(.semibold)
-                        .foregroundColor(controller.itemsColor)
+                        .foregroundColor(controller.itemsColor.color)
                 }
 
                 .padding(.trailing, 18)
@@ -213,15 +213,14 @@ import SwiftUI
 
                 List {
                     ForEach(controller.menuItems, id: \.key) { item in
-//                        //Print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% \(item.self) ")
                         switch item {
                         case is MenuView:
                             NavigationLink(destination: ContainerView(controller: controller, item: item)) {
                                 HStack(alignment: .center) {
                                     makeImage(item: item)
-                                        .foregroundColor(controller.itemsColor)
+                                        .foregroundColor(controller.itemsColor.color)
                                     Text(item.title)
-                                        .foregroundColor(controller.itemsColor)
+                                        .foregroundColor(controller.itemsColor.color)
                                 }
                             }
 
@@ -233,9 +232,9 @@ import SwiftUI
                             } label: {
                                 HStack(alignment: .center) {
                                     makeImage(item: item)
-                                        .foregroundColor(controller.itemsColor)
+                                        .foregroundColor(controller.itemsColor.color)
                                     Text(item.title)
-                                        .foregroundColor(controller.itemsColor)
+                                        .foregroundColor(controller.itemsColor.color)
                                 }
                             }
                             .buttonStyle(.plain)
@@ -314,8 +313,8 @@ struct SideMenuContainer: View {
         ]
         ,
         // sideTitleView: AnyView(SideTitleView()),
-        backgroundColor: GenericColor(systemColor: .systemBlue),
-        itemsColor: .red,
+        backgroundColor: GenericColor(systemColor: .background),
+        itemsColor: GenericColor(systemColor: .label),
         // titleView: AnyView(TitleView()),
         titleViewProvider: { _ in
             AnyView(TitleView())
@@ -355,8 +354,12 @@ struct SideMenuContainer: View {
     }
 }
 
+
 struct SideMenuView_Previews: PreviewProvider {
     static var previews: some View {
-        SideMenuContainer()
+        ForEach(ColorScheme.allCases, id: \.self) {
+            SideMenuContainer()
+                .preferredColorScheme($0)
+        }
     }
 }
