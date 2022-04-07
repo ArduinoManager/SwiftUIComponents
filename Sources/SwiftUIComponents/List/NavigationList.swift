@@ -69,6 +69,10 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                     }
                     #if os(macOS)
                         .buttonStyle(PlainButtonStyle())
+                        .padding(.trailing, controller.isPlain ? -6 : 2)
+                    #endif
+                    #if os(iOS)
+                        .padding(.trailing, 6)
                     #endif
                 }
                 .padding([.leading, .trailing])
@@ -317,8 +321,8 @@ struct NavigationListContainer: View {
         ]
 
         _controller = StateObject(wrappedValue: ListController<ListItem, RowView>(items: items,
-                                                                                  style: .grouped(alternatesRows: true, alternateBackgroundColor: .gray),
-                                                                                  title: "Title",
+                                                                                  style: .plain(alternatesRows: true, alternateBackgroundColor: .gray),
+                                                                                  title: nil,
                                                                                   addButtonIcon: "plus",
                                                                                   addButtonColor: .red,
                                                                                   editButtonLabel: "Edit_",

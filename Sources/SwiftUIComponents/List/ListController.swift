@@ -107,13 +107,21 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
     @Published var selectedItem: Item? // Used only in the NavigationList to start the Form to enter a new Item or edit an existing one
     @Published var startNewItem: String? // Setting this to newItem a new Item is created
 
+    public var isPlain: Bool {
+        if case .plain = style {
+            return true
+        }
+        return false
+    }
+    
+    
     #if os(iOS)
         public init(items: [Item],
                     sort: ((_: inout [Item]) -> Void)? = nil,
                     style: ListStyle,
                     title: String? = nil,
                     multipleSelection: Bool = false,
-                    addButtonIcon: String = "plus.square",
+                    addButtonIcon: String = "plus",
                     addButtonColor: Color = Color(uiColor: .label),
                     editButtonLabel: String,
                     deleteButtonLabel: String,
@@ -165,7 +173,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
                     style: ListStyle,
                     title: String? = nil,
                     multipleSelection: Bool = false,
-                    addButtonIcon: String = "plus.square",
+                    addButtonIcon: String = "plus",
                     addButtonColor: Color = Color(NSColor.labelColor),
                     editButtonLabel: String,
                     deleteButtonLabel: String,
