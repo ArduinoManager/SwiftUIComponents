@@ -8,7 +8,7 @@
 import SwiftUI
 
 public class GenericColor: Codable {
-    public enum SystemColor: CaseIterable, Codable {
+    public enum SystemColor: String, CaseIterable, Codable {
         case systemRed
         case systemBlue
         case systemGreen
