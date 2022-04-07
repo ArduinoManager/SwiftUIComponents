@@ -228,22 +228,22 @@ func getSafeImage(name: String) -> Image {
 }
 
 @ViewBuilder
-func makeImage(action: ListAction, iconSize: CGFloat, color: Color) -> some View {
+func makeImage(action: ListAction, iconSize: CGFloat, color: GenericColor) -> some View {
     if action.icon != nil {
         getSafeImage(name: action.icon!)
             .aspectRatio(contentMode: .fit)
             .padding(3)
-            .foregroundColor(color)
+            .foregroundColor(color.color)
             .frame(width: iconSize + 1, height: iconSize + 1)
-            .border(color, width: 1)
+            .border(color.color, width: 1)
     } else {
         if let icon = action.systemIcon {
             getSafeSystemImage(systemName: icon)
                 .aspectRatio(contentMode: .fit)
                 .padding(3)
-                .foregroundColor(color)
+                .foregroundColor(color.color)
                 .frame(width: iconSize + 1, height: iconSize + 1)
-                .border(color, width: 1)
+                .border(color.color, width: 1)
         }
     }
 }

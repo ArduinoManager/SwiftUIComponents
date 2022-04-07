@@ -27,12 +27,12 @@ public protocol ListItemCopyable: AnyObject {
 public struct ListAction: Hashable, Codable {
     public var key: String
     public var label: String
-    public var color: Color
+    public var color: GenericColor
     public var systemIcon: String?
     public var icon: String?
 
     #if os(iOS)
-        public init(key: String, label: String, systemIcon: String? = nil, icon: String? = nil, color: Color = Color(uiColor: .label)) {
+        public init(key: String, label: String, systemIcon: String? = nil, icon: String? = nil, color: GenericColor = GenericColor.label) {
             self.key = key
             self.label = label
             self.color = color
@@ -41,7 +41,7 @@ public struct ListAction: Hashable, Codable {
         }
     #endif
     #if os(macOS)
-        public init(key: String, label: String, systemIcon: String? = nil, icon: String? = nil, color: Color = Color(.labelColor)) {
+        public init(key: String, label: String, systemIcon: String? = nil, icon: String? = nil, color: GenericColor = GenericColor.label) {
             self.key = key
             self.label = label
             self.color = color
@@ -53,26 +53,19 @@ public struct ListAction: Hashable, Codable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(key)
     }
+    
+    public static func == (lhs: ListAction, rhs: ListAction) -> Bool {
+        return lhs.key == rhs.key
+    }
 }
 
-#if os(iOS)
-    public enum ListStyle: Codable {
-        case plain(alternatesRows: Bool, alternateBackgroundColor: Color = Color(uiColor: UIColor.systemBackground))
-        case grouped(alternatesRows: Bool, alternateBackgroundColor: Color = Color(uiColor: UIColor.systemBackground))
-        case inset(alternatesRows: Bool, alternateBackgroundColor: Color = Color(uiColor: UIColor.systemBackground))
-        case insetGrouped(alternatesRows: Bool, alternateBackgroundColor: Color = Color(uiColor: UIColor.systemBackground))
-        case sidebar(alternatesRows: Bool, alternateBackgroundColor: Color = Color(uiColor: UIColor.systemBackground))
-    }
-#endif
-#if os(macOS)
-    public enum ListStyle: Codable {
-        case plain(alternatesRows: Bool, alternateBackgroundColor: Color = Color(nsColor: NSColor.windowBackgroundColor))
-        case grouped(alternatesRows: Bool, alternateBackgroundColor: Color = Color(nsColor: NSColor.windowBackgroundColor)) // On macOS like inset
-        case inset(alternatesRows: Bool, alternateBackgroundColor: Color = Color(nsColor: NSColor.windowBackgroundColor))
-        case insetGrouped(alternatesRows: Bool, alternateBackgroundColor: Color = Color(nsColor: NSColor.windowBackgroundColor)) // On macOS like inset
-        case sidebar(alternatesRows: Bool, alternateBackgroundColor: Color = Color(nsColor: NSColor.windowBackgroundColor))
-    }
-#endif
+public enum ListStyle: Codable {
+    case plain(alternatesRows: Bool, alternateBackgroundColor: GenericColor = GenericColor.label)
+    case grouped(alternatesRows: Bool, alternateBackgroundColor: GenericColor = GenericColor.label) // On macOS like inset
+    case inset(alternatesRows: Bool, alternateBackgroundColor: GenericColor = GenericColor.label)
+    case insetGrouped(alternatesRows: Bool, alternateBackgroundColor: GenericColor = GenericColor.label) // On macOS like inset
+    case sidebar(alternatesRows: Bool, alternateBackgroundColor: GenericColor = GenericColor.label)
+}
 
 public class ListController<Item: Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View>: SuperController, ObservableObject {
     @Published var items: [Item]
@@ -85,7 +78,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
     @Published public var editButtonLabel: String
     @Published public var deleteButtonLabel: String
     @Published public var backgroundColor: Color
-    @Published public var rowBackgroundColor: Color
+    @Published public var rowBackgroundColor: GenericColor
     @Published public var swipeActions: Bool
     @Published public var leadingActions: [ListAction]
     @Published public var trailingActions: [ListAction]
@@ -113,8 +106,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
         }
         return false
     }
-    
-    
+
     #if os(iOS)
         public init(items: [Item],
                     sort: ((_: inout [Item]) -> Void)? = nil,
@@ -126,7 +118,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
                     editButtonLabel: String,
                     deleteButtonLabel: String,
                     backgroundColor: Color = Color(uiColor: .systemGroupedBackground),
-                    rowBackgroundColor: Color = Color(uiColor: .systemBackground),
+                    rowBackgroundColor: GenericColor = GenericColor.background,
                     swipeActions: Bool = true,
                     leadingActions: [ListAction] = [],
                     trailingActions: [ListAction] = [],
@@ -178,7 +170,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
                     editButtonLabel: String,
                     deleteButtonLabel: String,
                     backgroundColor: Color = Color(NSColor.windowBackgroundColor),
-                    rowBackgroundColor: Color = Color(NSColor.windowBackgroundColor),
+                    rowBackgroundColor: GenericColor = GenericColor.background,
                     swipeActions: Bool = true,
                     leadingActions: [ListAction] = [],
                     trailingActions: [ListAction] = [],
@@ -245,7 +237,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
 
     func select(item: Item) {
         if !multipleSelection {
-            items.filter({$0 != item}).forEach { $0.deselect() }
+            items.filter({ $0 != item }).forEach { $0.deselect() }
         }
         let newItem = item
         newItem.toggleSelection()
@@ -310,7 +302,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
 
     public required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        
+
         items = [Item]()
         style = try values.decode(ListStyle.self, forKey: .style)
         multipleSelection = try values.decode(Bool.self, forKey: .multipleSelection)
@@ -320,7 +312,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
         editButtonLabel = try values.decode(String.self, forKey: .editButtonLabel)
         deleteButtonLabel = try values.decode(String.self, forKey: .deleteButtonLabel)
         backgroundColor = try values.decode(Color.self, forKey: .backgroundColor)
-        rowBackgroundColor = try values.decode(Color.self, forKey: .rowBackgroundColor)
+        rowBackgroundColor = try values.decode(GenericColor.self, forKey: .rowBackgroundColor)
         swipeActions = try values.decode(Bool.self, forKey: .swipeActions)
         leadingActions = try values.decode([ListAction].self, forKey: .leadingActions)
         trailingActions = try values.decode([ListAction].self, forKey: .trailingActions)
@@ -343,17 +335,17 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
         try container.encode(editButtonLabel, forKey: .editButtonLabel)
         try container.encode(deleteButtonLabel, forKey: .deleteButtonLabel)
         try container.encode(backgroundColor, forKey: .backgroundColor)
-        
+
         try container.encode(backgroundColor, forKey: .backgroundColor)
         try container.encode(rowBackgroundColor, forKey: .rowBackgroundColor)
         try container.encode(swipeActions, forKey: .swipeActions)
         try container.encode(leadingActions, forKey: .leadingActions)
-        
+
         try container.encode(leadingActions, forKey: .leadingActions)
         try container.encode(trailingActions, forKey: .trailingActions)
         try container.encode(showLineSeparator, forKey: .showLineSeparator)
         try container.encode(lineSeparatorColor, forKey: .lineSeparatorColor)
-        
+
         try super.encode(to: encoder)
     }
 }

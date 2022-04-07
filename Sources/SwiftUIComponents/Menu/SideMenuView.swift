@@ -47,7 +47,7 @@ import SwiftUI
                             case is MenuDivider:
                                 let i = item as! MenuDivider
                                 Divider()
-                                    .background(i.color)
+                                    .background(i.color.color)
 
                             default:
                                 EmptyView()

@@ -12,8 +12,8 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
     @State private var isTapped = false
     @State private var editingList = false
     private var form: () -> Form
-    private let rowColor: Color!
-    private let rowAlternateColor: Color!
+    private let rowColor: GenericColor!
+    private let rowAlternateColor: GenericColor!
     private let alternatesRows: Bool!
 
     public init(controller: ListController<Item, Row>, @ViewBuilder form: @escaping () -> Form) {
@@ -94,7 +94,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                     controller.makeRow(item)
                                         .modifier(AttachActions(controller: controller, item: item))
                                         .modifier(AttachSwipeActions(controller: controller, item: item))
-                                        .background(currentColor(idx: idx))
+                                        .background(currentColor(idx: idx).color)
                                         .onLongPressGesture {
                                             editingList.toggle()
                                         }
@@ -111,7 +111,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                             .padding(2)
                                     }
                                     .buttonStyle(.plain)
-                                    .background(currentColor(idx: idx))
+                                    .background(currentColor(idx: idx).color)
                                 }
                                 if controller.showLineSeparator {
                                     Divider()
@@ -135,7 +135,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                     controller.makeRow(item)
                                         .modifier(AttachActions(controller: controller, item: item))
                                         .modifier(AttachSwipeActions(controller: controller, item: item))
-                                        .background(currentColor(idx: idx))
+                                        .background(currentColor(idx: idx).color)
                                         .layoutPriority(1)
                                     Button {
                                         controller.selectedItem = item
@@ -148,7 +148,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                             .padding(2)
                                     }
                                     .buttonStyle(.plain)
-                                    .background(currentColor(idx: idx))
+                                    .background(currentColor(idx: idx).color)
                                 }
                                 if controller.showLineSeparator {
                                     Divider()
@@ -191,7 +191,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
         controller.items.move(fromOffsets: source, toOffset: destination)
     }
 
-    private func currentColor(idx: Int) -> Color {
+    private func currentColor(idx: Int) -> GenericColor {
         if !alternatesRows {
             return rowColor
         }
@@ -220,7 +220,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                         .buttonStyle(BorderlessButtonStyle())
                     #endif
                     #if os(macOS)
-                        .foregroundColor(action.color)
+                        .foregroundColor(action.color.color)
                         .buttonStyle(.plain)
                     #endif
                 }
@@ -247,7 +247,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                         .buttonStyle(BorderlessButtonStyle())
                     #endif
                     #if os(macOS)
-                        .foregroundColor(action.color)
+                        .foregroundColor(action.color.color)
                         .buttonStyle(.plain)
                     #endif
                 }
@@ -273,7 +273,7 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
                     Button(action.label) {
                         controller.actionHandler?(action.key)
                     }
-                    .tint(action.color)
+                    .tint(action.color.color)
                 }
             }
             .swipeActions(edge: .trailing) {
@@ -286,7 +286,7 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
                     Button(action.label) {
                         controller.actionHandler?(action.key)
                     }
-                    .tint(action.color)
+                    .tint(action.color.color)
                 }
             }
     }
@@ -311,24 +311,24 @@ struct NavigationListContainer: View {
 //                                                                 })
 
         let leadingActions = [
-            ListAction(key: "L1", label: "Action 1", systemIcon: "plus", color: .blue),
-            ListAction(key: "L2", label: "Action 2", systemIcon: "plus", color: .orange),
+            ListAction(key: "L1", label: "Action 1", systemIcon: "plus", color: GenericColor(color: .blue)),
+            ListAction(key: "L2", label: "Action 2", systemIcon: "plus", color: GenericColor(color: .orange)),
         ]
 
         let trailingActions = [
-            ListAction(key: "T1", label: "Action 1", systemIcon: "plus", color: .mint),
-            ListAction(key: "T2", label: "Action 2", icon: "logo", color: .red),
+            ListAction(key: "T1", label: "Action 1", systemIcon: "plus", color: GenericColor(color: .mint)),
+            ListAction(key: "T2", label: "Action 2", icon: "logo", color: GenericColor(color: .mint)),
         ]
 
         _controller = StateObject(wrappedValue: ListController<ListItem, RowView>(items: items,
-                                                                                  style: .plain(alternatesRows: true, alternateBackgroundColor: .gray),
+                                                                                  style: .plain(alternatesRows: true, alternateBackgroundColor: GenericColor(systemColor: .systemGray)),
                                                                                   title: nil,
                                                                                   addButtonIcon: "plus",
                                                                                   addButtonColor: .red,
                                                                                   editButtonLabel: "Edit_",
                                                                                   deleteButtonLabel: "Delete_",
                                                                                   backgroundColor: .green,
-                                                                                  rowBackgroundColor: .purple,
+                                                                                  rowBackgroundColor: GenericColor(systemColor: .systemPurple),
                                                                                   swipeActions: false,
                                                                                   leadingActions: leadingActions,
                                                                                   trailingActions: trailingActions,

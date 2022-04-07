@@ -20,8 +20,8 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
     @ObservedObject private var controller: ListController<Item, Row>
     @StateObject private var sheetManager = SheetMananger()
     @State private var editingList = false
-    private let rowColor: Color!
-    private let rowAlternateColor: Color!
+    private let rowColor: GenericColor!
+    private let rowAlternateColor: GenericColor!
     private let alternatesRows: Bool!
 
     var form: () -> Form
@@ -97,7 +97,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                             controller.makeRow(item)
                                 .modifier(AttachActions(controller: controller, item: item, sheetManager: sheetManager))
                                 .modifier(AttachSwipeActions(controller: controller, item: item, sheetManager: sheetManager))
-                                .background(currentColor(idx: idx))
+                                .background(currentColor(idx: idx).color)
                             if controller.showLineSeparator {
                                 Divider()
                                     .if(controller.lineSeparatorColor != nil) { view in
@@ -110,7 +110,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                     #if os(iOS)
                         controller.makeRow(item)
                             .modifier(AttachActions(controller: controller, item: item, sheetManager: sheetManager))
-                            .background(currentColor(idx: idx))
+                            .background(currentColor(idx: idx).color)
                             .modifier(AttachSwipeActions(controller: controller, item: item, sheetManager: sheetManager))
                             .if(!controller.showLineSeparator) { view in
                                 view
@@ -149,7 +149,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
         controller.items.move(fromOffsets: source, toOffset: destination)
     }
 
-    func currentColor(idx: Int) -> Color {
+    func currentColor(idx: Int) -> GenericColor {
         if !alternatesRows {
             return rowColor
         }
@@ -179,7 +179,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                         .buttonStyle(BorderlessButtonStyle())
                     #endif
                     #if os(macOS)
-                        .foregroundColor(action.color)
+                        .foregroundColor(action.color.color)
                         .buttonStyle(.plain)
                     #endif
                 }
@@ -249,7 +249,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                         .buttonStyle(BorderlessButtonStyle())
                     #endif
                     #if os(macOS)
-                        .foregroundColor(action.color)
+                        .foregroundColor(action.color.color)
                         .buttonStyle(.plain)
                     #endif
                 }
@@ -273,7 +273,7 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
                             Button(action.label) {
                                 controller.actionHandler?(action.key)
                             }
-                            .tint(action.color)
+                            .tint(action.color.color)
                         }
                     }
                     .swipeActions(edge: .trailing) {
@@ -291,7 +291,7 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
                             Button(action.label) {
                                 controller.actionHandler?(action.key)
                             }
-                            .tint(action.color)
+                            .tint(action.color.color)
                         }
                     }
             }
@@ -318,25 +318,25 @@ struct SimpleListContainer: View {
 //                                                                 })
 
         let leadingActions = [
-            ListAction(key: "L1", label: "Action 1", systemIcon: "pencil", color: .blue),
-            ListAction(key: "L2", label: "Action 2", systemIcon: "plus", color: .orange),
+            ListAction(key: "L1", label: "Action 1", systemIcon: "pencil", color: GenericColor(systemColor: .systemBlue)),
+            ListAction(key: "L2", label: "Action 2", systemIcon: "plus", color: GenericColor(systemColor: .systemOrange)),
         ]
 
         let trailingActions = [
-            ListAction(key: "T1", label: "Action 1", systemIcon: "pencil", color: .mint),
-            ListAction(key: "T2", label: "Action 2", icon: "logo", color: .red),
+            ListAction(key: "T1", label: "Action 1", systemIcon: "pencil", color: GenericColor(systemColor: .systemMint)),
+            ListAction(key: "T2", label: "Action 2", icon: "logo", color: GenericColor(systemColor: .systemRed)),
         ]
 
         _controller = StateObject(wrappedValue: ListController<ListItem, RowView>(items: items,
                                                                                   sort: sortList,
-                                                                                  style: .grouped(alternatesRows: false, alternateBackgroundColor: .white),
+                                                                                  style: .grouped(alternatesRows: false, alternateBackgroundColor: GenericColor(color: .white)),
                                                                                   title: nil,
                                                                                   addButtonIcon: "plus",
                                                                                   addButtonColor: .red,
                                                                                   editButtonLabel: "Edit_",
                                                                                   deleteButtonLabel: "Delete_",
                                                                                   backgroundColor: .green,
-                                                                                  rowBackgroundColor: .purple,
+                                                                                  rowBackgroundColor: GenericColor(systemColor: .systemPurple),
                                                                                   swipeActions: false,
                                                                                   leadingActions: leadingActions,
                                                                                   trailingActions: trailingActions,
