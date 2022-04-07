@@ -19,7 +19,7 @@ public class TabBarController: SuperController, ObservableObject {
                 tabBarPosition: TabBar.TabBarPosition,
                 viewProvider: ((_ controller: TabBarController, _ tab: TabItem) -> AnyView)?,
                 backgroundColor: GenericColor = GenericColor.background,
-                selectionColor: GenericColor = GenericColor.red)
+                selectionColor: GenericColor = GenericColor.systemRed)
     {
         self.tabs = tabs
         self.tabBarPosition = tabBarPosition

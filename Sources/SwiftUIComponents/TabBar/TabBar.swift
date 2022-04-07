@@ -155,11 +155,11 @@ public struct TabBar: View {
 
 struct TabBarContainer: View {
     @ObservedObject private var controller = TabBarController(tabs: [
-        TabItem(key: 0, title: "Tab 1", systemIcon: "list.dash", color: .blue),
-        TabItem(key: 1, title: "Tab 2", systemIcon: "square.and.pencil", color: .green),
-        TabItem(key: 2, title: "Tab 3", systemIcon: "person.2.circle", color: .yellow),
+        TabItem(key: 0, title: "Tab 1", systemIcon: "list.dash", color: .systemBlue),
+        TabItem(key: 1, title: "Tab 2", systemIcon: "square.and.pencil", color: .systemGreen),
+        TabItem(key: 2, title: "Tab 3", systemIcon: "person.2.circle", color: .systemYellow),
         TabItem(key: 3, title: "Tab 4", icon: "tabIcon"),
-        TabItem(key: 4, title: "Tab 5", icon: "tabIcon", color: .black),
+        TabItem(key: 4, title: "Tab 5", icon: "tabIcon", color: .systemBlack),
     ],
     tabBarPosition: .bottom,
     viewProvider: viewProvider,

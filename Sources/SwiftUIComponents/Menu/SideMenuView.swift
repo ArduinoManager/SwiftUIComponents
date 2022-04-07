@@ -131,7 +131,7 @@ import SwiftUI
                         .background(
                             ZStack {
                                 if controller.currentTab == item.key {
-                                    GenericColor.white.color
+                                    GenericColor.systemWhite.color
                                         .clipShape(Circle())
                                         .matchedGeometryEffect(id: "TABCIRCLE", in: animation)
                                 }

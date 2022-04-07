@@ -321,13 +321,13 @@ struct NavigationListContainer: View {
         ]
 
         _controller = StateObject(wrappedValue: ListController<ListItem, RowView>(items: items,
-                                                                                  style: .plain(alternatesRows: true, alternateBackgroundColor: .gray),
+                                                                                  style: .plain(alternatesRows: true, alternateBackgroundColor: .systemGray),
                                                                                   title: nil,
                                                                                   addButtonIcon: "plus",
-                                                                                  addButtonColor: .red,
+                                                                                  addButtonColor: .systemRed,
                                                                                   editButtonLabel: "Edit_",
                                                                                   deleteButtonLabel: "Delete_",
-                                                                                  backgroundColor: .green,
+                                                                                  backgroundColor: .systemGreen,
                                                                                   rowBackgroundColor: GenericColor(systemColor: .systemPurple),
                                                                                   swipeActions: false,
                                                                                   leadingActions: leadingActions,
@@ -336,7 +336,7 @@ struct NavigationListContainer: View {
                                                                                       print("Executing action \(actionKey)")
                                                                                   },
                                                                                   showLineSeparator: true,
-                                                                                  lineSeparatorColor: .blue,
+                                                                                  lineSeparatorColor: .systemBlue,
                                                                                   makeRow: { item in
                                                                                       RowView(item: item)
                                                                                   }))
