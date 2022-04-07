@@ -12,51 +12,27 @@ public class TabBarController: SuperController, ObservableObject {
     @Published public var tabs: [TabItem]
     @Published public var viewProvider: ((_ controller: TabBarController, _ tab: TabItem) -> AnyView)?
     @Published public var tabBarPosition: TabBar.TabBarPosition
-    @Published public var backgroundColor: Color
-    @Published public var selectionColor: Color
+    @Published public var backgroundColor: GenericColor
+    @Published public var selectionColor: GenericColor
 
-    #if os(iOS)
-        public init(tabs: [TabItem],
-                    tabBarPosition: TabBar.TabBarPosition,
-                    viewProvider: ((_ controller: TabBarController, _ tab: TabItem) -> AnyView)?,
-                    backgroundColor: Color = Color(uiColor: .systemBackground),
-                    selectionColor: Color = .accentColor)
-        {
-            self.tabs = tabs
-            self.tabBarPosition = tabBarPosition
-            self.backgroundColor = backgroundColor
-            self.selectionColor = selectionColor
-            self.viewProvider = viewProvider
-            super.init(type: .tabBar)
+    public init(tabs: [TabItem],
+                tabBarPosition: TabBar.TabBarPosition,
+                viewProvider: ((_ controller: TabBarController, _ tab: TabItem) -> AnyView)?,
+                backgroundColor: GenericColor = GenericColor.background,
+                selectionColor: GenericColor = GenericColor.red)
+    {
+        self.tabs = tabs
+        self.tabBarPosition = tabBarPosition
+        self.backgroundColor = backgroundColor
+        self.selectionColor = selectionColor
+        self.viewProvider = viewProvider
+        super.init(type: .tabBar)
 
-            let dups = Dictionary(grouping: tabs, by: { $0.key }).filter { $1.count > 1 }.keys
-            if !dups.isEmpty {
-                fatalError("Duplicated keys: \(dups)")
-            }
+        let dups = Dictionary(grouping: tabs, by: { $0.key }).filter { $1.count > 1 }.keys
+        if !dups.isEmpty {
+            fatalError("Duplicated keys: \(dups)")
         }
-    #endif
-    
-    #if os(macOS)
-        public init(tabs: [TabItem],
-                    tabBarPosition: TabBar.TabBarPosition,
-                    viewProvider: ((_ controller: TabBarController, _ tab: TabItem) -> AnyView)?,
-                    backgroundColor: Color = Color(nsColor: .windowBackgroundColor),
-                    selectionColor: Color = .accentColor
-        )
-        {
-            self.tabs = tabs
-            self.tabBarPosition = tabBarPosition
-            self.backgroundColor = backgroundColor
-            self.selectionColor = selectionColor
-            self.viewProvider = viewProvider
-            super.init(type: .tabBar)
-
-            let dups = Dictionary(grouping: tabs, by: { $0.key }).filter { $1.count > 1 }.keys
-            if !dups.isEmpty {
-                fatalError("Duplicated keys: \(dups)")
-            }
-        }
-    #endif
+    }
 
     public func addTab(tab: TabItem) {
         tabs.append(tab)
@@ -71,7 +47,7 @@ public class TabBarController: SuperController, ObservableObject {
             deleteTabAt(index: idx)
         }
     }
-    
+
     public func deleteTabAt(index: Int) {
         tabs.remove(at: index)
     }
@@ -88,8 +64,8 @@ public class TabBarController: SuperController, ObservableObject {
     public required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         tabs = try values.decode([TabItem].self, forKey: .tabs)
-        backgroundColor = try values.decode(Color.self, forKey: .backgroundColor)
-        selectionColor = try values.decode(Color.self, forKey: .selectionColor)
+        backgroundColor = try values.decode(GenericColor.self, forKey: .backgroundColor)
+        selectionColor = try values.decode(GenericColor.self, forKey: .selectionColor)
         tabBarPosition = try values.decode(TabBar.TabBarPosition.self, forKey: .position)
         viewProvider = { _, _ in
             AnyView(EmptyView())

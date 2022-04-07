@@ -279,7 +279,7 @@ struct MainViewContainer: View {
 
             MenuAction(key: 102, title: "Logout", systemIcon: "pippo"),
 
-            MenuDivider(color: GenericColor(systemColor: .systemRed)),
+            MenuDivider(color: .red),
             MenuAction(key: 103, title: "Kill!", icon: "logo"),
         ]
 
@@ -371,7 +371,7 @@ struct MainViewContainer: View {
                                    backgroundColor: GenericColor(systemColor: .background),
                                    itemsColor: GenericColor(systemColor: .label),
                                    titleViewProvider: nil,
-                                   titleViewBackgroundColor: GenericColor(systemColor: .systemCyan),
+                                   titleViewBackgroundColor: .cyan,
                                    inspectorViewProvider: { _ in
                                        nil
                                    },

@@ -12,40 +12,22 @@ public class TabItem: Hashable, Codable {
     public var title: String
     public var systemIcon: String?
     public var icon: String?
-    public var color: Color
+    public var color: GenericColor
     public var targetViewId: UUID? /// Reserved for the generarator
 
-    #if os(iOS)
-        public init(key: Key, title: String, systemIcon: String, color: Color = Color(.label)) {
-            self.key = key
-            self.title = title
-            self.systemIcon = systemIcon
-            self.color = color
-        }
+    public init(key: Key, title: String, systemIcon: String, color: GenericColor = GenericColor.label) {
+        self.key = key
+        self.title = title
+        self.systemIcon = systemIcon
+        self.color = color
+    }
 
-        public init(key: Key, title: String, icon: String, color: Color = Color(.label)) {
-            self.key = key
-            self.title = title
-            self.icon = icon
-            self.color = color
-        }
-    #endif
-
-    #if os(macOS)
-        public init(key: Key, title: String, systemIcon: String, color: Color = Color(.labelColor)) {
-            self.key = key
-            self.title = title
-            self.systemIcon = systemIcon
-            self.color = color
-        }
-
-        public init(key: Key, title: String, icon: String, color: Color = Color(.labelColor)) {
-            self.key = key
-            self.title = title
-            self.icon = icon
-            self.color = color
-        }
-    #endif
+    public init(key: Key, title: String, icon: String, color: GenericColor = GenericColor.label) {
+        self.key = key
+        self.title = title
+        self.icon = icon
+        self.color = color
+    }
 
     public static func == (lhs: TabItem, rhs: TabItem) -> Bool {
         return lhs.title == rhs.title
@@ -72,7 +54,7 @@ public class TabItem: Hashable, Codable {
         title = try values.decode(String.self, forKey: .title)
         icon = try? values.decode(String.self, forKey: .icon)
         systemIcon = try? values.decode(String.self, forKey: .systemIcon)
-        color = try values.decode(Color.self, forKey: .color)
+        color = try values.decode(GenericColor.self, forKey: .color)
         targetViewId = try? values.decode(UUID.self, forKey: .targetViewId)
     }
 

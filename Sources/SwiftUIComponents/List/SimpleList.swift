@@ -318,13 +318,13 @@ struct SimpleListContainer: View {
 //                                                                 })
 
         let leadingActions = [
-            ListAction(key: "L1", label: "Action 1", systemIcon: "pencil", color: GenericColor(systemColor: .systemBlue)),
+            ListAction(key: "L1", label: "Action 1", systemIcon: "pencil", color: .blue),
             ListAction(key: "L2", label: "Action 2", systemIcon: "plus", color: GenericColor(systemColor: .systemOrange)),
         ]
 
         let trailingActions = [
             ListAction(key: "T1", label: "Action 1", systemIcon: "pencil", color: GenericColor(systemColor: .systemMint)),
-            ListAction(key: "T2", label: "Action 2", icon: "logo", color: GenericColor(systemColor: .systemRed)),
+            ListAction(key: "T2", label: "Action 2", icon: "logo", color: .red),
         ]
 
         _controller = StateObject(wrappedValue: ListController<ListItem, RowView>(items: items,
@@ -332,10 +332,10 @@ struct SimpleListContainer: View {
                                                                                   style: .grouped(alternatesRows: false, alternateBackgroundColor: GenericColor(color: .white)),
                                                                                   title: nil,
                                                                                   addButtonIcon: "plus",
-                                                                                  addButtonColor: GenericColor(systemColor: .systemRed),
+                                                                                  addButtonColor: .red,
                                                                                   editButtonLabel: "Edit_",
                                                                                   deleteButtonLabel: "Delete_",
-                                                                                  backgroundColor: GenericColor(systemColor: .systemGreen),
+                                                                                  backgroundColor: .green,
                                                                                   rowBackgroundColor: GenericColor(systemColor: .systemPurple),
                                                                                   swipeActions: false,
                                                                                   leadingActions: leadingActions,
@@ -344,7 +344,7 @@ struct SimpleListContainer: View {
                                                                                       print("Executing action \(actionKey)")
                                                                                   },
                                                                                   showLineSeparator: true,
-                                                                                  lineSeparatorColor: GenericColor(systemColor: .systemBlue),
+                                                                                  lineSeparatorColor: .blue,
                                                                                   makeRow: { item in
                                                                                       RowView(item: item)
                                                                                   }))

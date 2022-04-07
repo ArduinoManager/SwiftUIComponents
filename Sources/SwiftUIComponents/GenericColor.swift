@@ -190,8 +190,15 @@ public class GenericColor: Codable {
     public static let background = GenericColor(systemColor: .background)
     public static let label = GenericColor(systemColor: .label)
     public static let red = GenericColor(systemColor: .systemRed)
+    public static let green = GenericColor(systemColor: .systemGreen)
+    public static let blue = GenericColor(systemColor: .systemBlue)
+    public static let yellow = GenericColor(systemColor: .systemYellow)
+    public static let gray = GenericColor(systemColor: .systemGray)
+    public static let cyan = GenericColor(systemColor: .systemCyan)
     public static let clear = GenericColor(systemColor: .clear)
-    
+    public static let white = GenericColor(color: .white)
+    public static let black = GenericColor(color: .black)
+
     // MARK: - Encodable & Decodable
 
     enum CodingKeys: String, CodingKey {
