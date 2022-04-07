@@ -151,7 +151,7 @@ import SwiftUI
                     HStack(spacing: 0) {
                         controller.titleViewProvider!(controller)
                     }
-                    .background(controller.titleViewBackgroundColor)
+                    .background(controller.titleViewBackgroundColor.color)
                     controller.viewProvider?(controller, item as! MenuView)
                         .onAppear(perform: {
                             print("---- 3️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
@@ -237,7 +237,7 @@ import SwiftUI
                             .buttonStyle(.plain)
                             .padding(.trailing, 10)
                         }
-                        .background(controller.titleViewBackgroundColor)
+                        .background(controller.titleViewBackgroundColor.color)
                         HSplitView {
                             if let i = item as? MenuView {
                                 controller.viewProvider?(controller, i)
@@ -365,15 +365,13 @@ struct MainViewContainer: View {
             // Title View - No Inspector
 
             let x = MenuController(menuItems: menuItems,
-                                   autoClose: true,
-                                   openButtonAtTop: false,
                                    sideTitleViewProvider: { _ in
                                        AnyView(TitleView())
                                    },
                                    backgroundColor: GenericColor(systemColor: .background),
                                    itemsColor: GenericColor(systemColor: .label),
                                    titleViewProvider: nil,
-                                   titleViewBackgroundColor: .cyan,
+                                   titleViewBackgroundColor: GenericColor(systemColor: .systemCyan),
                                    inspectorViewProvider: { _ in
                                        nil
                                    },

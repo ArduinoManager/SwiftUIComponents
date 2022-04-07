@@ -89,7 +89,7 @@ public class MenuController: SuperController, ObservableObject {
                     backgroundColor: GenericColor = GenericColor(systemColor: .background),
                     itemsColor: GenericColor = GenericColor(systemColor: .label),
                     titleViewProvider: ((_ controller: MenuController) -> AnyView)?,
-                    titleViewBackgroundColor: Color = Color(NSColor.windowBackgroundColor),
+                    titleViewBackgroundColor: GenericColor = GenericColor(systemColor: .background),
                     inspectorViewProvider: ((_ controller: MenuController) -> AnyView?)? = nil,
                     actionsHandler: @escaping (_ controller: MenuController, _ item: MenuAction) -> Void,
                     viewProvider: ((_ controller: MenuController, _ item: MenuView) -> AnyView)?) {
