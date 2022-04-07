@@ -63,9 +63,9 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                         getSafeSystemImage(systemName: controller.addButtonIcon)
                             .aspectRatio(contentMode: .fit)
                             .padding(3)
-                            .foregroundColor(controller.addButtonColor)
+                            .foregroundColor(controller.addButtonColor.color)
                             .frame(width: iconSize + 1, height: iconSize + 1)
-                            .border(controller.addButtonColor, width: 1)
+                            .border(controller.addButtonColor.color, width: 1)
                     }
                     #if os(macOS)
                         .buttonStyle(PlainButtonStyle())
@@ -106,7 +106,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                     } label: {
                                         Image(systemName: "chevron.right")
                                             .resizable()
-                                            .foregroundColor(Color(uiColor: .label))
+                                            .foregroundColor(GenericColor.background.color)
                                             .scaledToFill()
                                             .padding(2)
                                     }
@@ -117,7 +117,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                     Divider()
                                         .if(controller.lineSeparatorColor != nil) { view in
                                             view
-                                                .background(controller.lineSeparatorColor!)
+                                                .background(controller.lineSeparatorColor!.color)
                                         }
                                 }
                             }
@@ -143,7 +143,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                     } label: {
                                         Image(systemName: "chevron.right")
                                             .resizable()
-                                            .foregroundColor(Color(nsColor: .labelColor))
+                                            .foregroundColor(GenericColor.label.color)
                                             .scaledToFill()
                                             .padding(2)
                                     }
@@ -154,21 +154,21 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                     Divider()
                                         .if(controller.lineSeparatorColor != nil) { view in
                                             view
-                                                .background(controller.lineSeparatorColor!)
+                                                .background(controller.lineSeparatorColor!.color)
                                         }
                                 }
                             }
                         #endif
                     }
                     .onMove(perform: move)
-                    .listRowBackground(Color.clear)
+                    .listRowBackground(GenericColor.clear.color)
                 }
                 #if os(iOS)
                     .environment(\.editMode, editingList ? .constant(.active) : .constant(.inactive))
                 #endif
                 .customStyle(type: controller.style)
             }
-            .background(controller.backgroundColor)
+            .background(controller.backgroundColor.color)
             .overlay(ZStack {
                 NavigationLink(destination:
                     form()
@@ -324,10 +324,10 @@ struct NavigationListContainer: View {
                                                                                   style: .plain(alternatesRows: true, alternateBackgroundColor: GenericColor(systemColor: .systemGray)),
                                                                                   title: nil,
                                                                                   addButtonIcon: "plus",
-                                                                                  addButtonColor: .red,
+                                                                                  addButtonColor: GenericColor(systemColor: .systemRed),
                                                                                   editButtonLabel: "Edit_",
                                                                                   deleteButtonLabel: "Delete_",
-                                                                                  backgroundColor: .green,
+                                                                                  backgroundColor: GenericColor(systemColor: .systemGreen),
                                                                                   rowBackgroundColor: GenericColor(systemColor: .systemPurple),
                                                                                   swipeActions: false,
                                                                                   leadingActions: leadingActions,
@@ -336,7 +336,7 @@ struct NavigationListContainer: View {
                                                                                       print("Executing action \(actionKey)")
                                                                                   },
                                                                                   showLineSeparator: true,
-                                                                                  lineSeparatorColor: Color.blue,
+                                                                                  lineSeparatorColor: GenericColor(systemColor: .systemBlue),
                                                                                   makeRow: { item in
                                                                                       RowView(item: item)
                                                                                   }))

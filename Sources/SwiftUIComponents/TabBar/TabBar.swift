@@ -80,7 +80,7 @@ public struct TabBar: View {
                 }
                 .padding(0)
                 .background(controller.backgroundColor) // Extra background layer to reset the shadow and stop it applying to every sub-view
-                .shadow(color: Color.clear, radius: 0, x: 0, y: 0)
+                .shadow(color: GenericColor.clear.color, radius: 0, x: 0, y: 0)
                 .background(controller.backgroundColor)
 //        .shadow(
 //            color: Color.black.opacity(0.25),
@@ -184,7 +184,7 @@ public struct TabBar: View {
             }
             .padding(0)
             .background(controller.backgroundColor) // Extra background layer to reset the shadow and stop it applying to every sub-view
-            .shadow(color: Color.clear, radius: 0, x: 0, y: 0)
+            .shadow(color: GenericColor.clear.color, radius: 0, x: 0, y: 0)
             .background(controller.backgroundColor)
             .shadow(
                 color: Color.black.opacity(0.25),

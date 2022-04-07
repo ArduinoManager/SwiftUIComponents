@@ -189,6 +189,8 @@ public class GenericColor: Codable {
     
     public static let background = GenericColor(systemColor: .background)
     public static let label = GenericColor(systemColor: .label)
+    public static let red = GenericColor(systemColor: .systemRed)
+    public static let clear = GenericColor(systemColor: .clear)
     
     // MARK: - Encodable & Decodable
 

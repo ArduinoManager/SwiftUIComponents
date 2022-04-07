@@ -74,17 +74,17 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
     @Published public var title: String?
     @Published public var multipleSelection: Bool
     @Published public var addButtonIcon: String
-    @Published public var addButtonColor: Color
+    @Published public var addButtonColor: GenericColor
     @Published public var editButtonLabel: String
     @Published public var deleteButtonLabel: String
-    @Published public var backgroundColor: Color
+    @Published public var backgroundColor: GenericColor
     @Published public var rowBackgroundColor: GenericColor
     @Published public var swipeActions: Bool
     @Published public var leadingActions: [ListAction]
     @Published public var trailingActions: [ListAction]
     public var actionHandler: ((_ actionKey: String) -> Void)?
     @Published public var showLineSeparator: Bool
-    @Published public var lineSeparatorColor: Color?
+    @Published public var lineSeparatorColor: GenericColor?
     public var makeRow: (_: Item) -> Row
     public var editingItem: Item? {
         didSet {
@@ -114,17 +114,17 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
                     title: String? = nil,
                     multipleSelection: Bool = false,
                     addButtonIcon: String = "plus",
-                    addButtonColor: Color = Color(uiColor: .label),
+                    addButtonColor: GenericColor = GenericColor.label,
                     editButtonLabel: String,
                     deleteButtonLabel: String,
-                    backgroundColor: Color = Color(uiColor: .systemGroupedBackground),
+                    backgroundColor: GenericColor = GenericColor.background,
                     rowBackgroundColor: GenericColor = GenericColor.background,
                     swipeActions: Bool = true,
                     leadingActions: [ListAction] = [],
                     trailingActions: [ListAction] = [],
                     actionHandler: ((_ actionKey: String) -> Void)? = nil,
                     showLineSeparator: Bool = true,
-                    lineSeparatorColor: Color? = nil,
+                    lineSeparatorColor: GenericColor? = nil,
                     makeRow: @escaping (_: Item) -> Row
         ) {
             self.items = items
@@ -166,17 +166,17 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
                     title: String? = nil,
                     multipleSelection: Bool = false,
                     addButtonIcon: String = "plus",
-                    addButtonColor: Color = Color(NSColor.labelColor),
+                    addButtonColor: GenericColor = GenericColor.label,
                     editButtonLabel: String,
                     deleteButtonLabel: String,
-                    backgroundColor: Color = Color(NSColor.windowBackgroundColor),
+                    backgroundColor: GenericColor = GenericColor.background,
                     rowBackgroundColor: GenericColor = GenericColor.background,
                     swipeActions: Bool = true,
                     leadingActions: [ListAction] = [],
                     trailingActions: [ListAction] = [],
                     actionHandler: ((_ actionKey: String) -> Void)? = nil,
                     showLineSeparator: Bool = true,
-                    lineSeparatorColor: Color? = nil,
+                    lineSeparatorColor: GenericColor? = nil,
                     makeRow: @escaping (_: Item) -> Row
         ) {
             self.items = items
@@ -308,16 +308,16 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
         multipleSelection = try values.decode(Bool.self, forKey: .multipleSelection)
         title = try? values.decode(String.self, forKey: .title)
         addButtonIcon = try values.decode(String.self, forKey: .addButtonIcon)
-        addButtonColor = try values.decode(Color.self, forKey: .addButtonColor)
+        addButtonColor = try values.decode(GenericColor.self, forKey: .addButtonColor)
         editButtonLabel = try values.decode(String.self, forKey: .editButtonLabel)
         deleteButtonLabel = try values.decode(String.self, forKey: .deleteButtonLabel)
-        backgroundColor = try values.decode(Color.self, forKey: .backgroundColor)
+        backgroundColor = try values.decode(GenericColor.self, forKey: .backgroundColor)
         rowBackgroundColor = try values.decode(GenericColor.self, forKey: .rowBackgroundColor)
         swipeActions = try values.decode(Bool.self, forKey: .swipeActions)
         leadingActions = try values.decode([ListAction].self, forKey: .leadingActions)
         trailingActions = try values.decode([ListAction].self, forKey: .trailingActions)
         showLineSeparator = try values.decode(Bool.self, forKey: .showLineSeparator)
-        lineSeparatorColor = try? values.decode(Color.self, forKey: .lineSeparatorColor)
+        lineSeparatorColor = try? values.decode(GenericColor.self, forKey: .lineSeparatorColor)
         makeRow = { _ in
             fatalError("What about this?")
         }
