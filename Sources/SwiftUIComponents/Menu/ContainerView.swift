@@ -286,7 +286,7 @@ struct MainViewContainer: View {
         #if os(iOS)
             _controller = StateObject(wrappedValue: MenuController(menuItems: menuItems,
                                                                    // sideTitleView: AnyView(SideTitleView()),
-                                                                   backgroundColor: GenericColor(_systemColor: .background),
+                                                                   backgroundColor: GenericColor(systemColor: .background),
                                                                    itemsColor: .red,
                                                                    // titleView: AnyView(TitleView()),
                                                                    titleViewProvider: { _ in

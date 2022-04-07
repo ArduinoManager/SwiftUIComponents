@@ -32,8 +32,9 @@ public class GenericColor: Codable {
         case secondaryLabel
         case tertiaryLabel
         case quaternaryLabel
-
-        case tintColor
+        case clear
+        
+        case none
     }
 
     private var customColor: Color?
@@ -91,8 +92,11 @@ public class GenericColor: Codable {
                     return Color(uiColor: .black)
                 case .quaternaryLabel:
                     return Color(uiColor: .black)
-                case .tintColor:
-                    return .black
+                case .clear:
+                    return Color(uiColor: .clear)
+                    
+                case .none:
+                    return Color(uiColor: .clear)
                 }
             #endif
 
@@ -145,15 +149,18 @@ public class GenericColor: Codable {
                     return Color(nsColor: .black)
                 case .quaternaryLabel:
                     return Color(nsColor: .black)
-                case .tintColor:
-                    return .black
+                case .clear:
+                    return Color(nsColor: .clear)
+                    
+                case .none:
+                    return Color(nsColor: .clear)
                 }
             #endif
         }
     }
 
     public var systemColor: SystemColor {
-        return _systemColor ?? .background
+        return _systemColor ?? .none
     }
     
     public init(color: Color) {
