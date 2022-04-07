@@ -37,14 +37,14 @@ public class GenericColor: Codable {
     }
 
     private var customColor: Color?
-    private var systemColor: SystemColor?
+    private var _systemColor: SystemColor?
 
     public var color: Color {
         if let c = customColor {
             return c
         } else {
             #if os(iOS)
-                switch systemColor! {
+                switch _systemColor! {
                 case .systemRed:
                     return Color(uiColor: .systemRed)
                 case .systemBlue:
@@ -98,7 +98,7 @@ public class GenericColor: Codable {
 
             #if os(macOS)
 
-                switch systemColor! {
+                switch _systemColor! {
                 case .systemRed:
                     return Color(nsColor: .systemRed)
                 case .systemBlue:
@@ -152,14 +152,18 @@ public class GenericColor: Codable {
         }
     }
 
-    public init(color: Color) {
-        customColor = color
-        systemColor = nil
+    public var systemColor: SystemColor {
+        return _systemColor ?? .background
     }
-
+    
+    public init(color: Color) {
+        self.customColor = color
+        self._systemColor = nil
+    }
+    
     public init(systemColor: SystemColor) {
-        customColor = nil
-        self.systemColor = systemColor
+        self.customColor = nil
+        self._systemColor = systemColor
     }
 
     public func toString() -> String {
@@ -169,7 +173,7 @@ public class GenericColor: Codable {
             }
             return ""
         } else {
-            return "GenericColor(systemColor:.\(systemColor!))"
+            return "GenericColor(systemColor:.\(_systemColor!))"
         }
     }
 
@@ -206,12 +210,12 @@ public class GenericColor: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         customColor = try? container.decode(Color.self, forKey: .customColor)
-        systemColor = try? container.decode(SystemColor.self, forKey: .systemColor)
+        _systemColor = try? container.decode(SystemColor.self, forKey: .systemColor)
     }
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(customColor, forKey: .customColor)
-        try container.encode(systemColor, forKey: .systemColor)
+        try container.encode(_systemColor, forKey: .systemColor)
     }
 }

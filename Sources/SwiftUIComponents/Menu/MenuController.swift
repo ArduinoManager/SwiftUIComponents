@@ -37,7 +37,7 @@ public class MenuController: SuperController, ObservableObject {
                     openButtonIcon: String = "line.3.horizontal",
                     openButtonSize: CGFloat = 20.0,
                     sideTitleViewProvider: ((_ controller: MenuController) -> AnyView)? = nil,
-                    backgroundColor: GenericColor = GenericColor(systemColor: .background),
+                    backgroundColor: GenericColor = GenericColor(_systemColor: .background),
                     itemsColor: Color = Color(uiColor: .label),
                     selectedItemBackgroundColor: Color = Color(uiColor: .systemGray4),
                     titleViewProvider: ((_ controller: MenuController) -> AnyView)?,
