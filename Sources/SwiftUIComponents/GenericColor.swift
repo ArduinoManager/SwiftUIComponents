@@ -162,27 +162,38 @@ public class GenericColor: Codable {
         self.systemColor = systemColor
     }
 
-    public func macOSString() -> String {
+    public func toString() -> String {
         if let c = customColor {
             if let components = c.colorComponents {
-                return "Color(.sRGB,red: \(components.red), green: \(components.green), blue: \(components.blue), opacity: \(components.alpha))"
+                return "GenericColor(color:Color(red: \(components.red), green: \(components.green), blue: \(components.blue), opacity: \(components.alpha)))"
             }
             return ""
         } else {
-            return "Color.\(systemColor!)"
+            return "GenericColor(systemColor:.\(systemColor!))"
         }
     }
 
-    public func iOSString() -> String {
-        if let c = customColor {
-            if let components = c.colorComponents {
-                return "Color(red: \(components.red), green: \(components.green), blue: \(components.blue), opacity: \(components.alpha))"
-            }
-            return ""
-        } else {
-            return "Color.\(systemColor!)"
-        }
-    }
+//    public func macOSString() -> String {
+//        if let c = customColor {
+//            if let components = c.colorComponents {
+//                return "Color(.sRGB,red: \(components.red), green: \(components.green), blue: \(components.blue), opacity: \(components.alpha))"
+//            }
+//            return ""
+//        } else {
+//            return "Color.\(systemColor!)"
+//        }
+//    }
+//
+//    public func iOSString() -> String {
+//        if let c = customColor {
+//            if let components = c.colorComponents {
+//                return "Color(red: \(components.red), green: \(components.green), blue: \(components.blue), opacity: \(components.alpha))"
+//            }
+//            return ""
+//        } else {
+//            return "Color.\(systemColor!)"
+//        }
+//    }
 
     // MARK: - Encodable & Decodable
 
