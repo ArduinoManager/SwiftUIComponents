@@ -77,7 +77,7 @@ import SwiftUI
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .font(.title.bold())
-                    .foregroundColor(controller.openButtonColor)
+                    .foregroundColor(controller.openButtonColor.color)
                     .frame(width: controller.openButtonSize, height: controller.openButtonSize)
             }
             .opacity(controller.showMenu ? 0 : 1)
@@ -92,7 +92,7 @@ import SwiftUI
             } label: {
                 Image(systemName: "xmark")
                     .font(.title.bold())
-                    .foregroundColor(controller.openButtonColor)
+                    .foregroundColor(controller.openButtonColor.color)
             }
             .opacity(controller.showMenu ? 1 : 0)
             .padding()

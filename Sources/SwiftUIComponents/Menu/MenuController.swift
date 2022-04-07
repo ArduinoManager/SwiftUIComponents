@@ -17,7 +17,7 @@ public class MenuController: SuperController, ObservableObject {
     @Published public var backgroundColor: GenericColor
     @Published public var autoClose: Bool
     @Published public var openButtonAtTop: Bool
-    @Published public var openButtonColor: Color
+    @Published public var openButtonColor: GenericColor
     @Published public var openButtonIcon: String
     @Published public var openButtonSize: CGFloat
     public var titleViewProvider: ((_ controller: MenuController) -> AnyView)?
@@ -33,7 +33,7 @@ public class MenuController: SuperController, ObservableObject {
         public init(menuItems: [MenuItem],
                     autoClose: Bool = true,
                     openButtonAtTop: Bool = true,
-                    openButtonColor: Color = Color(uiColor: .label),
+                    openButtonColor: GenericColor = GenericColor(systemColor: .label),
                     openButtonIcon: String = "line.3.horizontal",
                     openButtonSize: CGFloat = 20.0,
                     sideTitleViewProvider: ((_ controller: MenuController) -> AnyView)? = nil,
@@ -98,7 +98,7 @@ public class MenuController: SuperController, ObservableObject {
             self.menuItems = menuItems
             autoClose = true
             openButtonAtTop = false
-            openButtonColor = Color(NSColor.labelColor)
+            openButtonColor = GenericColor(systemColor: .label)
             openButtonIcon = "line.3.horizontal"
             openButtonSize = 20.0
             self.sideTitleViewProvider = sideTitleViewProvider
@@ -198,7 +198,7 @@ public class MenuController: SuperController, ObservableObject {
         self.menuItems = menuItems
 
         openButtonAtTop = try values.decode(Bool.self, forKey: .openButtonAtTop)
-        openButtonColor = try values.decode(Color.self, forKey: .openButtonColor)
+        openButtonColor = try values.decode(GenericColor.self, forKey: .openButtonColor)
         openButtonIcon = try values.decode(String.self, forKey: .openButtonIcon)
         openButtonSize = try values.decode(CGFloat.self, forKey: .openButtonSize)
         backgroundColor = try values.decode(GenericColor.self, forKey: .backgroundColor)
