@@ -103,7 +103,7 @@ import SwiftUI
                 .background(
                     ZStack {
                         if controller.currentTab == item.key {
-                            controller.selectedItemBackgroundColor
+                            controller.selectedItemBackgroundColor.color
                                 .clipShape(Capsule())
                                 .matchedGeometryEffect(id: "TABCAPSULE", in: animation)
                         }
@@ -127,7 +127,7 @@ import SwiftUI
                     makeImage(item: item)
                         .font(.title3)
                         .frame(width: controller.currentTab == item.key ? buttonHeight : nil, height: buttonHeight)
-                        .foregroundColor(controller.currentTab == item.key ? controller.selectedItemBackgroundColor : controller.itemsColor.color)
+                        .foregroundColor(controller.currentTab == item.key ? controller.selectedItemBackgroundColor.color : controller.itemsColor.color)
                         .background(
                             ZStack {
                                 if controller.currentTab == item.key {
@@ -149,7 +149,7 @@ import SwiftUI
                 .background(
                     ZStack {
                         if controller.currentTab == item.key {
-                            controller.selectedItemBackgroundColor
+                            controller.selectedItemBackgroundColor.color
                                 .clipShape(Capsule())
                                 .matchedGeometryEffect(id: "TABCAPSULE", in: animation)
                         }
@@ -185,7 +185,6 @@ import SwiftUI
 
         public var body: some View {
             VStack(alignment: .leading, spacing: 0) {
-                // Print("%%%%%%%%%%%%%%%%%%%%%%% Side Menu View \(controller.menuItems)")
                 if controller.menuItems.count >= 1 {
                     NavigationLink(destination: ContainerView(controller: controller, item: controller.menuItems[0]), tag: "A", selection: $controller.boostrap, label: { EmptyView().scaleEffect(0) })
                         .frame(width: 0, height: 0)

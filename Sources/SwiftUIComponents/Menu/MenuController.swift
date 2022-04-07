@@ -13,7 +13,7 @@ public class MenuController: SuperController, ObservableObject {
     @Published var showMenu: Bool
     public var sideTitleViewProvider: ((_ controller: MenuController) -> AnyView)?
     @Published public var itemsColor: GenericColor
-    @Published public var selectedItemBackgroundColor: Color
+    @Published public var selectedItemBackgroundColor: GenericColor
     @Published public var backgroundColor: GenericColor
     @Published public var autoClose: Bool
     @Published public var openButtonAtTop: Bool
@@ -39,7 +39,7 @@ public class MenuController: SuperController, ObservableObject {
                     sideTitleViewProvider: ((_ controller: MenuController) -> AnyView)? = nil,
                     backgroundColor: GenericColor = GenericColor(systemColor: .background),
                     itemsColor: GenericColor = GenericColor(systemColor: .label),
-                    selectedItemBackgroundColor: Color = Color(uiColor: .systemGray3),
+                    selectedItemBackgroundColor: GenericColor = GenericColor(systemColor: .systemGray4),
                     titleViewProvider: ((_ controller: MenuController) -> AnyView)?,
                     titleViewBackgroundColor: Color = Color(uiColor: .systemBackground),
                     actionsHandler: @escaping (_ controller: MenuController, _ item: MenuAction) -> Void,
@@ -104,7 +104,7 @@ public class MenuController: SuperController, ObservableObject {
             self.sideTitleViewProvider = sideTitleViewProvider
             self.backgroundColor = backgroundColor
             self.itemsColor = itemsColor
-            self.selectedItemBackgroundColor = Color(NSColor.systemGray)
+            self.selectedItemBackgroundColor = GenericColor(systemColor: .systemGray4)
             self.titleViewProvider = titleViewProvider
             self.titleViewBackgroundColor = titleViewBackgroundColor
             self.inspectorViewProvider = inspectorViewProvider
@@ -203,7 +203,7 @@ public class MenuController: SuperController, ObservableObject {
         openButtonSize = try values.decode(CGFloat.self, forKey: .openButtonSize)
         backgroundColor = try values.decode(GenericColor.self, forKey: .backgroundColor)
         itemsColor = try values.decode(GenericColor.self, forKey: .itemsColor)
-        selectedItemBackgroundColor = try values.decode(Color.self, forKey: .selectedItemBackgroundColor)
+        selectedItemBackgroundColor = try values.decode(GenericColor.self, forKey: .selectedItemBackgroundColor)
         titleViewBackgroundColor = try values.decode(Color.self, forKey: .titleViewBackgroundColor)
 
         showMenu = false
