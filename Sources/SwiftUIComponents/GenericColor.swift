@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+/// Useful link: https://mar.codes/apple-colors
+
 public class GenericColor: Codable {
     public enum SystemColor: String, CaseIterable, Codable {
         case systemRed
@@ -86,12 +88,12 @@ public class GenericColor: Codable {
                     return .backgroundColor
                 case .label:
                     return .label
-                case .secondaryLabel:
-                    return Color(uiColor: .black)
+                case .secondaryLabel:                    
+                    return Color(uiColor: .secondaryLabel)
                 case .tertiaryLabel:
-                    return Color(uiColor: .black)
+                    return Color(uiColor: .tertiaryLabel)
                 case .quaternaryLabel:
-                    return Color(uiColor: .black)
+                    return Color(uiColor: .quaternaryLabel)
                 case .clear:
                     return Color(uiColor: .clear)
                     
@@ -130,25 +132,25 @@ public class GenericColor: Codable {
                 case .systemGray:
                     return Color(nsColor: .systemGray)
                 case .systemGray2:
-                    return Color(nsColor: .black)
+                    return Color(nsColor: .systemGray)
                 case .systemGray3:
-                    return Color(nsColor: .black)
+                    return Color(nsColor: .systemGray)
                 case .systemGray4:
-                    return Color(nsColor: .black)
+                    return Color(nsColor: .systemGray)
                 case .systemGray5:
-                    return Color(nsColor: .black)
+                    return Color(nsColor: .systemGray)
                 case .systemGray6:
-                    return Color(nsColor: .black)
+                    return Color(nsColor: .systemGray)
                 case .background:
                     return .backgroundColor
                 case .label:
                     return .label
                 case .secondaryLabel:
-                    return Color(nsColor: .black)
+                    return Color(nsColor: .lightGray)
                 case .tertiaryLabel:
-                    return Color(nsColor: .black)
+                    return Color(nsColor: .lightGray)
                 case .quaternaryLabel:
-                    return Color(nsColor: .black)
+                    return Color(nsColor: .lightGray)
                 case .clear:
                     return Color(nsColor: .clear)
                     
