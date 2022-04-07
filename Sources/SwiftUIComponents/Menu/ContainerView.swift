@@ -34,7 +34,7 @@ import SwiftUI
                         if item is MenuView {
                             Print("\(item.title)")
                             controller.viewProvider?(controller, item as! MenuView)
-                            //controller.makeView(item: item as! MenuView)
+                                // controller.makeView(item: item as! MenuView)
                                 // (item as! MenuView).makeView()
                                 .tag(item.key)
                         }
@@ -63,7 +63,7 @@ import SwiftUI
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .overlay(CloseButton(), alignment: .topLeading)
-            .background(controller.titleViewBackgroundColor)
+            .background(controller.titleViewBackgroundColor.color)
         }
 
         @ViewBuilder
@@ -285,15 +285,13 @@ struct MainViewContainer: View {
 
         #if os(iOS)
             _controller = StateObject(wrappedValue: MenuController(menuItems: menuItems,
+                                                                   openButtonAtTop: false,
                                                                    // sideTitleView: AnyView(SideTitleView()),
                                                                    backgroundColor: GenericColor(systemColor: .background),
                                                                    itemsColor: GenericColor(systemColor: .label),
                                                                    // titleView: AnyView(TitleView()),
-                                                                   titleViewProvider: { _ in
-                                                                       AnyView(TitleView())
-                                                                   },
-                                                                   titleViewBackgroundColor: .red,
-                                                                   // titleViewBackgroundColor: Color(.sRGB, red: 0.9254902601242065, green: 0.9254902601242065, blue: 0.9254902601242065, opacity: 1.0),
+                                                                   titleViewProvider: nil,
+                                                                   //titleViewBackgroundColor: .red,
                                                                    actionsHandler: { _, item in
                                                                        print("Action \(item.title) [\(item.key)]")
                                                                    },
@@ -367,14 +365,14 @@ struct MainViewContainer: View {
             // Title View - No Inspector
 
             let x = MenuController(menuItems: menuItems,
+                                   autoClose: true,
+                                   openButtonAtTop: false,
                                    sideTitleViewProvider: { _ in
                                        AnyView(TitleView())
                                    },
                                    backgroundColor: GenericColor(systemColor: .background),
                                    itemsColor: GenericColor(systemColor: .label),
-                                   titleViewProvider: { _ in
-                                       AnyView(TitleView())
-                                   },
+                                   titleViewProvider: nil,
                                    titleViewBackgroundColor: .cyan,
                                    inspectorViewProvider: { _ in
                                        nil

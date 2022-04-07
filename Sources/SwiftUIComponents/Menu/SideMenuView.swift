@@ -25,7 +25,7 @@ import SwiftUI
                     }
                 } else {
                     Spacer(minLength: 15)
-                        .background(controller.titleViewBackgroundColor)
+                        .background(controller.titleViewBackgroundColor.color)
                 }
 
                 ScrollView(.vertical, showsIndicators: false) {
@@ -318,8 +318,7 @@ struct SideMenuContainer: View {
         titleViewProvider: { _ in
             AnyView(TitleView())
         },
-        titleViewBackgroundColor: .red,
-        // titleViewBackgroundColor: Color(.sRGB, red: 0.9254902601242065, green: 0.9254902601242065, blue: 0.9254902601242065, opacity: 1.0),
+        titleViewBackgroundColor: GenericColor(systemColor: .background),
         actionsHandler: { _, item in
             print("Action \(item.title) [\(item.key)]")
         },
@@ -352,7 +351,6 @@ struct SideMenuContainer: View {
         SideMenuView(controller: controller)
     }
 }
-
 
 struct SideMenuView_Previews: PreviewProvider {
     static var previews: some View {

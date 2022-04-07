@@ -21,7 +21,7 @@ public class MenuController: SuperController, ObservableObject {
     @Published public var openButtonIcon: String
     @Published public var openButtonSize: CGFloat
     public var titleViewProvider: ((_ controller: MenuController) -> AnyView)?
-    @Published public var titleViewBackgroundColor: Color
+    @Published public var titleViewBackgroundColor: GenericColor
     @Published public var menuItems: [MenuItem]
     public var actionsHandler: ((_ controller: MenuController, _ item: MenuAction) -> Void)?
     public var viewProvider: ((_ controller: MenuController, _ item: MenuView) -> AnyView)?
@@ -41,7 +41,7 @@ public class MenuController: SuperController, ObservableObject {
                     itemsColor: GenericColor = GenericColor(systemColor: .label),
                     selectedItemBackgroundColor: GenericColor = GenericColor(systemColor: .systemGray4),
                     titleViewProvider: ((_ controller: MenuController) -> AnyView)?,
-                    titleViewBackgroundColor: Color = Color(uiColor: .systemBackground),
+                    titleViewBackgroundColor: GenericColor = GenericColor(systemColor: .background),
                     actionsHandler: @escaping (_ controller: MenuController, _ item: MenuAction) -> Void,
                     viewProvider: ((_ controller: MenuController, _ item: MenuView) -> AnyView)?) {
             showMenu = false
@@ -204,7 +204,7 @@ public class MenuController: SuperController, ObservableObject {
         backgroundColor = try values.decode(GenericColor.self, forKey: .backgroundColor)
         itemsColor = try values.decode(GenericColor.self, forKey: .itemsColor)
         selectedItemBackgroundColor = try values.decode(GenericColor.self, forKey: .selectedItemBackgroundColor)
-        titleViewBackgroundColor = try values.decode(Color.self, forKey: .titleViewBackgroundColor)
+        titleViewBackgroundColor = try values.decode(GenericColor.self, forKey: .titleViewBackgroundColor)
 
         showMenu = false
         currentTab = menuItems[0].key
