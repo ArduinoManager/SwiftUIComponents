@@ -10,23 +10,14 @@ import SwiftUI
 /// Line Separator between items
 ///
 public class MenuDivider: MenuItem {
-    public var color: Color
+    public var color: GenericColor
 
-    #if os(iOS)
-        public init(color: Color = Color(uiColor: .label)) {
+    public init(color: GenericColor = GenericColor(systemColor: .background)) {
             self.color = color
             super.init(type: .divider)
             title = "\(UUID())"
         }
-    #endif
-
-    #if os(macOS)
-        public init(color: Color = Color(nsColor: .labelColor)) {
-            self.color = color
-            super.init(type: .divider)
-            title = "\(UUID())"
-        }
-    #endif
+   
     
     override public var debugDescription: String {
         return "[\(key) Divider]"
@@ -40,7 +31,7 @@ public class MenuDivider: MenuItem {
     
     public required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        color = try values.decode(Color.self, forKey: .color)
+        color = try values.decode(GenericColor.self, forKey: .color)
         try super.init(from: decoder)
     }
 

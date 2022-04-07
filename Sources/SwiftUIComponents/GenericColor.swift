@@ -183,29 +183,11 @@ public class GenericColor: Codable {
             return "GenericColor(systemColor:.\(_systemColor!))"
         }
     }
-
-//    public func macOSString() -> String {
-//        if let c = customColor {
-//            if let components = c.colorComponents {
-//                return "Color(.sRGB,red: \(components.red), green: \(components.green), blue: \(components.blue), opacity: \(components.alpha))"
-//            }
-//            return ""
-//        } else {
-//            return "Color.\(systemColor!)"
-//        }
-//    }
-//
-//    public func iOSString() -> String {
-//        if let c = customColor {
-//            if let components = c.colorComponents {
-//                return "Color(red: \(components.red), green: \(components.green), blue: \(components.blue), opacity: \(components.alpha))"
-//            }
-//            return ""
-//        } else {
-//            return "Color.\(systemColor!)"
-//        }
-//    }
-
+// MARK: --
+    
+    public static let background = GenericColor(systemColor: .background)
+    public static let label = GenericColor(systemColor: .label)
+    
     // MARK: - Encodable & Decodable
 
     enum CodingKeys: String, CodingKey {

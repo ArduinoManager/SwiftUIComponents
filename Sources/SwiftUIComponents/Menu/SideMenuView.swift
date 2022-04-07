@@ -246,7 +246,7 @@ import SwiftUI
                         case is MenuDivider:
                             let i = item as! MenuDivider
                             Divider()
-                                .background(i.color)
+                                .background(i.color.color)
 
                         default:
                             EmptyView()
@@ -302,12 +302,12 @@ struct SideMenuContainer: View {
             MenuView(key: 3, title: "Profile", systemIcon: "person.fill"),
             MenuView(key: 4, title: "Profile2", icon: "logo"),
 
-            MenuDivider(color: .red),
+            MenuDivider(color: GenericColor(systemColor: .systemRed)),
             MenuAction(key: 101, title: "Login", systemIcon: "rectangle.portrait.and.arrow.right"),
 
             MenuAction(key: 102, title: "Logout", systemIcon: "pippo"),
 
-            MenuDivider(color: .red),
+            MenuDivider(color: GenericColor(systemColor: .systemRed)),
             MenuAction(key: 103, title: "Kill!", icon: "logo"),
         ]
         ,
