@@ -16,6 +16,13 @@ import SwiftUI
     import AppKit
 #endif
 
+#if os(iOS)
+    let iconSize: CGFloat = 25.0
+#endif
+#if os(macOS)
+    let iconSize: CGFloat = 18.0
+#endif
+
 extension View {
     #if os(iOS)
         func getRect() -> CGRect {
@@ -182,15 +189,19 @@ func getSafeSystemImage(systemName: String) -> Image {
     #if os(macOS)
         if let nsImage = NSImage(systemSymbolName: systemName, accessibilityDescription: "") {
             return Image(nsImage: nsImage)
+                .resizable()
         } else {
             return Image(systemName: "questionmark.app.dashed")
+                .resizable()
         }
     #endif
     #if os(iOS)
-        if let uiImage = UIImage(systemName: systemName) {
-            return Image(uiImage: uiImage)
+        if let _ = UIImage(systemName: systemName) {
+            return Image(systemName: systemName)
+                .resizable()
         } else {
             return Image(systemName: "questionmark.app.dashed")
+                .resizable()
         }
     #endif
 }
@@ -199,48 +210,55 @@ func getSafeImage(name: String) -> Image {
     #if os(macOS)
         if let nsImage = NSImage(named: name) {
             return Image(nsImage: nsImage)
+                .resizable()
         } else {
             return Image(systemName: "seal")
+                .resizable()
         }
     #endif
     #if os(iOS)
         if let uiImage = UIImage(named: name) {
-            return Image(uiImage: uiImage)
+            return Image(name)
+                .resizable()
         } else {
             return Image(systemName: "seal")
+                .resizable()
         }
     #endif
 }
 
 @ViewBuilder
-func makeImage(action: ListAction, iconSize: CGFloat) -> some View {
+func makeImage(action: ListAction, iconSize: CGFloat, color: Color) -> some View {
     if action.icon != nil {
         getSafeImage(name: action.icon!)
-            .resizable()
-            .scaledToFit()
+            .aspectRatio(contentMode: .fit)
+            .padding(3)
+            .foregroundColor(color)
             .frame(width: iconSize + 1, height: iconSize + 1)
+            .border(color, width: 1)
     } else {
         if let icon = action.systemIcon {
             getSafeSystemImage(systemName: icon)
-                .resizable()
-                .scaledToFit()
-                .frame(width: iconSize, height: iconSize)
+                .aspectRatio(contentMode: .fit)
+                .padding(3)
+                .foregroundColor(color)
+                .frame(width: iconSize + 1, height: iconSize + 1)
+                .border(color, width: 1)
         }
     }
 }
 
 extension Color {
-    
-
-        #if os(macOS)
+    #if os(macOS)
+        static let label = Color(NSColor.labelColor)
         static let backgroundColor = Color(NSColor.windowBackgroundColor)
         static let secondaryBackgroundColor = Color(NSColor.controlBackgroundColor)
-        #else
+    #else
+        static let label = Color(UIColor.label)
         static let backgroundColor = Color(UIColor.systemBackground)
         static let secondaryBackgroundColor = Color(UIColor.secondarySystemBackground)
-        #endif
+    #endif
 
-    
     #if os(macOS)
         typealias SystemColor = NSColor
     #else
@@ -257,12 +275,12 @@ extension Color {
             SystemColor(self).getRed(&r, green: &g, blue: &b, alpha: &a)
         // Note that non RGB color will raise an exception, that I don't now how to catch because it is an Objc exception.
         #else
-        
+
             let c1 = SystemColor(self).usingColorSpace(NSColorSpace.deviceRGB)
             guard c1 != nil else {
                 return nil
             }
-            c1!.getRed(&r, green: &g, blue: &b, alpha: &a)                
+            c1!.getRed(&r, green: &g, blue: &b, alpha: &a)
         #endif
 
         return (r, g, b, a)

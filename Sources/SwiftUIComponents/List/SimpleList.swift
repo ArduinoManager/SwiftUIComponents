@@ -71,15 +71,11 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                     sheetManager.showSheet.toggle()
                 } label: {
                     getSafeSystemImage(systemName: controller.addButtonIcon)
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                    #if os(iOS)
-                        .frame(width: 30, height: 30)
-                    #endif
-                    #if os(macOS)
-                        .frame(width: 20, height: 20)
-                    #endif
-                    .foregroundColor(controller.addButtonColor)
+                        .aspectRatio(contentMode: .fit)
+                        .padding(3)
+                        .foregroundColor(controller.addButtonColor)
+                        .frame(width: iconSize + 1, height: iconSize + 1)
+                        .border(controller.addButtonColor, width: 1)
                 }
                 #if os(macOS)
                     .buttonStyle(PlainButtonStyle())
@@ -160,12 +156,6 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
     @ObservedObject var controller: ListController<Item, Row>
     var item: Item
     var sheetManager: SheetMananger
-    #if os(iOS)
-        let iconSize: CGFloat = 25.0
-    #endif
-    #if os(macOS)
-        let iconSize: CGFloat = 18.0
-    #endif
 
     func body(content: Content) -> some View {
         HStack(alignment: .center, spacing: 5) {
@@ -175,15 +165,12 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                     Button {
                         controller.actionHandler?(action.key)
                     } label: {
-                        makeImage(action: action, iconSize: iconSize)
-                            .border(action.color, width: 1)
+                        makeImage(action: action, iconSize: iconSize, color: action.color)
                     }
-                    .frame(width: iconSize, height: iconSize)
-                    .padding(.top,2)
+                    .padding(.top, 2)
                     .padding(.bottom, controller.showLineSeparator ? 2 : 0)
                     .padding(.leading, idx == 0 ? 2 : 0)
                     #if os(iOS)
-                        .tint(action.color)
                         .buttonStyle(BorderlessButtonStyle())
                     #endif
                     #if os(macOS)
@@ -203,17 +190,16 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                 Button {
                     controller.delete(item: item)
                 } label: {
-                    Image(systemName: "minus")
-                        .scaledToFit()
+                    getSafeSystemImage(systemName: "minus")
+                        .aspectRatio(contentMode: .fit)
+                        .padding(3)
+                        .foregroundColor(.red)
                         .frame(width: iconSize + 1, height: iconSize + 1)
                         .border(.red, width: 1)
                 }
-                .frame(width: iconSize, height: iconSize)
-                .border(.red, width: 1)
                 .padding(.top, 2)
                 .padding(.bottom, controller.showLineSeparator ? 2 : 0)
                 #if os(iOS)
-                    .tint(.red)
                     .buttonStyle(BorderlessButtonStyle())
                 #endif
                 #if os(macOS)
@@ -226,17 +212,17 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                     sheetManager.whichSheet = .Form
                     sheetManager.showSheet.toggle()
                 } label: {
-                    Image(systemName: "pencil")
-                        .scaledToFit()
+                    getSafeSystemImage(systemName: "pencil")
+                        .aspectRatio(contentMode: .fit)
+                        .padding(3)
+                        .foregroundColor(.accentColor)
                         .frame(width: iconSize + 1, height: iconSize + 1)
                         .border(Color.accentColor, width: 1)
                 }
-                .frame(width: iconSize, height: iconSize)
                 .padding(.top, 2)
                 .padding(.bottom, controller.showLineSeparator ? 2 : 0)
                 .padding(.trailing, controller.trailingActions.count == 0 ? 2 : 0)
                 #if os(iOS)
-                    .tint(Color.accentColor)
                     .buttonStyle(BorderlessButtonStyle())
                 #endif
                 #if os(macOS)
@@ -249,16 +235,12 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                     Button {
                         controller.actionHandler?(action.key)
                     } label: {
-                        makeImage(action: action, iconSize: iconSize)
-                            .border(Color.accentColor, width: 1)
+                        makeImage(action: action, iconSize: iconSize, color: action.color)
                     }
-                    .frame(width: iconSize, height: iconSize)
-                    .border(action.color, width: 1)
                     .padding(.top, 1)
                     .padding(.bottom, controller.showLineSeparator ? 2 : 0)
                     .padding(.trailing, idx == controller.trailingActions.count - 1 ? 2 : 0)
                     #if os(iOS)
-                        .tint(action.color)
                         .buttonStyle(BorderlessButtonStyle())
                     #endif
                     #if os(macOS)
@@ -342,8 +324,9 @@ struct SimpleListContainer: View {
 
         _controller = StateObject(wrappedValue: ListController<ListItem, RowView>(items: items,
                                                                                   sort: sortList,
-                                                                                  style: .grouped(alternatesRows: true, alternateBackgroundColor: .white),
-                                                                                  title: "Title",
+                                                                                  style: .grouped(alternatesRows: false, alternateBackgroundColor: .white),
+                                                                                  title: nil,
+                                                                                  addButtonIcon: "plus",
                                                                                   addButtonColor: .red,
                                                                                   editButtonLabel: "Edit_",
                                                                                   deleteButtonLabel: "Delete_",

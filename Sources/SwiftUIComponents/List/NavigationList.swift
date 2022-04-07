@@ -61,15 +61,11 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                         controller.startNewItem = "newItem"
                     } label: {
                         getSafeSystemImage(systemName: controller.addButtonIcon)
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                        #if os(iOS)
-                            .frame(width: 30, height: 30)
-                        #endif
-                        #if os(macOS)
-                            .frame(width: 20, height: 20)
-                        #endif
-                        .foregroundColor(controller.addButtonColor)
+                            .aspectRatio(contentMode: .fit)
+                            .padding(3)
+                            .foregroundColor(controller.addButtonColor)
+                            .frame(width: iconSize + 1, height: iconSize + 1)
+                            .border(controller.addButtonColor, width: 1)
                     }
                     #if os(macOS)
                         .buttonStyle(PlainButtonStyle())
@@ -198,12 +194,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
 fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View>: ViewModifier {
     @ObservedObject var controller: ListController<Item, Row>
     var item: Item
-    #if os(iOS)
-        let iconSize: CGFloat = 25.0
-    #endif
-    #if os(macOS)
-        let iconSize: CGFloat = 18.0
-    #endif
+   
     func body(content: Content) -> some View {
         HStack(alignment: .center, spacing: 5) {
             if !controller.swipeActions {
@@ -212,15 +203,12 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                     Button {
                         controller.actionHandler?(action.key)
                     } label: {
-                        makeImage(action: action, iconSize: iconSize)
+                        makeImage(action: action, iconSize: iconSize, color: action.color)
                     }
-                    .frame(width: iconSize, height: iconSize)
-                    .border(action.color, width: 1)
                     .padding(.top, 2)
                     .padding(.bottom, controller.showLineSeparator ? 2 : 0)
                     .padding(.leading, idx == 0 ? 2 : 0)
                     #if os(iOS)
-                        .tint(action.color)
                         .buttonStyle(BorderlessButtonStyle())
                     #endif
                     #if os(macOS)
@@ -242,27 +230,12 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                     Button {
                         controller.actionHandler?(action.key)
                     } label: {
-                        makeImage(action: action, iconSize: iconSize)
-//                        if let img = action.icon {
-//                            img
-//                                .resizable()
-//                                .aspectRatio(contentMode: .fit)
-//                                .frame(width: iconSize + 1, height: iconSize + 1)
-//                        } else {
-//                            Image(systemName: action.systemIcon!)
-//                                .resizable()
-//                                .aspectRatio(contentMode: .fit)
-//                                .frame(width: iconSize, height: iconSize)
-//                                .padding(2)
-//                        }
+                        makeImage(action: action, iconSize: iconSize, color: action.color)
                     }
-                    .frame(width: iconSize, height: iconSize)
-                    .border(action.color, width: 1)
                     .padding(.top, 1)
                     .padding(.bottom, controller.showLineSeparator ? 2 : 0)
                     .padding(.trailing, idx == controller.trailingActions.count - 1 ? 2 : 0)
                     #if os(iOS)
-                        .tint(action.color)
                         .buttonStyle(BorderlessButtonStyle())
                     #endif
                     #if os(macOS)
@@ -342,6 +315,7 @@ struct NavigationListContainer: View {
         _controller = StateObject(wrappedValue: ListController<ListItem, RowView>(items: items,
                                                                                   style: .grouped(alternatesRows: true, alternateBackgroundColor: .gray),
                                                                                   title: "Title",
+                                                                                  addButtonIcon: "plus",
                                                                                   addButtonColor: .red,
                                                                                   editButtonLabel: "Edit_",
                                                                                   deleteButtonLabel: "Delete_",
