@@ -63,7 +63,7 @@ import SwiftUI
             }
             .padding(.leading, 10)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-            .background(controller.backgroundColor)
+            .background(controller.backgroundColor.color)
             .onRotate { _ in
                 controller.objectWillChange.send() // Force redraw!
             }
@@ -201,7 +201,7 @@ import SwiftUI
                         Spacer()
                     }
                     .frame(minHeight: 20, idealHeight: 20, maxHeight: 20)
-                    .background(controller.backgroundColor)
+                    .background(controller.backgroundColor.color)
                 }
 
                 // Just a bit of space
@@ -209,7 +209,7 @@ import SwiftUI
                     Spacer()
                 }
                 .frame(minHeight: 5, idealHeight: 5, maxHeight: 5)
-                .background(controller.backgroundColor)
+                .background(controller.backgroundColor.color)
 
                 List {
                     ForEach(controller.menuItems, id: \.key) { item in
@@ -255,7 +255,7 @@ import SwiftUI
                         }
                     }
                 }
-                .background(controller.backgroundColor)
+                .background(controller.backgroundColor.color)
                 .listStyle(SidebarListStyle())
                 .padding([.leading], 0)
                 .toolbar {
@@ -314,7 +314,7 @@ struct SideMenuContainer: View {
         ]
         ,
         // sideTitleView: AnyView(SideTitleView()),
-        backgroundColor: .blue,
+        backgroundColor: GenericColor(systemColor: .systemBlue),
         itemsColor: .red,
         // titleView: AnyView(TitleView()),
         titleViewProvider: { _ in

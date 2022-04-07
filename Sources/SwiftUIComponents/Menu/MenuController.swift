@@ -14,7 +14,7 @@ public class MenuController: SuperController, ObservableObject {
     public var sideTitleViewProvider: ((_ controller: MenuController) -> AnyView)?
     @Published public var itemsColor: Color
     @Published public var selectedItemBackgroundColor: Color
-    @Published public var backgroundColor: Color
+    @Published public var backgroundColor: GenericColor
     @Published public var autoClose: Bool
     @Published public var openButtonAtTop: Bool
     @Published public var openButtonColor: Color
@@ -37,7 +37,7 @@ public class MenuController: SuperController, ObservableObject {
                     openButtonIcon: String = "line.3.horizontal",
                     openButtonSize: CGFloat = 20.0,
                     sideTitleViewProvider: ((_ controller: MenuController) -> AnyView)? = nil,
-                    backgroundColor: Color = Color(uiColor: .systemBackground),
+                    backgroundColor: GenericColor = GenericColor(systemColor: .background),
                     itemsColor: Color = Color(uiColor: .label),
                     selectedItemBackgroundColor: Color = Color(uiColor: .systemGray4),
                     titleViewProvider: ((_ controller: MenuController) -> AnyView)?,
@@ -86,7 +86,7 @@ public class MenuController: SuperController, ObservableObject {
         ///
         public init(menuItems: [MenuItem],
                     sideTitleViewProvider: ((_ controller: MenuController) -> AnyView)? = nil,
-                    backgroundColor: Color = Color(NSColor.windowBackgroundColor),
+                    backgroundColor: GenericColor = GenericColor(systemColor: .background),
                     itemsColor: Color = Color(NSColor.labelColor),
                     titleViewProvider: ((_ controller: MenuController) -> AnyView)?,
                     titleViewBackgroundColor: Color = Color(NSColor.windowBackgroundColor),
@@ -201,7 +201,7 @@ public class MenuController: SuperController, ObservableObject {
         openButtonColor = try values.decode(Color.self, forKey: .openButtonColor)
         openButtonIcon = try values.decode(String.self, forKey: .openButtonIcon)
         openButtonSize = try values.decode(CGFloat.self, forKey: .openButtonSize)
-        backgroundColor = try values.decode(Color.self, forKey: .backgroundColor)
+        backgroundColor = try values.decode(GenericColor.self, forKey: .backgroundColor)
         itemsColor = try values.decode(Color.self, forKey: .itemsColor)
         selectedItemBackgroundColor = try values.decode(Color.self, forKey: .selectedItemBackgroundColor)
         titleViewBackgroundColor = try values.decode(Color.self, forKey: .titleViewBackgroundColor)
