@@ -243,7 +243,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                         .buttonStyle(.plain)
                     #endif
                 }
-                .onMove(perform: move)
+//                .onMove(perform: move)
             }
         }
     }
