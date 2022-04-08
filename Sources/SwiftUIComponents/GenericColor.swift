@@ -11,6 +11,13 @@ import SwiftUI
 
 public class GenericColor: Codable {
     public enum SystemColor: String, CaseIterable, Codable {
+        case none
+
+        case clear
+        case label
+        case background
+
+        case systemTint
         case systemRed
         case systemBlue
         case systemGreen
@@ -29,14 +36,9 @@ public class GenericColor: Codable {
         case systemGray4
         case systemGray5
         case systemGray6
-        case background
-        case label
         case secondaryLabel
         case tertiaryLabel
         case quaternaryLabel
-        case clear
-        
-        case none
     }
 
     private var customColor: Color?
@@ -48,6 +50,16 @@ public class GenericColor: Codable {
         } else {
             #if os(iOS)
                 switch _systemColor! {
+                case .none:
+                    return Color(uiColor: .clear)
+                case .clear:
+                    return Color(uiColor: .clear)
+                case .label:
+                    return .label
+                case .background:
+                    return .backgroundColor
+                case .systemTint:
+                    return Color(uiColor: .tintColor)
                 case .systemRed:
                     return Color(uiColor: .systemRed)
                 case .systemBlue:
@@ -84,27 +96,28 @@ public class GenericColor: Codable {
                     return Color(uiColor: .systemGray5)
                 case .systemGray6:
                     return Color(uiColor: .systemGray6)
-                case .background:
-                    return .backgroundColor
-                case .label:
-                    return .label
-                case .secondaryLabel:                    
+                case .secondaryLabel:
                     return Color(uiColor: .secondaryLabel)
                 case .tertiaryLabel:
                     return Color(uiColor: .tertiaryLabel)
                 case .quaternaryLabel:
                     return Color(uiColor: .quaternaryLabel)
-                case .clear:
-                    return Color(uiColor: .clear)
-                    
-                case .none:
-                    return Color(uiColor: .clear)
                 }
             #endif
 
             #if os(macOS)
 
                 switch _systemColor! {
+                case .none:
+                    return Color(nsColor: .clear)
+                case .clear:
+                    return Color(nsColor: .clear)
+                case .label:
+                    return .label
+                case .background:
+                    return .backgroundColor
+                case .systemTint:
+                    return Color(nsColor: .controlAccentColor)
                 case .systemRed:
                     return Color(nsColor: .systemRed)
                 case .systemBlue:
@@ -141,21 +154,12 @@ public class GenericColor: Codable {
                     return Color(nsColor: .systemGray)
                 case .systemGray6:
                     return Color(nsColor: .systemGray)
-                case .background:
-                    return .backgroundColor
-                case .label:
-                    return .label
                 case .secondaryLabel:
                     return Color(nsColor: .lightGray)
                 case .tertiaryLabel:
                     return Color(nsColor: .lightGray)
                 case .quaternaryLabel:
                     return Color(nsColor: .lightGray)
-                case .clear:
-                    return Color(nsColor: .clear)
-                    
-                case .none:
-                    return Color(nsColor: .clear)
                 }
             #endif
         }
@@ -164,15 +168,15 @@ public class GenericColor: Codable {
     public var systemColor: SystemColor {
         return _systemColor ?? .none
     }
-    
+
     public init(color: Color) {
-        self.customColor = color
-        self._systemColor = nil
+        customColor = color
+        _systemColor = nil
     }
-    
+
     public init(systemColor: SystemColor) {
-        self.customColor = nil
-        self._systemColor = systemColor
+        customColor = nil
+        _systemColor = systemColor
     }
 
     public func toString() -> String {
@@ -185,8 +189,9 @@ public class GenericColor: Codable {
             return "GenericColor(systemColor:.\(_systemColor!))"
         }
     }
-// MARK: --
-    
+
+    // MARK: - -
+
     public static let background = GenericColor(systemColor: .background)
     public static let label = GenericColor(systemColor: .label)
     public static let systemRed = GenericColor(systemColor: .systemRed)
