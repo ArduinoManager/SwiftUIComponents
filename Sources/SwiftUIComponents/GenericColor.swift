@@ -145,21 +145,21 @@ public class GenericColor: Codable {
                 case .systemGray:
                     return Color(nsColor: .systemGray)
                 case .systemGray2:
-                    return Color(nsColor: .systemGray)
+                    return Color(red: 0.6823529601097107, green: 0.6823529601097107, blue: 0.6980392336845398, opacity: 1.0)
                 case .systemGray3:
-                    return Color(nsColor: .systemGray)
+                    return Color(red: 0.7803921699523926, green: 0.7803921699523926, blue: 0.800000011920929, opacity: 1.0)
                 case .systemGray4:
-                    return Color(nsColor: .systemGray)
+                    return Color(red: 0.8196078538894653, green: 0.8196078538894653, blue: 0.8392157554626465, opacity: 1.0)
                 case .systemGray5:
-                    return Color(nsColor: .systemGray)
+                    return Color(red: 0.8980392217636108, green: 0.8980392217636108, blue: 0.9176470637321472, opacity: 1.0)
                 case .systemGray6:
-                    return Color(nsColor: .systemGray)
+                    return Color(red: 0.9490196108818054, green: 0.9490196108818054, blue: 0.9686275124549866, opacity: 1.0)
                 case .systemSecondaryLabel:
-                    return Color(nsColor: .lightGray)
+                    return Color(red: 0.23529410362243652, green: 0.23529410362243652, blue: 0.26274511218070984, opacity: 0.6000000238418579)
                 case .systemTertiaryLabel:
-                    return Color(nsColor: .lightGray)
+                    return Color(red: 0.23529410362243652, green: 0.23529410362243652, blue: 0.26274511218070984, opacity: 0.30000001192092896)
                 case .systemQuaternaryLabel:
-                    return Color(nsColor: .lightGray)
+                    return Color(red: 0.23529410362243652, green: 0.23529410362243652, blue: 0.26274511218070984, opacity: 0.18000000715255737)
                 }
             #endif
         }
