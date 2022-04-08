@@ -24,7 +24,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
     private let rowAlternateColor: GenericColor!
     private let alternatesRows: Bool!
 
-    private let uuid = UUID()
+    @State private var uuid: UUID
     
     var form: () -> Form
 
@@ -57,6 +57,8 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
             self.alternatesRows = alternatesRows
             rowAlternateColor = alternateBackgroundColor
         }
+        
+        _uuid = State(initialValue: UUID())
     }
 
     public var body: some View {
