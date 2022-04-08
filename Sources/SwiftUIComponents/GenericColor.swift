@@ -190,6 +190,13 @@ public class GenericColor: Codable {
         }
     }
 
+    public func toStringComponents() -> String {
+        if let components = color.colorComponents {
+            return "GenericColor(color:Color(red: \(components.red), green: \(components.green), blue: \(components.blue), opacity: \(components.alpha)))"
+        }
+        return ""
+    }
+
     // MARK: - -
 
     public static let systemClear = GenericColor(systemColor: .systemClear)
