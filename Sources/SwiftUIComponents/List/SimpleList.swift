@@ -24,6 +24,8 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
     private let rowAlternateColor: GenericColor!
     private let alternatesRows: Bool!
 
+    private let uuid = UUID()
+    
     var form: () -> Form
 
     public init(controller: ListController<Item, Row>, @ViewBuilder form: @escaping () -> Form) {
@@ -90,6 +92,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
             .background(controller.backgroundColor.color)
 
             List {
+                Print("---------------------------> Drawing List \(uuid)")
                 ForEach(0 ..< controller.items.count, id: \.self) { idx in
                     let item = controller.items[idx]
                     #if os(macOS)
