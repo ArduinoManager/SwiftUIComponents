@@ -16,7 +16,7 @@ public enum ControllerType: String, Codable {
 
 public class SuperController: Identifiable, Codable {
     public let id: UUID
-    public var type: ControllerType
+    var type: ControllerType
     
     public init(type: ControllerType) {
         self.id = UUID()
