@@ -15,7 +15,10 @@ public class GenericColor: Codable {
 
         case systemClear
         case systemLabel
+        case systemSecondaryLabel
+        case systemTertiaryLabel
         case systemBackground
+        case systemQuaternaryLabel
 
         case systemTint
         case systemRed
@@ -36,9 +39,6 @@ public class GenericColor: Codable {
         case systemGray4
         case systemGray5
         case systemGray6
-        case secondaryLabel
-        case tertiaryLabel
-        case quaternaryLabel
     }
 
     private var customColor: Color?
@@ -96,11 +96,11 @@ public class GenericColor: Codable {
                     return Color(uiColor: .systemGray5)
                 case .systemGray6:
                     return Color(uiColor: .systemGray6)
-                case .secondaryLabel:
+                case .systemSecondaryLabel:
                     return Color(uiColor: .secondaryLabel)
-                case .tertiaryLabel:
+                case .systemTertiaryLabel:
                     return Color(uiColor: .tertiaryLabel)
-                case .quaternaryLabel:
+                case .systemQuaternaryLabel:
                     return Color(uiColor: .quaternaryLabel)
                 }
             #endif
@@ -154,11 +154,11 @@ public class GenericColor: Codable {
                     return Color(nsColor: .systemGray)
                 case .systemGray6:
                     return Color(nsColor: .systemGray)
-                case .secondaryLabel:
+                case .systemSecondaryLabel:
                     return Color(nsColor: .lightGray)
-                case .tertiaryLabel:
+                case .systemTertiaryLabel:
                     return Color(nsColor: .lightGray)
-                case .quaternaryLabel:
+                case .systemQuaternaryLabel:
                     return Color(nsColor: .lightGray)
                 }
             #endif
@@ -192,6 +192,7 @@ public class GenericColor: Codable {
 
     // MARK: - -
 
+    public static let systemClear = GenericColor(systemColor: .systemClear)
     public static let systemBackground = GenericColor(systemColor: .systemBackground)
     public static let systemLabel = GenericColor(systemColor: .systemLabel)
     public static let systemRed = GenericColor(systemColor: .systemRed)
@@ -200,7 +201,6 @@ public class GenericColor: Codable {
     public static let systemYellow = GenericColor(systemColor: .systemYellow)
     public static let systemGray = GenericColor(systemColor: .systemGray)
     public static let systemCyan = GenericColor(systemColor: .systemCyan)
-    public static let clear = GenericColor(systemColor: .systemClear)
     public static let systemWhite = GenericColor(color: .white)
     public static let systemBlack = GenericColor(color: .black)
 
@@ -223,4 +223,16 @@ public class GenericColor: Codable {
         try container.encode(customColor, forKey: .customColor)
         try container.encode(_systemColor, forKey: .systemColor)
     }
+}
+
+extension Color {
+    #if os(macOS)
+        public static let systemLabel = Color(NSColor.labelColor)
+        public static let systemBackground = Color(NSColor.windowBackgroundColor)
+        public static let systemSecondaryBackground = Color(NSColor.controlBackgroundColor)
+    #else
+        public static let systemLabel = Color(UIColor.label)
+        public static let systemBackground = Color(UIColor.systemBackground)
+        public static let systemSecondaryBackground = Color(UIColor.secondarySystemBackground)
+    #endif
 }

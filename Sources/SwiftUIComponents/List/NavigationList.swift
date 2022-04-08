@@ -161,7 +161,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                         #endif
                     }
                     .onMove(perform: move)
-                    .listRowBackground(GenericColor.clear.color)
+                    .listRowBackground(GenericColor.systemClear.color)
                 }
                 #if os(iOS)
                     .environment(\.editMode, editingList ? .constant(.active) : .constant(.inactive))

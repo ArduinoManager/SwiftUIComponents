@@ -129,7 +129,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                 #if os(macOS)
                     .removingScrollViewBackground()
                 #endif
-                .listRowBackground(GenericColor.clear.color)
+                .listRowBackground(GenericColor.systemClear.color)
             }
             #if os(iOS)
                 .environment(\.editMode, editingList ? .constant(.active) : .constant(.inactive))
@@ -441,7 +441,7 @@ struct RowView: View {
                 Text("\(item.lastName)")
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-            .background(item.selected ? GenericColor.systemRed.color : GenericColor.clear.color)
+            .background(item.selected ? GenericColor.systemRed.color : GenericColor.systemClear.color)
         }
     }
 }

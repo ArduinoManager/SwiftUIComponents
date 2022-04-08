@@ -250,16 +250,6 @@ func makeImage(action: ListAction, iconSize: CGFloat, color: GenericColor) -> so
 
 extension Color {
     #if os(macOS)
-        public static let systemLabel = Color(NSColor.labelColor)
-        public static let systemBackground = Color(NSColor.windowBackgroundColor)
-        public static let systemSecondaryBackground = Color(NSColor.controlBackgroundColor)
-    #else
-        public static let systemLabel = Color(UIColor.label)
-        public static let systemBackground = Color(UIColor.systemBackground)
-        public static let systemSecondaryBackground = Color(UIColor.secondarySystemBackground)
-    #endif
-
-    #if os(macOS)
         typealias SystemColor = NSColor
     #else
         typealias SystemColor = UIColor
