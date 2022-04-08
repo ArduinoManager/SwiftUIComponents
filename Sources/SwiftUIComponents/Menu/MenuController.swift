@@ -33,15 +33,15 @@ public class MenuController: SuperController, ObservableObject {
         public init(menuItems: [MenuItem],
                     autoClose: Bool = true,
                     openButtonAtTop: Bool = true,
-                    openButtonColor: GenericColor = GenericColor(systemColor: .label),
+                    openButtonColor: GenericColor = .systemLabel,
                     openButtonIcon: String = "line.3.horizontal",
                     openButtonSize: CGFloat = 20.0,
                     sideTitleViewProvider: ((_ controller: MenuController) -> AnyView)? = nil,
-                    backgroundColor: GenericColor = GenericColor(systemColor: .background),
-                    itemsColor: GenericColor = GenericColor(systemColor: .label),
+                    backgroundColor: GenericColor = .systemBackground,
+                    itemsColor: GenericColor = .systemLabel,
                     selectedItemBackgroundColor: GenericColor = GenericColor(systemColor: .systemGray4),
                     titleViewProvider: ((_ controller: MenuController) -> AnyView)?,
-                    titleViewBackgroundColor: GenericColor = GenericColor(systemColor: .background),
+                    titleViewBackgroundColor: GenericColor = .systemBackground,
                     actionsHandler: @escaping (_ controller: MenuController, _ item: MenuAction) -> Void,
                     viewProvider: ((_ controller: MenuController, _ item: MenuView) -> AnyView)?) {
             showMenu = false
@@ -86,10 +86,10 @@ public class MenuController: SuperController, ObservableObject {
         ///
         public init(menuItems: [MenuItem],
                     sideTitleViewProvider: ((_ controller: MenuController) -> AnyView)? = nil,
-                    backgroundColor: GenericColor = GenericColor(systemColor: .background),
-                    itemsColor: GenericColor = GenericColor(systemColor: .label),
+                    backgroundColor: GenericColor = .systemBackground,
+                    itemsColor: GenericColor = .systemLabel,
                     titleViewProvider: ((_ controller: MenuController) -> AnyView)?,
-                    titleViewBackgroundColor: GenericColor = GenericColor(systemColor: .background),
+                    titleViewBackgroundColor: GenericColor = .systemBackground,
                     inspectorViewProvider: ((_ controller: MenuController) -> AnyView?)? = nil,
                     actionsHandler: @escaping (_ controller: MenuController, _ item: MenuAction) -> Void,
                     viewProvider: ((_ controller: MenuController, _ item: MenuView) -> AnyView)?) {
@@ -98,7 +98,7 @@ public class MenuController: SuperController, ObservableObject {
             self.menuItems = menuItems
             autoClose = true
             openButtonAtTop = false
-            openButtonColor = GenericColor(systemColor: .label)
+            openButtonColor = .systemLabel
             openButtonIcon = "line.3.horizontal"
             openButtonSize = 20.0
             self.sideTitleViewProvider = sideTitleViewProvider

@@ -312,13 +312,13 @@ struct SideMenuContainer: View {
         ]
         ,
         // sideTitleView: AnyView(SideTitleView()),
-        backgroundColor: GenericColor(systemColor: .background),
-        itemsColor: GenericColor(systemColor: .label),
+                                           backgroundColor: .systemBackground,
+                                           itemsColor: .systemLabel,
         // titleView: AnyView(TitleView()),
         titleViewProvider: { _ in
             AnyView(TitleView())
         },
-        titleViewBackgroundColor: GenericColor(systemColor: .background),
+                                           titleViewBackgroundColor: .systemBackground,
         actionsHandler: { _, item in
             print("Action \(item.title) [\(item.key)]")
         },

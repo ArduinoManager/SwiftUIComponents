@@ -12,7 +12,7 @@ import SwiftUI
 public class MenuDivider: MenuItem {
     public var color: GenericColor
 
-    public init(color: GenericColor = GenericColor(systemColor: .background)) {
+    public init(color: GenericColor = .systemLabel) {
             self.color = color
             super.init(type: .divider)
             title = "\(UUID())"

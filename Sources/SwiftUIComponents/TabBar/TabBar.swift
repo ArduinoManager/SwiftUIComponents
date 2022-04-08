@@ -163,7 +163,7 @@ struct TabBarContainer: View {
     ],
     tabBarPosition: .bottom,
     viewProvider: viewProvider,
-    backgroundColor: GenericColor.background
+    backgroundColor: GenericColor.systemBackground
     )
 
     var body: some View {

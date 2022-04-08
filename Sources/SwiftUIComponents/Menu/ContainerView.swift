@@ -274,7 +274,7 @@ struct MainViewContainer: View {
             MenuView(key: 3, title: "Profile", systemIcon: "person.fill"),
             MenuView(key: 4, title: "Profile2", icon: "logo"),
 
-            MenuDivider(color: GenericColor.label),
+            MenuDivider(color: GenericColor.systemLabel),
             MenuAction(key: 101, title: "Login", systemIcon: "rectangle.portrait.and.arrow.right"),
 
             MenuAction(key: 102, title: "Logout", systemIcon: "pippo"),
@@ -287,8 +287,8 @@ struct MainViewContainer: View {
             _controller = StateObject(wrappedValue: MenuController(menuItems: menuItems,
                                                                    openButtonAtTop: false,
                                                                    // sideTitleView: AnyView(SideTitleView()),
-                                                                   backgroundColor: GenericColor(systemColor: .background),
-                                                                   itemsColor: GenericColor(systemColor: .label),
+                                                                   backgroundColor: .systemBackground,
+                                                                   itemsColor: .systemLabel,
                                                                    // titleView: AnyView(TitleView()),
                                                                    titleViewProvider: nil,
                                                                    //titleViewBackgroundColor: .red,
@@ -368,8 +368,8 @@ struct MainViewContainer: View {
                                    sideTitleViewProvider: { _ in
                                        AnyView(TitleView())
                                    },
-                                   backgroundColor: GenericColor(systemColor: .background),
-                                   itemsColor: GenericColor(systemColor: .label),
+                                   backgroundColor: .systemBackground,
+                                   itemsColor: .systemLabel,
                                    titleViewProvider: nil,
                                    titleViewBackgroundColor: .systemCyan,
                                    inspectorViewProvider: { _ in

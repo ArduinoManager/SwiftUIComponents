@@ -106,7 +106,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                     } label: {
                                         Image(systemName: "chevron.right")
                                             .resizable()
-                                            .foregroundColor(GenericColor.background.color)
+                                            .foregroundColor(GenericColor.systemBackground.color)
                                             .scaledToFill()
                                             .padding(2)
                                     }
@@ -143,7 +143,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                     } label: {
                                         Image(systemName: "chevron.right")
                                             .resizable()
-                                            .foregroundColor(GenericColor.label.color)
+                                            .foregroundColor(GenericColor.systemLabel.color)
                                             .scaledToFill()
                                             .padding(2)
                                     }

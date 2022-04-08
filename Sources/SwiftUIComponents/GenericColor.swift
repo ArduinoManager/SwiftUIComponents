@@ -14,8 +14,8 @@ public class GenericColor: Codable {
         case none
 
         case clear
-        case label
-        case background
+        case systemLabel
+        case systemBackground
 
         case systemTint
         case systemRed
@@ -54,10 +54,10 @@ public class GenericColor: Codable {
                     return Color(uiColor: .clear)
                 case .clear:
                     return Color(uiColor: .clear)
-                case .label:
-                    return .label
-                case .background:
-                    return .backgroundColor
+                case .systemLabel:
+                    return .systemLabel
+                case .systemBackground:
+                    return .systemBackground
                 case .systemTint:
                     return Color(uiColor: .tintColor)
                 case .systemRed:
@@ -112,10 +112,10 @@ public class GenericColor: Codable {
                     return Color(nsColor: .clear)
                 case .clear:
                     return Color(nsColor: .clear)
-                case .label:
-                    return .label
-                case .background:
-                    return .backgroundColor
+                case .systemLabel:
+                    return .systemLabel
+                case .systemBackground:
+                    return .systemBackground
                 case .systemTint:
                     return Color(nsColor: .controlAccentColor)
                 case .systemRed:
@@ -192,8 +192,8 @@ public class GenericColor: Codable {
 
     // MARK: - -
 
-    public static let background = GenericColor(systemColor: .background)
-    public static let label = GenericColor(systemColor: .label)
+    public static let systemBackground = GenericColor(systemColor: .systemBackground)
+    public static let systemLabel = GenericColor(systemColor: .systemLabel)
     public static let systemRed = GenericColor(systemColor: .systemRed)
     public static let systemGreen = GenericColor(systemColor: .systemGreen)
     public static let systemBlue = GenericColor(systemColor: .systemBlue)

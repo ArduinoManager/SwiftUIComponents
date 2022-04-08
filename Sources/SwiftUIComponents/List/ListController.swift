@@ -32,7 +32,7 @@ public struct ListAction: Hashable, Codable {
     public var icon: String?
 
     #if os(iOS)
-        public init(key: String, label: String, systemIcon: String? = nil, icon: String? = nil, color: GenericColor = GenericColor.label) {
+        public init(key: String, label: String, systemIcon: String? = nil, icon: String? = nil, color: GenericColor = GenericColor.systemLabel) {
             self.key = key
             self.label = label
             self.color = color
@@ -41,7 +41,7 @@ public struct ListAction: Hashable, Codable {
         }
     #endif
     #if os(macOS)
-        public init(key: String, label: String, systemIcon: String? = nil, icon: String? = nil, color: GenericColor = GenericColor.label) {
+        public init(key: String, label: String, systemIcon: String? = nil, icon: String? = nil, color: GenericColor = GenericColor.systemLabel) {
             self.key = key
             self.label = label
             self.color = color
@@ -60,11 +60,11 @@ public struct ListAction: Hashable, Codable {
 }
 
 public enum ListStyle: Codable {
-    case plain(alternatesRows: Bool, alternateBackgroundColor: GenericColor = GenericColor.label)
-    case grouped(alternatesRows: Bool, alternateBackgroundColor: GenericColor = GenericColor.label) // On macOS like inset
-    case inset(alternatesRows: Bool, alternateBackgroundColor: GenericColor = GenericColor.label)
-    case insetGrouped(alternatesRows: Bool, alternateBackgroundColor: GenericColor = GenericColor.label) // On macOS like inset
-    case sidebar(alternatesRows: Bool, alternateBackgroundColor: GenericColor = GenericColor.label)
+    case plain(alternatesRows: Bool, alternateBackgroundColor: GenericColor = GenericColor.systemLabel)
+    case grouped(alternatesRows: Bool, alternateBackgroundColor: GenericColor = GenericColor.systemLabel) // On macOS like inset
+    case inset(alternatesRows: Bool, alternateBackgroundColor: GenericColor = GenericColor.systemLabel)
+    case insetGrouped(alternatesRows: Bool, alternateBackgroundColor: GenericColor = GenericColor.systemLabel) // On macOS like inset
+    case sidebar(alternatesRows: Bool, alternateBackgroundColor: GenericColor = GenericColor.systemLabel)
 }
 
 public class ListController<Item: Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View>: SuperController, ObservableObject {
@@ -114,11 +114,11 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
                     title: String? = nil,
                     multipleSelection: Bool = false,
                     addButtonIcon: String = "plus",
-                    addButtonColor: GenericColor = GenericColor.label,
+                    addButtonColor: GenericColor = GenericColor.systemLabel,
                     editButtonLabel: String,
                     deleteButtonLabel: String,
-                    backgroundColor: GenericColor = GenericColor.background,
-                    rowBackgroundColor: GenericColor = GenericColor.background,
+                    backgroundColor: GenericColor = GenericColor.systemBackground,
+                    rowBackgroundColor: GenericColor = GenericColor.systemBackground,
                     swipeActions: Bool = true,
                     leadingActions: [ListAction] = [],
                     trailingActions: [ListAction] = [],
@@ -166,11 +166,11 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
                     title: String? = nil,
                     multipleSelection: Bool = false,
                     addButtonIcon: String = "plus",
-                    addButtonColor: GenericColor = GenericColor.label,
+                    addButtonColor: GenericColor = GenericColor.systemLabel,
                     editButtonLabel: String,
                     deleteButtonLabel: String,
-                    backgroundColor: GenericColor = GenericColor.background,
-                    rowBackgroundColor: GenericColor = GenericColor.background,
+                    backgroundColor: GenericColor = GenericColor.systemBackground,
+                    rowBackgroundColor: GenericColor = GenericColor.systemBackground,
                     swipeActions: Bool = true,
                     leadingActions: [ListAction] = [],
                     trailingActions: [ListAction] = [],

@@ -15,14 +15,14 @@ public class TabItem: Hashable, Codable {
     public var color: GenericColor
     public var targetViewId: UUID? /// Reserved for the generarator
 
-    public init(key: Key, title: String, systemIcon: String, color: GenericColor = GenericColor.label) {
+    public init(key: Key, title: String, systemIcon: String, color: GenericColor = GenericColor.systemLabel) {
         self.key = key
         self.title = title
         self.systemIcon = systemIcon
         self.color = color
     }
 
-    public init(key: Key, title: String, icon: String, color: GenericColor = GenericColor.label) {
+    public init(key: Key, title: String, icon: String, color: GenericColor = GenericColor.systemLabel) {
         self.key = key
         self.title = title
         self.icon = icon
