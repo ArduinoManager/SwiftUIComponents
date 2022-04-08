@@ -13,7 +13,7 @@ public class GenericColor: Codable {
     public enum SystemColor: String, CaseIterable, Codable {
         case none
 
-        case clear
+        case systemClear
         case systemLabel
         case systemBackground
 
@@ -52,7 +52,7 @@ public class GenericColor: Codable {
                 switch _systemColor! {
                 case .none:
                     return Color(uiColor: .clear)
-                case .clear:
+                case .systemClear:
                     return Color(uiColor: .clear)
                 case .systemLabel:
                     return .systemLabel
@@ -110,7 +110,7 @@ public class GenericColor: Codable {
                 switch _systemColor! {
                 case .none:
                     return Color(nsColor: .clear)
-                case .clear:
+                case .systemClear:
                     return Color(nsColor: .clear)
                 case .systemLabel:
                     return .systemLabel
@@ -200,7 +200,7 @@ public class GenericColor: Codable {
     public static let systemYellow = GenericColor(systemColor: .systemYellow)
     public static let systemGray = GenericColor(systemColor: .systemGray)
     public static let systemCyan = GenericColor(systemColor: .systemCyan)
-    public static let clear = GenericColor(systemColor: .clear)
+    public static let clear = GenericColor(systemColor: .systemClear)
     public static let systemWhite = GenericColor(color: .white)
     public static let systemBlack = GenericColor(color: .black)
 
