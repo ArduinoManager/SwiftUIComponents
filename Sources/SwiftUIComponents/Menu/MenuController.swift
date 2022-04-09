@@ -27,7 +27,10 @@ public class MenuController: SuperController, ObservableObject {
     public var viewProvider: ((_ controller: MenuController, _ item: MenuView) -> AnyView)?
     public var inspectorViewProvider: ((_ controller: MenuController) -> AnyView?)?
     var boostrap: String? = "A"
-
+    public var menuViews: [MenuView] {
+        return menuItems.filter({$0.type == .item}) as! [MenuView]
+    }
+    
     #if os(iOS)
 
         public init(menuItems: [MenuItem],
