@@ -236,7 +236,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                 Button {
                     controller.delete(item: item)
                 } label: {
-                    getSafeSystemImage(systemName: "minus")
+                    getSafeSystemImage(systemName: "trash.fill")
                         .aspectRatio(contentMode: .fit)
                         .padding(3)
                         .foregroundColor(.red)

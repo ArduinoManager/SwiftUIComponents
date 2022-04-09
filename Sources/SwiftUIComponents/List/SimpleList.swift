@@ -94,7 +94,6 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
             .background(controller.backgroundColor.color)
 
             List {
-                Print("---------------------------> Drawing List \(uuid)")
                 ForEach(0 ..< controller.items.count, id: \.self) { idx in
                     let item = controller.items[idx]
                     #if os(macOS)
@@ -200,7 +199,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                 Button {
                     controller.delete(item: item)
                 } label: {
-                    getSafeSystemImage(systemName: "minus")
+                    getSafeSystemImage(systemName: "trash.fill")
                         .aspectRatio(contentMode: .fit)
                         .padding(3)
                         .foregroundColor(.red)
