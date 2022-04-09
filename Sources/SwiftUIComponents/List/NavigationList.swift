@@ -231,6 +231,29 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                 .onTapGesture {
                     controller.select(item: item)
                 }
+
+            if !controller.swipeActions {
+                Button {
+                    controller.delete(item: item)
+                } label: {
+                    getSafeSystemImage(systemName: "minus")
+                        .aspectRatio(contentMode: .fit)
+                        .padding(3)
+                        .foregroundColor(.red)
+                        .frame(width: iconSize + 1, height: iconSize + 1)
+                        .border(.red, width: 1)
+                }
+                .padding(.top, 2)
+                .padding(.bottom, controller.showLineSeparator ? 2 : 0)
+                #if os(iOS)
+                    .buttonStyle(BorderlessButtonStyle())
+                #endif
+                #if os(macOS)
+                    .foregroundColor(.red)
+                    .buttonStyle(.plain)
+                #endif
+            }
+            
             //
             if !controller.swipeActions {
                 ForEach(0 ..< controller.trailingActions.count, id: \.self) { idx in
