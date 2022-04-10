@@ -106,8 +106,9 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                     } label: {
                                         Image(systemName: "chevron.right")
                                             .resizable()
-                                            .foregroundColor(GenericColor.systemBackground.color)
-                                            .scaledToFill()
+                                            .foregroundColor(GenericColor.systemTint.color)
+                                            .scaledToFit()
+                                            .frame(width: iconSize + 1, height: iconSize + 1)
                                             .padding(2)
                                     }
                                     .buttonStyle(.plain)
@@ -143,8 +144,9 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                     } label: {
                                         Image(systemName: "chevron.right")
                                             .resizable()
-                                            .foregroundColor(GenericColor.systemLabel.color)
-                                            .scaledToFill()
+                                            .foregroundColor(GenericColor.systemTint.color)
+                                            .scaledToFit()
+                                            .frame(width: iconSize + 1, height: iconSize + 1)
                                             .padding(2)
                                     }
                                     .buttonStyle(.plain)
@@ -353,8 +355,8 @@ struct NavigationListContainer: View {
                                                                                   backgroundColor: .systemGreen,
                                                                                   rowBackgroundColor: GenericColor(systemColor: .systemPurple),
                                                                                   swipeActions: false,
-                                                                                  leadingActions: leadingActions,
-                                                                                  trailingActions: trailingActions,
+                                                                                  leadingActions: [],
+                                                                                  trailingActions: [],
                                                                                   actionHandler: { actionKey in
                                                                                       print("Executing action \(actionKey)")
                                                                                   },

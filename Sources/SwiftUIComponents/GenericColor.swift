@@ -202,6 +202,7 @@ public class GenericColor: Codable {
     public static let systemClear = GenericColor(systemColor: .systemClear)
     public static let systemBackground = GenericColor(systemColor: .systemBackground)
     public static let systemLabel = GenericColor(systemColor: .systemLabel)
+    public static let systemTint = GenericColor(systemColor: .systemTint)
     public static let systemRed = GenericColor(systemColor: .systemRed)
     public static let systemGreen = GenericColor(systemColor: .systemGreen)
     public static let systemBlue = GenericColor(systemColor: .systemBlue)
