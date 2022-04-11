@@ -27,6 +27,9 @@ public struct TabBar: View {
     #if os(iOS)
         public var body: some View {
             VStack(spacing: 0) {
+                if let header = controller.headerProvider?(controller) {
+                    header
+                }
                 if controller.tabBarPosition == .top {
                     tabBar
                 }
@@ -35,6 +38,9 @@ public struct TabBar: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                 if controller.tabBarPosition == .bottom {
                     tabBar
+                }
+                if let footer = controller.footerProvider?(controller) {
+                    footer
                 }
             }
             .padding(0)
@@ -87,6 +93,8 @@ public struct TabBar: View {
 //            y: controller.tabBarPosition == .top ? 1 : -1
 //        )
 //        .zIndex(99) // Raised so that shadow is visible above view backgrounds
+
+                
             }
             .background(controller.backgroundColor.color)
         }
@@ -95,6 +103,9 @@ public struct TabBar: View {
     #if os(macOS)
         public var body: some View {
             VStack(spacing: 0) {
+                if let header = controller.headerProvider?(controller) {
+                    header
+                }
                 if controller.tabBarPosition == .top {
                     tabBar
                 }
@@ -103,6 +114,9 @@ public struct TabBar: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                 if controller.tabBarPosition == .bottom {
                     tabBar
+                }
+                if let footer = controller.footerProvider?(controller) {
+                    footer
                 }
             }
             .padding(0)
@@ -162,6 +176,8 @@ struct TabBarContainer: View {
         TabItem(key: 4, title: "Tab 5", icon: "tabIcon", color: .systemBlack),
     ],
     tabBarPosition: .bottom,
+    headerProvider: { _ in AnyView(TitleView()) },
+    footerProvider: { _ in AnyView(TitleView()) },
     viewProvider: viewProvider,
     backgroundColor: GenericColor.systemBackground
     )

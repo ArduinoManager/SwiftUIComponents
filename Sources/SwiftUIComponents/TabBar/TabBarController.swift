@@ -10,13 +10,17 @@ import SwiftUI
 
 public class TabBarController: SuperController, ObservableObject {
     @Published public var tabs: [TabItem]
-    @Published public var viewProvider: ((_ controller: TabBarController, _ tab: TabItem) -> AnyView)?
+    public var headerProvider: ((_ controller: TabBarController) -> AnyView)?
+    public var footerProvider: ((_ controller: TabBarController) -> AnyView)?
+    public var viewProvider: ((_ controller: TabBarController, _ tab: TabItem) -> AnyView)?
     @Published public var tabBarPosition: TabBar.TabBarPosition
     @Published public var backgroundColor: GenericColor
     @Published public var selectionColor: GenericColor
 
     public init(tabs: [TabItem],
                 tabBarPosition: TabBar.TabBarPosition,
+                headerProvider: ((_ controller: TabBarController) -> AnyView)? = nil,
+                footerProvider: ((_ controller: TabBarController) -> AnyView)? = nil,
                 viewProvider: ((_ controller: TabBarController, _ tab: TabItem) -> AnyView)?,
                 backgroundColor: GenericColor = GenericColor.systemBackground,
                 selectionColor: GenericColor = GenericColor.systemRed)
@@ -25,6 +29,8 @@ public class TabBarController: SuperController, ObservableObject {
         self.tabBarPosition = tabBarPosition
         self.backgroundColor = backgroundColor
         self.selectionColor = selectionColor
+        self.headerProvider = headerProvider
+        self.footerProvider = footerProvider
         self.viewProvider = viewProvider
         super.init(type: .tabBar)
 
