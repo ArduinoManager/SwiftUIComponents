@@ -25,7 +25,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
     private let alternatesRows: Bool!
 
     @State private var uuid: UUID
-    
+
     var form: () -> Form
 
     public init(controller: ListController<Item, Row>, @ViewBuilder form: @escaping () -> Form) {
@@ -57,16 +57,15 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
             self.alternatesRows = alternatesRows
             rowAlternateColor = alternateBackgroundColor
         }
-        
+
         _uuid = State(initialValue: UUID())
     }
 
     public var body: some View {
         VStack(spacing: 0) {
             HStack {
-                if let title = controller.title {
-                    Text(title)
-                        .font(.title)
+                if let header = controller.headerProvider?(controller) {
+                    header
                 }
                 Spacer()
                 Button {
@@ -90,7 +89,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                 #endif
             }
             .padding([.leading, .trailing])
-            .padding(.bottom, controller.title == nil ? 4 : 0)
+            .padding(.bottom, controller.headerProvider == nil ? 4 : 0)
             .background(controller.backgroundColor.color)
 
             List {
@@ -139,12 +138,16 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                 .environment(\.editMode, editingList ? .constant(.active) : .constant(.inactive))
             #endif
             .customStyle(type: controller.style)
-            .background(controller.backgroundColor.color)
+                .background(controller.backgroundColor.color)
                 .sheet(isPresented: $sheetManager.showSheet) {
                     if sheetManager.whichSheet == .Form {
                         form()
                     }
                 }
+            Spacer()
+            if let footer = controller.footerProvider?(controller) {
+                footer
+            }
         }
         .background(controller.backgroundColor.color)
     }
@@ -334,7 +337,8 @@ struct SimpleListContainer: View {
         _controller = StateObject(wrappedValue: ListController<ListItem, RowView>(items: items,
                                                                                   sort: sortList,
                                                                                   style: .grouped(alternatesRows: false, alternateBackgroundColor: GenericColor(color: .white)),
-                                                                                  title: nil,
+                                                                                  headerProvider: {_ in AnyView(TitleView())},
+                                                                                  footerProvider: {_ in AnyView(TitleView())},
                                                                                   addButtonIcon: "plus",
                                                                                   addButtonColor: .systemRed,
                                                                                   editButtonLabel: "Edit_",

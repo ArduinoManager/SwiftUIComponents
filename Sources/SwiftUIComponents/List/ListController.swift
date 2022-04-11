@@ -53,7 +53,7 @@ public struct ListAction: Hashable, Codable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(key)
     }
-    
+
     public static func == (lhs: ListAction, rhs: ListAction) -> Bool {
         return lhs.key == rhs.key
     }
@@ -71,7 +71,8 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
     @Published var items: [Item]
     var sort: ((_: inout [Item]) -> Void)?
     @Published public var style: ListStyle
-    @Published public var title: String?
+    @Published public var headerProvider: ((_ controller: ListController) -> AnyView)?
+    @Published public var footerProvider: ((_ controller: ListController) -> AnyView)?
     @Published public var multipleSelection: Bool
     @Published public var addButtonIcon: String
     @Published public var addButtonColor: GenericColor
@@ -111,7 +112,8 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
         public init(items: [Item],
                     sort: ((_: inout [Item]) -> Void)? = nil,
                     style: ListStyle,
-                    title: String? = nil,
+                    headerProvider: ((_ controller: ListController) -> AnyView)?,
+                    footerProvider: ((_ controller: ListController) -> AnyView)?,
                     multipleSelection: Bool = false,
                     addButtonIcon: String = "plus",
                     addButtonColor: GenericColor = GenericColor.systemLabel,
@@ -130,7 +132,8 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
             self.items = items
             self.sort = sort
             self.style = style
-            self.title = title
+            self.headerProvider = headerProvider
+            self.footerProvider = footerProvider
             self.multipleSelection = multipleSelection
             self.addButtonIcon = addButtonIcon
             self.addButtonColor = addButtonColor
@@ -163,7 +166,8 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
         public init(items: [Item],
                     sort: ((_: inout [Item]) -> Void)? = nil,
                     style: ListStyle,
-                    title: String? = nil,
+                    headerProvider: ((_ controller: ListController) -> AnyView)?,
+                    footerProvider: ((_ controller: ListController) -> AnyView)?,
                     multipleSelection: Bool = false,
                     addButtonIcon: String = "plus",
                     addButtonColor: GenericColor = GenericColor.systemLabel,
@@ -182,7 +186,8 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
             self.items = items
             self.sort = sort
             self.style = style
-            self.title = title
+            self.headerProvider = headerProvider
+            self.footerProvider = footerProvider
             self.multipleSelection = multipleSelection
             self.addButtonIcon = addButtonIcon
             self.addButtonColor = addButtonColor
@@ -285,7 +290,6 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
 
     enum CodingKeys: CodingKey {
         case style
-        case title
         case multipleSelection
         case addButtonIcon
         case addButtonColor
@@ -306,7 +310,6 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
         items = [Item]()
         style = try values.decode(ListStyle.self, forKey: .style)
         multipleSelection = try values.decode(Bool.self, forKey: .multipleSelection)
-        title = try? values.decode(String.self, forKey: .title)
         addButtonIcon = try values.decode(String.self, forKey: .addButtonIcon)
         addButtonColor = try values.decode(GenericColor.self, forKey: .addButtonColor)
         editButtonLabel = try values.decode(String.self, forKey: .editButtonLabel)
@@ -329,7 +332,6 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
 
         try container.encode(style, forKey: .style)
         try container.encode(multipleSelection, forKey: .multipleSelection)
-        try container.encode(title, forKey: .title)
         try container.encode(addButtonIcon, forKey: .addButtonIcon)
         try container.encode(addButtonColor, forKey: .addButtonColor)
         try container.encode(editButtonLabel, forKey: .editButtonLabel)

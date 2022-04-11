@@ -51,9 +51,8 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
         NavigationView {
             VStack {
                 HStack {
-                    if let title = controller.title {
-                        Text(title)
-                            .font(.title)
+                    if let header = controller.headerProvider?(controller) {
+                        header
                     }
                     Spacer()
                     Button {
@@ -169,6 +168,11 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                     .environment(\.editMode, editingList ? .constant(.active) : .constant(.inactive))
                 #endif
                 .customStyle(type: controller.style)
+                
+                Spacer()
+                if let footer = controller.footerProvider?(controller) {
+                    footer
+                }
             }
             .background(controller.backgroundColor.color)
             .overlay(ZStack {
@@ -255,7 +259,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                     .buttonStyle(.plain)
                 #endif
             }
-            
+
             //
             if !controller.swipeActions {
                 ForEach(0 ..< controller.trailingActions.count, id: \.self) { idx in
@@ -347,7 +351,8 @@ struct NavigationListContainer: View {
 
         _controller = StateObject(wrappedValue: ListController<ListItem, RowView>(items: items,
                                                                                   style: .plain(alternatesRows: true, alternateBackgroundColor: .systemGray),
-                                                                                  title: nil,
+                                                                                  headerProvider: {_ in AnyView(TitleView())},
+                                                                                  footerProvider: {_ in AnyView(TitleView())},
                                                                                   addButtonIcon: "plus",
                                                                                   addButtonColor: .systemRed,
                                                                                   editButtonLabel: "Edit_",
@@ -355,8 +360,8 @@ struct NavigationListContainer: View {
                                                                                   backgroundColor: .systemGreen,
                                                                                   rowBackgroundColor: GenericColor(systemColor: .systemPurple),
                                                                                   swipeActions: false,
-                                                                                  leadingActions: [],
-                                                                                  trailingActions: [],
+                                                                                  leadingActions: leadingActions,
+                                                                                  trailingActions: trailingActions,
                                                                                   actionHandler: { actionKey in
                                                                                       print("Executing action \(actionKey)")
                                                                                   },
