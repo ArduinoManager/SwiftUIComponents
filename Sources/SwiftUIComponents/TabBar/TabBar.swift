@@ -68,7 +68,7 @@ public struct TabBar: View {
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 15, height: 15)
                             }
-                            Text(tab.title)
+                            Text(LocalizedStringKey(tab.title))
                                 .foregroundColor(self.selection == index ? controller.selectionColor.color : tab.color.color)
                         }
                         .frame(height: 48)
@@ -138,7 +138,7 @@ public struct TabBar: View {
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 15, height: 15)
                         }
-                        Text(tab.title)
+                        Text(LocalizedStringKey(tab.title))
                     }
                     .frame(height: 20)
                     .padding(5)
