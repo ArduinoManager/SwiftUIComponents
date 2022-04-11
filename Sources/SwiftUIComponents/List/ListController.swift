@@ -71,8 +71,8 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
     @Published var items: [Item]
     var sort: ((_: inout [Item]) -> Void)?
     @Published public var style: ListStyle
-    @Published public var headerProvider: ((_ controller: ListController) -> AnyView)?
-    @Published public var footerProvider: ((_ controller: ListController) -> AnyView)?
+    public var headerProvider: ((_ controller: ListController) -> AnyView)?
+    public var footerProvider: ((_ controller: ListController) -> AnyView)?
     @Published public var multipleSelection: Bool
     @Published public var addButtonIcon: String
     @Published public var addButtonColor: GenericColor
