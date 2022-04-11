@@ -299,20 +299,20 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
             .swipeActions(edge: .leading) {
                 ForEach(0 ..< controller.leadingActions.count, id: \.self) { idx in
                     let action = controller.leadingActions[idx]
-                    Button(action.label) {
+                    Button(LocalizedStringKey(action.label)) {
                         controller.actionHandler?(action.key)
                     }
                     .tint(action.color.color)
                 }
             }
             .swipeActions(edge: .trailing) {
-                Button(controller.deleteButtonLabel) {
+                Button(LocalizedStringKey(controller.deleteButtonLabel)) {
                     controller.delete(item: item)
                 }
                 .tint(.red)
                 ForEach(Array(stride(from: controller.trailingActions.count - 1, to: -1, by: -1)), id: \.self) { idx in
                     let action = controller.trailingActions[idx]
-                    Button(action.label) {
+                    Button(LocalizedStringKey(action.label)) {
                         controller.actionHandler?(action.key)
                     }
                     .tint(action.color.color)
