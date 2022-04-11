@@ -93,7 +93,7 @@ import SwiftUI
                         )
                         .padding([.leading, .trailing], 0)
 
-                    Text(item.title)
+                    Text(LocalizedStringKey(item.title))
                         .font(.callout)
                         .fontWeight(.semibold)
                         .foregroundColor(controller.itemsColor.color)
@@ -139,7 +139,7 @@ import SwiftUI
                         )
                         .padding([.leading, .trailing], 1)
 
-                    Text(item.title)
+                    Text(LocalizedStringKey(item.title))
                         .font(.callout)
                         .fontWeight(.semibold)
                         .foregroundColor(controller.itemsColor.color)
@@ -218,7 +218,7 @@ import SwiftUI
                                 HStack(alignment: .center) {
                                     makeImage(item: item)
                                         .foregroundColor(controller.itemsColor.color)
-                                    Text(item.title)
+                                    Text(LocalizedStringKey(item.title))
                                         .foregroundColor(controller.itemsColor.color)
                                 }
                             }
@@ -232,7 +232,7 @@ import SwiftUI
                                 HStack(alignment: .center) {
                                     makeImage(item: item)
                                         .foregroundColor(controller.itemsColor.color)
-                                    Text(item.title)
+                                    Text(LocalizedStringKey(item.title))
                                         .foregroundColor(controller.itemsColor.color)
                                 }
                             }
