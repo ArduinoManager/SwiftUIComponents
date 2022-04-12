@@ -139,7 +139,7 @@ import SwiftUI
                 //
                 controller.viewProvider?(controller, item as! MenuView)
                     .onAppear(perform: {
-                        print("---- 2️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
+                        //print("---- 2️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
                         controller.currentTab = item.key
                     })
                     .layoutPriority(1)
@@ -154,7 +154,7 @@ import SwiftUI
                     .background(controller.titleViewBackgroundColor.color)
                     controller.viewProvider?(controller, item as! MenuView)
                         .onAppear(perform: {
-                            print("---- 3️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
+                            //print("---- 3️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
                             controller.currentTab = item.key
                         })
                         .layoutPriority(1)
@@ -175,7 +175,7 @@ import SwiftUI
                     if let i = item as? MenuView {
                         controller.viewProvider?(controller, i)
                             .onAppear(perform: {
-                                print("---- 2️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
+                                //print("---- 2️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
                                 controller.currentTab = item.key
 
                             })
