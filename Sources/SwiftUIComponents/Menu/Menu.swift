@@ -43,20 +43,6 @@ public struct Menu: View {
             }
         #endif
     }
-
-    /// The first view is loaded only at boostrap
-    ///
-    /// - Returns: Initial view at boostrap or an EmptyView
-//    @ViewBuilder
-//    func boostrapView() -> some View {
-//        if controller.boostrap {
-//            controller.boostrap = false
-//            ContainerView(controller: controller, item: controller.menuItems[0])
-//        }
-//        else {
-//            EmptyView()
-//        }
-//    }
 }
 
 struct ContentView: View {
