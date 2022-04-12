@@ -218,11 +218,11 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
         items.filter({ $0.isSelected() })
     }
     
-    lazy var cazzo: AnyPublisher<[Item],Never> = {
-        $items
-                    .map({ $0 })
-                    .eraseToAnyPublisher()
-    }()
+    lazy var cazzo: AnyPublisher<Int, Never> = {
+        $items.map { $0.count }.eraseToAnyPublisher()
+      }()
+
+    
     
 //    lazy var selectedItems: AnyPublisher<[Item],Never> = {
 //        let f = $items.filter({$0.isSelected()})
