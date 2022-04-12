@@ -212,40 +212,22 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
         }
 
     #endif
-    
-    
-    public var selectedItems: [Item] {
-        items.filter({ $0.isSelected() })
-    }
-    
-//    public lazy var cazzo: AnyPublisher<Int, Never> = {
+
+//    public var selectedItems: [Item] {
+//        items.filter({ $0.isSelected() })
+//    }
+
+//    public lazy var numberOfItems: AnyPublisher<Int, Never> = {
 //        return $items.map { $0.count }.eraseToAnyPublisher()
 //      }()
 
-    
-    
-    public lazy var cazzo: AnyPublisher<[Item], Never> = {
+    public lazy var selectedItems: AnyPublisher<[Item], Never> = {
         $items.map { x in
-            return x.filter({$0.isSelected()})
+            x.filter({ $0.isSelected() })
         }
         .eraseToAnyPublisher()
-//        return $items.map { $0.count }.eraseToAnyPublisher()
-      }()
-    
-    
-    
-    
-//    lazy var selectedItems: AnyPublisher<[Item],Never> = {
-//        let f = $items.filter({$0.isSelected()})
-//
-//        $items
-////            .map({ $0 })
-////            .eraseToAnyPublisher()
-//    }()
+    }()
 
-    
-    
-    
     func delete(item: Item) {
         if let idx = items.firstIndex(of: item) {
             items.remove(at: idx)
