@@ -146,45 +146,6 @@ extension View {
 
 #endif
 
-// extension Color {
-//    var inverted: Color {
-//        let r = components.0
-//        let g = components.1
-//        let b = components.2
-//        let a = components.3
-//
-//        return Color(.sRGB, red: 1 - r, green: 1 - g, blue: 1 - b, opacity: a)
-//    }
-//
-//    var components: (red: CGFloat, green: CGFloat, blue: CGFloat, opacity: CGFloat) {
-//        #if canImport(UIKit)
-//            typealias NativeColor = UIColor
-//        #elseif canImport(AppKit)
-//            typealias NativeColor = NSColor
-//        #endif
-//
-//        var r: CGFloat = 0
-//        var g: CGFloat = 0
-//        var b: CGFloat = 0
-//        var o: CGFloat = 0
-//
-//        #if os(iOS)
-//            guard NativeColor(self).getRed(&r, green: &g, blue: &b, alpha: &o) else {
-//                // You can handle the failure here as you want
-//                return (0, 0, 0, 0)
-//            }
-//        #endif
-//
-//        #if os(macOS)
-//            if let x = NativeColor(self).usingColorSpace(NSColorSpace.deviceRGB) {
-//                x.getRed(&r, green: &g, blue: &b, alpha: &o)
-//            }
-//        #endif
-//
-//        return (r, g, b, o)
-//    }
-// }
-
 func getSafeSystemImage(systemName: String) -> Image {
     #if os(macOS)
         if let nsImage = NSImage(systemSymbolName: systemName, accessibilityDescription: "") {
