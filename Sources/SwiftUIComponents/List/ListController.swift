@@ -261,7 +261,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
     public func add(item: Item) {
         var abort = false
         if let eventsHandler = itemsEventsHandler {
-            abort = !eventsHandler(.willDeleteItem, item)
+            abort = !eventsHandler(.willAddItem, item)
         }
         if !abort {
             items.append(item)
@@ -274,7 +274,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
     public func update(oldItem: Item, newItem: Item) {
         var abort = false
         if let eventsHandler = itemsEventsHandler {
-            abort = !eventsHandler(.willDeleteItem, newItem)
+            abort = !eventsHandler(.willEditItem, newItem)
         }
     
         if !abort, let idx = items.firstIndex(of: oldItem) {
