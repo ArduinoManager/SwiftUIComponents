@@ -298,7 +298,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
         }
         let newItem = item
         newItem.toggleSelection()
-        update(oldItem: item, newItem: newItem)
+        updateWithoutHandler(oldItem: item, newItem: newItem)
     }
 
     public func completeFormAction() {
