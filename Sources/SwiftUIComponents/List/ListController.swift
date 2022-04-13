@@ -276,8 +276,13 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
         if let eventsHandler = itemsEventsHandler {
             abort = !eventsHandler(.willEditItem, newItem)
         }
+        if !abort {
+            updateWithoutHandler(oldItem: oldItem, newItem: newItem)
+        }
+    }
     
-        if !abort, let idx = items.firstIndex(of: oldItem) {
+    private func updateWithoutHandler(oldItem: Item, newItem: Item) {
+        if let idx = items.firstIndex(of: oldItem) {
             items.remove(at: idx)
             items.insert(newItem, at: idx)
             // print(items)
