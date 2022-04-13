@@ -73,7 +73,7 @@ public enum EventType {
     case willDeleteItem
 }
 
-public enum FormMode {
+public enum FormMode: String {
     case new
     case edit
 }
