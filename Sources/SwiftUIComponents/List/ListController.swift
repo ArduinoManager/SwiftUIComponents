@@ -73,6 +73,11 @@ public enum EventType {
     case willDeleteItem
 }
 
+public enum FormMode {
+    case new
+    case edit
+}
+
 public class ListController<Item: Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View>: SuperController, ObservableObject {
     @Published var items: [Item]
     var sort: ((_: inout [Item]) -> Void)?

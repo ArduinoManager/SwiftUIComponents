@@ -11,12 +11,12 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
     @ObservedObject private var controller: ListController<Item, Row>
     @State private var isTapped = false
     @State private var editingList = false
-    private var form: () -> Form
+    private var form: (_ mode: FormMode) -> Form
     private let rowColor: GenericColor!
     private let rowAlternateColor: GenericColor!
     private let alternatesRows: Bool!
 
-    public init(controller: ListController<Item, Row>, @ViewBuilder form: @escaping () -> Form) {
+    public init(controller: ListController<Item, Row>, @ViewBuilder form: @escaping (_ mode: FormMode) -> Form) {
         self.controller = controller
         self.form = form
         #if os(iOS)
@@ -124,7 +124,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                         #if os(macOS)
                             VStack(alignment: .leading, spacing: 0) {
                                 NavigationLink(
-                                    destination: form(),
+                                    destination: form(.edit),
                                     tag: item,
                                     selection: $controller.editingItem,
                                     label: {})
@@ -137,7 +137,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                         .background(currentColor(idx: idx).color)
                                         .layoutPriority(1)
                                     Button {
-                                        //controller.selectedItem = item
+                                        // controller.selectedItem = item
                                         controller.editingItem = item
                                     } label: {
                                         Image(systemName: "chevron.right")
@@ -167,7 +167,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                     .environment(\.editMode, editingList ? .constant(.active) : .constant(.inactive))
                 #endif
                 .customStyle(type: controller.style)
-                
+
                 Spacer()
                 if let footer = controller.footerProvider?(controller) {
                     footer
@@ -176,18 +176,18 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
             .background(controller.backgroundColor.color)
             .overlay(ZStack {
                 NavigationLink(destination:
-                    form()
+                    form(.new)
                     #if os(iOS)
                         .navigationBarHidden(true)
                     #endif
-                    , tag: "newItem", selection: Binding<String?> (
+                    , tag: "newItem", selection: Binding<String?>(
                         get: {
-                            return controller.startNewItem ? "newItem" : ""
+                            controller.startNewItem ? "newItem" : ""
                         },
                         set: { _ in
                         }
                     )
-                               , label: { EmptyView() }).hidden()
+                    , label: { EmptyView() }).hidden()
             })
             #if os(iOS)
                 .navigationBarTitle("")
@@ -357,8 +357,8 @@ struct NavigationListContainer: View {
 
         _controller = StateObject(wrappedValue: ListController<ListItem, RowView>(items: items,
                                                                                   style: .plain(alternatesRows: true, alternateBackgroundColor: .systemGray),
-                                                                                  headerProvider: {_ in AnyView(TitleView())},
-                                                                                  footerProvider: {_ in AnyView(TitleView())},
+                                                                                  headerProvider: { _ in AnyView(TitleView()) },
+                                                                                  footerProvider: { _ in AnyView(TitleView()) },
                                                                                   addButtonIcon: "plus",
                                                                                   addButtonColor: .systemRed,
                                                                                   editButtonLabel: "Edit_",
@@ -379,8 +379,8 @@ struct NavigationListContainer: View {
     }
 
     var body: some View {
-        NavigationList<ListItem, RowView, MyForm1>(controller: controller) {
-            MyForm1(controller: controller)
+        NavigationList<ListItem, RowView, MyForm1>(controller: controller) { mode in
+            MyForm1(controller: controller, mode: mode)
         }
         #if os(iOS)
             .navigationBarHidden(true)
@@ -401,8 +401,14 @@ struct NavigationList_Previews: PreviewProvider {
 
 struct MyForm1: View {
     @ObservedObject var controller: ListController<ListItem, RowView>
+    var mode: FormMode
     @Environment(\.presentationMode) var presentationMode
 
+    init(controller: ListController<ListItem, RowView>, mode: FormMode) {
+        self.controller = controller
+        self.mode = mode
+    }
+    
     var body: some View {
         VStack {
             Text("MyView")

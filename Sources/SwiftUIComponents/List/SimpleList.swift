@@ -20,15 +20,13 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
     @ObservedObject private var controller: ListController<Item, Row>
     @StateObject private var sheetManager = SheetMananger()
     @State private var editingList = false
+    //@State private var uuid: UUID
     private let rowColor: GenericColor!
     private let rowAlternateColor: GenericColor!
     private let alternatesRows: Bool!
+    private var form: (_ mode: FormMode) -> Form
 
-    @State private var uuid: UUID
-
-    var form: () -> Form
-
-    public init(controller: ListController<Item, Row>, @ViewBuilder form: @escaping () -> Form) {
+    public init(controller: ListController<Item, Row>, @ViewBuilder form: @escaping (_ mode: FormMode) -> Form) {
         self.controller = controller
         self.form = form
         #if os(iOS)
@@ -58,7 +56,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
             rowAlternateColor = alternateBackgroundColor
         }
 
-        _uuid = State(initialValue: UUID())
+        //_uuid = State(initialValue: UUID())
     }
 
     public var body: some View {
@@ -141,7 +139,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                 .background(controller.backgroundColor.color)
                 .sheet(isPresented: $sheetManager.showSheet) {
                     if sheetManager.whichSheet == .Form {
-                        form()
+                        form(controller.editingItem == nil ? .new : .edit)
                     }
                 }
             Spacer()
@@ -359,8 +357,8 @@ struct SimpleListContainer: View {
     }
 
     var body: some View {
-        SimpleList<ListItem, RowView, MyForm>(controller: controller) {
-            MyForm(controller: controller)
+        SimpleList<ListItem, RowView, MyForm>(controller: controller) {mode in
+            MyForm(controller: controller, mode: mode)
         }
     }
 }
@@ -456,15 +454,17 @@ struct RowView: View {
 
 struct MyForm: View {
     @ObservedObject var controller: ListController<ListItem, RowView>
+    var mode: FormMode
     @Environment(\.presentationMode) var presentationMode
+    
 
-    init(controller: ListController<ListItem, RowView>) {
+    init(controller: ListController<ListItem, RowView>, mode: FormMode) {
         self.controller = controller
-
-        // Required for NavigationList
-        if controller.formItem == nil {
-            controller.formItem = ListItem()
-        }
+        self.mode = mode
+//        // Required for NavigationList
+//        if controller.formItem == nil {
+//            controller.formItem = ListItem()
+//        }
     }
 
     var body: some View {
