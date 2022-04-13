@@ -302,8 +302,8 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
             items.filter({ $0 != item }).forEach { $0.deselect() }
         }
         let newItem = item
-        updateWithoutHandler(oldItem: item, newItem: newItem)
         newItem.toggleSelection()
+        updateWithoutHandler(oldItem: item, newItem: newItem)
     }
 
     public func completeFormAction() {
