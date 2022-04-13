@@ -67,6 +67,12 @@ public enum ListStyle: Codable {
     case sidebar(alternatesRows: Bool, alternateBackgroundColor: GenericColor = GenericColor.systemLabel)
 }
 
+public enum EventType {
+    case willAddItem
+    case willEditItem
+    case willDeleteItem
+}
+
 public class ListController<Item: Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View>: SuperController, ObservableObject {
     @Published var items: [Item]
     var sort: ((_: inout [Item]) -> Void)?
@@ -97,9 +103,15 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
         }
     }
 
+    public var itemsEventsHandler: ((_ operation: EventType, _ item: Item) -> Bool)?
+
+    /// Item associated to the form for entering a new Item or editing an existing one
+    ///
     @Published public var formItem: Item!
-    @Published var selectedItem: Item? // Used only in the NavigationList to start the Form to enter a new Item or edit an existing one
-    @Published var startNewItem: String? // Setting this to newItem a new Item is created
+
+    /// When true for a NavigationList, the form to eneter a new item is shown in the right panel.
+    /// Unused for a SimpleList
+    @Published var startNewItem: Bool = false
 
     public var isPlain: Bool {
         if case .plain = style {
@@ -127,6 +139,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
                     actionHandler: ((_ actionKey: String) -> Void)? = nil,
                     showLineSeparator: Bool = true,
                     lineSeparatorColor: GenericColor? = nil,
+                    itemsEventsHandler: ((_ operation: EventType, _ item: Item) -> Bool)? = nil,
                     makeRow: @escaping (_: Item) -> Row
         ) {
             self.items = items
@@ -148,7 +161,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
             self.showLineSeparator = showLineSeparator
             self.lineSeparatorColor = lineSeparatorColor
             self.makeRow = makeRow
-
+            self.itemsEventsHandler = itemsEventsHandler
             super.init(type: .list)
 
             if (!leadingActions.isEmpty || !trailingActions.isEmpty) && self.actionHandler == nil {
@@ -181,6 +194,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
                     actionHandler: ((_ actionKey: String) -> Void)? = nil,
                     showLineSeparator: Bool = true,
                     lineSeparatorColor: GenericColor? = nil,
+                    itemsEventsHandler: ((_ operation: EventType, _ item: Item) -> Bool)? = nil,
                     makeRow: @escaping (_: Item) -> Row
         ) {
             self.items = items
@@ -202,6 +216,7 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
             self.showLineSeparator = showLineSeparator
             self.lineSeparatorColor = lineSeparatorColor
             self.makeRow = makeRow
+            self.itemsEventsHandler = itemsEventsHandler
             super.init(type: .list)
             if (!leadingActions.isEmpty || !trailingActions.isEmpty) && self.actionHandler == nil {
                 fatalError("No actiton Handler provided")
@@ -228,21 +243,41 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
         .eraseToAnyPublisher()
     }()
 
+//    public lazy var lastAddedItem: AnyPublisher<[Item], Never> = {
+//
+//    }
+
     func delete(item: Item) {
-        if let idx = items.firstIndex(of: item) {
+        var abort = false
+        if let eventsHandler = itemsEventsHandler {
+            abort = !eventsHandler(.willDeleteItem, item)
+        }
+
+        if !abort, let idx = items.firstIndex(of: item) {
             items.remove(at: idx)
         }
     }
 
     public func add(item: Item) {
-        items.append(item)
-        if sort != nil {
-            sort!(&items)
+        var abort = false
+        if let eventsHandler = itemsEventsHandler {
+            abort = !eventsHandler(.willDeleteItem, item)
+        }
+        if !abort {
+            items.append(item)
+            if sort != nil {
+                sort!(&items)
+            }
         }
     }
 
     public func update(oldItem: Item, newItem: Item) {
-        if let idx = items.firstIndex(of: oldItem) {
+        var abort = false
+        if let eventsHandler = itemsEventsHandler {
+            abort = !eventsHandler(.willDeleteItem, newItem)
+        }
+    
+        if !abort, let idx = items.firstIndex(of: oldItem) {
             items.remove(at: idx)
             items.insert(newItem, at: idx)
             // print(items)
@@ -264,18 +299,16 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
     public func completeFormAction() {
         if editingItem == nil {
             add(item: formItem)
-            startNewItem = nil
-            selectedItem = nil
+            startNewItem = false
         } else {
             update(oldItem: editingItem!, newItem: formItem)
-            startNewItem = nil
-            selectedItem = nil
+            startNewItem = false
         }
     }
 
     public func cancelForm() {
-        startNewItem = nil
-        selectedItem = nil
+        startNewItem = false
+        editingItem = nil
     }
 
     public func addLeadingAction(action: ListAction) {

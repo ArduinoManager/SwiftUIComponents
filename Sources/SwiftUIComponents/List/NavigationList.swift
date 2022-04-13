@@ -57,7 +57,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                     Spacer()
                     Button {
                         controller.editingItem = nil
-                        controller.startNewItem = "newItem"
+                        controller.startNewItem = true
                     } label: {
                         getSafeSystemImage(systemName: controller.addButtonIcon)
                             .aspectRatio(contentMode: .fit)
@@ -85,7 +85,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                 NavigationLink(
                                     destination: form().navigationBarHidden(true),
                                     tag: item,
-                                    selection: $controller.selectedItem,
+                                    selection: $controller.editingItem,
                                     label: {})
                                     .hidden()
 
@@ -100,7 +100,6 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                         .layoutPriority(1)
 
                                     Button {
-                                        controller.selectedItem = item
                                         controller.editingItem = item
                                     } label: {
                                         Image(systemName: "chevron.right")
@@ -127,7 +126,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                 NavigationLink(
                                     destination: form(),
                                     tag: item,
-                                    selection: $controller.selectedItem,
+                                    selection: $controller.editingItem,
                                     label: {})
                                     .hidden()
 
@@ -138,7 +137,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                         .background(currentColor(idx: idx).color)
                                         .layoutPriority(1)
                                     Button {
-                                        controller.selectedItem = item
+                                        //controller.selectedItem = item
                                         controller.editingItem = item
                                     } label: {
                                         Image(systemName: "chevron.right")
@@ -181,7 +180,14 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                     #if os(iOS)
                         .navigationBarHidden(true)
                     #endif
-                    , tag: "newItem", selection: $controller.startNewItem, label: { EmptyView() }).hidden()
+                    , tag: "newItem", selection: Binding<String?> (
+                        get: {
+                            return controller.startNewItem ? "newItem" : ""
+                        },
+                        set: { _ in
+                        }
+                    )
+                               , label: { EmptyView() }).hidden()
             })
             #if os(iOS)
                 .navigationBarTitle("")
