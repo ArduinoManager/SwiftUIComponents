@@ -252,9 +252,9 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
 //
 //    }
 
-    func delete(item: Item) {
+    func delete(item: Item, callEventsHandler: Bool  = true) {
         var abort = false
-        if let eventsHandler = itemsEventsHandler {
+        if let eventsHandler = itemsEventsHandler, callEventsHandler {
             abort = !eventsHandler(.willDeleteItem, item)
         }
 
@@ -263,9 +263,9 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
         }
     }
 
-    public func add(item: Item) {
+    public func add(item: Item, callEventsHandler: Bool = true) {
         var abort = false
-        if let eventsHandler = itemsEventsHandler {
+        if let eventsHandler = itemsEventsHandler, callEventsHandler {
             abort = !eventsHandler(.willAddItem, item)
         }
         if !abort {
@@ -276,9 +276,9 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
         }
     }
 
-    public func update(oldItem: Item, newItem: Item) {
+    public func update(oldItem: Item, newItem: Item, callEventsHandler: Bool = true) {
         var abort = false
-        if let eventsHandler = itemsEventsHandler {
+        if let eventsHandler = itemsEventsHandler, callEventsHandler {
             abort = !eventsHandler(.willEditItem, newItem)
         }
         if !abort {
