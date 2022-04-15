@@ -242,7 +242,7 @@ import SwiftUI
                             if let i = item as? MenuView {
                                 controller.viewProvider(item: i)
                                     .onAppear(perform: {
-                                        print("---- 3️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
+                                        //print("---- 3️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
                                         controller.currentTab = item.key
                                     })
                                     .layoutPriority(1)

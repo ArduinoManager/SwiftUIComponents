@@ -21,8 +21,7 @@ open class MenuController: SuperController, ObservableObject {
     @Published public var openButtonSize: CGFloat
     @Published public var titleViewBackgroundColor: GenericColor
     @Published public var menuItems: [MenuItem]
-    //public var actionsHandler: ((_ controller: MenuController, _ item: MenuAction) -> Void)?
-    @Published open var lastAction: MenuAction?
+    @Published public var lastAction: MenuAction?
     var boostrap: String? = "A"
     public var menuViews: [MenuView] {
         return menuItems.filter({ $0.type == .item }) as! [MenuView]
