@@ -378,9 +378,7 @@ struct MainViewContainer: View {
             let x = MyMenuController(menuItems: menuItems,
                                    backgroundColor: .systemBackground,
                                    itemsColor: .systemLabel,
-                                   titleViewBackgroundColor: .systemCyan,
-                                   actionsHandler: { _, _ in
-                                   }
+                                   titleViewBackgroundColor: .systemCyan
             )
 
             // No Title View - Inspector
