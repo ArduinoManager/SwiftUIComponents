@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-public class MenuController: SuperController, ObservableObject {
+open class MenuController: SuperController, ObservableObject {
     @Published public var currentTab: Key
     @Published var showMenu: Bool
     @Published public var itemsColor: GenericColor
