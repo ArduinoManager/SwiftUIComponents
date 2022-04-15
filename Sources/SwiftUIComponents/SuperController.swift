@@ -14,7 +14,7 @@ public enum ControllerType: String, Codable {
     case tabBar
 }
 
-public class SuperController: Identifiable, Codable {
+open class SuperController: Identifiable, Codable {
     public let id: UUID
     var type: ControllerType
     

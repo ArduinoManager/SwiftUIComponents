@@ -39,8 +39,7 @@ open class MenuController: SuperController, ObservableObject {
                     backgroundColor: GenericColor = .systemBackground,
                     itemsColor: GenericColor = .systemLabel,
                     selectedItemBackgroundColor: GenericColor = GenericColor(systemColor: .systemGray4),
-                    titleViewBackgroundColor: GenericColor = .systemBackground,
-                    actionsHandler: @escaping (_ controller: MenuController, _ item: MenuAction) -> Void)
+                    titleViewBackgroundColor: GenericColor = .systemBackground)
         {
             showMenu = false
             self.menuItems = menuItems
@@ -53,7 +52,6 @@ open class MenuController: SuperController, ObservableObject {
             self.itemsColor = itemsColor
             self.selectedItemBackgroundColor = selectedItemBackgroundColor
             self.titleViewBackgroundColor = titleViewBackgroundColor
-            self.actionsHandler = actionsHandler
             currentTab = menuItems[0].key
 
             super.init(type: .menu)
@@ -129,19 +127,19 @@ open class MenuController: SuperController, ObservableObject {
         menuItems.removeSubrange(index...)
     }
 
-    public func viewProvider(item: MenuView) -> AnyView {
+    open func viewProvider(item: MenuView) -> AnyView {
         return AnyView(EmptyView())
     }
 
-    public func sideTitleViewProvider() -> AnyView? {
+    open func sideTitleViewProvider() -> AnyView? {
         return nil
     }
     
-    public func titleViewProvider() -> AnyView? {
+    open func titleViewProvider() -> AnyView? {
         return nil
     }
     
-    public func inspectorViewProvider() -> AnyView? {
+    open func inspectorViewProvider() -> AnyView? {
         return nil
     }
     
