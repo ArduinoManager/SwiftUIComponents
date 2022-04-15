@@ -11,7 +11,6 @@ import SwiftUI
 public class MenuController: SuperController, ObservableObject {
     @Published public var currentTab: Key
     @Published var showMenu: Bool
-    public var sideTitleViewProvider: ((_ controller: MenuController) -> AnyView)?
     @Published public var itemsColor: GenericColor
     @Published public var selectedItemBackgroundColor: GenericColor
     @Published public var backgroundColor: GenericColor
@@ -20,17 +19,15 @@ public class MenuController: SuperController, ObservableObject {
     @Published public var openButtonColor: GenericColor
     @Published public var openButtonIcon: String
     @Published public var openButtonSize: CGFloat
-    public var titleViewProvider: ((_ controller: MenuController) -> AnyView)?
     @Published public var titleViewBackgroundColor: GenericColor
     @Published public var menuItems: [MenuItem]
-    public var actionsHandler: ((_ controller: MenuController, _ item: MenuAction) -> Void)?
-    public var viewProvider: ((_ controller: MenuController, _ item: MenuView) -> AnyView)?
-    public var inspectorViewProvider: ((_ controller: MenuController) -> AnyView?)?
+    //public var actionsHandler: ((_ controller: MenuController, _ item: MenuAction) -> Void)?
+    @Published public var lastAction: MenuAction?
     var boostrap: String? = "A"
     public var menuViews: [MenuView] {
-        return menuItems.filter({$0.type == .item}) as! [MenuView]
+        return menuItems.filter({ $0.type == .item }) as! [MenuView]
     }
-    
+
     #if os(iOS)
 
         public init(menuItems: [MenuItem],
@@ -39,14 +36,12 @@ public class MenuController: SuperController, ObservableObject {
                     openButtonColor: GenericColor = .systemLabel,
                     openButtonIcon: String = "line.3.horizontal",
                     openButtonSize: CGFloat = 20.0,
-                    sideTitleViewProvider: ((_ controller: MenuController) -> AnyView)? = nil,
                     backgroundColor: GenericColor = .systemBackground,
                     itemsColor: GenericColor = .systemLabel,
                     selectedItemBackgroundColor: GenericColor = GenericColor(systemColor: .systemGray4),
-                    titleViewProvider: ((_ controller: MenuController) -> AnyView)?,
                     titleViewBackgroundColor: GenericColor = .systemBackground,
-                    actionsHandler: @escaping (_ controller: MenuController, _ item: MenuAction) -> Void,
-                    viewProvider: ((_ controller: MenuController, _ item: MenuView) -> AnyView)?) {
+                    actionsHandler: @escaping (_ controller: MenuController, _ item: MenuAction) -> Void)
+        {
             showMenu = false
             self.menuItems = menuItems
             self.autoClose = autoClose
@@ -54,14 +49,11 @@ public class MenuController: SuperController, ObservableObject {
             self.openButtonColor = openButtonColor
             self.openButtonIcon = openButtonIcon
             self.openButtonSize = openButtonSize
-            self.sideTitleViewProvider = sideTitleViewProvider
             self.backgroundColor = backgroundColor
             self.itemsColor = itemsColor
             self.selectedItemBackgroundColor = selectedItemBackgroundColor
-            self.titleViewProvider = titleViewProvider
             self.titleViewBackgroundColor = titleViewBackgroundColor
             self.actionsHandler = actionsHandler
-            self.viewProvider = viewProvider
             currentTab = menuItems[0].key
 
             super.init(type: .menu)
@@ -88,15 +80,11 @@ public class MenuController: SuperController, ObservableObject {
         ///   - inspector: right side inspector
         ///
         public init(menuItems: [MenuItem],
-                    sideTitleViewProvider: ((_ controller: MenuController) -> AnyView)? = nil,
                     backgroundColor: GenericColor = .systemBackground,
                     itemsColor: GenericColor = .systemLabel,
-                    titleViewProvider: ((_ controller: MenuController) -> AnyView)?,
                     titleViewBackgroundColor: GenericColor = .systemBackground,
-                    inspectorViewProvider: ((_ controller: MenuController) -> AnyView?)? = nil,
-                    actionsHandler: @escaping (_ controller: MenuController, _ item: MenuAction) -> Void,
-                    viewProvider: ((_ controller: MenuController, _ item: MenuView) -> AnyView)?) {
-            
+                    actionsHandler: @escaping (_ controller: MenuController, _ item: MenuAction) -> Void)
+        {
             showMenu = false
             self.menuItems = menuItems
             autoClose = true
@@ -104,15 +92,12 @@ public class MenuController: SuperController, ObservableObject {
             openButtonColor = .systemLabel
             openButtonIcon = "line.3.horizontal"
             openButtonSize = 20.0
-            self.sideTitleViewProvider = sideTitleViewProvider
             self.backgroundColor = backgroundColor
             self.itemsColor = itemsColor
-            self.selectedItemBackgroundColor = GenericColor(systemColor: .systemGray4)
-            self.titleViewProvider = titleViewProvider
+            selectedItemBackgroundColor = GenericColor(systemColor: .systemGray4)
             self.titleViewBackgroundColor = titleViewBackgroundColor
-            self.inspectorViewProvider = inspectorViewProvider
-            self.actionsHandler = actionsHandler
-            self.viewProvider = viewProvider
+            //self.actionsHandler = actionsHandler
+            self.lastAction = nil
             currentTab = menuItems[0].key
 
             super.init(type: .menu)
@@ -135,18 +120,30 @@ public class MenuController: SuperController, ObservableObject {
             fatalError("Duplicated keys: \(dups)")
         }
     }
-    
+
     public func deleteItemAt(index: Int) {
         menuItems.remove(at: index)
     }
 
     public func deleteItemsFrom(index: Int) {
-        menuItems.removeSubrange((index...))
+        menuItems.removeSubrange(index...)
     }
 
-//    func makeView(item: MenuView) -> some View {
-//        return viewProvider?(self,item)
-//    }
+    public func viewProvider(item: MenuView) -> AnyView {
+        return AnyView(EmptyView())
+    }
+
+    public func sideTitleViewProvider() -> AnyView? {
+        return nil
+    }
+    
+    public func titleViewProvider() -> AnyView? {
+        return nil
+    }
+    
+    public func inspectorViewProvider() -> AnyView? {
+        return nil
+    }
     
     // MARK: - Encodable & Decodable
 

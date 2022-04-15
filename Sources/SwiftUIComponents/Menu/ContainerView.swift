@@ -16,7 +16,7 @@ import SwiftUI
             VStack(spacing: 0) {
                 if controller.openButtonAtTop {
                     HStack(spacing: 0) {
-                        if let titleView = controller.titleViewProvider?(controller) {
+                        if let titleView = controller.titleViewProvider() {
                             titleView
                                 .overlay(alignment: .leading) {
                                     OpenButton()
@@ -33,7 +33,7 @@ import SwiftUI
                     ForEach(controller.menuItems, id: \.self) { item in
                         if item is MenuView {
                             Print("\(item.title)")
-                            controller.viewProvider?(controller, item as! MenuView)
+                            controller.viewProvider(item: item as! MenuView)
                                 // controller.makeView(item: item as! MenuView)
                                 // (item as! MenuView).makeView()
                                 .tag(item.key)
@@ -52,8 +52,8 @@ import SwiftUI
                     HStack(spacing: 0) {
                         OpenButton()
                         Spacer()
-                        if controller.titleViewProvider != nil {
-                            controller.titleViewProvider?(controller)
+                        if let titleView = controller.titleViewProvider() {
+                            titleView
                         }
                     }
                     .padding([.horizontal])
@@ -118,7 +118,7 @@ import SwiftUI
         @State private var showInspector = false
 
         public var body: some View {
-            if controller.inspectorViewProvider?(controller) == nil {
+            if controller.inspectorViewProvider() == nil {
                 //
                 // No Inspector
                 //
@@ -133,38 +133,38 @@ import SwiftUI
 
         @ViewBuilder
         func viewNoInspector(controller: MenuController) -> some View {
-            if controller.titleViewProvider == nil {
-                //
-                // No Title View
-                //
-                controller.viewProvider?(controller, item as! MenuView)
-                    .onAppear(perform: {
-                        //print("---- 2️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
-                        controller.currentTab = item.key
-                    })
-                    .layoutPriority(1)
-            } else {
+            if let titleView = controller.titleViewProvider() {
                 //
                 // Title View
                 //
                 VStack(spacing: 0) {
                     HStack(spacing: 0) {
-                        controller.titleViewProvider!(controller)
+                        titleView
                     }
                     .background(controller.titleViewBackgroundColor.color)
-                    controller.viewProvider?(controller, item as! MenuView)
+                    controller.viewProvider(item: item as! MenuView)
                         .onAppear(perform: {
-                            //print("---- 3️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
+                            // print("---- 3️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
                             controller.currentTab = item.key
                         })
                         .layoutPriority(1)
                 }
+            } else {
+                //
+                // No Title View
+                //
+                controller.viewProvider(item: item as! MenuView)
+                    .onAppear(perform: {
+                        // print("---- 2️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
+                        controller.currentTab = item.key
+                    })
+                    .layoutPriority(1)
             }
         }
 
         @ViewBuilder
         func viewWithInspector(controller: MenuController) -> some View {
-            if controller.titleViewProvider == nil {
+            if controller.titleViewProvider() == nil {
                 //
                 // No Title View
                 //
@@ -173,9 +173,9 @@ import SwiftUI
                 HSplitView {
                     // Main View
                     if let i = item as? MenuView {
-                        controller.viewProvider?(controller, i)
+                        controller.viewProvider(item: i)
                             .onAppear(perform: {
-                                //print("---- 2️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
+                                // print("---- 2️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
                                 controller.currentTab = item.key
 
                             })
@@ -184,11 +184,11 @@ import SwiftUI
 
                     // Inspector
                     if showInspector {
-                        controller.inspectorViewProvider!(controller)
+                        controller.inspectorViewProvider()
                             .frame(idealWidth: 500)
                     }
                 }
-                .if(controller.inspectorViewProvider != nil && controller.titleViewProvider == nil) { view in
+                .if(controller.inspectorViewProvider() != nil && controller.titleViewProvider() == nil) { view in
                     view
                         .overlay(
                             VStack(spacing: 0) {
@@ -221,7 +221,7 @@ import SwiftUI
                     VStack(spacing: 0) {
                         HStack(spacing: 0) {
                             // controller.titleView
-                            controller.titleViewProvider?(controller)
+                            controller.titleViewProvider()
                             Spacer()
                             Button {
                                 withAnimation {
@@ -240,7 +240,7 @@ import SwiftUI
                         .background(controller.titleViewBackgroundColor.color)
                         HSplitView {
                             if let i = item as? MenuView {
-                                controller.viewProvider?(controller, i)
+                                controller.viewProvider(item: i)
                                     .onAppear(perform: {
                                         print("---- 3️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
                                         controller.currentTab = item.key
@@ -249,7 +249,7 @@ import SwiftUI
                             }
 
                             if showInspector {
-                                controller.inspectorViewProvider!(controller)
+                                controller.inspectorViewProvider()
                                     .frame(idealWidth: 500)
                             }
                         }
@@ -260,6 +260,44 @@ import SwiftUI
     }
 
 #endif
+
+class MyMenuController: MenuController {
+    
+    override func viewProvider(item: MenuView) -> AnyView {
+        if item.key == 0 {
+            return AnyView(TestView(text: "Home").background(.yellow))
+        }
+
+        if item.key == 1 {
+            return AnyView(TestView(text: "Discover").background(.blue))
+        }
+
+        if item.key == 2 {
+            return AnyView(TestView(text: "Devices").background(.gray))
+        }
+
+        if item.key == 3 {
+            return AnyView(TestView(text: "Profile").background(.green))
+        }
+
+        if item.key == 4 {
+            return AnyView(TestView(text: "Profile").background(.green))
+        }
+        return AnyView(EmptyView())
+    }
+    
+    override func sideTitleViewProvider() -> AnyView? {
+        return AnyView(TitleView())
+    }
+    
+    override func titleViewProvider() -> AnyView? {
+        return AnyView(TitleView())
+    }
+    
+    override func inspectorViewProvider() -> AnyView? {
+        return AnyView(Inspector())
+    }
+}
 
 struct MainViewContainer: View {
     @StateObject private var controller: MenuController
@@ -284,40 +322,15 @@ struct MainViewContainer: View {
         ]
 
         #if os(iOS)
-            _controller = StateObject(wrappedValue: MenuController(menuItems: menuItems,
-                                                                   openButtonAtTop: false,
-                                                                   // sideTitleView: AnyView(SideTitleView()),
-                                                                   backgroundColor: .systemBackground,
-                                                                   itemsColor: .systemLabel,
-                                                                   // titleView: AnyView(TitleView()),
-                                                                   titleViewProvider: nil,
-                                                                   //titleViewBackgroundColor: .red,
-                                                                   actionsHandler: { _, item in
-                                                                       print("Action \(item.title) [\(item.key)]")
-                                                                   },
-                                                                   viewProvider: { _, menuItem in
-
-                                                                       if menuItem.key == 0 {
-                                                                           return AnyView(TestView(text: "Home").background(.yellow))
-                                                                       }
-
-                                                                       if menuItem.key == 1 {
-                                                                           return AnyView(TestView(text: "Discover").background(.blue))
-                                                                       }
-
-                                                                       if menuItem.key == 2 {
-                                                                           return AnyView(TestView(text: "Devices").background(.gray))
-                                                                       }
-
-                                                                       if menuItem.key == 3 {
-                                                                           return AnyView(TestView(text: "Profile").background(.green))
-                                                                       }
-
-                                                                       if menuItem.key == 4 {
-                                                                           return AnyView(TestView(text: "Profile").background(.green))
-                                                                       }
-                                                                       return AnyView(EmptyView())
-                                                                   }
+            _controller = StateObject(wrappedValue: MyMenuController(menuItems: menuItems,
+                                                                     openButtonAtTop: false,
+                                                                     backgroundColor: .systemBackground,
+                                                                     itemsColor: .systemLabel,
+                                                                     
+                                                                     // titleViewBackgroundColor: .red,
+                                                                     actionsHandler: { _, item in
+                                                                         print("Action \(item.title) [\(item.key)]")
+                                                                     }
                 )
             )
         #endif
@@ -364,41 +377,11 @@ struct MainViewContainer: View {
 
             // Title View - No Inspector
 
-            let x = MenuController(menuItems: menuItems,
-                                   sideTitleViewProvider: { _ in
-                                       AnyView(TitleView())
-                                   },
+            let x = MyMenuController(menuItems: menuItems,
                                    backgroundColor: .systemBackground,
                                    itemsColor: .systemLabel,
-                                   titleViewProvider: nil,
                                    titleViewBackgroundColor: .systemCyan,
-                                   inspectorViewProvider: { _ in
-                                       nil
-                                   },
                                    actionsHandler: { _, _ in
-                                   },
-                                   viewProvider: { _, menuItem in
-
-                                       if menuItem.key == 0 {
-                                           return AnyView(TestView(text: "Home").background(.yellow))
-                                       }
-
-                                       if menuItem.key == 1 {
-                                           return AnyView(TestView(text: "Discover").background(.blue))
-                                       }
-
-                                       if menuItem.key == 2 {
-                                           return AnyView(TestView(text: "Devices").background(.gray))
-                                       }
-
-                                       if menuItem.key == 3 {
-                                           return AnyView(TestView(text: "Profile").background(.green))
-                                       }
-
-                                       if menuItem.key == 4 {
-                                           return AnyView(TestView(text: "Profile").background(.green))
-                                       }
-                                       return AnyView(EmptyView())
                                    }
             )
 

@@ -17,9 +17,9 @@ import SwiftUI
 
         public var body: some View {
             VStack {
-                if controller.sideTitleViewProvider != nil {
+                if let titleView = controller.sideTitleViewProvider() {
                     HStack {
-                        controller.sideTitleViewProvider!(controller)
+                        titleView
                             .frame(maxWidth: getRect().width / 2, alignment: .leading)
                         Spacer()
                     }
@@ -191,9 +191,9 @@ import SwiftUI
                         .hidden()
                 }
 
-                if controller.sideTitleViewProvider != nil {
+                if let titleView = controller.sideTitleViewProvider() {
                     HStack {
-                        controller.sideTitleViewProvider!(controller)
+                        titleView
                     }
                 } else {
                     HStack(spacing: 0) {
@@ -227,7 +227,7 @@ import SwiftUI
                             let thisItem = item as! MenuAction
 
                             Button {
-                                controller.actionsHandler?(controller, thisItem)
+                                controller.lastAction = thisItem
                             } label: {
                                 HStack(alignment: .center) {
                                     makeImage(item: item)
@@ -292,7 +292,7 @@ import SwiftUI
 // }
 
 struct SideMenuContainer: View {
-    @State var controller = MenuController(menuItems:
+    @State var controller = MyMenuController(menuItems:
         [
             MenuView(key: 0, title: "Home xxxxxx", systemIcon: "theatermasks.fill"),
             MenuAction(key: 100, title: "Print", systemIcon: "rectangle.portrait.and.arrow.right"),
@@ -312,38 +312,12 @@ struct SideMenuContainer: View {
         ]
         ,
         // sideTitleView: AnyView(SideTitleView()),
-                                           backgroundColor: .systemBackground,
-                                           itemsColor: .systemLabel,
+        backgroundColor: .systemBackground,
+        itemsColor: .systemLabel,
         // titleView: AnyView(TitleView()),
-        titleViewProvider: { _ in
-            AnyView(TitleView())
-        },
-                                           titleViewBackgroundColor: .systemBackground,
+        titleViewBackgroundColor: .systemBackground,
         actionsHandler: { _, item in
             print("Action \(item.title) [\(item.key)]")
-        },
-        viewProvider: { _, menuItem in
-
-            if menuItem.key == 0 {
-                return AnyView(TestView(text: "Home").background(.yellow))
-            }
-
-            if menuItem.key == 1 {
-                return AnyView(TestView(text: "Discover").background(.blue))
-            }
-
-            if menuItem.key == 2 {
-                return AnyView(TestView(text: "Devices").background(.gray))
-            }
-
-            if menuItem.key == 3 {
-                return AnyView(TestView(text: "Profile").background(.green))
-            }
-
-            if menuItem.key == 4 {
-                return AnyView(TestView(text: "Profile").background(.green))
-            }
-            return AnyView(EmptyView())
         }
     )
 
