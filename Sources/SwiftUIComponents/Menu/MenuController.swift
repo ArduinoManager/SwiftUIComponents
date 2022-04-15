@@ -80,8 +80,7 @@ open class MenuController: SuperController, ObservableObject {
         public init(menuItems: [MenuItem],
                     backgroundColor: GenericColor = .systemBackground,
                     itemsColor: GenericColor = .systemLabel,
-                    titleViewBackgroundColor: GenericColor = .systemBackground,
-                    actionsHandler: @escaping (_ controller: MenuController, _ item: MenuAction) -> Void)
+                    titleViewBackgroundColor: GenericColor = .systemBackground)
         {
             showMenu = false
             self.menuItems = menuItems
@@ -94,7 +93,6 @@ open class MenuController: SuperController, ObservableObject {
             self.itemsColor = itemsColor
             selectedItemBackgroundColor = GenericColor(systemColor: .systemGray4)
             self.titleViewBackgroundColor = titleViewBackgroundColor
-            //self.actionsHandler = actionsHandler
             self.lastAction = nil
             currentTab = menuItems[0].key
 

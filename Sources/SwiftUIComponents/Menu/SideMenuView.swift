@@ -119,7 +119,7 @@ import SwiftUI
         func CustomActionButton(item: MenuAction) -> some View {
             Button {
                 withAnimation {
-                    controller.actionsHandler?(controller, item)
+                    controller.lastAction = item
                 }
             }
             label: {
@@ -315,10 +315,8 @@ struct SideMenuContainer: View {
         backgroundColor: .systemBackground,
         itemsColor: .systemLabel,
         // titleView: AnyView(TitleView()),
-        titleViewBackgroundColor: .systemBackground,
-        actionsHandler: { _, item in
-            print("Action \(item.title) [\(item.key)]")
-        }
+        titleViewBackgroundColor: .systemBackground
+        
     )
 
     var body: some View {

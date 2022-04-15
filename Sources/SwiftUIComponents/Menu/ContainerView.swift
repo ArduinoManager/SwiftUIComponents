@@ -325,12 +325,10 @@ struct MainViewContainer: View {
             _controller = StateObject(wrappedValue: MyMenuController(menuItems: menuItems,
                                                                      openButtonAtTop: false,
                                                                      backgroundColor: .systemBackground,
-                                                                     itemsColor: .systemLabel,
+                                                                     itemsColor: .systemLabel
                                                                      
                                                                      // titleViewBackgroundColor: .red,
-                                                                     actionsHandler: { _, item in
-                                                                         print("Action \(item.title) [\(item.key)]")
-                                                                     }
+                                                            
                 )
             )
         #endif
