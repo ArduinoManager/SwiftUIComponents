@@ -49,15 +49,16 @@ open class TabBarController: SuperController, ObservableObject {
         tabs.remove(at: index)
     }
     
-    public func headerProvider() -> AnyView? {
+    open func headerProvider() -> AnyView? {
         return nil
     }
-    public func footerProvider() -> AnyView? {
+    
+    open func footerProvider() -> AnyView? {
         return nil
     }
 
     
-    public func viewProvider(tab: TabItem) -> AnyView {
+    open func viewProvider(tab: TabItem) -> AnyView {
         return AnyView(EmptyView())
     }
 
