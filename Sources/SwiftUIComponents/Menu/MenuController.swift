@@ -22,7 +22,7 @@ open class MenuController: SuperController, ObservableObject {
     @Published public var titleViewBackgroundColor: GenericColor
     @Published public var menuItems: [MenuItem]
     //public var actionsHandler: ((_ controller: MenuController, _ item: MenuAction) -> Void)?
-    @Published public var lastAction: MenuAction?
+    @Published open var lastAction: MenuAction?
     var boostrap: String? = "A"
     public var menuViews: [MenuView] {
         return menuItems.filter({ $0.type == .item }) as! [MenuView]
