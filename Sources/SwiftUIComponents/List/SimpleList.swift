@@ -20,7 +20,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
     @ObservedObject private var controller: ListController<Item, Row>
     @StateObject private var sheetManager = SheetMananger()
     @State private var editingList = false
-    //@State private var uuid: UUID
+    // @State private var uuid: UUID
     private let rowColor: GenericColor!
     private let rowAlternateColor: GenericColor!
     private let alternatesRows: Bool!
@@ -56,13 +56,13 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
             rowAlternateColor = alternateBackgroundColor
         }
 
-        //_uuid = State(initialValue: UUID())
+        // _uuid = State(initialValue: UUID())
     }
 
     public var body: some View {
         VStack(spacing: 0) {
             HStack {
-                if let header = controller.headerProvider?(controller) {
+                if let header = controller.headerProvider() {
                     header
                 }
                 Spacer()
@@ -87,7 +87,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                 #endif
             }
             .padding([.leading, .trailing])
-            .padding(.bottom, controller.headerProvider == nil ? 4 : 0)
+            .padding(.bottom, controller.headerProvider() == nil ? 4 : 0)
             .background(controller.backgroundColor.color)
 
             List {
@@ -143,7 +143,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                     }
                 }
             Spacer()
-            if let footer = controller.footerProvider?(controller) {
+            if let footer = controller.footerProvider() {
                 footer
             }
         }
@@ -173,7 +173,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                 ForEach(0 ..< controller.leadingActions.count, id: \.self) { idx in
                     let action = controller.leadingActions[idx]
                     Button {
-                        controller.actionHandler?(action.key)
+                        controller.currentActionKey = action.key
                     } label: {
                         makeImage(action: action, iconSize: iconSize, color: action.color)
                     }
@@ -243,7 +243,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                 ForEach(0 ..< controller.trailingActions.count, id: \.self) { idx in
                     let action = controller.trailingActions[idx]
                     Button {
-                        controller.actionHandler?(action.key)
+                        controller.currentActionKey = action.key
                     } label: {
                         makeImage(action: action, iconSize: iconSize, color: action.color)
                     }
@@ -276,7 +276,7 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
                         ForEach(0 ..< controller.leadingActions.count, id: \.self) { idx in
                             let action = controller.leadingActions[idx]
                             Button(LocalizedStringKey(action.label)) {
-                                controller.actionHandler?(action.key)
+                                controller.currentActionKey = action.key
                             }
                             .tint(action.color.color)
                         }
@@ -294,7 +294,7 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
                         ForEach(0 ..< controller.trailingActions.count, id: \.self) { idx in
                             let action = controller.trailingActions[idx]
                             Button(LocalizedStringKey(action.label)) {
-                                controller.actionHandler?(action.key)
+                                controller.currentActionKey = action.key
                             }
                             .tint(action.color.color)
                         }
@@ -305,8 +305,18 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
 
 // Preview
 
+class ThisListController: ListController<ListItem, RowView> {
+    override func headerProvider() -> AnyView? {
+        return AnyView(TitleView())
+    }
+
+    override func footerProvider() -> AnyView? {
+        return AnyView(TitleView())
+    }
+}
+
 struct SimpleListContainer: View {
-    @StateObject private var controller: ListController<ListItem, RowView>
+    @StateObject private var controller: ThisListController
 
     init() {
         let items = [ListItem(firstName: "C", lastName: "C"),
@@ -324,11 +334,9 @@ struct SimpleListContainer: View {
             ListAction(key: "T2", label: "Action 2", icon: "logo", color: .systemRed),
         ]
 
-        _controller = StateObject(wrappedValue: ListController<ListItem, RowView>(items: items,
+        _controller = StateObject(wrappedValue: ThisListController(items: items,
                                                                                   sort: sortList,
                                                                                   style: .grouped(alternatesRows: false, alternateBackgroundColor: GenericColor(color: .white)),
-                                                                                  headerProvider: {_ in AnyView(TitleView())},
-                                                                                  footerProvider: {_ in AnyView(TitleView())},
                                                                                   addButtonIcon: "plus",
                                                                                   addButtonColor: .systemRed,
                                                                                   editButtonLabel: "Edit_",
@@ -338,9 +346,6 @@ struct SimpleListContainer: View {
                                                                                   swipeActions: false,
                                                                                   leadingActions: leadingActions,
                                                                                   trailingActions: trailingActions,
-                                                                                  actionHandler: { actionKey in
-                                                                                      print("Executing action \(actionKey)")
-                                                                                  },
                                                                                   showLineSeparator: true,
                                                                                   lineSeparatorColor: .systemBlue,
                                                                                   makeRow: { item in
@@ -349,7 +354,7 @@ struct SimpleListContainer: View {
     }
 
     var body: some View {
-        SimpleList<ListItem, RowView, MyForm>(controller: controller) {mode in
+        SimpleList<ListItem, RowView, MyForm>(controller: controller) { mode in
             MyForm(controller: controller, mode: mode)
         }
     }
@@ -448,7 +453,6 @@ struct MyForm: View {
     @ObservedObject var controller: ListController<ListItem, RowView>
     var mode: FormMode
     @Environment(\.presentationMode) var presentationMode
-    
 
     init(controller: ListController<ListItem, RowView>, mode: FormMode) {
         self.controller = controller

@@ -51,7 +51,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
         NavigationView {
             VStack {
                 HStack {
-                    if let header = controller.headerProvider?(controller) {
+                    if let header = controller.headerProvider() {
                         header
                     }
                     Spacer()
@@ -169,7 +169,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                 .customStyle(type: controller.style)
 
                 Spacer()
-                if let footer = controller.footerProvider?(controller) {
+                if let footer = controller.footerProvider() {
                     footer
                 }
             }
@@ -221,7 +221,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                 ForEach(0 ..< controller.leadingActions.count, id: \.self) { idx in
                     let action = controller.leadingActions[idx]
                     Button {
-                        controller.actionHandler?(action.key)
+                        controller.currentActionKey = action.key
                     } label: {
                         makeImage(action: action, iconSize: iconSize, color: action.color)
                     }
@@ -271,7 +271,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                 ForEach(0 ..< controller.trailingActions.count, id: \.self) { idx in
                     let action = controller.trailingActions[idx]
                     Button {
-                        controller.actionHandler?(action.key)
+                        controller.currentActionKey = action.key
                     } label: {
                         makeImage(action: action, iconSize: iconSize, color: action.color)
                     }
@@ -306,7 +306,7 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
                 ForEach(0 ..< controller.leadingActions.count, id: \.self) { idx in
                     let action = controller.leadingActions[idx]
                     Button(LocalizedStringKey(action.label)) {
-                        controller.actionHandler?(action.key)
+                        controller.currentActionKey = action.key
                     }
                     .tint(action.color.color)
                 }
@@ -319,7 +319,7 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
                 ForEach(Array(stride(from: controller.trailingActions.count - 1, to: -1, by: -1)), id: \.self) { idx in
                     let action = controller.trailingActions[idx]
                     Button(LocalizedStringKey(action.label)) {
-                        controller.actionHandler?(action.key)
+                        controller.currentActionKey = action.key
                     }
                     .tint(action.color.color)
                 }
@@ -329,21 +329,23 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
 
 // Preview
 
+class ThisNavigationController: ListController<ListItem, RowView> {
+    override func headerProvider() -> AnyView? {
+        return AnyView(TitleView())
+    }
+
+    override func footerProvider() -> AnyView? {
+        return AnyView(TitleView())
+    }
+}
+
 struct NavigationListContainer: View {
-    @StateObject private var controller: ListController<ListItem, RowView>
+    @StateObject private var controller: ThisNavigationController
 
     init() {
         let items = [ListItem(firstName: "A", lastName: "A"),
                      ListItem(firstName: "B", lastName: "B"),
                      ListItem(firstName: "C", lastName: "C")]
-
-//        controller = ListController<ListItem, RowView, FormView>(items: items,
-//                                                                 title: "Title",
-//                                                                 editButtonLabel: "Edit",
-//                                                                 deleteButtonLabel: "Delete",
-//                                                                 makeRow: { item in
-//                                                                     RowView(item: item)
-//                                                                 })
 
         let leadingActions = [
             ListAction(key: "L1", label: "Action 1", systemIcon: "plus", color: GenericColor(color: .blue)),
@@ -355,27 +357,22 @@ struct NavigationListContainer: View {
             ListAction(key: "T2", label: "Action 2", icon: "logo", color: GenericColor(color: .mint)),
         ]
 
-        _controller = StateObject(wrappedValue: ListController<ListItem, RowView>(items: items,
-                                                                                  style: .plain(alternatesRows: true, alternateBackgroundColor: .systemGray),
-                                                                                  headerProvider: { _ in AnyView(TitleView()) },
-                                                                                  footerProvider: { _ in AnyView(TitleView()) },
-                                                                                  addButtonIcon: "plus",
-                                                                                  addButtonColor: .systemRed,
-                                                                                  editButtonLabel: "Edit_",
-                                                                                  deleteButtonLabel: "Delete_",
-                                                                                  backgroundColor: .systemGreen,
-                                                                                  rowBackgroundColor: GenericColor(systemColor: .systemPurple),
-                                                                                  swipeActions: false,
-                                                                                  leadingActions: leadingActions,
-                                                                                  trailingActions: trailingActions,
-                                                                                  actionHandler: { actionKey in
-                                                                                      print("Executing action \(actionKey)")
-                                                                                  },
-                                                                                  showLineSeparator: true,
-                                                                                  lineSeparatorColor: .systemBlue,
-                                                                                  makeRow: { item in
-                                                                                      RowView(item: item)
-                                                                                  }))
+        _controller = StateObject(wrappedValue: ThisNavigationController(items: items,
+                                                                         style: .plain(alternatesRows: true, alternateBackgroundColor: .systemGray),
+                                                                         addButtonIcon: "plus",
+                                                                         addButtonColor: .systemRed,
+                                                                         editButtonLabel: "Edit_",
+                                                                         deleteButtonLabel: "Delete_",
+                                                                         backgroundColor: .systemGreen,
+                                                                         rowBackgroundColor: GenericColor(systemColor: .systemPurple),
+                                                                         swipeActions: false,
+                                                                         leadingActions: leadingActions,
+                                                                         trailingActions: trailingActions,
+                                                                         showLineSeparator: true,
+                                                                         lineSeparatorColor: .systemBlue,
+                                                                         makeRow: { item in
+                                                                             RowView(item: item)
+                                                                         }))
     }
 
     var body: some View {
@@ -408,7 +405,7 @@ struct MyForm1: View {
         self.controller = controller
         self.mode = mode
     }
-    
+
     var body: some View {
         VStack {
             Text("MyView")

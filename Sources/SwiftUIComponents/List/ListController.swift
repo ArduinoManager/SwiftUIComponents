@@ -78,12 +78,10 @@ public enum FormMode: String {
     case edit
 }
 
-public class ListController<Item: Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View>: SuperController, ObservableObject {
+open class ListController<Item: Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View>: SuperController, ObservableObject {
     @Published var items: [Item]
     var sort: ((_: inout [Item]) -> Void)?
     @Published public var style: ListStyle
-    public var headerProvider: ((_ controller: ListController) -> AnyView)?
-    public var footerProvider: ((_ controller: ListController) -> AnyView)?
     @Published public var multipleSelection: Bool
     @Published public var addButtonIcon: String
     @Published public var addButtonColor: GenericColor
@@ -94,7 +92,8 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
     @Published public var swipeActions: Bool
     @Published public var leadingActions: [ListAction]
     @Published public var trailingActions: [ListAction]
-    public var actionHandler: ((_ actionKey: String) -> Void)?
+    @Published public var currentActionKey: String?
+//    public var actionHandler: ((_ actionKey: String) -> Void)?
     @Published public var showLineSeparator: Bool
     @Published public var lineSeparatorColor: GenericColor?
     public var makeRow: (_: Item) -> Row
@@ -129,8 +128,6 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
         public init(items: [Item],
                     sort: ((_: inout [Item]) -> Void)? = nil,
                     style: ListStyle,
-                    headerProvider: ((_ controller: ListController) -> AnyView)? = nil,
-                    footerProvider: ((_ controller: ListController) -> AnyView)? = nil,
                     multipleSelection: Bool = false,
                     addButtonIcon: String = "plus",
                     addButtonColor: GenericColor = GenericColor.systemLabel,
@@ -141,7 +138,6 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
                     swipeActions: Bool = true,
                     leadingActions: [ListAction] = [],
                     trailingActions: [ListAction] = [],
-                    actionHandler: ((_ actionKey: String) -> Void)? = nil,
                     showLineSeparator: Bool = true,
                     lineSeparatorColor: GenericColor? = nil,
                     itemsEventsHandler: ((_ operation: EventType, _ item: Item) -> Bool)? = nil,
@@ -162,7 +158,6 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
             self.swipeActions = swipeActions
             self.leadingActions = leadingActions
             self.trailingActions = trailingActions
-            self.actionHandler = actionHandler
             self.showLineSeparator = showLineSeparator
             self.lineSeparatorColor = lineSeparatorColor
             self.makeRow = makeRow
@@ -184,8 +179,6 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
         public init(items: [Item],
                     sort: ((_: inout [Item]) -> Void)? = nil,
                     style: ListStyle,
-                    headerProvider: ((_ controller: ListController) -> AnyView)? = nil,
-                    footerProvider: ((_ controller: ListController) -> AnyView)? = nil,
                     multipleSelection: Bool = false,
                     addButtonIcon: String = "plus",
                     addButtonColor: GenericColor = GenericColor.systemLabel,
@@ -196,7 +189,6 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
                     swipeActions: Bool = true,
                     leadingActions: [ListAction] = [],
                     trailingActions: [ListAction] = [],
-                    actionHandler: ((_ actionKey: String) -> Void)? = nil,
                     showLineSeparator: Bool = true,
                     lineSeparatorColor: GenericColor? = nil,
                     itemsEventsHandler: ((_ operation: EventType, _ item: Item) -> Bool)? = nil,
@@ -205,8 +197,6 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
             self.items = items
             self.sort = sort
             self.style = style
-            self.headerProvider = headerProvider
-            self.footerProvider = footerProvider
             self.multipleSelection = multipleSelection
             self.addButtonIcon = addButtonIcon
             self.addButtonColor = addButtonColor
@@ -217,15 +207,11 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
             self.swipeActions = swipeActions
             self.leadingActions = leadingActions
             self.trailingActions = trailingActions
-            self.actionHandler = actionHandler
             self.showLineSeparator = showLineSeparator
             self.lineSeparatorColor = lineSeparatorColor
             self.makeRow = makeRow
             self.itemsEventsHandler = itemsEventsHandler
             super.init(type: .list)
-            if (!leadingActions.isEmpty || !trailingActions.isEmpty) && self.actionHandler == nil {
-                fatalError("No actiton Handler provided")
-            }
             if sort != nil {
                 sort!(&self.items)
             }
@@ -341,6 +327,21 @@ public class ListController<Item: Equatable & ListItemInitializable & ListItemSe
         }
     }
 
+    open func headerProvider() -> AnyView? {
+        return nil
+    }
+    
+    open func footerProvider() -> AnyView? {
+        return nil
+    }
+
+    
+    open func viewProvider(tab: TabItem) -> AnyView {
+        return AnyView(EmptyView())
+    }
+
+    
+    
     // MARK: - Encodable & Decodable
 
     enum CodingKeys: CodingKey {
