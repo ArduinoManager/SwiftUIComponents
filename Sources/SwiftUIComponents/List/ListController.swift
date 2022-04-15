@@ -59,7 +59,7 @@ public struct ListAction: Hashable, Codable {
     }
 }
 
-public enum ListStyle: Codable {
+public enum ListStyle1: Codable {
     case plain(alternatesRows: Bool, alternateBackgroundColor: GenericColor = GenericColor.systemLabel)
     case grouped(alternatesRows: Bool, alternateBackgroundColor: GenericColor = GenericColor.systemLabel) // On macOS like inset
     case inset(alternatesRows: Bool, alternateBackgroundColor: GenericColor = GenericColor.systemLabel)
@@ -81,7 +81,7 @@ public enum FormMode: String {
 open class ListController<Item: Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View>: SuperController, ObservableObject {
     @Published var items: [Item]
     var sort: ((_: inout [Item]) -> Void)?
-    @Published public var style: ListStyle
+    @Published public var style: ListStyle1
     @Published public var multipleSelection: Bool
     @Published public var addButtonIcon: String
     @Published public var addButtonColor: GenericColor
@@ -127,7 +127,7 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
     #if os(iOS)
         public init(items: [Item],
                     sort: ((_: inout [Item]) -> Void)? = nil,
-                    style: ListStyle,
+                    style: ListStyle1,
                     multipleSelection: Bool = false,
                     addButtonIcon: String = "plus",
                     addButtonColor: GenericColor = GenericColor.systemLabel,
@@ -146,8 +146,6 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
             self.items = items
             self.sort = sort
             self.style = style
-            self.headerProvider = headerProvider
-            self.footerProvider = footerProvider
             self.multipleSelection = multipleSelection
             self.addButtonIcon = addButtonIcon
             self.addButtonColor = addButtonColor
@@ -164,10 +162,6 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
             self.itemsEventsHandler = itemsEventsHandler
             super.init(type: .list)
 
-            if (!leadingActions.isEmpty || !trailingActions.isEmpty) && self.actionHandler == nil {
-                fatalError("No actiton Handler provided")
-            }
-
             if sort != nil {
                 sort!(&self.items)
             }
@@ -178,7 +172,7 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
 
         public init(items: [Item],
                     sort: ((_: inout [Item]) -> Void)? = nil,
-                    style: ListStyle,
+                    style: ListStyle1,
                     multipleSelection: Bool = false,
                     addButtonIcon: String = "plus",
                     addButtonColor: GenericColor = GenericColor.systemLabel,
@@ -364,7 +358,7 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
         let values = try decoder.container(keyedBy: CodingKeys.self)
 
         items = [Item]()
-        style = try values.decode(ListStyle.self, forKey: .style)
+        style = try values.decode(ListStyle1.self, forKey: .style)
         multipleSelection = try values.decode(Bool.self, forKey: .multipleSelection)
         addButtonIcon = try values.decode(String.self, forKey: .addButtonIcon)
         addButtonColor = try values.decode(GenericColor.self, forKey: .addButtonColor)

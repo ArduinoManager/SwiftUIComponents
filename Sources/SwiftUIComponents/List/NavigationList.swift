@@ -166,7 +166,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                 #if os(iOS)
                     .environment(\.editMode, editingList ? .constant(.active) : .constant(.inactive))
                 #endif
-                .customStyle(type: controller.style)
+                    .customStyle(type: controller.style)
 
                 Spacer()
                 if let footer = controller.footerProvider() {
