@@ -27,19 +27,19 @@ public struct TabBar: View {
     #if os(iOS)
         public var body: some View {
             VStack(spacing: 0) {
-                if let header = controller.headerProvider?(controller) {
+                if let header = controller.headerProvider() {
                     header
                 }
                 if controller.tabBarPosition == .top {
                     tabBar
                 }
-                controller.viewProvider?(controller, controller.tabs[selection])
+                controller.viewProvider(tab: controller.tabs[selection])
                     .padding(0)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                 if controller.tabBarPosition == .bottom {
                     tabBar
                 }
-                if let footer = controller.footerProvider?(controller) {
+                if let footer = controller.footerProvider() {
                     footer
                 }
             }
@@ -101,19 +101,19 @@ public struct TabBar: View {
     #if os(macOS)
         public var body: some View {
             VStack(spacing: 0) {
-                if let header = controller.headerProvider?(controller) {
+                if let header = controller.headerProvider() {
                     header
                 }
                 if controller.tabBarPosition == .top {
                     tabBar
                 }
-                controller.viewProvider?(controller, controller.tabs[selection])
+                controller.viewProvider(tab: controller.tabs[selection])
                     .padding(0)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                 if controller.tabBarPosition == .bottom {
                     tabBar
                 }
-                if let footer = controller.footerProvider?(controller) {
+                if let footer = controller.footerProvider() {
                     footer
                 }
             }
@@ -165,8 +165,42 @@ public struct TabBar: View {
     #endif
 }
 
+class MyTabBarController: TabBarController {
+    
+    override func headerProvider() -> AnyView? {
+        return AnyView(TitleView())
+    }
+    
+    override func footerProvider() -> AnyView? {
+        return AnyView(TitleView())
+    }
+    
+    override func viewProvider(tab: TabItem) -> AnyView {
+        switch tab.key {
+        case 0:
+            return AnyView(Tab1().background(.red))
+
+        case 1:
+            return AnyView(Tab2())
+
+        case 2:
+            return AnyView(Tab3())
+
+        case 3:
+            return AnyView(Tab4())
+
+        case 4:
+            return AnyView(Tab5())
+
+        default:
+            return AnyView(EmptyView())
+        }
+    }
+    
+}
+
 struct TabBarContainer: View {
-    @ObservedObject private var controller = TabBarController(tabs: [
+    @ObservedObject private var controller = MyTabBarController(tabs: [
         TabItem(key: 0, title: "Tab 1", systemIcon: "list.dash", color: .systemBlue),
         TabItem(key: 1, title: "Tab 2", systemIcon: "square.and.pencil", color: .systemGreen),
         TabItem(key: 2, title: "Tab 3", systemIcon: "person.2.circle", color: .systemYellow),
@@ -174,9 +208,6 @@ struct TabBarContainer: View {
         TabItem(key: 4, title: "Tab 5", icon: "tabIcon", color: .systemBlack),
     ],
     tabBarPosition: .bottom,
-    headerProvider: { _ in AnyView(TitleView()) },
-    footerProvider: { _ in AnyView(TitleView()) },
-    viewProvider: viewProvider,
     backgroundColor: GenericColor.systemBackground
     )
 
@@ -185,27 +216,7 @@ struct TabBarContainer: View {
     }
 }
 
-fileprivate func viewProvider(controller: TabBarController, item: TabItem) -> AnyView {
-    switch item.key {
-    case 0:
-        return AnyView(Tab1().background(.red))
 
-    case 1:
-        return AnyView(Tab2())
-
-    case 2:
-        return AnyView(Tab3())
-
-    case 3:
-        return AnyView(Tab4())
-
-    case 4:
-        return AnyView(Tab5())
-
-    default:
-        return AnyView(EmptyView())
-    }
-}
 
 struct TabBar_Previews: PreviewProvider {
     static var previews: some View {

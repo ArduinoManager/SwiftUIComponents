@@ -8,20 +8,14 @@
 import Foundation
 import SwiftUI
 
-public class TabBarController: SuperController, ObservableObject {
+open class TabBarController: SuperController, ObservableObject {
     @Published public var tabs: [TabItem]
-    public var headerProvider: ((_ controller: TabBarController) -> AnyView)?
-    public var footerProvider: ((_ controller: TabBarController) -> AnyView)?
-    public var viewProvider: ((_ controller: TabBarController, _ tab: TabItem) -> AnyView)?
     @Published public var tabBarPosition: TabBar.TabBarPosition
     @Published public var backgroundColor: GenericColor
     @Published public var selectionColor: GenericColor
 
     public init(tabs: [TabItem],
                 tabBarPosition: TabBar.TabBarPosition,
-                headerProvider: ((_ controller: TabBarController) -> AnyView)? = nil,
-                footerProvider: ((_ controller: TabBarController) -> AnyView)? = nil,
-                viewProvider: ((_ controller: TabBarController, _ tab: TabItem) -> AnyView)?,
                 backgroundColor: GenericColor = GenericColor.systemBackground,
                 selectionColor: GenericColor = GenericColor.systemRed)
     {
@@ -29,9 +23,6 @@ public class TabBarController: SuperController, ObservableObject {
         self.tabBarPosition = tabBarPosition
         self.backgroundColor = backgroundColor
         self.selectionColor = selectionColor
-        self.headerProvider = headerProvider
-        self.footerProvider = footerProvider
-        self.viewProvider = viewProvider
         super.init(type: .tabBar)
 
         let dups = Dictionary(grouping: tabs, by: { $0.key }).filter { $1.count > 1 }.keys
@@ -57,6 +48,18 @@ public class TabBarController: SuperController, ObservableObject {
     public func deleteTabAt(index: Int) {
         tabs.remove(at: index)
     }
+    
+    public func headerProvider() -> AnyView? {
+        return nil
+    }
+    public func footerProvider() -> AnyView? {
+        return nil
+    }
+
+    
+    public func viewProvider(tab: TabItem) -> AnyView {
+        return AnyView(EmptyView())
+    }
 
     // MARK: - Encodable & Decodable
 
@@ -73,9 +76,6 @@ public class TabBarController: SuperController, ObservableObject {
         backgroundColor = try values.decode(GenericColor.self, forKey: .backgroundColor)
         selectionColor = try values.decode(GenericColor.self, forKey: .selectionColor)
         tabBarPosition = try values.decode(TabBar.TabBarPosition.self, forKey: .position)
-        viewProvider = { _, _ in
-            AnyView(EmptyView())
-        }
         super.init(type: .tabBar)
     }
 

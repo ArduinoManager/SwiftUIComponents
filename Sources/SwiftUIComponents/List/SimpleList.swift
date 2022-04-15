@@ -314,14 +314,6 @@ struct SimpleListContainer: View {
                      ListItem(firstName: "B", lastName: "B"),
         ]
 
-//        controller = ListController<ListItem, RowView, FormView>(items: items,
-//                                                                 title: "Title",
-//                                                                 editButtonLabel: "Edit",
-//                                                                 deleteButtonLabel: "Delete",
-//                                                                 makeRow: { item in
-//                                                                     RowView(item: item)
-//                                                                 })
-
         let leadingActions = [
             ListAction(key: "L1", label: "Action 1", systemIcon: "pencil", color: .systemBlue),
             ListAction(key: "L2", label: "Action 2", systemIcon: "plus", color: GenericColor(systemColor: .systemOrange)),
