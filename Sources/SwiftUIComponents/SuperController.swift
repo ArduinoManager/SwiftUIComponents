@@ -10,13 +10,14 @@ import Foundation
 public enum ControllerType: String, Codable {
     case menu
     case list
+    case navigationList
     case view
     case tabBar
 }
 
 open class SuperController: Identifiable, Codable {
     public let id: UUID
-    var type: ControllerType
+    public var type: ControllerType
     
     public init(type: ControllerType) {
         self.id = UUID()

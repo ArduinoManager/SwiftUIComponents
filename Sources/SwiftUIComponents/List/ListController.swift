@@ -93,7 +93,6 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
     @Published public var leadingActions: [ListAction]
     @Published public var trailingActions: [ListAction]
     @Published public var currentActionKey: String?
-//    public var actionHandler: ((_ actionKey: String) -> Void)?
     @Published public var showLineSeparator: Bool
     @Published public var lineSeparatorColor: GenericColor?
     public var makeRow: (_: Item) -> Row
@@ -106,7 +105,6 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
             }
         }
     }
-
     public var itemsEventsHandler: ((_ operation: EventType, _ item: Item) -> Bool)?
 
     /// Item associated to the form for entering a new Item or editing an existing one
