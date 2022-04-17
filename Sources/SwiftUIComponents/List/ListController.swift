@@ -327,13 +327,6 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
         return nil
     }
 
-    
-    open func viewProvider(tab: TabItem) -> AnyView {
-        return AnyView(EmptyView())
-    }
-
-    
-    
     // MARK: - Encodable & Decodable
 
     enum CodingKeys: CodingKey {
