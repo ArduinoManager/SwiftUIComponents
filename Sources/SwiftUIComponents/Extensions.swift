@@ -263,10 +263,16 @@ extension Color: Codable {
     }
 }
 
+#if os(iOS)
 extension UIDevice {
     var hasNotch: Bool {
-        let bottom = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
+        let keyWindow = UIApplication
+            .shared
+            .connectedScenes
+            .flatMap { ($0 as? UIWindowScene)?.windows ?? [] }
+            .first { $0.isKeyWindow }
+        let bottom = keyWindow?.safeAreaInsets.bottom ?? 0
         return bottom > 20
     }
 }
-    
+#endif
