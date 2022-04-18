@@ -74,7 +74,17 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                         .padding(.trailing, 6)
                     #endif
                 }
-                .padding([.leading, .trailing])
+                .padding(0)
+                .background(controller.backgroundColor.color) // Extra background layer to reset the shadow and stop it applying to every sub-view
+                .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
+                .background(controller.backgroundColor.color)
+                .shadow(
+                    color: Color.black.opacity(0.25),
+                    radius: 3,
+                    x: 0,
+                    y: 0.5
+                )
+                .zIndex(99)
 
                 List {
                     ForEach(0 ..< controller.items.count, id: \.self) { idx in
@@ -166,11 +176,24 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                 #if os(iOS)
                     .environment(\.editMode, editingList ? .constant(.active) : .constant(.inactive))
                 #endif
-                    .customStyle(type: controller.style)
+                .customStyle(type: controller.style)
 
                 Spacer()
                 if let footer = controller.footerProvider() {
-                    footer
+                    HStack(spacing: 0) {
+                        footer
+                    }
+                    .padding(0)
+                    .background(controller.backgroundColor.color) // Extra background layer to reset the shadow and stop it applying to every sub-view
+                    .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
+                    .background(controller.backgroundColor.color)
+                    .shadow(
+                        color: Color.black.opacity(0.25),
+                        radius: 3,
+                        x: 0,
+                        y: 0.5
+                    )
+                    .zIndex(99)
                 }
             }
             .background(controller.backgroundColor.color)
