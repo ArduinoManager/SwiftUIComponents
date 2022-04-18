@@ -61,34 +61,68 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
 
     public var body: some View {
         VStack(spacing: 0) {
-            HStack {
-                if let header = controller.headerProvider() {
+            if let header = controller.headerProvider() {
+                HStack {
                     header
+                        .overlay(alignment: .topTrailing) {
+                            Button {
+                                controller.editingItem = nil
+                                sheetManager.whichSheet = .Form
+                                sheetManager.showSheet.toggle()
+                            } label: {
+                                getSafeSystemImage(systemName: controller.addButtonIcon)
+                                    .aspectRatio(contentMode: .fit)
+                                    .padding(3)
+                                    .foregroundColor(controller.addButtonColor.color)
+                                    .frame(width: iconSize + 1, height: iconSize + 1)
+                                    .border(controller.addButtonColor.color, width: 1)
+                            }
+                            #if os(macOS)
+                                .buttonStyle(PlainButtonStyle())
+                                .padding(.trailing, controller.isPlain ? -5 : 2)
+                            #endif
+                            #if os(iOS)
+                                .padding(.trailing, 6)
+                            #endif
+                            .padding(.top, 10)
+                        }
                 }
-                Spacer()
-                Button {
-                    controller.editingItem = nil
-                    sheetManager.whichSheet = .Form
-                    sheetManager.showSheet.toggle()
-                } label: {
-                    getSafeSystemImage(systemName: controller.addButtonIcon)
-                        .aspectRatio(contentMode: .fit)
-                        .padding(3)
-                        .foregroundColor(controller.addButtonColor.color)
-                        .frame(width: iconSize + 1, height: iconSize + 1)
-                        .border(controller.addButtonColor.color, width: 1)
+                .padding(0)
+                .background(controller.backgroundColor.color) // Extra background layer to reset the shadow and stop it applying to every sub-view
+                .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
+                .background(controller.backgroundColor.color)
+                .shadow(
+                    color: Color.black.opacity(0.25),
+                    radius: 3,
+                    x: 0,
+                    y: 0.5
+                )
+                .zIndex(99)
+            } else {
+                HStack(spacing: 0) {
+                    Spacer()
+                    Button {
+                        controller.editingItem = nil
+                        sheetManager.whichSheet = .Form
+                        sheetManager.showSheet.toggle()
+                    } label: {
+                        getSafeSystemImage(systemName: controller.addButtonIcon)
+                            .aspectRatio(contentMode: .fit)
+                            .padding(3)
+                            .foregroundColor(controller.addButtonColor.color)
+                            .frame(width: iconSize + 1, height: iconSize + 1)
+                            .border(controller.addButtonColor.color, width: 1)
+                    }
+                    #if os(macOS)
+                        .buttonStyle(PlainButtonStyle())
+                        .padding(.trailing, controller.isPlain ? -5 : 2)
+                    #endif
+                    #if os(iOS)
+                        .padding(.trailing, 6)
+                    #endif
+                    .padding(.top, 10)
                 }
-                #if os(macOS)
-                    .buttonStyle(PlainButtonStyle())
-                    .padding(.trailing, controller.isPlain ? -5 : 2)
-                #endif
-                #if os(iOS)
-                    .padding(.trailing, 6)
-                #endif
             }
-            .padding([.leading, .trailing])
-            .padding(.bottom, controller.headerProvider() == nil ? 4 : 0)
-            .background(controller.backgroundColor.color)
 
             List {
                 ForEach(0 ..< controller.items.count, id: \.self) { idx in
@@ -144,7 +178,20 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                 }
             Spacer()
             if let footer = controller.footerProvider() {
-                footer
+                HStack(spacing: 0) {
+                    footer
+                }
+                .padding(0)
+                .background(controller.backgroundColor.color) // Extra background layer to reset the shadow and stop it applying to every sub-view
+                .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
+                .background(controller.backgroundColor.color)
+                .shadow(
+                    color: Color.black.opacity(0.25),
+                    radius: 3,
+                    x: 0,
+                    y: 0.5
+                )
+                .zIndex(99)
             }
         }
         .background(controller.backgroundColor.color)
@@ -335,22 +382,22 @@ struct SimpleListContainer: View {
         ]
 
         _controller = StateObject(wrappedValue: ThisListController(items: items,
-                                                                                  sort: sortList,
-                                                                                  style: .grouped(alternatesRows: false, alternateBackgroundColor: GenericColor(color: .white)),
-                                                                                  addButtonIcon: "plus",
-                                                                                  addButtonColor: .systemRed,
-                                                                                  editButtonLabel: "Edit_",
-                                                                                  deleteButtonLabel: "Delete_",
-                                                                                  backgroundColor: .systemGreen,
-                                                                                  rowBackgroundColor: GenericColor(systemColor: .systemPurple),
-                                                                                  swipeActions: false,
-                                                                                  leadingActions: leadingActions,
-                                                                                  trailingActions: trailingActions,
-                                                                                  showLineSeparator: true,
-                                                                                  lineSeparatorColor: .systemBlue,
-                                                                                  makeRow: { item in
-                                                                                      RowView(item: item)
-                                                                                  }))
+                                                                   sort: sortList,
+                                                                   style: .grouped(alternatesRows: false, alternateBackgroundColor: GenericColor(color: .white)),
+                                                                   addButtonIcon: "plus",
+                                                                   addButtonColor: .systemRed,
+                                                                   editButtonLabel: "Edit_",
+                                                                   deleteButtonLabel: "Delete_",
+                                                                   backgroundColor: .systemGreen,
+                                                                   rowBackgroundColor: GenericColor(systemColor: .systemPurple),
+                                                                   swipeActions: false,
+                                                                   leadingActions: leadingActions,
+                                                                   trailingActions: trailingActions,
+                                                                   showLineSeparator: true,
+                                                                   lineSeparatorColor: .systemBlue,
+                                                                   makeRow: { item in
+                                                                       RowView(item: item)
+                                                                   }))
     }
 
     var body: some View {
@@ -364,6 +411,7 @@ struct SimpleList_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             SimpleListContainer()
+                .previewInterfaceOrientation(.portrait)
         }
     }
 }
@@ -457,10 +505,6 @@ struct MyForm: View {
     init(controller: ListController<ListItem, RowView>, mode: FormMode) {
         self.controller = controller
         self.mode = mode
-//        // Required for NavigationList
-//        if controller.formItem == nil {
-//            controller.formItem = ListItem()
-//        }
     }
 
     var body: some View {
