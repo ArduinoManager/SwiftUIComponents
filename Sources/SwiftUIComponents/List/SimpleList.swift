@@ -379,7 +379,7 @@ struct SimpleListContainer: View {
         ]
 
         _controller = StateObject(wrappedValue: ThisListController(items: items,
-                                                                   sort: sortList,
+                                                                   
                                                                    style: .grouped(alternatesRows: false, alternateBackgroundColor: GenericColor(color: .white)),
                                                                    addButtonIcon: "plus",
                                                                    addButtonColor: .systemRed,
@@ -410,12 +410,6 @@ struct SimpleList_Previews: PreviewProvider {
             SimpleListContainer()
                 .previewInterfaceOrientation(.portrait)
         }
-    }
-}
-
-func sortList(list: inout [ListItem]) {
-    list.sort {
-        $0.lastName < $1.lastName
     }
 }
 

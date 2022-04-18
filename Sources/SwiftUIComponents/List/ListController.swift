@@ -80,7 +80,6 @@ public enum FormMode: String {
 
 open class ListController<Item: Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View>: SuperController, ObservableObject {
     @Published var items: [Item]
-    var sort: ((_: inout [Item]) -> Void)?
     @Published public var style: ListStyle1
     @Published public var multipleSelection: Bool
     @Published public var addButtonIcon: String
@@ -124,7 +123,6 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
 
     #if os(iOS)
         public init(items: [Item],
-                    sort: ((_: inout [Item]) -> Void)? = nil,
                     style: ListStyle1,
                     multipleSelection: Bool = false,
                     addButtonIcon: String = "plus",
@@ -142,7 +140,6 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
                     makeRow: @escaping (_: Item) -> Row
         ) {
             self.items = items
-            self.sort = sort
             self.style = style
             self.multipleSelection = multipleSelection
             self.addButtonIcon = addButtonIcon
@@ -159,10 +156,8 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
             self.makeRow = makeRow
             self.itemsEventsHandler = itemsEventsHandler
             super.init(type: .list)
-
-            if sort != nil {
-                sort!(&self.items)
-            }
+            
+            sortItems(items: &self.items)
         }
     #endif
 
@@ -248,9 +243,7 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
         }
         if !abort {
             items.append(item)
-            if sort != nil {
-                sort!(&items)
-            }
+            sortItems(items: &items)
         }
     }
 
@@ -269,9 +262,7 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
             items.remove(at: idx)
             items.insert(newItem, at: idx)
             // print(items)
-            if sort != nil {
-                sort!(&items)
-            }
+            sortItems(items: &items)
         }
     }
 
@@ -325,6 +316,9 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
     
     open func footerProvider() -> AnyView? {
         return nil
+    }
+    
+    open func sortItems(items: inout [Item]) {
     }
 
     // MARK: - Encodable & Decodable
