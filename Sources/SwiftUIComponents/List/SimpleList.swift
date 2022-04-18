@@ -79,12 +79,9 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                             }
                             #if os(macOS)
                                 .buttonStyle(PlainButtonStyle())
-                                .padding(.trailing, controller.isPlain ? -5 : 2)
                             #endif
-                            #if os(iOS)
-                                .padding(.trailing, 6)
-                            #endif
-                            .padding(.top, 10)
+                            .padding(.trailing, 6)
+                                .padding(.top, 10)
                         }
                 }
                 .padding(0)
