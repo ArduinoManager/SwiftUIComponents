@@ -205,7 +205,7 @@ import SwiftUI
                 }
 
                 if let titleView = controller.sideTitleViewProvider() {
-                    HStack {
+                    HStack(spacing: 0) {
                         titleView
                     }
                     .padding(0)
@@ -228,12 +228,12 @@ import SwiftUI
                     .background(controller.backgroundColor.color)
                 }
 
-                // Just a bit of space
-                HStack(spacing: 0) {
-                    Spacer()
-                }
-                .frame(minHeight: 5, idealHeight: 5, maxHeight: 5)
-                .background(controller.backgroundColor.color)
+//                // Just a bit of space
+//                HStack(spacing: 0) {
+//                    Spacer()
+//                }
+//                .frame(minHeight: 5, idealHeight: 5, maxHeight: 5)
+//                .background(controller.backgroundColor.color)
 
                 List {
                     ForEach(controller.menuItems, id: \.key) { item in
@@ -281,12 +281,13 @@ import SwiftUI
                 .background(controller.backgroundColor.color)
                 .listStyle(SidebarListStyle())
                 .padding([.leading], 0)
-                .toolbar {
-                    ToolbarItem(placement: .navigation) {
-                        Button(action: toggleSidebar, label: {
-                            Image(systemName: "sidebar.left")
-                        })
-                    }
+                .layoutPriority(1)
+            }
+            .toolbar {
+                ToolbarItem(placement: .navigation) {
+                    Button(action: toggleSidebar, label: {
+                        Image(systemName: "sidebar.left")
+                    })
                 }
             }
         }
@@ -334,12 +335,9 @@ struct SideMenuContainer: View {
 
             MenuDivider(color: GenericColor(systemColor: .systemRed)),
             MenuAction(key: 103, title: "Kill!", icon: "logo"),
-        ]
-        ,
-        // sideTitleView: AnyView(SideTitleView()),
+        ],
         backgroundColor: .systemBackground,
         itemsColor: .systemLabel,
-        // titleView: AnyView(TitleView()),
         titleViewBackgroundColor: .systemBackground
     )
 

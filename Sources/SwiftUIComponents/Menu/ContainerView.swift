@@ -18,6 +18,10 @@ import SwiftUI
                     HStack(spacing: 0) {
                         if let titleView = controller.titleViewProvider() {
                             titleView
+                                .if(UIDevice.current.hasNotch, transform: { view in
+                                    view
+                                        .padding(.top, 40)
+                                })
                                 .overlay(alignment: .leading) {
                                     OpenButton()
                                         .padding(.leading, 20)
@@ -351,8 +355,8 @@ class MyMenuController: MenuController {
     }
 
     override func inspectorViewProvider() -> AnyView? {
-        // return nil
-        return AnyView(Inspector())
+        return nil
+        //return AnyView(Inspector())
     }
 }
 
@@ -438,7 +442,12 @@ struct TitleView: View {
         HStack {
             Text("This is the Title View")
         }
-        .frame(maxWidth: .infinity, maxHeight: 40)
+        #if os(iOS)
+        .frame(maxWidth: .infinity, minHeight: 35)
+        #endif
+        #if os(macOS)
+        .frame(maxWidth: .infinity, minHeight: 35)
+        #endif
         .background(.cyan)
     }
 }
