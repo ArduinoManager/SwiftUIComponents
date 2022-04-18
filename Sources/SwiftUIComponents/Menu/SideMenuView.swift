@@ -16,7 +16,7 @@ import SwiftUI
         let rightShiftWhenSelected: CGFloat = 5.0
 
         public var body: some View {
-            VStack {
+            VStack(alignment: .leading, spacing:0) {
                 if let titleView = controller.sideTitleViewProvider() {
                     HStack {
                         titleView
@@ -33,9 +33,9 @@ import SwiftUI
                                 y: 0.5
                             )
                             .zIndex(99)
-                        Spacer()
+                        
                     }
-
+                    .padding(0)
                 } else {
                     Spacer(minLength: 15)
                         .background(controller.titleViewBackgroundColor.color)
@@ -70,11 +70,11 @@ import SwiftUI
                     .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 .padding()
+                .padding(.leading, 10)
                 .padding(.top, 10)
                 .frame(width: getRect().width, alignment: .leading)
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
-            .padding(.leading, 10)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .background(controller.backgroundColor.color)
             .onRotate { _ in
@@ -228,12 +228,12 @@ import SwiftUI
                     .background(controller.backgroundColor.color)
                 }
 
-//                // Just a bit of space
-//                HStack(spacing: 0) {
-//                    Spacer()
-//                }
-//                .frame(minHeight: 5, idealHeight: 5, maxHeight: 5)
-//                .background(controller.backgroundColor.color)
+                // Just a bit of space
+                HStack(spacing: 0) {
+                    Spacer()
+                }
+                .frame(minHeight: 5, idealHeight: 5, maxHeight: 5)
+                .background(controller.backgroundColor.color)
 
                 List {
                     ForEach(controller.menuItems, id: \.key) { item in

@@ -24,7 +24,7 @@ import SwiftUI
                                 })
                                 .overlay(alignment: .leading) {
                                     OpenButton()
-                                        .padding(.leading, 20)
+                                        .padding(.leading, 20)                                        
                                 }
                         }
                     }
