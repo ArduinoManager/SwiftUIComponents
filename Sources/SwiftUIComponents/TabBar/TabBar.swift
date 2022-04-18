@@ -28,7 +28,20 @@ public struct TabBar: View {
         public var body: some View {
             VStack(spacing: 0) {
                 if let header = controller.headerProvider() {
-                    header
+                    VStack(spacing: 0) {
+                        header
+                    }
+                    .padding(0)
+                    .background(controller.backgroundColor.color)
+                    .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
+                    .background(GenericColor.systemLabel.color)
+                    .shadow(
+                        color: GenericColor.systemLabel.color.opacity(0.5),
+                        radius: 3,
+                        x: 0,
+                        y: 0.5
+                    )
+                    .zIndex(99)
                 }
                 if controller.tabBarPosition == .top {
                     tabBar
@@ -40,7 +53,20 @@ public struct TabBar: View {
                     tabBar
                 }
                 if let footer = controller.footerProvider() {
-                    footer
+                    HStack(spacing: 0) {
+                        footer
+                    }
+                    .padding(0)
+                    .background(controller.backgroundColor.color)
+                    .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
+                    .background(GenericColor.systemLabel.color)
+                    .shadow(
+                        color: GenericColor.systemLabel.color.opacity(0.5),
+                        radius: 3,
+                        x: 0,
+                        y: 0.5
+                    )
+                    .zIndex(99)
                 }
             }
             .padding(0)
@@ -74,7 +100,6 @@ public struct TabBar: View {
                         .frame(height: 48)
                         .padding(.vertical, 5)
                         .padding(.horizontal, 8)
-                        // .border(.white, width: 2)
                         .onTapGesture {
                             self.selection = index
                         }
@@ -83,16 +108,16 @@ public struct TabBar: View {
                     }
                 }
                 .padding(0)
-                .background(controller.backgroundColor.color) // Extra background layer to reset the shadow and stop it applying to every sub-view
-                .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
                 .background(controller.backgroundColor.color)
+                .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
+                .background(GenericColor.systemLabel.color)
                 .shadow(
-                    color: Color.black.opacity(0.25),
+                    color: GenericColor.systemLabel.color.opacity(0.5),
                     radius: 3,
                     x: 0,
-                    y: controller.tabBarPosition == .top ? 0.5 : -0.5
+                    y: 0.5
                 )
-                .zIndex(99) // Raised so that shadow is visible above view backgrounds
+                .zIndex(99)
             }
             .background(controller.backgroundColor.color)
         }
@@ -102,7 +127,20 @@ public struct TabBar: View {
         public var body: some View {
             VStack(spacing: 0) {
                 if let header = controller.headerProvider() {
-                    header
+                    HStack(spacing: 0) {
+                        header
+                    }
+                    .padding(0)
+                    .background(controller.backgroundColor.color)
+                    .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
+                    .background(GenericColor.systemLabel.color)
+                    .shadow(
+                        color: GenericColor.systemLabel.color.opacity(0.5),
+                        radius: 3,
+                        x: 0,
+                        y: 0.5
+                    )
+                    .zIndex(99)
                 }
                 if controller.tabBarPosition == .top {
                     tabBar
@@ -111,7 +149,20 @@ public struct TabBar: View {
                     .padding(0)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                 if controller.tabBarPosition == .bottom {
-                    tabBar
+                    HStack(spacing: 0) {
+                        tabBar
+                    }
+                    .padding(0)
+                    .background(controller.backgroundColor.color)
+                    .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
+                    .background(GenericColor.systemLabel.color)
+                    .shadow(
+                        color: GenericColor.systemLabel.color.opacity(0.5),
+                        radius: 3,
+                        x: 0,
+                        y: 0.5
+                    )
+                    .zIndex(99)
                 }
                 if let footer = controller.footerProvider() {
                     footer
@@ -151,30 +202,29 @@ public struct TabBar: View {
                 Spacer()
             }
             .padding(0)
-            .background(controller.backgroundColor.color) // Extra background layer to reset the shadow and stop it applying to every sub-view
-            .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
             .background(controller.backgroundColor.color)
+            .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
+            .background(GenericColor.systemLabel.color)
             .shadow(
-                color: Color.black.opacity(0.25),
+                color: GenericColor.systemLabel.color.opacity(0.5),
                 radius: 3,
                 x: 0,
-                y: controller.tabBarPosition == .top ? 0.5 : -0.5
+                y: 0.5
             )
-            .zIndex(99) // Raised so that shadow is visible above view backgrounds
+            .zIndex(99)
         }
     #endif
 }
 
 class MyTabBarController: TabBarController {
-    
     override func headerProvider() -> AnyView? {
         return AnyView(TitleView())
     }
-    
+
     override func footerProvider() -> AnyView? {
         return AnyView(TitleView())
     }
-    
+
     override func viewProvider(tab: TabItem) -> AnyView {
         switch tab.key {
         case 0:
@@ -196,7 +246,6 @@ class MyTabBarController: TabBarController {
             return AnyView(EmptyView())
         }
     }
-    
 }
 
 struct TabBarContainer: View {
@@ -216,11 +265,13 @@ struct TabBarContainer: View {
     }
 }
 
-
-
 struct TabBar_Previews: PreviewProvider {
     static var previews: some View {
-        TabBarContainer()
+        Group {
+            TabBarContainer()
+            TabBarContainer()
+                .preferredColorScheme(.dark)
+        }
     }
 }
 

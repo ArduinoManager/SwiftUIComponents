@@ -75,11 +75,11 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                     #endif
                 }
                 .padding(0)
-                .background(controller.backgroundColor.color) // Extra background layer to reset the shadow and stop it applying to every sub-view
-                .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
                 .background(controller.backgroundColor.color)
+                .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
+                .background(GenericColor.systemLabel.color)
                 .shadow(
-                    color: Color.black.opacity(0.25),
+                    color: GenericColor.systemLabel.color.opacity(0.5),
                     radius: 3,
                     x: 0,
                     y: 0.5
@@ -184,11 +184,11 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                         footer
                     }
                     .padding(0)
-                    .background(controller.backgroundColor.color) // Extra background layer to reset the shadow and stop it applying to every sub-view
-                    .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
                     .background(controller.backgroundColor.color)
+                    .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
+                    .background(GenericColor.systemLabel.color)
                     .shadow(
-                        color: Color.black.opacity(0.25),
+                        color: GenericColor.systemLabel.color.opacity(0.5),
                         radius: 3,
                         x: 0,
                         y: 0.5

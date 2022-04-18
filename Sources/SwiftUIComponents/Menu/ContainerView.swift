@@ -24,17 +24,16 @@ import SwiftUI
                                 })
                                 .overlay(alignment: .bottomLeading) {
                                     OpenButton()
-                                        .padding(.leading, 20)                                        
+                                        .padding(.leading, 20)
                                 }
                         }
                     }
-                    // .padding(.top, isLandscape() ? 10.0 : getSafeArea().top)
                     .padding(0)
-                    .background(controller.titleViewBackgroundColor.color) // Extra background layer to reset the shadow and stop it applying to every sub-view
+                    .background(controller.titleViewBackgroundColor.color)
                     .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
-                    .background(controller.backgroundColor.color)
+                    .background(GenericColor.systemLabel.color)
                     .shadow(
-                        color: Color.black.opacity(0.25),
+                        color: GenericColor.systemLabel.color.opacity(0.5),
                         radius: 3,
                         x: 0,
                         y: 0.5
@@ -45,10 +44,7 @@ import SwiftUI
                 TabView(selection: $controller.currentTab) {
                     ForEach(controller.menuItems, id: \.self) { item in
                         if item is MenuView {
-                            // Print("\(item.title)")
                             controller.viewProvider(item: item as! MenuView)
-                                // controller.makeView(item: item as! MenuView)
-                                // (item as! MenuView).makeView()
                                 .tag(item.key)
                         }
                     }
@@ -71,15 +67,12 @@ import SwiftUI
                                 }
                         }
                     }
-                    // .padding([.horizontal])
-                    // .padding(.top)
-                    .padding(.bottom, getSafeArea().bottom)
                     .padding(0)
-                    .background(controller.titleViewBackgroundColor.color) // Extra background layer to reset the shadow and stop it applying to every sub-view
+                    .background(controller.titleViewBackgroundColor.color)
                     .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
-                    .background(controller.backgroundColor.color)
+                    .background(GenericColor.systemLabel.color)
                     .shadow(
-                        color: Color.black.opacity(0.25),
+                        color: GenericColor.systemLabel.color.opacity(0.5),
                         radius: 3,
                         x: 0,
                         y: 0.5
@@ -120,7 +113,6 @@ import SwiftUI
                     .foregroundColor(controller.openButtonColor.color)
                     .frame(width: controller.openButtonSize, height: controller.openButtonSize)
                     .padding(.bottom, 4)
-                    //.border(.red, width: 2)
             }
             .opacity(controller.showMenu ? 0 : 1)
         }
@@ -184,11 +176,11 @@ import SwiftUI
                         titleView
                     }
                     .padding(0)
-                    .background(controller.titleViewBackgroundColor.color) // Extra background layer to reset the shadow and stop it applying to every sub-view
+                    .background(controller.titleViewBackgroundColor.color)
                     .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
-                    .background(controller.backgroundColor.color)
+                    .background(GenericColor.systemLabel.color)
                     .shadow(
-                        color: Color.black.opacity(0.25),
+                        color: GenericColor.systemLabel.color.opacity(0.5),
                         radius: 3,
                         x: 0,
                         y: 0.5
@@ -289,11 +281,11 @@ import SwiftUI
                             .padding(.trailing, 10)
                         }
                         .padding(0)
-                        .background(controller.titleViewBackgroundColor.color) // Extra background layer to reset the shadow and stop it applying to every sub-view
+                        .background(controller.titleViewBackgroundColor.color)
                         .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
-                        .background(controller.backgroundColor.color)
+                        .background(GenericColor.systemLabel.color)
                         .shadow(
-                            color: Color.black.opacity(0.25),
+                            color: GenericColor.systemLabel.color.opacity(0.5),
                             radius: 3,
                             x: 0,
                             y: 0.5
@@ -326,7 +318,7 @@ import SwiftUI
 class MyMenuController: MenuController {
     override func viewProvider(item: MenuView) -> AnyView {
         if item.key == 0 {
-            return AnyView(TestView(text: "Home").background(.yellow))
+            return AnyView(TestView(text: "Home"))
         }
 
         if item.key == 1 {
@@ -358,7 +350,7 @@ class MyMenuController: MenuController {
 
     override func inspectorViewProvider() -> AnyView? {
         return nil
-        //return AnyView(Inspector())
+        // return AnyView(Inspector())
     }
 }
 
@@ -385,28 +377,24 @@ struct MainViewContainer: View {
         ]
 
         #if os(iOS)
+            let x = MyMenuController(menuItems: menuItems,
+                                     openButtonAtTop: true,
+                                     openButtonSize: 30,
+                                     backgroundColor: .systemBackground,
+                                     itemsColor: .systemLabel,
+                                     titleViewBackgroundColor: .systemCyan)
 
-            _controller = StateObject(wrappedValue: MyMenuController(menuItems: menuItems,
-                                                                     openButtonAtTop: true,
-                                                                     openButtonSize: 30,
-                                                                     backgroundColor: .systemBackground,
-                                                                     itemsColor: .systemLabel
-
-                                                                     // titleViewBackgroundColor: .red,
-                )
-            )
         #endif
         #if os(macOS)
 
             let x = MyMenuController(menuItems: menuItems,
                                      backgroundColor: .systemBackground,
                                      itemsColor: .systemLabel,
-                                     titleViewBackgroundColor: .systemCyan
-            )
-
-            _controller = StateObject(wrappedValue: x)
+                                     titleViewBackgroundColor: .systemCyan)
 
         #endif
+
+        _controller = StateObject(wrappedValue: x)
     }
 
     var body: some View {
@@ -445,12 +433,11 @@ struct TitleView: View {
             Text("This is the Title View")
         }
         #if os(iOS)
-        .frame(maxWidth: .infinity, minHeight: 35)
+            .frame(maxWidth: .infinity, minHeight: 35)
         #endif
         #if os(macOS)
-        .frame(maxWidth: .infinity, minHeight: 35)
+            .frame(maxWidth: .infinity, minHeight: 35)
         #endif
-        .background(.cyan)
     }
 }
 
@@ -470,6 +457,9 @@ struct MainView_Previews: PreviewProvider {
         Group {
             MainViewContainer()
                 .previewInterfaceOrientation(.portrait)
+
+            MainViewContainer()
+                .preferredColorScheme(.dark)
         }
     }
 }
