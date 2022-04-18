@@ -79,7 +79,7 @@ public enum FormMode: String {
 }
 
 open class ListController<Item: Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View>: SuperController, ObservableObject {
-    @Published var items: [Item]
+    @Published open var items: [Item]
     @Published public var style: ListStyle1
     @Published public var multipleSelection: Bool
     @Published public var addButtonIcon: String

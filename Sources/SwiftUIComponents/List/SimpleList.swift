@@ -357,6 +357,10 @@ class ThisListController: ListController<ListItem, RowView> {
     override func footerProvider() -> AnyView? {
         return AnyView(TitleView())
     }
+    
+    override func sortItems() {
+        items.sort(by: {$0.lastName < $1.lastName})
+    }
 }
 
 struct SimpleListContainer: View {
