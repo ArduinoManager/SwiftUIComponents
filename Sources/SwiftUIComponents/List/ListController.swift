@@ -157,14 +157,13 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
             self.itemsEventsHandler = itemsEventsHandler
             super.init(type: .list)
             
-            sortItems(items: &self.items)
+            sortItems()
         }
     #endif
 
     #if os(macOS)
 
         public init(items: [Item],
-                    sort: ((_: inout [Item]) -> Void)? = nil,
                     style: ListStyle1,
                     multipleSelection: Bool = false,
                     addButtonIcon: String = "plus",
@@ -182,7 +181,6 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
                     makeRow: @escaping (_: Item) -> Row
         ) {
             self.items = items
-            self.sort = sort
             self.style = style
             self.multipleSelection = multipleSelection
             self.addButtonIcon = addButtonIcon
@@ -199,9 +197,8 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
             self.makeRow = makeRow
             self.itemsEventsHandler = itemsEventsHandler
             super.init(type: .list)
-            if sort != nil {
-                sort!(&self.items)
-            }
+            
+            sortItems()
         }
 
     #endif
@@ -243,7 +240,7 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
         }
         if !abort {
             items.append(item)
-            sortItems(items: &items)
+            sortItems()
         }
     }
 
@@ -261,8 +258,7 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
         if let idx = items.firstIndex(of: oldItem) {
             items.remove(at: idx)
             items.insert(newItem, at: idx)
-            // print(items)
-            sortItems(items: &items)
+            sortItems()
         }
     }
 
@@ -318,7 +314,7 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
         return nil
     }
     
-    open func sortItems(items: inout [Item]) {
+    open func sortItems() {
     }
 
     // MARK: - Encodable & Decodable
