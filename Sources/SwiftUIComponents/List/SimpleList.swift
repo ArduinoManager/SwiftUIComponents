@@ -81,7 +81,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                                 .buttonStyle(PlainButtonStyle())
                             #endif
                             .padding(.trailing, 6)
-                                .padding(.top, 10)
+                                .padding(.top, 5)
                         }
                 }
                 .padding(0)

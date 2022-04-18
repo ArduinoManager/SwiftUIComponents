@@ -22,7 +22,7 @@ import SwiftUI
                                     view
                                         .padding(.top, 40)
                                 })
-                                .overlay(alignment: .leading) {
+                                .overlay(alignment: .bottomLeading) {
                                     OpenButton()
                                         .padding(.leading, 20)                                        
                                 }
@@ -119,6 +119,7 @@ import SwiftUI
                     .font(.title.bold())
                     .foregroundColor(controller.openButtonColor.color)
                     .frame(width: controller.openButtonSize, height: controller.openButtonSize)
+                    .border(.red, width: 2)
             }
             .opacity(controller.showMenu ? 0 : 1)
         }
