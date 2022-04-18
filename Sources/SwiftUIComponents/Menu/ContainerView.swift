@@ -119,7 +119,8 @@ import SwiftUI
                     .font(.title.bold())
                     .foregroundColor(controller.openButtonColor.color)
                     .frame(width: controller.openButtonSize, height: controller.openButtonSize)
-                    .border(.red, width: 2)
+                    .padding(.bottom, 4)
+                    //.border(.red, width: 2)
             }
             .opacity(controller.showMenu ? 0 : 1)
         }
