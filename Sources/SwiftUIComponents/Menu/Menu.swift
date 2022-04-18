@@ -26,7 +26,7 @@ public struct Menu: View {
 //            let x = Self._printChanges()
 //            Print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
             NavigationView {
-                SideMenuView(controller: controller)
+                SideMenuView(controller: controller)                
             }
         #endif
         #if os(iOS)

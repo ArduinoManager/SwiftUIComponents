@@ -21,8 +21,21 @@ import SwiftUI
                     HStack {
                         titleView
                             .frame(maxWidth: getRect().width / 2, alignment: .leading)
+
+                            .padding(0)
+                            .background(controller.titleViewBackgroundColor.color) // Extra background layer to reset the shadow and stop it applying to every sub-view
+                            .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
+                            .background(controller.backgroundColor.color)
+                            .shadow(
+                                color: Color.black.opacity(0.25),
+                                radius: 3,
+                                x: 0,
+                                y: 0.5
+                            )
+                            .zIndex(99)
                         Spacer()
                     }
+
                 } else {
                     Spacer(minLength: 15)
                         .background(controller.titleViewBackgroundColor.color)
@@ -195,6 +208,18 @@ import SwiftUI
                     HStack {
                         titleView
                     }
+                    .padding(0)
+                    .background(controller.titleViewBackgroundColor.color) // Extra background layer to reset the shadow and stop it applying to every sub-view
+                    .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
+                    .background(controller.backgroundColor.color)
+                    .shadow(
+                        color: Color.black.opacity(0.25),
+                        radius: 3,
+                        x: 0,
+                        y: 0.5
+                    )
+                    .zIndex(99)
+
                 } else {
                     HStack(spacing: 0) {
                         Spacer()
@@ -316,7 +341,6 @@ struct SideMenuContainer: View {
         itemsColor: .systemLabel,
         // titleView: AnyView(TitleView()),
         titleViewBackgroundColor: .systemBackground
-        
     )
 
     var body: some View {

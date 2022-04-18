@@ -24,15 +24,24 @@ import SwiftUI
                                 }
                         }
                     }
-                    // .padding([.horizontal], isLandscape() ? 40 : 20)
-                    .padding(.bottom, 2)
-                    .padding(.top, isLandscape() ? 10.0 : getSafeArea().top)
+                    // .padding(.top, isLandscape() ? 10.0 : getSafeArea().top)
+                    .padding(0)
+                    .background(controller.titleViewBackgroundColor.color) // Extra background layer to reset the shadow and stop it applying to every sub-view
+                    .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
+                    .background(controller.backgroundColor.color)
+                    .shadow(
+                        color: Color.black.opacity(0.25),
+                        radius: 3,
+                        x: 0,
+                        y: 0.5
+                    )
+                    .zIndex(99)
                 }
 
                 TabView(selection: $controller.currentTab) {
                     ForEach(controller.menuItems, id: \.self) { item in
                         if item is MenuView {
-                            //Print("\(item.title)")
+                            // Print("\(item.title)")
                             controller.viewProvider(item: item as! MenuView)
                                 // controller.makeView(item: item as! MenuView)
                                 // (item as! MenuView).makeView()
@@ -50,19 +59,46 @@ import SwiftUI
 
                 if !controller.openButtonAtTop {
                     HStack(spacing: 0) {
-                        OpenButton()
-                        Spacer()
                         if let titleView = controller.titleViewProvider() {
                             titleView
+                                .overlay(alignment: .leading) {
+                                    OpenButton()
+                                        .padding(.leading, 20)
+                                }
                         }
                     }
-                    .padding([.horizontal])
-                    .padding(.top)
+                    // .padding([.horizontal])
+                    // .padding(.top)
                     .padding(.bottom, getSafeArea().bottom)
+                    .padding(0)
+                    .background(controller.titleViewBackgroundColor.color) // Extra background layer to reset the shadow and stop it applying to every sub-view
+                    .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
+                    .background(controller.backgroundColor.color)
+                    .shadow(
+                        color: Color.black.opacity(0.25),
+                        radius: 3,
+                        x: 0,
+                        y: 0.5
+                    )
+                    .zIndex(99)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .overlay(CloseButton(), alignment: .topLeading)
+            .overlay(alignment: .bottomLeading) {
+                if controller.titleViewProvider() == nil && !controller.openButtonAtTop {
+                    OpenButton()
+                        .padding(.leading)
+                        .padding(.bottom)
+                }
+            }
+            .overlay(alignment: .topLeading) {
+                if controller.titleViewProvider() == nil && controller.openButtonAtTop {
+                    OpenButton()
+                        .padding(.leading)
+                        .padding(.top)
+                }
+            }
             .background(controller.titleViewBackgroundColor.color)
         }
 
@@ -75,7 +111,7 @@ import SwiftUI
             } label: {
                 Image(systemName: controller.openButtonIcon)
                     .resizable()
-                    .aspectRatio(contentMode: .fill)
+                    .aspectRatio(contentMode: .fit)
                     .font(.title.bold())
                     .foregroundColor(controller.openButtonColor.color)
                     .frame(width: controller.openButtonSize, height: controller.openButtonSize)
@@ -141,7 +177,18 @@ import SwiftUI
                     HStack(spacing: 0) {
                         titleView
                     }
-                    .background(controller.titleViewBackgroundColor.color)
+                    .padding(0)
+                    .background(controller.titleViewBackgroundColor.color) // Extra background layer to reset the shadow and stop it applying to every sub-view
+                    .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
+                    .background(controller.backgroundColor.color)
+                    .shadow(
+                        color: Color.black.opacity(0.25),
+                        radius: 3,
+                        x: 0,
+                        y: 0.5
+                    )
+                    .zIndex(99)
+
                     controller.viewProvider(item: item as! MenuView)
                         .onAppear(perform: {
                             // print("---- 3️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
@@ -173,7 +220,6 @@ import SwiftUI
                 HSplitView {
                     // Main View
                     if let i = item as? MenuView {
-                    
                         controller.viewProvider(item: i)
                             .onAppear(perform: {
                                 // print("---- 2️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
@@ -220,7 +266,6 @@ import SwiftUI
                 VStack(spacing: 0) {
                     VStack(spacing: 0) {
                         HStack(spacing: 0) {
-                            // controller.titleView
                             controller.titleViewProvider()
                             Spacer()
                             Button {
@@ -237,12 +282,23 @@ import SwiftUI
                             .buttonStyle(.plain)
                             .padding(.trailing, 10)
                         }
-                        .background(controller.titleViewBackgroundColor.color)
+                        .padding(0)
+                        .background(controller.titleViewBackgroundColor.color) // Extra background layer to reset the shadow and stop it applying to every sub-view
+                        .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
+                        .background(controller.backgroundColor.color)
+                        .shadow(
+                            color: Color.black.opacity(0.25),
+                            radius: 3,
+                            x: 0,
+                            y: 0.5
+                        )
+                        .zIndex(99)
+
                         HSplitView {
                             if let i = item as? MenuView {
                                 controller.viewProvider(item: i)
                                     .onAppear(perform: {
-                                        //print("---- 3️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
+                                        // print("---- 3️⃣ Loading Menu: \(item.title) with key: \(item.key) ----")
                                         controller.currentTab = item.key
                                     })
                                     .layoutPriority(1)
@@ -262,7 +318,6 @@ import SwiftUI
 #endif
 
 class MyMenuController: MenuController {
-    
     override func viewProvider(item: MenuView) -> AnyView {
         if item.key == 0 {
             return AnyView(TestView(text: "Home").background(.yellow))
@@ -285,16 +340,18 @@ class MyMenuController: MenuController {
         }
         return AnyView(EmptyView())
     }
-    
+
     override func sideTitleViewProvider() -> AnyView? {
         return AnyView(TitleView())
     }
-    
+
     override func titleViewProvider() -> AnyView? {
+        // return nil
         return AnyView(TitleView())
     }
-    
+
     override func inspectorViewProvider() -> AnyView? {
+        // return nil
         return AnyView(Inspector())
     }
 }
@@ -322,118 +379,24 @@ struct MainViewContainer: View {
         ]
 
         #if os(iOS)
+
             _controller = StateObject(wrappedValue: MyMenuController(menuItems: menuItems,
-                                                                     openButtonAtTop: false,
+                                                                     openButtonAtTop: true,
+                                                                     openButtonSize: 30,
                                                                      backgroundColor: .systemBackground,
                                                                      itemsColor: .systemLabel
-                                                                     
+
                                                                      // titleViewBackgroundColor: .red,
-                                                            
                 )
             )
         #endif
         #if os(macOS)
 
-            // No Title View - No Inspector
-
-//                    let x = MenuController(menuItems: menuItems,
-//                                           sideTitleViewProvider: nil,
-//                                           backgroundColor: Color(nsColor: .windowBackgroundColor),
-//                                           itemsColor: .red,
-//                                           titleViewProvider: nil,
-//                                           titleViewBackgroundColor: .cyan,
-//                                           inspectorViewProvider: { _ in
-//                                               nil
-//                                           },
-//                                           actionsHandler: { _, _ in
-//
-//                                           },
-//                                           viewProvider: { _, menuItem in
-//
-//                                               if menuItem.key == 0 {
-//                                                   return AnyView(TestView(text: "Home").background(.yellow))
-//                                               }
-//
-//                                               if menuItem.key == 1 {
-//                                                   return AnyView(TestView(text: "Discover").background(.blue))
-//                                               }
-//
-//                                               if menuItem.key == 2 {
-//                                                   return AnyView(TestView(text: "Devices").background(.gray))
-//                                               }
-//
-//                                               if menuItem.key == 3 {
-//                                                   return AnyView(TestView(text: "Profile").background(.green))
-//                                               }
-//
-//                                               if menuItem.key == 4 {
-//                                                   return AnyView(TestView(text: "Profile").background(.green))
-//                                               }
-//                                               return AnyView(EmptyView())
-//                                           }
-//                    )
-
-            // Title View - No Inspector
-
             let x = MyMenuController(menuItems: menuItems,
-                                   backgroundColor: .systemBackground,
-                                   itemsColor: .systemLabel,
-                                   titleViewBackgroundColor: .systemCyan
+                                     backgroundColor: .systemBackground,
+                                     itemsColor: .systemLabel,
+                                     titleViewBackgroundColor: .systemCyan
             )
-
-            // No Title View - Inspector
-
-//        let x = MenuController(menuItems: menuItems,
-//                               sideTitleView: nil,
-//                               backgroundColor: Color(nsColor: .windowBackgroundColor),
-//                               itemsColor: .red,
-//                               titleView: nil,
-//                               titleViewBackgroundColor: .cyan,
-//                               inspector: AnyView(Inspector()))
-
-            // Title View - Inspector
-
-//            let x = MenuController(menuItems: menuItems,
-//                                   sideTitleViewProvider: { _ in
-//                                       AnyView(TitleView())
-//                                   },
-//                                   backgroundColor: Color(nsColor: .windowBackgroundColor),
-//                                   itemsColor: .red,
-//                                   titleViewProvider: { _ in
-//                                       AnyView(TitleView())
-//                                   },
-//                                   // titleView: AnyView(TitleView()),
-//                                   titleViewBackgroundColor: .cyan,
-//                                   inspectorViewProvider: { _ in
-//                                       AnyView(Inspector())
-//                                   },
-//                                   actionsHandler: { _, _ in
-//
-//                                   },
-//                                   viewProvider: { _, menuItem in
-//
-//                                       if menuItem.key == 0 {
-//                                           return AnyView(TestView(text: "Home").background(.yellow))
-//                                       }
-//
-//                                       if menuItem.key == 1 {
-//                                           return AnyView(TestView(text: "Discover").background(.blue))
-//                                       }
-//
-//                                       if menuItem.key == 2 {
-//                                           return AnyView(TestView(text: "Devices").background(.gray))
-//                                       }
-//
-//                                       if menuItem.key == 3 {
-//                                           return AnyView(TestView(text: "Profile").background(.green))
-//                                       }
-//
-//                                       if menuItem.key == 4 {
-//                                           return AnyView(TestView(text: "Profile").background(.green))
-//                                       }
-//                                       return AnyView(EmptyView())
-//                                   }
-//            )
 
             _controller = StateObject(wrappedValue: x)
 
@@ -495,6 +458,7 @@ struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             MainViewContainer()
+                .previewInterfaceOrientation(.landscapeLeft)
         }
     }
 }
