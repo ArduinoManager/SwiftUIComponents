@@ -254,13 +254,13 @@ import SwiftUI
                                     makeImage(item: item)
                                         .foregroundColor(controller.itemsColor.color)
                                     Text(LocalizedStringKey(item.title))
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .contentShape(Rectangle())
                                         .foregroundColor(controller.itemsColor.color)
                                 }
-                                .contentShape(Rectangle())
                             }
                             .buttonStyle(.plain)
                             .frame(maxWidth: .infinity, alignment: .leading)
-                            .background(.teal)
 
                         case is MenuSpacer:
                             let thisItem = item as! MenuSpacer
