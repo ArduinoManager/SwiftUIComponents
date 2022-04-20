@@ -109,7 +109,6 @@ import SwiftUI
                         .fontWeight(.semibold)
                         .foregroundColor(controller.itemsColor.color)
                 }
-
                 .padding(.trailing, 18)
                 .background(
                     ZStack {
@@ -155,7 +154,6 @@ import SwiftUI
                         .fontWeight(.semibold)
                         .foregroundColor(controller.itemsColor.color)
                 }
-
                 .padding(.trailing, 18)
                 .background(
                     ZStack {
@@ -248,6 +246,7 @@ import SwiftUI
                         case is MenuAction:
                             let thisItem = item as! MenuAction
 
+                            
                             Button {
                                 controller.lastAction = thisItem
                             } label: {
@@ -256,10 +255,12 @@ import SwiftUI
                                         .foregroundColor(controller.itemsColor.color)
                                     Text(LocalizedStringKey(item.title))
                                         .foregroundColor(controller.itemsColor.color)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
                                 }
                             }
                             .buttonStyle(.plain)
                             .frame(maxWidth: .infinity, alignment: .leading)
+                            .background(.teal)
 
                         case is MenuSpacer:
                             let thisItem = item as! MenuSpacer
