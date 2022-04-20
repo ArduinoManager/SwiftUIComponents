@@ -153,6 +153,8 @@ import SwiftUI
                         .font(.callout)
                         .fontWeight(.semibold)
                         .foregroundColor(controller.itemsColor.color)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .contentShape(Rectangle())
                 }
                 .padding(.trailing, 18)
                 .background(
@@ -165,8 +167,6 @@ import SwiftUI
                     }
                 )
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .contentShape(Rectangle())
         }
 
         @ViewBuilder
