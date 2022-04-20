@@ -107,10 +107,9 @@ import SwiftUI
                     Text(LocalizedStringKey(item.title))
                         .font(.callout)
                         .fontWeight(.semibold)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .contentShape(Rectangle())
-
                         .foregroundColor(controller.itemsColor.color)
+                        .frame(maxWidth: getRect().width/1.6, alignment: .leading)
+                        .contentShape(Rectangle())
                 }
                 .padding(.trailing, 18)
                 .background(
@@ -123,9 +122,7 @@ import SwiftUI
                     }
                 )
             }
-            #if os(iOS)
                 .offset(x: controller.currentTab == item.key ? rightShiftWhenSelected : 0)
-            #endif
         }
 
         @ViewBuilder
