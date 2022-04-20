@@ -165,6 +165,8 @@ import SwiftUI
                     }
                 )
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .contentShape(Rectangle())
         }
 
         @ViewBuilder
