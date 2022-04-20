@@ -103,7 +103,7 @@ import SwiftUI
                             }
                         )
                         .padding([.leading, .trailing], 0)
-
+                    
                     Text(LocalizedStringKey(item.title))
                         .font(.callout)
                         .fontWeight(.semibold)
