@@ -108,7 +108,7 @@ import SwiftUI
                         .font(.callout)
                         .fontWeight(.semibold)
                         .foregroundColor(controller.itemsColor.color)
-                        .frame(maxWidth: getRect().width/3, alignment: .leading)
+                        .frame(maxWidth: getRect().width/2.6, alignment: .leading)
                         .contentShape(Rectangle())
                 }
                 .padding(.trailing, 18)
