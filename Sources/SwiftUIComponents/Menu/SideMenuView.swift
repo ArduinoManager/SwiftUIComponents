@@ -255,8 +255,8 @@ import SwiftUI
                                         .foregroundColor(controller.itemsColor.color)
                                     Text(LocalizedStringKey(item.title))
                                         .foregroundColor(controller.itemsColor.color)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
                                 }
+                                .contentShape(Rectangle())
                             }
                             .buttonStyle(.plain)
                             .frame(maxWidth: .infinity, alignment: .leading)
