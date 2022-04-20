@@ -107,9 +107,10 @@ import SwiftUI
                     Text(LocalizedStringKey(item.title))
                         .font(.callout)
                         .fontWeight(.semibold)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .contentShape(Rectangle())
+
                         .foregroundColor(controller.itemsColor.color)
-                        //.frame(maxWidth: .infinity, alignment: .leading)
-                        .contentShape(Rectangle())
                 }
                 .padding(.trailing, 18)
                 .background(
