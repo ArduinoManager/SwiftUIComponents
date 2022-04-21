@@ -77,7 +77,7 @@ extension View {
 
     #if os(iOS)
         @ViewBuilder
-        func customStyle(type: ListStyle1, alternateRow: Bool = false) -> some View {
+        func customStyle(type: ListComponentStyle, alternateRow: Bool = false) -> some View {
             switch type {
             case .plain:
                 listStyle(.plain)
@@ -95,7 +95,7 @@ extension View {
 
     #if os(macOS)
         @ViewBuilder
-        func customStyle(type: ListStyle1, alternateRow: Bool = false) -> some View {
+        func customStyle(type: ListComponentStyle, alternateRow: Bool = false) -> some View {
             switch type {
             case .plain:
                 listStyle(.plain)

@@ -59,7 +59,7 @@ public struct ListAction: Hashable, Codable {
     }
 }
 
-public enum ListStyle1: Codable {
+public enum ListComponentStyle: Codable {
     case plain(alternatesRows: Bool, alternateBackgroundColor: GenericColor = GenericColor.systemLabel)
     case grouped(alternatesRows: Bool, alternateBackgroundColor: GenericColor = GenericColor.systemLabel) // On macOS like inset
     case inset(alternatesRows: Bool, alternateBackgroundColor: GenericColor = GenericColor.systemLabel)
@@ -78,9 +78,15 @@ public enum FormMode: String {
     case edit
 }
 
+public struct SelectedAction<Item> {
+    var key: String
+    var item: Item
+}
+
+
 open class ListController<Item: Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View>: SuperController, ObservableObject {
     @Published open var items: [Item]
-    @Published public var style: ListStyle1
+    @Published public var style: ListComponentStyle
     @Published public var multipleSelection: Bool
     @Published public var addButtonIcon: String
     @Published public var addButtonColor: GenericColor
@@ -91,7 +97,7 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
     @Published public var swipeActions: Bool
     @Published public var leadingActions: [ListAction]
     @Published public var trailingActions: [ListAction]
-    @Published public var currentActionKey: String?
+    @Published public var selectdAction: SelectedAction<Item>?
     @Published public var showLineSeparator: Bool
     @Published public var lineSeparatorColor: GenericColor?
     public var makeRow: (_: Item) -> Row
@@ -123,7 +129,7 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
 
     #if os(iOS)
         public init(items: [Item],
-                    style: ListStyle1,
+                    style: ListComponentStyle,
                     multipleSelection: Bool = false,
                     addButtonIcon: String = "plus",
                     addButtonColor: GenericColor = GenericColor.systemLabel,
@@ -164,7 +170,7 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
     #if os(macOS)
 
         public init(items: [Item],
-                    style: ListStyle1,
+                    style: ListComponentStyle,
                     multipleSelection: Bool = false,
                     addButtonIcon: String = "plus",
                     addButtonColor: GenericColor = GenericColor.systemLabel,
@@ -339,7 +345,7 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
         let values = try decoder.container(keyedBy: CodingKeys.self)
 
         items = [Item]()
-        style = try values.decode(ListStyle1.self, forKey: .style)
+        style = try values.decode(ListComponentStyle.self, forKey: .style)
         multipleSelection = try values.decode(Bool.self, forKey: .multipleSelection)
         addButtonIcon = try values.decode(String.self, forKey: .addButtonIcon)
         addButtonColor = try values.decode(GenericColor.self, forKey: .addButtonColor)
