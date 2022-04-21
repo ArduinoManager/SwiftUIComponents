@@ -80,7 +80,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                             #if os(macOS)
                                 .buttonStyle(PlainButtonStyle())
                             #endif
-                            .padding(.trailing, 6)
+                            .padding(.trailing, 10)
                                 .padding(.top, 5)
                         }
                 }
@@ -355,7 +355,8 @@ class ThisListController: ListController<ListItem, RowView> {
     }
 
     override func footerProvider() -> AnyView? {
-        return AnyView(TitleView())
+        return nil
+        //return AnyView(TitleView())
     }
     
     override func sortItems() {
@@ -384,13 +385,13 @@ struct SimpleListContainer: View {
 
         _controller = StateObject(wrappedValue: ThisListController(items: items,
                                                                    
-                                                                   style: .grouped(alternatesRows: false, alternateBackgroundColor: GenericColor(color: .white)),
+                                                                   style: .plain(alternatesRows: true, alternateBackgroundColor: GenericColor(color: .white)),
                                                                    addButtonIcon: "plus",
                                                                    addButtonColor: .systemRed,
                                                                    editButtonLabel: "Edit_",
                                                                    deleteButtonLabel: "Delete_",
                                                                    backgroundColor: .systemGreen,
-                                                                   rowBackgroundColor: GenericColor(systemColor: .systemPurple),
+                                                                   rowBackgroundColor: GenericColor(systemColor: .systemGray3),
                                                                    swipeActions: false,
                                                                    leadingActions: leadingActions,
                                                                    trailingActions: trailingActions,
