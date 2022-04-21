@@ -79,8 +79,8 @@ public enum FormMode: String {
 }
 
 public struct SelectedAction<Item> {
-    var key: String
-    var item: Item
+    public var key: String
+    public var item: Item
 }
 
 
