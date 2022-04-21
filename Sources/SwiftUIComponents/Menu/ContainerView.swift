@@ -16,7 +16,7 @@ import SwiftUI
             VStack(spacing: 0) {
                 if controller.openButtonAtTop {
                     HStack(spacing: 0) {
-                        if let titleView = controller.headerViewProvider() {
+                        if let titleView = controller.headerProvider() {
                             titleView
                                 .if(UIDevice.current.hasNotch, transform: { view in
                                     view
@@ -59,7 +59,7 @@ import SwiftUI
 
                 if !controller.openButtonAtTop {
                     HStack(spacing: 0) {
-                        if let titleView = controller.headerViewProvider() {
+                        if let titleView = controller.headerProvider() {
                             titleView
                                 .overlay(alignment: .leading) {
                                     OpenButton()
@@ -83,14 +83,14 @@ import SwiftUI
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .overlay(CloseButton(), alignment: .topLeading)
             .overlay(alignment: .bottomLeading) {
-                if controller.headerViewProvider() == nil && !controller.openButtonAtTop {
+                if controller.headerProvider() == nil && !controller.openButtonAtTop {
                     OpenButton()
                         .padding(.leading)
                         .padding(.bottom)
                 }
             }
             .overlay(alignment: .topLeading) {
-                if controller.headerViewProvider() == nil && controller.openButtonAtTop {
+                if controller.headerProvider() == nil && controller.openButtonAtTop {
                     OpenButton()
                         .padding(.leading)
                         .padding(.top)
@@ -152,7 +152,7 @@ import SwiftUI
         @State private var showInspector = false
 
         public var body: some View {
-            if controller.inspectorViewProvider() == nil {
+            if controller.inspectorProvider() == nil {
                 //
                 // No Inspector
                 //
@@ -167,7 +167,7 @@ import SwiftUI
 
         @ViewBuilder
         func viewNoInspector(controller: MenuController) -> some View {
-            if let header = controller.headerViewProvider() {
+            if let header = controller.headerProvider() {
                 //
                 // Title View
                 //
@@ -209,7 +209,7 @@ import SwiftUI
 
         @ViewBuilder
         func viewWithInspector(controller: MenuController) -> some View {
-            if controller.headerViewProvider() == nil {
+            if controller.headerProvider() == nil {
                 //
                 // No Title View
                 //
@@ -228,11 +228,11 @@ import SwiftUI
 
                     // Inspector
                     if showInspector {
-                        controller.inspectorViewProvider()
+                        controller.inspectorProvider()
                             .frame(idealWidth: 500)
                     }
                 }
-                .if(controller.inspectorViewProvider() != nil && controller.headerViewProvider() == nil) { view in
+                .if(controller.inspectorProvider() != nil && controller.headerProvider() == nil) { view in
                     view
                         .overlay(
                             VStack(spacing: 0) {
@@ -264,7 +264,7 @@ import SwiftUI
                 VStack(spacing: 0) {
                     VStack(spacing: 0) {
                         HStack(spacing: 0) {
-                            controller.headerViewProvider()
+                            controller.headerProvider()
                             Spacer()
                             Button {
                                 withAnimation {
@@ -303,7 +303,7 @@ import SwiftUI
                             }
 
                             if showInspector {
-                                controller.inspectorViewProvider()
+                                controller.inspectorProvider()
                                     .frame(idealWidth: 500)
                             }
                         }
@@ -339,16 +339,16 @@ class MyMenuController: MenuController {
         return AnyView(EmptyView())
     }
 
-    override func sideHeaderViewProvider() -> AnyView? {
+    override func sideHeaderProvider() -> AnyView? {
         return AnyView(TitleView())
     }
 
-    override func headerViewProvider() -> AnyView? {
+    override func headerProvider() -> AnyView? {
         // return nil
         return AnyView(TitleView())
     }
 
-    override func inspectorViewProvider() -> AnyView? {
+    override func inspectorProvider() -> AnyView? {
         return nil
         // return AnyView(Inspector())
     }
