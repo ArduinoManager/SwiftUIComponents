@@ -219,7 +219,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                 ForEach(0 ..< controller.leadingActions.count, id: \.self) { idx in
                     let action = controller.leadingActions[idx]
                     Button {
-                        controller.selectdAction = SelectedAction(key: action.key, item: item)
+                        controller.selectedAction = SelectedAction(key: action.key, item: item)
                     } label: {
                         makeImage(action: action, iconSize: iconSize, color: action.color)
                     }
@@ -289,7 +289,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                 ForEach(0 ..< controller.trailingActions.count, id: \.self) { idx in
                     let action = controller.trailingActions[idx]
                     Button {
-                        controller.selectdAction = SelectedAction(key: action.key, item: item)
+                        controller.selectedAction = SelectedAction(key: action.key, item: item)
                     } label: {
                         makeImage(action: action, iconSize: iconSize, color: action.color)
                     }
@@ -322,7 +322,7 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
                         ForEach(0 ..< controller.leadingActions.count, id: \.self) { idx in
                             let action = controller.leadingActions[idx]
                             Button(LocalizedStringKey(action.label)) {
-                                controller.selectdAction = SelectedAction(key: action.key, item: item)
+                                controller.selectedAction = SelectedAction(key: action.key, item: item)
                             }
                             .tint(action.color.color)
                         }
@@ -340,7 +340,7 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
                         ForEach(0 ..< controller.trailingActions.count, id: \.self) { idx in
                             let action = controller.trailingActions[idx]
                             Button(LocalizedStringKey(action.label)) {
-                                controller.selectdAction = SelectedAction(key: action.key, item: item)
+                                controller.selectedAction = SelectedAction(key: action.key, item: item)
                             }
                             .tint(action.color.color)
                         }

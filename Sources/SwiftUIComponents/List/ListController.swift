@@ -97,7 +97,7 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
     @Published public var swipeActions: Bool
     @Published public var leadingActions: [ListAction]
     @Published public var trailingActions: [ListAction]
-    @Published public var selectdAction: SelectedAction<Item>?
+    @Published public var selectedAction: SelectedAction<Item>?
     @Published public var showLineSeparator: Bool
     @Published public var lineSeparatorColor: GenericColor?
     public var makeRow: (_: Item) -> Row
