@@ -17,7 +17,7 @@ import SwiftUI
 
         public var body: some View {
             VStack(alignment: .leading, spacing: 0) {
-                if let titleView = controller.sideTitleViewProvider() {
+                if let titleView = controller.sideHeaderViewProvider() {
                     HStack {
                         titleView
                             .frame(maxWidth: getRect().width / 2, alignment: .leading)
@@ -202,7 +202,7 @@ import SwiftUI
                         .hidden()
                 }
 
-                if let titleView = controller.sideTitleViewProvider() {
+                if let titleView = controller.sideHeaderViewProvider() {
                     HStack(spacing: 0) {
                         titleView
                     }

@@ -128,11 +128,15 @@ open class MenuController: SuperController, ObservableObject {
         return AnyView(EmptyView())
     }
 
-    open func sideTitleViewProvider() -> AnyView? {
+    open func sideHeaderViewProvider() -> AnyView? {
         return nil
     }
     
-    open func titleViewProvider() -> AnyView? {
+    open func headerViewProvider() -> AnyView? {
+        return nil
+    }
+    
+    open func footerViewProvider() -> AnyView? {
         return nil
     }
     

@@ -16,7 +16,7 @@ import SwiftUI
             VStack(spacing: 0) {
                 if controller.openButtonAtTop {
                     HStack(spacing: 0) {
-                        if let titleView = controller.titleViewProvider() {
+                        if let titleView = controller.headerViewProvider() {
                             titleView
                                 .if(UIDevice.current.hasNotch, transform: { view in
                                     view
@@ -59,7 +59,7 @@ import SwiftUI
 
                 if !controller.openButtonAtTop {
                     HStack(spacing: 0) {
-                        if let titleView = controller.titleViewProvider() {
+                        if let titleView = controller.headerViewProvider() {
                             titleView
                                 .overlay(alignment: .leading) {
                                     OpenButton()
@@ -83,14 +83,14 @@ import SwiftUI
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .overlay(CloseButton(), alignment: .topLeading)
             .overlay(alignment: .bottomLeading) {
-                if controller.titleViewProvider() == nil && !controller.openButtonAtTop {
+                if controller.headerViewProvider() == nil && !controller.openButtonAtTop {
                     OpenButton()
                         .padding(.leading)
                         .padding(.bottom)
                 }
             }
             .overlay(alignment: .topLeading) {
-                if controller.titleViewProvider() == nil && controller.openButtonAtTop {
+                if controller.headerViewProvider() == nil && controller.openButtonAtTop {
                     OpenButton()
                         .padding(.leading)
                         .padding(.top)
@@ -167,13 +167,13 @@ import SwiftUI
 
         @ViewBuilder
         func viewNoInspector(controller: MenuController) -> some View {
-            if let titleView = controller.titleViewProvider() {
+            if let header = controller.headerViewProvider() {
                 //
                 // Title View
                 //
                 VStack(spacing: 0) {
                     HStack(spacing: 0) {
-                        titleView
+                        header
                     }
                     .padding(0)
                     .background(controller.titleViewBackgroundColor.color)
@@ -209,7 +209,7 @@ import SwiftUI
 
         @ViewBuilder
         func viewWithInspector(controller: MenuController) -> some View {
-            if controller.titleViewProvider() == nil {
+            if controller.headerViewProvider() == nil {
                 //
                 // No Title View
                 //
@@ -232,7 +232,7 @@ import SwiftUI
                             .frame(idealWidth: 500)
                     }
                 }
-                .if(controller.inspectorViewProvider() != nil && controller.titleViewProvider() == nil) { view in
+                .if(controller.inspectorViewProvider() != nil && controller.headerViewProvider() == nil) { view in
                     view
                         .overlay(
                             VStack(spacing: 0) {
@@ -264,7 +264,7 @@ import SwiftUI
                 VStack(spacing: 0) {
                     VStack(spacing: 0) {
                         HStack(spacing: 0) {
-                            controller.titleViewProvider()
+                            controller.headerViewProvider()
                             Spacer()
                             Button {
                                 withAnimation {
@@ -339,11 +339,11 @@ class MyMenuController: MenuController {
         return AnyView(EmptyView())
     }
 
-    override func sideTitleViewProvider() -> AnyView? {
+    override func sideHeaderViewProvider() -> AnyView? {
         return AnyView(TitleView())
     }
 
-    override func titleViewProvider() -> AnyView? {
+    override func headerViewProvider() -> AnyView? {
         // return nil
         return AnyView(TitleView())
     }
