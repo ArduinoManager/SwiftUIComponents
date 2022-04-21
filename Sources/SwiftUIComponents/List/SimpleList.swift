@@ -80,7 +80,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                             #if os(macOS)
                                 .buttonStyle(PlainButtonStyle())
                             #endif
-                            .padding(.trailing, 20)
+                            .padding(.trailing, 15)
                                 .padding(.top, 5)
                         }
                 }
@@ -112,12 +112,14 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                     }
                     #if os(macOS)
                         .buttonStyle(PlainButtonStyle())
-                        .padding(.trailing, controller.isPlain ? -5 : 2)
+                        //.padding(.trailing, controller.isPlain ? -5 : 2)
+                        .padding(.trailing, 10)
                     #endif
                     #if os(iOS)
                         .padding(.trailing, 6)
                     #endif
-                    .padding(.top, 10)
+                    .padding(.top, 5)
+                    .padding(.bottom, 5)
                 }
             }
 
@@ -351,7 +353,8 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
 
 class ThisListController: ListController<ListItem, RowView> {
     override func headerProvider() -> AnyView? {
-        return AnyView(TitleView())
+        return nil
+        //return AnyView(TitleView())
     }
 
     override func footerProvider() -> AnyView? {
