@@ -80,7 +80,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                             #if os(macOS)
                                 .buttonStyle(PlainButtonStyle())
                             #endif
-                            .padding(.trailing, 15)
+                            .padding(.trailing, 20)
                                 .padding(.top, 5)
                         }
                 }
