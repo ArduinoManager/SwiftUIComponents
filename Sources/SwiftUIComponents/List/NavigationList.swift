@@ -94,7 +94,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                         #if os(iOS)
                             VStack(alignment: .leading, spacing: 0) {
                                 NavigationLink(
-                                    destination: form(.edit).navigationBarHidden(true),
+                                    destination: controller.editingItem != nil ? form(.edit).navigationBarHidden(true) : EmptyView(),
                                     tag: item,
                                     selection: $controller.editingItem,
                                     label: {})
