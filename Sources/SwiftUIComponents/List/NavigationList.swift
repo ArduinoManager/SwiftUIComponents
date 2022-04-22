@@ -142,7 +142,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                         #if os(macOS)
                             VStack(alignment: .leading, spacing: 0) {
                                 NavigationLink(
-                                    destination: controller.editingItem! = nil ? form(.edit) : AnyView(EmptyView()),
+                                    destination: controller.editingItem != nil ? form(.edit) as! AnyView : AnyView(EmptyView()),
                                     tag: item,
                                     selection: $controller.editingItem,
                                     label: {})
