@@ -93,9 +93,10 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                         #if os(iOS)
                             VStack(alignment: .leading, spacing: 0) {
                                 NavigationLink(
-                                    destination: form(.edit).navigationBarHidden(true),
+                                    destination: controller.detailProvider()
+                                        .navigationBarHidden(true),
                                     tag: item,
-                                    selection: $controller.editingItem,
+                                    selection: $controller.detailingItem,
                                     label: {})
                                     .hidden()
 
@@ -110,7 +111,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                         .layoutPriority(1)
 
                                     Button {
-                                        controller.editingItem = item
+                                        controller.detailingItem = item
                                     } label: {
                                         Image(systemName: "chevron.right")
                                             .resizable()
@@ -139,6 +140,14 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                     selection: $controller.editingItem,
                                     label: {})
                                     .hidden()
+                                
+                                NavigationLink(
+                                    destination: controller.detailProvider(),
+                                    tag: item,
+                                    selection: $controller.detailingItem,
+                                    label: {})
+                                    .hidden()
+
 
                                 HStack(alignment: .center, spacing: 0) {
                                     controller.makeRow(item)
@@ -147,8 +156,8 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                         .background(currentColor(idx: idx).color)
                                         .layoutPriority(1)
                                     Button {
-                                        // controller.selectedItem = item
-                                        controller.editingItem = item
+                                        controller.editingItem = nil
+                                        controller.detailingItem = item
                                     } label: {
                                         Image(systemName: "chevron.right")
                                             .resizable()
@@ -382,6 +391,11 @@ class ThisNavigationController: ListController<ListItem, RowView> {
 
     override func footerProvider() -> AnyView? {
         return AnyView(TitleView())
+    }
+    
+    override func detailProvider() -> AnyView? {
+        //return AnyView(TitleView())
+        return nil
     }
 }
 

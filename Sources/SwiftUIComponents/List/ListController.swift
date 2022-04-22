@@ -109,7 +109,8 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
             }
         }
     }
-
+    public var detailingItem: Item? // For the NavigationList only - Detail item to show
+    
     public var itemsEventsHandler: ((_ operation: EventType, _ item: Item) -> Bool)?
 
     /// Item associated to the form for entering a new Item or editing an existing one
@@ -334,6 +335,10 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
     }
 
     open func footerProvider() -> AnyView? {
+        return nil
+    }
+    
+    open func detailProvider() -> AnyView? {
         return nil
     }
 
