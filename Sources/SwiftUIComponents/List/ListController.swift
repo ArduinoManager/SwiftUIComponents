@@ -110,14 +110,14 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
             }
         }
     }
-    
+
     // For the NavigationList only - Detail item to show
-//    public var detailingItem: Item? {
-//        didSet {
-//            print("detailingItem \(detailingItem)")
-//        }
-//    }
-    
+    @Published public var detailingItem: Item? {
+        didSet {
+            print("detailingItem \(detailingItem)")
+        }
+    }
+
     public var itemsEventsHandler: ((_ operation: EventType, _ item: Item) -> Bool)?
 
     /// Item associated to the form for entering a new Item or editing an existing one
@@ -269,7 +269,7 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
             updateWithoutHandler(oldItem: oldItem, newItem: newItem)
         }
     }
-    
+
     /// Delete an item from the list
     /// - Parameters:
     ///   - item: item to delete
@@ -315,7 +315,7 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
     public func cancelForm() {
         startNewItem = false
         editingItem = nil
-        //detailingItem = nil
+        // detailingItem = nil
     }
 
     public func addLeadingAction(action: ListAction) {
@@ -345,7 +345,7 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
     open func footerProvider() -> AnyView? {
         return nil
     }
-    
+
     open func detailProvider() -> AnyView? {
         return nil
     }
