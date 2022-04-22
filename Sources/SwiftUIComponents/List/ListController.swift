@@ -401,6 +401,7 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
 
         try container.encode(style, forKey: .style)
         try container.encode(multipleSelection, forKey: .multipleSelection)
+        try container.encode(leftMinSideSize, forKey: .leftMinSideSize)
         try container.encode(addButtonIcon, forKey: .addButtonIcon)
         try container.encode(addButtonColor, forKey: .addButtonColor)
         try container.encode(editButtonLabel, forKey: .editButtonLabel)
