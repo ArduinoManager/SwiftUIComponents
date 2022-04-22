@@ -315,7 +315,7 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
     public func cancelForm() {
         startNewItem = false
         editingItem = nil
-        detailingItem = nil
+        //detailingItem = nil
     }
 
     public func addLeadingAction(action: ListAction) {
