@@ -139,6 +139,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                 }
                             }
                         #endif
+                        
                         #if os(macOS)
                             VStack(alignment: .leading, spacing: 0) {
                                 NavigationLink(
