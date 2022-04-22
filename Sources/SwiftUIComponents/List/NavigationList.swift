@@ -146,11 +146,12 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                     tag: item,
                                     selection: Binding<Item?> (
                                         get: {
-                                            print("Getting \($0)")
-                                            retunrn controller.editingItem
+                                            
+                                            print("Getting \(controller.editingItem != nil ? controller.editingItem!.id : nil)")
+                                            return controller.editingItem
                                         },
                                         set: {
-                                            print("Setting to \($0)")
+                                            print("Setting to \($0 != nil ? $0!.id : nil)")
                                             controller.editingItem = $0
                                         }
                                     ),
