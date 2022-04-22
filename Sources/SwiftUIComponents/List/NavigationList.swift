@@ -100,12 +100,12 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                     label: {})
                                     .hidden()
 
-//                                NavigationLink(
-//                                    destination:  controller.detailProvider() != nil ? controller.detailProvider().navigationBarHidden(true) : EmptyView(),
-//                                    tag: item,
-//                                    selection: $controller.detailingItem,
-//                                    label: {})
-//                                    .hidden()
+                                NavigationLink(
+                                    destination:  controller.detailProvider() != nil ? controller.detailProvider().navigationBarHidden(true) : EmptyView(),
+                                    tag: item,
+                                    selection: $controller.detailingItem,
+                                    label: {})
+                                    .hidden()
 
                                 HStack(alignment: .center, spacing: 0) {
                                     controller.makeRow(item)
@@ -150,7 +150,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                     .hidden()
 
                                 NavigationLink(
-                                    destination: controller.detailProvider(),
+                                    destination:  controller.detailProvider() != nil ? controller.detailProvider() : AnyView(EmptyView()),
                                     tag: item,
                                     selection: $controller.detailingItem,
                                     label: {})
