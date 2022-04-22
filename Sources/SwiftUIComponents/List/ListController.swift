@@ -231,7 +231,7 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
         }
     }
 
-    /// Add a new Items to the list
+    /// Add new Items to the list
     /// - Parameters:
     ///   - item: item to add
     ///   - callEventsHandler: if false the itemsEventHandler is not called before adding each item

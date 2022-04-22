@@ -68,7 +68,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                     }
                     #if os(macOS)
                         .buttonStyle(PlainButtonStyle())
-                        .padding(.trailing, controller.isPlain ? -6 : 2)
+                        .padding(.trailing, 6)
                     #endif
                     #if os(iOS)
                         .padding(.trailing, 6)
