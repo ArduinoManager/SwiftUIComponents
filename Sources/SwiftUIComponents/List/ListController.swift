@@ -102,6 +102,7 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
     public var makeRow: (_: Item) -> Row
     public var editingItem: Item? {
         didSet {
+            print("editingItem \(editingItem)")
             if editingItem == nil {
                 formItem = Item()
             } else {
@@ -109,7 +110,13 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
             }
         }
     }
-    public var detailingItem: Item? // For the NavigationList only - Detail item to show
+    
+    // For the NavigationList only - Detail item to show
+    public var detailingItem: Item? {
+        didSet {
+            print("detailingItem \(detailingItem)")
+        }
+    }
     
     public var itemsEventsHandler: ((_ operation: EventType, _ item: Item) -> Bool)?
 
