@@ -144,16 +144,19 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                 NavigationLink(
                                     destination: form(.edit),
                                     tag: item,
-                                    selection: $controller.editingItem,
+                                    selection: Binding<Item?> (
+                                        get: {
+                                            print("Getting \($0)")
+                                            retunrn controller.editingItem
+                                        },
+                                        set: {
+                                            print("Setting to \($0)")
+                                            controller.editingItem = $0
+                                        }
+                                    ),
                                     label: {})
                                     .hidden()
 
-//                                NavigationLink(
-//                                    destination: controller.detailProvider() != nil ? controller.detailProvider() : AnyView(EmptyView()),
-//                                    tag: item,
-//                                    selection: $controller.detailingItem,
-//                                    label: {})
-//                                    .hidden()
 
                                 HStack(alignment: .center, spacing: 0) {
                                     controller.makeRow(item)
