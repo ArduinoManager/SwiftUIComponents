@@ -142,18 +142,18 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                         #if os(macOS)
                             VStack(alignment: .leading, spacing: 0) {
                                 NavigationLink(
-                                    destination: controller.editingItem != nil ? form(.edit) : EmptyView() as! Form,
+                                    destination: form(.edit),
                                     tag: item,
                                     selection: $controller.editingItem,
                                     label: {})
                                     .hidden()
 
-                                NavigationLink(
-                                    destination: controller.detailProvider() != nil ? controller.detailProvider() : AnyView(EmptyView()),
-                                    tag: item,
-                                    selection: $controller.detailingItem,
-                                    label: {})
-                                    .hidden()
+//                                NavigationLink(
+//                                    destination: controller.detailProvider() != nil ? controller.detailProvider() : AnyView(EmptyView()),
+//                                    tag: item,
+//                                    selection: $controller.detailingItem,
+//                                    label: {})
+//                                    .hidden()
 
                                 HStack(alignment: .center, spacing: 0) {
                                     controller.makeRow(item)
