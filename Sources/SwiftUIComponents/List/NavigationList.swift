@@ -251,16 +251,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
             if controller.editingItem != nil {
                 return AnyView(form(.edit).navigationBarHidden(true))
             }
-            return AnyView(
-                VStack {
-                    Button("back") {
-                        controller.detailingItem = nil
-                    }
-                    controller.detailProvider()
-                }
-                .navigationBarHidden(true)
-            )
-            
+            return AnyView(controller.detailProvider().navigationBarHidden(true))
         }
     #endif
 
