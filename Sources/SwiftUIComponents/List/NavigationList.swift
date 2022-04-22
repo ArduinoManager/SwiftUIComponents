@@ -142,38 +142,27 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                         
                         #if os(macOS)
                             VStack(alignment: .leading, spacing: 0) {
+                                
                                 NavigationLink(
-                                    destination: form(.edit),
+                                    destination: cazzo(),
                                     tag: item,
                                     selection: Binding<Item?> (
                                         get: {
-                                            print("Getting Editing \(controller.editingItem != nil ? controller.editingItem!.id : nil)")
-                                            return controller.editingItem
+                                            if controller.editingItem != nil {
+                                                return controller.editingItem
+                                            }
+                                            if controller.detailingItem != nil {
+                                                return controller.detailingItem
+                                            }
+                                            return nil
                                         },
                                         set: {
                                             print("Setting Editing to \($0 != nil ? $0!.id : nil)")
-                                            controller.editingItem = $0
                                         }
                                     ),
                                     label: {})
                                     .hidden()
                                 
-                                NavigationLink(
-                                    destination: controller.detailProvider(),
-                                    tag: item,
-                                    selection: Binding<Item?> (
-                                        get: {
-                                            print("Getting Detailing \(controller.detailingItem != nil ? controller.detailingItem!.id : nil)")
-                                            return controller.editingItem
-                                        },
-                                        set: {
-                                            print("Setting Detailing to \($0 != nil ? $0!.id : nil)")
-                                            controller.detailingItem = $0
-                                        }
-                                    ),
-                                    label: {})
-                                    .hidden()
-
 
                                 HStack(alignment: .center, spacing: 0) {
                                     controller.makeRow(item)
@@ -257,6 +246,14 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
         #endif
     }
 
+    private func cazzo() -> AnyView {
+        if controller.editingItem != nil {
+            return AnyView(form(.edit))
+        }
+        return AnyView(controller.detailProvider())
+    }
+    
+    
     private func move(from source: IndexSet, to destination: Int) {
         controller.items.move(fromOffsets: source, toOffset: destination)
     }
