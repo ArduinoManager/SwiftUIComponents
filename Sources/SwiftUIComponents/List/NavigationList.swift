@@ -101,7 +101,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                     .hidden()
 
                                 NavigationLink(
-                                    destination: controller.detailProvider().navigationBarHidden(true),
+                                    destination:  controller.detailProvider() != nil ? controller.detailProvider().navigationBarHidden(true) : EmptyView(),
                                     tag: item,
                                     selection: $controller.detailingItem,
                                     label: {})
