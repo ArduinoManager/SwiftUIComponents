@@ -57,7 +57,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                     Spacer()
                     Button {
                         controller.editingItem = nil
-                        controller.detailingItem = nil
+//                        controller.detailingItem = nil
                         controller.startNewItem = true
                     } label: {
                         getSafeSystemImage(systemName: controller.addButtonIcon)
@@ -100,12 +100,12 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                     label: {})
                                     .hidden()
 
-                                NavigationLink(
-                                    destination: controller.detailProvider().navigationBarHidden(true),
-                                    tag: item,
-                                    selection: $controller.detailingItem,
-                                    label: {})
-                                    .hidden()
+//                                NavigationLink(
+//                                    destination: controller.detailProvider().navigationBarHidden(true),
+//                                    tag: item,
+//                                    selection: $controller.detailingItem,
+//                                    label: {})
+//                                    .hidden()
 
                                 HStack(alignment: .center, spacing: 0) {
                                     controller.makeRow(item)
@@ -118,7 +118,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                         .layoutPriority(1)
 
                                     Button {
-                                        controller.detailingItem = item
+//                                        controller.detailingItem = item
                                     } label: {
                                         Image(systemName: "chevron.right")
                                             .resizable()
@@ -149,12 +149,12 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                     label: {})
                                     .hidden()
 
-                                NavigationLink(
-                                    destination: controller.detailProvider(),
-                                    tag: item,
-                                    selection: $controller.detailingItem,
-                                    label: {})
-                                    .hidden()
+//                                NavigationLink(
+//                                    destination: controller.detailProvider(),
+//                                    tag: item,
+//                                    selection: $controller.detailingItem,
+//                                    label: {})
+//                                    .hidden()
 
                                 HStack(alignment: .center, spacing: 0) {
                                     controller.makeRow(item)
@@ -164,7 +164,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                         .layoutPriority(1)
                                     Button {
                                         controller.editingItem = nil
-                                        controller.detailingItem = item
+//                                        controller.detailingItem = item
                                     } label: {
                                         Image(systemName: "chevron.right")
                                             .resizable()

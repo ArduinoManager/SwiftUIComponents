@@ -100,7 +100,7 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
     @Published public var showLineSeparator: Bool
     @Published public var lineSeparatorColor: GenericColor?
     public var makeRow: (_: Item) -> Row
-    public var editingItem: Item? {
+    @Published public var editingItem: Item? {
         didSet {
             print("editingItem \(editingItem)")
             if editingItem == nil {
@@ -112,11 +112,11 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
     }
     
     // For the NavigationList only - Detail item to show
-    public var detailingItem: Item? {
-        didSet {
-            print("detailingItem \(detailingItem)")
-        }
-    }
+//    public var detailingItem: Item? {
+//        didSet {
+//            print("detailingItem \(detailingItem)")
+//        }
+//    }
     
     public var itemsEventsHandler: ((_ operation: EventType, _ item: Item) -> Bool)?
 
