@@ -94,9 +94,9 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                         #if os(iOS)
                             VStack(alignment: .leading, spacing: 0) {
                                 NavigationLink(
-                                    destination: rightView().navigationBarHidden(true),
+                                    destination: rightView(),
                                     tag: item,
-                                    selection: Binding<Item?> (
+                                    selection: Binding<Item?>(
                                         get: {
                                             if controller.editingItem != nil {
                                                 return controller.editingItem
@@ -106,7 +106,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                             }
                                             return nil
                                         },
-                                        set: {_ in}
+                                        set: { _ in }
                                     ),
                                     label: {})
                                     .hidden()
@@ -143,14 +143,13 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                 }
                             }
                         #endif
-                        
+
                         #if os(macOS)
                             VStack(alignment: .leading, spacing: 0) {
-                                
                                 NavigationLink(
                                     destination: rightView(),
                                     tag: item,
-                                    selection: Binding<Item?> (
+                                    selection: Binding<Item?>(
                                         get: {
                                             if controller.editingItem != nil {
                                                 return controller.editingItem
@@ -160,11 +159,10 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                             }
                                             return nil
                                         },
-                                        set: {_ in}
+                                        set: { _ in }
                                     ),
                                     label: {})
                                     .hidden()
-                                
 
                                 HStack(alignment: .center, spacing: 0) {
                                     controller.makeRow(item)
@@ -248,14 +246,24 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
         #endif
     }
 
-    private func rightView() -> AnyView {
-        if controller.editingItem != nil {
-            return AnyView(form(.edit))
+    #if os(iOS)
+        private func rightView() -> AnyView {
+            if controller.editingItem != nil {
+                return AnyView(form(.edit).navigationBarHidden(true))
+            }
+            return AnyView(controller.detailProvider())
         }
-        return AnyView(controller.detailProvider())
-    }
-    
-    
+    #endif
+
+    #if os(macOS)
+        private func rightView() -> AnyView {
+            if controller.editingItem != nil {
+                return AnyView(form(.edit))
+            }
+            return AnyView(controller.detailProvider())
+        }
+    #endif
+
     private func move(from source: IndexSet, to destination: Int) {
         controller.items.move(fromOffsets: source, toOffset: destination)
     }
