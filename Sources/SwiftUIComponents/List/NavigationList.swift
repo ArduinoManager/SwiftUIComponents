@@ -74,6 +74,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                     #if os(iOS)
                         .padding(.trailing, 6)
                     #endif
+                    .padding(.vertical, 5)
                 }
                 .padding(0)
                 .background(controller.backgroundColor.color)
@@ -246,7 +247,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
             .navigationViewStyle(.stack)
         #endif
         #if os(macOS)
-           
+
         #endif
     }
 
@@ -393,28 +394,32 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
     func body(content: Content) -> some View {
         content
             .swipeActions(edge: .leading) {
-                ForEach(0 ..< controller.leadingActions.count, id: \.self) { idx in
-                    let action = controller.leadingActions[idx]
-                    Button(LocalizedStringKey(action.label)) {
-                        controller.selectedAction = SelectedAction(key: action.key, item: item)
+                if controller.swipeActions {
+                    ForEach(0 ..< controller.leadingActions.count, id: \.self) { idx in
+                        let action = controller.leadingActions[idx]
+                        Button(LocalizedStringKey(action.label)) {
+                            controller.selectedAction = SelectedAction(key: action.key, item: item)
+                        }
+                        .tint(action.color.color)
                     }
-                    .tint(action.color.color)
                 }
             }
             .swipeActions(edge: .trailing) {
-                Button(LocalizedStringKey(controller.deleteButtonLabel)) {
-                    controller.delete(item: item)
-                }
-                .tint(.red)
-                Button(LocalizedStringKey(controller.editButtonLabel)) {
-                    controller.editingItem = item
-                }
-                ForEach(Array(stride(from: controller.trailingActions.count - 1, to: -1, by: -1)), id: \.self) { idx in
-                    let action = controller.trailingActions[idx]
-                    Button(LocalizedStringKey(action.label)) {
-                        controller.selectedAction = SelectedAction(key: action.key, item: item)
+                if controller.swipeActions {
+                    Button(LocalizedStringKey(controller.deleteButtonLabel)) {
+                        controller.delete(item: item)
                     }
-                    .tint(action.color.color)
+                    .tint(.red)
+                    Button(LocalizedStringKey(controller.editButtonLabel)) {
+                        controller.editingItem = item
+                    }
+                    ForEach(Array(stride(from: controller.trailingActions.count - 1, to: -1, by: -1)), id: \.self) { idx in
+                        let action = controller.trailingActions[idx]
+                        Button(LocalizedStringKey(action.label)) {
+                            controller.selectedAction = SelectedAction(key: action.key, item: item)
+                        }
+                        .tint(action.color.color)
+                    }
                 }
             }
     }
@@ -457,13 +462,14 @@ struct NavigationListContainer: View {
 
         _controller = StateObject(wrappedValue: ThisNavigationController(items: items,
                                                                          style: .plain(alternatesRows: true, alternateBackgroundColor: .systemGray),
+                                                                         leftMinSideSize: 250,
                                                                          addButtonIcon: "plus",
                                                                          addButtonColor: .systemRed,
                                                                          editButtonLabel: "Edit_",
                                                                          deleteButtonLabel: "Delete_",
                                                                          backgroundColor: .systemGreen,
                                                                          rowBackgroundColor: GenericColor(systemColor: .systemPurple),
-                                                                         swipeActions: false,
+                                                                         swipeActions: true,
                                                                          leadingActions: leadingActions,
                                                                          trailingActions: trailingActions,
                                                                          showLineSeparator: true,
