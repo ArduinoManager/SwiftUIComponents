@@ -94,14 +94,14 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                         #if os(iOS)
                             VStack(alignment: .leading, spacing: 0) {
                                 NavigationLink(
-                                    destination:form(.edit).navigationBarHidden(true),
+                                    destination: form(.edit).navigationBarHidden(true),
                                     tag: item,
                                     selection: $controller.editingItem,
                                     label: {})
                                     .hidden()
-                                
+
                                 NavigationLink(
-                                    destination:controller.detailProvider().navigationBarHidden(true),
+                                    destination: controller.detailProvider().navigationBarHidden(true),
                                     tag: item,
                                     selection: $controller.detailingItem,
                                     label: {})
@@ -141,20 +141,20 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                         #endif
                         #if os(macOS)
                             VStack(alignment: .leading, spacing: 0) {
+                                
                                 NavigationLink(
                                     destination: form(.edit),
                                     tag: item,
                                     selection: $controller.editingItem,
                                     label: {})
                                     .hidden()
-                                
+
                                 NavigationLink(
                                     destination: controller.detailProvider(),
                                     tag: item,
                                     selection: $controller.detailingItem,
                                     label: {})
                                     .hidden()
-
 
                                 HStack(alignment: .center, spacing: 0) {
                                     controller.makeRow(item)
@@ -399,9 +399,9 @@ class ThisNavigationController: ListController<ListItem, RowView> {
     override func footerProvider() -> AnyView? {
         return AnyView(TitleView())
     }
-    
+
     override func detailProvider() -> AnyView? {
-        //return AnyView(TitleView())
+        // return AnyView(TitleView())
         return nil
     }
 }
