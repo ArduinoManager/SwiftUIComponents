@@ -460,23 +460,43 @@ struct NavigationListContainer: View {
             ListAction(key: "T2", label: "Action 2", icon: "logo", color: GenericColor(color: .mint)),
         ]
 
-        _controller = StateObject(wrappedValue: ThisNavigationController(items: items,
-                                                                         style: .plain(alternatesRows: true, alternateBackgroundColor: .systemGray),
-                                                                         leftMinSideSize: 250,
-                                                                         addButtonIcon: "plus",
-                                                                         addButtonColor: .systemRed,
-                                                                         editButtonLabel: "Edit_",
-                                                                         deleteButtonLabel: "Delete_",
-                                                                         backgroundColor: .systemGreen,
-                                                                         rowBackgroundColor: GenericColor(systemColor: .systemPurple),
-                                                                         swipeActions: true,
-                                                                         leadingActions: leadingActions,
-                                                                         trailingActions: trailingActions,
-                                                                         showLineSeparator: true,
-                                                                         lineSeparatorColor: .systemBlue,
-                                                                         makeRow: { item in
-                                                                             RowView(item: item)
-                                                                         }))
+        #if os(iOS)
+            _controller = StateObject(wrappedValue: ThisNavigationController(items: items,
+                                                                             style: .plain(alternatesRows: true, alternateBackgroundColor: .systemGray),
+                                                                             addButtonIcon: "plus",
+                                                                             addButtonColor: .systemRed,
+                                                                             editButtonLabel: "Edit_",
+                                                                             deleteButtonLabel: "Delete_",
+                                                                             backgroundColor: .systemGreen,
+                                                                             rowBackgroundColor: GenericColor(systemColor: .systemPurple),
+                                                                             swipeActions: true,
+                                                                             leadingActions: leadingActions,
+                                                                             trailingActions: trailingActions,
+                                                                             showLineSeparator: true,
+                                                                             lineSeparatorColor: .systemBlue,
+                                                                             makeRow: { item in
+                                                                                 RowView(item: item)
+                                                                             }))
+        #endif
+        #if os(macOS)
+            _controller = StateObject(wrappedValue: ThisNavigationController(items: items,
+                                                                             style: .plain(alternatesRows: true, alternateBackgroundColor: .systemGray),
+                                                                             leftMinSideSize: 250,
+                                                                             addButtonIcon: "plus",
+                                                                             addButtonColor: .systemRed,
+                                                                             editButtonLabel: "Edit_",
+                                                                             deleteButtonLabel: "Delete_",
+                                                                             backgroundColor: .systemGreen,
+                                                                             rowBackgroundColor: GenericColor(systemColor: .systemPurple),
+                                                                             swipeActions: true,
+                                                                             leadingActions: leadingActions,
+                                                                             trailingActions: trailingActions,
+                                                                             showLineSeparator: true,
+                                                                             lineSeparatorColor: .systemBlue,
+                                                                             makeRow: { item in
+                                                                                 RowView(item: item)
+                                                                             }))
+        #endif
     }
 
     var body: some View {

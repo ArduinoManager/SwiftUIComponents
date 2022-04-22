@@ -163,7 +163,7 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
             self.lineSeparatorColor = lineSeparatorColor
             self.makeRow = makeRow
             self.itemsEventsHandler = itemsEventsHandler
-            self.leftMinSideSize
+            self.leftMinSideSize = 0
             super.init(type: .list)
             sortItems()
         }
