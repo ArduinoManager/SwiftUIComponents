@@ -249,6 +249,11 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
             sortItems()
         }
     }
+    
+    public func add(items: [Item]) {
+        self.items.append(contentsOf: items)
+        sortItems()
+    }
 
     public func update(oldItem: Item, newItem: Item, callEventsHandler: Bool = true) {
         var abort = false
