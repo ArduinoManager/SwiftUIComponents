@@ -148,13 +148,13 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                     selection: $controller.editingItem,
                                     label: {})
                                     .hidden()
-//
-//                                NavigationLink(
-//                                    destination: controller.detailProvider(),
-//                                    tag: item,
-//                                    selection: $controller.detailingItem,
-//                                    label: {})
-//                                    .hidden()
+
+                                NavigationLink(
+                                    destination: controller.detailProvider(),
+                                    tag: item,
+                                    selection: $controller.detailingItem,
+                                    label: {})
+                                    .hidden()
 
                                 HStack(alignment: .center, spacing: 0) {
                                     controller.makeRow(item)
