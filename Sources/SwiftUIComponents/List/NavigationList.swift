@@ -146,13 +146,28 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                     tag: item,
                                     selection: Binding<Item?> (
                                         get: {
-                                            
-                                            print("Getting \(controller.editingItem != nil ? controller.editingItem!.id : nil)")
+                                            print("Getting Editing \(controller.editingItem != nil ? controller.editingItem!.id : nil)")
                                             return controller.editingItem
                                         },
                                         set: {
-                                            print("Setting to \($0 != nil ? $0!.id : nil)")
+                                            print("Setting Editing to \($0 != nil ? $0!.id : nil)")
                                             controller.editingItem = $0
+                                        }
+                                    ),
+                                    label: {})
+                                    .hidden()
+                                
+                                NavigationLink(
+                                    destination: controller.detailProvider(),
+                                    tag: item,
+                                    selection: Binding<Item?> (
+                                        get: {
+                                            print("Getting Editing \(controller.detailingItem != nil ? controller.detailingItem!.id : nil)")
+                                            return controller.editingItem
+                                        },
+                                        set: {
+                                            print("Setting Editing to \($0 != nil ? $0!.id : nil)")
+                                            controller.detailingItem = $0
                                         }
                                     ),
                                     label: {})
