@@ -287,6 +287,26 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                     .foregroundColor(.red)
                     .buttonStyle(.plain)
                 #endif
+                Button {
+                    controller.editingItem = item
+                } label: {
+                    getSafeSystemImage(systemName: "pencil")
+                        .aspectRatio(contentMode: .fit)
+                        .padding(3)
+                        .foregroundColor(.accentColor)
+                        .frame(width: iconSize + 1, height: iconSize + 1)
+                        .border(Color.accentColor, width: 1)
+                }
+                .padding(.top, 2)
+                .padding(.bottom, controller.showLineSeparator ? 2 : 0)
+                .padding(.trailing, controller.trailingActions.count == 0 ? 2 : 0)
+                #if os(iOS)
+                    .buttonStyle(BorderlessButtonStyle())
+                #endif
+                #if os(macOS)
+                    .foregroundColor(Color.accentColor)
+                    .buttonStyle(.plain)
+                #endif
             }
 
             //
@@ -339,6 +359,9 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
                     controller.delete(item: item)
                 }
                 .tint(.red)
+                Button(LocalizedStringKey(controller.editButtonLabel)) {
+                    controller.editingItem = item
+                }
                 ForEach(Array(stride(from: controller.trailingActions.count - 1, to: -1, by: -1)), id: \.self) { idx in
                     let action = controller.trailingActions[idx]
                     Button(LocalizedStringKey(action.label)) {
