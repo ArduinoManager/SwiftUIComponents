@@ -99,11 +99,8 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
     @Published public var selectedAction: SelectedAction<Item>?
     @Published public var showLineSeparator: Bool
     @Published public var lineSeparatorColor: GenericColor?
-    public var makeRow: (_: Item) -> Row
     @Published public var editingItem: Item? {
         didSet {
-            print("** editingItem \(editingItem)")
-            print("** detailingItem \(detailingItem)")
             if editingItem == nil {
                 formItem = Item()
             } else {
@@ -111,17 +108,8 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
             }
         }
     }
-
     // For the NavigationList only - Detail item to show
-    @Published public var detailingItem: Item? {
-        didSet {
-            print("editingItem \(editingItem)")
-            print("detailingItem \(detailingItem)")
-        }
-    }
-
-    public var itemsEventsHandler: ((_ operation: EventType, _ item: Item) -> Bool)?
-
+    @Published public var detailingItem: Item?
     /// Item associated to the form for entering a new Item or editing an existing one
     ///
     @Published public var formItem: Item!
@@ -129,6 +117,10 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
     /// When true for a NavigationList, the form to eneter a new item is shown in the right panel.
     /// Unused for a SimpleList
     @Published var startNewItem: Bool = false
+    @Published var leftMinSideSize: CGFloat
+
+    public var makeRow: (_: Item) -> Row
+    public var itemsEventsHandler: ((_ operation: EventType, _ item: Item) -> Bool)?
 
     public var isPlain: Bool {
         if case .plain = style {
@@ -171,8 +163,8 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
             self.lineSeparatorColor = lineSeparatorColor
             self.makeRow = makeRow
             self.itemsEventsHandler = itemsEventsHandler
+            self.leftMinSideSize
             super.init(type: .list)
-
             sortItems()
         }
     #endif
@@ -181,6 +173,7 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
 
         public init(items: [Item],
                     style: ListComponentStyle,
+                    leftMinSideSize: CGFloat = 50,
                     multipleSelection: Bool = false,
                     addButtonIcon: String = "plus",
                     addButtonColor: GenericColor = GenericColor.systemLabel,
@@ -212,6 +205,7 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
             self.lineSeparatorColor = lineSeparatorColor
             self.makeRow = makeRow
             self.itemsEventsHandler = itemsEventsHandler
+            self.leftMinSideSize = leftMinSideSize
             super.init(type: .list)
 
             sortItems()
@@ -363,6 +357,7 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
 
     enum CodingKeys: CodingKey {
         case style
+        case leftMinSideSize
         case multipleSelection
         case addButtonIcon
         case addButtonColor
@@ -382,6 +377,7 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
 
         items = [Item]()
         style = try values.decode(ListComponentStyle.self, forKey: .style)
+        leftMinSideSize = try values.decode(CGFloat.self, forKey: .leftMinSideSize)
         multipleSelection = try values.decode(Bool.self, forKey: .multipleSelection)
         addButtonIcon = try values.decode(String.self, forKey: .addButtonIcon)
         addButtonColor = try values.decode(GenericColor.self, forKey: .addButtonColor)
