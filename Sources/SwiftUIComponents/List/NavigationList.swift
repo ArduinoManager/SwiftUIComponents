@@ -94,16 +94,20 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                         #if os(iOS)
                             VStack(alignment: .leading, spacing: 0) {
                                 NavigationLink(
-                                    destination: form(.edit).navigationBarHidden(true),
+                                    destination: rightView().navigationBarHidden(true),
                                     tag: item,
-                                    selection: $controller.editingItem,
-                                    label: {})
-                                    .hidden()
-
-                                NavigationLink(
-                                    destination: controller.detailProvider() != nil ? controller.detailProvider().navigationBarHidden(true) : EmptyView(),
-                                    tag: item,
-                                    selection: $controller.detailingItem,
+                                    selection: Binding<Item?> (
+                                        get: {
+                                            if controller.editingItem != nil {
+                                                return controller.editingItem
+                                            }
+                                            if controller.detailingItem != nil {
+                                                return controller.detailingItem
+                                            }
+                                            return nil
+                                        },
+                                        set: {_ in}
+                                    ),
                                     label: {})
                                     .hidden()
 
@@ -144,7 +148,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                             VStack(alignment: .leading, spacing: 0) {
                                 
                                 NavigationLink(
-                                    destination: cazzo(),
+                                    destination: rightView(),
                                     tag: item,
                                     selection: Binding<Item?> (
                                         get: {
@@ -156,9 +160,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                             }
                                             return nil
                                         },
-                                        set: {
-                                            print("Setting Editing to \($0 != nil ? $0!.id : nil)")
-                                        }
+                                        set: {_ in}
                                     ),
                                     label: {})
                                     .hidden()
@@ -246,7 +248,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
         #endif
     }
 
-    private func cazzo() -> AnyView {
+    private func rightView() -> AnyView {
         if controller.editingItem != nil {
             return AnyView(form(.edit))
         }
@@ -321,6 +323,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                 #endif
                 Button {
                     controller.editingItem = item
+                    controller.detailingItem = nil
                 } label: {
                     getSafeSystemImage(systemName: "pencil")
                         .aspectRatio(contentMode: .fit)
