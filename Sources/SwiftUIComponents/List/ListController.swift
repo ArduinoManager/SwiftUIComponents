@@ -83,7 +83,6 @@ public struct SelectedAction<Item> {
     public var item: Item
 }
 
-
 open class ListController<Item: Equatable & ListItemInitializable & ListItemSelectable & ListItemCopyable, Row: View>: SuperController, ObservableObject {
     @Published open var items: [Item]
     @Published public var style: ListComponentStyle
@@ -110,6 +109,7 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
             }
         }
     }
+
     public var itemsEventsHandler: ((_ operation: EventType, _ item: Item) -> Bool)?
 
     /// Item associated to the form for entering a new Item or editing an existing one
@@ -162,7 +162,7 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
             self.makeRow = makeRow
             self.itemsEventsHandler = itemsEventsHandler
             super.init(type: .list)
-            
+
             sortItems()
         }
     #endif
@@ -203,19 +203,11 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
             self.makeRow = makeRow
             self.itemsEventsHandler = itemsEventsHandler
             super.init(type: .list)
-            
+
             sortItems()
         }
 
     #endif
-
-//    public var selectedItems: [Item] {
-//        items.filter({ $0.isSelected() })
-//    }
-
-//    public lazy var numberOfItems: AnyPublisher<Int, Never> = {
-//        return $items.map { $0.count }.eraseToAnyPublisher()
-//      }()
 
     public lazy var selectedItems: AnyPublisher<[Item], Never> = {
         $items.map { x in
@@ -224,21 +216,10 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
         .eraseToAnyPublisher()
     }()
 
-//    public lazy var lastAddedItem: AnyPublisher<[Item], Never> = {
-//
-//    }
-
-    func delete(item: Item, callEventsHandler: Bool  = true) {
-        var abort = false
-        if let eventsHandler = itemsEventsHandler, callEventsHandler {
-            abort = !eventsHandler(.willDeleteItem, item)
-        }
-
-        if !abort, let idx = items.firstIndex(of: item) {
-            items.remove(at: idx)
-        }
-    }
-
+    /// Add a new Item to the list
+    /// - Parameters:
+    ///   - item: item to add
+    ///   - callEventsHandler: if false the itemsEventHandler is not called before adding the item
     public func add(item: Item, callEventsHandler: Bool = true) {
         var abort = false
         if let eventsHandler = itemsEventsHandler, callEventsHandler {
@@ -249,12 +230,28 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
             sortItems()
         }
     }
-    
-    public func add(items: [Item]) {
-        self.items.append(contentsOf: items)
-        sortItems()
+
+    /// Add a new Items to the list
+    /// - Parameters:
+    ///   - item: item to add
+    ///   - callEventsHandler: if false the itemsEventHandler is not called before adding each item
+    public func add(items: [Item], callEventsHandler: Bool = true) {
+        if !callEventsHandler {
+            self.items.append(contentsOf: items)
+            sortItems()
+            return
+        }
+
+        for newItem in items {
+            add(item: newItem, callEventsHandler: callEventsHandler)
+        }
     }
 
+    /// Update an existing item
+    /// - Parameters:
+    ///   - oldItem: item to update
+    ///   - newItem: updating item
+    ///   - callEventsHandler: if false the itemsEventHandler is not called before editing the item
     public func update(oldItem: Item, newItem: Item, callEventsHandler: Bool = true) {
         var abort = false
         if let eventsHandler = itemsEventsHandler, callEventsHandler {
@@ -265,6 +262,21 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
         }
     }
     
+    /// Delete an item from the list
+    /// - Parameters:
+    ///   - item: item to delete
+    ///   - callEventsHandler: if false the itemsEventHandler is not called before deleting the item
+    func delete(item: Item, callEventsHandler: Bool = true) {
+        var abort = false
+        if let eventsHandler = itemsEventsHandler, callEventsHandler {
+            abort = !eventsHandler(.willDeleteItem, item)
+        }
+
+        if !abort, let idx = items.firstIndex(of: item) {
+            items.remove(at: idx)
+        }
+    }
+
     private func updateWithoutHandler(oldItem: Item, newItem: Item) {
         if let idx = items.firstIndex(of: oldItem) {
             items.remove(at: idx)
@@ -320,11 +332,11 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
     open func headerProvider() -> AnyView? {
         return nil
     }
-    
+
     open func footerProvider() -> AnyView? {
         return nil
     }
-    
+
     open func sortItems() {
     }
 
