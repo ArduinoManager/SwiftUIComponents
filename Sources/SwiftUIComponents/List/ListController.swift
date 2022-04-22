@@ -117,7 +117,7 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
     /// When true for a NavigationList, the form to eneter a new item is shown in the right panel.
     /// Unused for a SimpleList
     @Published var startNewItem: Bool = false
-    @Published var leftMinSideSize: CGFloat
+    @Published public var leftMinSideSize: CGFloat
 
     public var makeRow: (_: Item) -> Row
     public var itemsEventsHandler: ((_ operation: EventType, _ item: Item) -> Bool)?
