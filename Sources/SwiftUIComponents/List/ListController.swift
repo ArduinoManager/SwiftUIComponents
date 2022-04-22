@@ -102,7 +102,8 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
     public var makeRow: (_: Item) -> Row
     @Published public var editingItem: Item? {
         didSet {
-            print("editingItem \(editingItem)")
+            print("** editingItem \(editingItem)")
+            print("** detailingItem \(detailingItem)")
             if editingItem == nil {
                 formItem = Item()
             } else {
@@ -114,6 +115,7 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
     // For the NavigationList only - Detail item to show
     @Published public var detailingItem: Item? {
         didSet {
+            print("editingItem \(editingItem)")
             print("detailingItem \(detailingItem)")
         }
     }
