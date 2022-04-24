@@ -13,20 +13,23 @@ public class TabItem: Hashable, Codable {
     public var systemIcon: String?
     public var icon: String?
     public var color: GenericColor
+    public var backgroundColor: GenericColor
     public var targetViewId: UUID? /// Reserved for the generarator
 
-    public init(key: Key, title: String, systemIcon: String, color: GenericColor = GenericColor.systemLabel) {
+    public init(key: Key, title: String, systemIcon: String, color: GenericColor = GenericColor.systemLabel, backgroundColor: GenericColor = GenericColor.systemBackground) {
         self.key = key
         self.title = title
         self.systemIcon = systemIcon
         self.color = color
+        self.backgroundColor = backgroundColor
     }
 
-    public init(key: Key, title: String, icon: String, color: GenericColor = GenericColor.systemLabel) {
+    public init(key: Key, title: String, icon: String, color: GenericColor = GenericColor.systemLabel, backgroundColor: GenericColor = GenericColor.systemBackground) {
         self.key = key
         self.title = title
         self.icon = icon
         self.color = color
+        self.backgroundColor = backgroundColor
     }
 
     public static func == (lhs: TabItem, rhs: TabItem) -> Bool {
@@ -45,6 +48,7 @@ public class TabItem: Hashable, Codable {
         case icon
         case systemIcon
         case color
+        case backgroundColor
         case targetViewId
     }
 
@@ -55,6 +59,7 @@ public class TabItem: Hashable, Codable {
         icon = try? values.decode(String.self, forKey: .icon)
         systemIcon = try? values.decode(String.self, forKey: .systemIcon)
         color = try values.decode(GenericColor.self, forKey: .color)
+        backgroundColor = try values.decode(GenericColor.self, forKey: .backgroundColor)
         targetViewId = try? values.decode(UUID.self, forKey: .targetViewId)
     }
 
@@ -65,6 +70,7 @@ public class TabItem: Hashable, Codable {
         try container.encode(icon, forKey: .icon)
         try container.encode(systemIcon, forKey: .systemIcon)
         try container.encode(color, forKey: .color)
+        try container.encode(backgroundColor, forKey: .backgroundColor)
         try container.encode(targetViewId, forKey: .targetViewId)
     }
 }

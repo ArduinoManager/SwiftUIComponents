@@ -100,10 +100,12 @@ public struct TabBar: View {
                         .frame(height: 48)
                         .padding(.vertical, 5)
                         .padding(.horizontal, 8)
+                        .background(tab.backgroundColor.color)
+                        .padding(.vertical, 5)
+                        .shadow(color: tab.backgroundColor.color, radius: 3, x: 0, y: 2)
                         .onTapGesture {
                             self.selection = index
                         }
-
                         Spacer()
                     }
                 }
@@ -198,6 +200,9 @@ public struct TabBar: View {
                     .onTapGesture {
                         self.selection = index
                     }
+                    .background(tab.backgroundColor.color)
+                    .padding(.vertical, 5)
+                    .shadow(color: tab.backgroundColor.color, radius: 3, x: 0, y: 2)
                 }
                 Spacer()
             }
@@ -250,13 +255,13 @@ class MyTabBarController: TabBarController {
 
 struct TabBarContainer: View {
     @ObservedObject private var controller = MyTabBarController(tabs: [
-        TabItem(key: 0, title: "Tab 1", systemIcon: "list.dash", color: .systemBlue),
-        TabItem(key: 1, title: "Tab 2", systemIcon: "square.and.pencil", color: .systemGreen),
-        TabItem(key: 2, title: "Tab 3", systemIcon: "person.2.circle", color: .systemYellow),
-        TabItem(key: 3, title: "Tab 4", icon: "tabIcon"),
-        TabItem(key: 4, title: "Tab 5", icon: "tabIcon", color: .systemBlack),
+        TabItem(key: 0, title: "Tab 1", systemIcon: "list.dash", color: .systemBlue, backgroundColor: .systemMint),
+        TabItem(key: 1, title: "Tab 2", systemIcon: "square.and.pencil", color: .systemLabel, backgroundColor: .systemMint),
+        TabItem(key: 2, title: "Tab 3", systemIcon: "person.2.circle", color: .systemYellow, backgroundColor: .systemMint),
+        TabItem(key: 3, title: "Tab 4", icon: "tabIcon", backgroundColor: .systemMint),
+        TabItem(key: 4, title: "Tab 5", icon: "tabIcon", color: .systemBlack, backgroundColor: .systemMint),
     ],
-    tabBarPosition: .bottom,
+    tabBarPosition: .top,
     backgroundColor: GenericColor.systemBackground
     )
 
