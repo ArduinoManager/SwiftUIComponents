@@ -134,12 +134,136 @@ import SwiftUI
         }
 
         func isLandscape() -> Bool {
-            #if os(iOS)
                 return UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight
-            #endif
-            #if os(macOS)
-                return true
-            #endif
+        }
+    }
+#endif
+
+#if os(watchOS)
+    public struct ContainerView: View {
+        @ObservedObject var controller: MenuController
+
+        public var body: some View {
+            VStack(spacing: 0) {
+                if controller.openButtonAtTop {
+                    HStack(spacing: 0) {
+                        if let titleView = controller.headerProvider() {
+                            titleView
+                                .overlay(alignment: .bottomLeading) {
+                                    OpenButton()
+                                        .buttonStyle(.plain)
+                                        .padding(.leading, 20)
+                                        
+                                }
+                        }
+                    }
+                    .padding(0)
+                    .background(controller.titleViewBackgroundColor.color)
+                    .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
+                    .background(GenericColor.systemLabel.color)
+                    .shadow(
+                        color: GenericColor.systemLabel.color.opacity(0.5),
+                        radius: 3,
+                        x: 0,
+                        y: 0.5
+                    )
+                    .zIndex(99)
+                }
+
+                TabView(selection: $controller.currentTab) {
+                    ForEach(controller.menuItems, id: \.self) { item in
+                        if item is MenuView {
+                            controller.viewProvider(item: item as! MenuView)
+                                .tag(item.key)
+                        }
+                    }
+                }
+                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+                .onChange(of: controller.currentTab, perform: { _ in
+                    if controller.autoClose {
+                        withAnimation(.spring()) {
+                            controller.showMenu = false
+                        }
+                    }
+                })
+
+                if !controller.openButtonAtTop {
+                    HStack(spacing: 0) {
+                        if let titleView = controller.headerProvider() {
+                            titleView
+                                .overlay(alignment: .leading) {
+                                    OpenButton()
+                                        .padding(.leading, 20)
+                                }
+                        }
+                    }
+                    .padding(0)
+                    .background(controller.titleViewBackgroundColor.color)
+                    .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
+                    .background(GenericColor.systemLabel.color)
+                    .shadow(
+                        color: GenericColor.systemLabel.color.opacity(0.5),
+                        radius: 3,
+                        x: 0,
+                        y: 0.5
+                    )
+                    .zIndex(99)
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .overlay(CloseButton(), alignment: .topLeading)
+            .overlay(alignment: .bottomLeading) {
+                if controller.headerProvider() == nil && !controller.openButtonAtTop {
+                    OpenButton()
+                        .buttonStyle(.plain)
+                        .padding(.leading)
+                        .padding(.bottom)
+                }
+            }
+            .overlay(alignment: .topLeading) {
+                if controller.headerProvider() == nil && controller.openButtonAtTop {
+                    OpenButton()
+                        .buttonStyle(.plain)
+                        .padding(.leading)
+                        .padding(.top)
+                       
+                }
+            }
+            .background(controller.titleViewBackgroundColor.color)
+        }
+
+        @ViewBuilder
+        func OpenButton() -> some View {
+            Button {
+                withAnimation(.spring()) {
+                    controller.showMenu.toggle()
+                }
+            } label: {
+                Image(systemName: controller.openButtonIcon)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .font(.title.bold())
+                    .foregroundColor(controller.openButtonColor.color)
+                    .frame(width: controller.openButtonSize, height: controller.openButtonSize)
+                    .padding(.bottom, 4)
+            }
+            .opacity(controller.showMenu ? 0 : 1)
+        }
+
+        @ViewBuilder
+        func CloseButton() -> some View {
+            Button {
+                withAnimation(.spring()) {
+                    controller.showMenu.toggle()
+                }
+            } label: {
+                Image(systemName: "xmark")
+                    .font(.title.bold())
+                    .foregroundColor(controller.openButtonColor.color)
+            }
+            .opacity(controller.showMenu ? 1 : 0)
+            .padding()
+            .padding(.top)
         }
     }
 #endif
@@ -340,12 +464,13 @@ class MyMenuController: MenuController {
     }
 
     override func sideHeaderProvider() -> AnyView? {
-        return AnyView(TitleView())
+        return nil
+        //return AnyView(TitleView())
     }
 
     override func headerProvider() -> AnyView? {
-        // return nil
-        return AnyView(TitleView())
+         return nil
+        //return AnyView(TitleView())
     }
 
     override func inspectorProvider() -> AnyView? {
@@ -376,7 +501,7 @@ struct MainViewContainer: View {
             MenuAction(key: 103, title: "Kill!", icon: "logo"),
         ]
 
-        #if os(iOS)
+        #if os(iOS)  || os(watchOS)
             let x = MyMenuController(menuItems: menuItems,
                                      openButtonAtTop: true,
                                      openButtonSize: 30,

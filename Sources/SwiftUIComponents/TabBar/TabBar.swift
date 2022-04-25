@@ -125,6 +125,110 @@ public struct TabBar: View {
         }
     #endif
 
+    #if os(watchOS)
+        public var body: some View {
+            VStack(spacing: 0) {
+                if let header = controller.headerProvider() {
+                    VStack(spacing: 0) {
+                        header
+                            .frame(maxWidth: .infinity)
+                    }
+                    .padding(0)
+                    .background(controller.backgroundColor.color)
+                    .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
+                    .background(GenericColor.systemLabel.color)
+                    .shadow(
+                        color: GenericColor.systemLabel.color.opacity(0.5),
+                        radius: 3,
+                        x: 0,
+                        y: 0.5
+                    )
+                    .zIndex(99)
+                }
+                if controller.tabBarPosition == .top {
+                    tabBar
+                }
+                controller.viewProvider(tab: controller.tabs[selection])
+                    .padding(0)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                if controller.tabBarPosition == .bottom {
+                    tabBar
+                }
+                if let footer = controller.footerProvider() {
+                    HStack(spacing: 0) {
+                        footer
+                            .frame(maxWidth: .infinity)
+                    }
+                    .padding(0)
+                    .background(controller.backgroundColor.color)
+                    .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
+                    .background(GenericColor.systemLabel.color)
+                    .shadow(
+                        color: GenericColor.systemLabel.color.opacity(0.5),
+                        radius: 3,
+                        x: 0,
+                        y: -0.5
+                    )
+                    .zIndex(99)
+                }
+            }
+            .padding(0)
+        }
+
+        public var tabBar: some View {
+            VStack {
+                HStack {
+                    ForEach(0 ..< controller.tabs.count, id: \.self) { index in
+                        let tab = controller.tabs[index]
+
+                        Spacer()
+
+                        VStack(spacing:0) {
+                            if let icon = tab.systemIcon {
+                                Image(systemName: icon)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 15, height: 15)
+                                    .foregroundColor(self.selection == index ? controller.selectionColor.color : tab.color.color)
+
+                            } else {
+                                getSafeImage(name: tab.icon!)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 15, height: 15)
+                            }
+                            Text(LocalizedStringKey(tab.title))
+                                .font(.system(size: 10))
+                                .foregroundColor(self.selection == index ? controller.selectionColor.color : tab.color.color)
+                        }
+//                        .frame(height: 30)
+//                        .padding(.vertical, 2)
+//                        .padding(.horizontal, 8)
+                        .background(tab.backgroundColor.color)
+                        .padding(.vertical, 1)
+                        .shadow(color: tab.backgroundColor.color, radius: 3, x: 0, y: 2)
+                        .onTapGesture {
+                            self.selection = index
+                        }
+                        Spacer()
+                    }
+                }
+                .padding(0)
+                .background(controller.backgroundColor.color)
+                .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
+                .background(GenericColor.systemLabel.color)
+                .shadow(
+                    color: GenericColor.systemLabel.color.opacity(0.5),
+                    radius: 3,
+                    x: 0,
+                    y: 0.5
+                )
+                .zIndex(99)
+            }
+            .background(controller.backgroundColor.color)
+        }
+    #endif
+
     #if os(macOS)
         public var body: some View {
             VStack(spacing: 0) {
@@ -289,6 +393,7 @@ struct Tab1: View {
                 .padding()
             Button("Button") {
             }
+            .buttonStyle(.plain)
             .padding()
             Image(systemName: "square.and.pencil")
                 .foregroundStyle(.green, .green)

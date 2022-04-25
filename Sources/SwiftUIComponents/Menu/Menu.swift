@@ -29,7 +29,7 @@ public struct Menu: View {
                 SideMenuView(controller: controller)                
             }
         #endif
-        #if os(iOS)
+        #if os(iOS) || os(watchOS)
             ZStack {
                 // Side Menu
                 SideMenuView(controller: controller)

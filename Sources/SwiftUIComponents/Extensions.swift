@@ -19,8 +19,15 @@ import SwiftUI
 #if os(iOS)
     let iconSize: CGFloat = 25.0
 #endif
+#if os(watchOS)
+    let iconSize: CGFloat = 20.0
+#endif
 #if os(macOS)
     let iconSize: CGFloat = 18.0
+#endif
+
+#if os(watchOS)
+typealias UIDeviceOrientation = Int
 #endif
 
 extension View {
@@ -43,6 +50,20 @@ extension View {
             modifier(DeviceRotationViewModifier(action: action))
         }
     #endif
+    
+#if os(watchOS)
+    func getRect() -> CGRect {
+        return WKInterfaceDevice.current().screenBounds
+    }
+
+    func getSafeArea() -> UIEdgeInsets {
+            return .zero
+    }
+
+    func onRotate(perform action: @escaping (UIDeviceOrientation) -> Void) -> some View {
+        modifier(DeviceRotationViewModifier(action: action))
+    }
+#endif
 }
 
 // custom view modifier to track rotation and
@@ -57,6 +78,16 @@ extension View {
                 .onReceive(NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification)) { _ in
                     action(UIDevice.current.orientation)
                 }
+        }
+    }
+#endif
+
+#if os(watchOS)
+    struct DeviceRotationViewModifier: ViewModifier {
+        let action: (UIDeviceOrientation) -> Void
+
+        func body(content: Content) -> some View {
+            content
         }
     }
 #endif
@@ -93,6 +124,26 @@ extension View {
         }
     #endif
 
+#if os(watchOS)
+    @ViewBuilder
+    func customStyle(type: ListComponentStyle, alternateRow: Bool = false) -> some View {
+        switch type {
+        case .plain:
+            listStyle(.plain)
+        case .grouped:
+            listStyle(.plain)
+        case .insetGrouped:
+            listStyle(.plain)
+        case .inset:
+            listStyle(.plain)
+        case .sidebar:
+            listStyle(.plain)
+        }
+    }
+#endif
+
+    
+    
     #if os(macOS)
         @ViewBuilder
         func customStyle(type: ListComponentStyle, alternateRow: Bool = false) -> some View {
@@ -156,7 +207,7 @@ func getSafeSystemImage(systemName: String) -> Image {
                 .resizable()
         }
     #endif
-    #if os(iOS)
+    #if os(iOS) || os(watchOS)
         if let _ = UIImage(systemName: systemName) {
             return Image(systemName: systemName)
                 .resizable()
@@ -177,7 +228,7 @@ func getSafeImage(name: String) -> Image {
                 .resizable()
         }
     #endif
-    #if os(iOS)
+    #if os(iOS) || os(watchOS)
         if let _ = UIImage(named: name) {
             return Image(name)
                 .resizable()
@@ -224,8 +275,11 @@ extension Color {
 
         #if os(iOS)
             SystemColor(self).getRed(&r, green: &g, blue: &b, alpha: &a)
-        // Note that non RGB color will raise an exception, that I don't now how to catch because it is an Objc exception.
-        #else
+        #endif
+#if os(watchOS)
+    SystemColor(self).getRed(&r, green: &g, blue: &b, alpha: &a)
+#endif
+        #if os(macOS)
 
             let c1 = SystemColor(self).usingColorSpace(NSColorSpace.deviceRGB)
             guard c1 != nil else {
@@ -264,15 +318,15 @@ extension Color: Codable {
 }
 
 #if os(iOS)
-extension UIDevice {
-    var hasNotch: Bool {
-        let keyWindow = UIApplication
-            .shared
-            .connectedScenes
-            .flatMap { ($0 as? UIWindowScene)?.windows ?? [] }
-            .first { $0.isKeyWindow }
-        let bottom = keyWindow?.safeAreaInsets.bottom ?? 0
-        return bottom > 20
+    extension UIDevice {
+        var hasNotch: Bool {
+            let keyWindow = UIApplication
+                .shared
+                .connectedScenes
+                .flatMap { ($0 as? UIWindowScene)?.windows ?? [] }
+                .first { $0.isKeyWindow }
+            let bottom = keyWindow?.safeAreaInsets.bottom ?? 0
+            return bottom > 20
+        }
     }
-}
 #endif

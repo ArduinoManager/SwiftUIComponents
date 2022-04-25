@@ -105,6 +105,63 @@ public class GenericColor: Codable {
                 }
             #endif
 
+            #if os(watchOS)
+                switch _systemColor! {
+                case .none:
+                    return Color(uiColor: .clear)
+                case .systemClear:
+                    return Color(uiColor: .clear)
+                case .systemLabel:
+                    return .systemLabel
+                case .systemBackground:
+                    return .systemBackground
+                case .systemTint:
+                    return Color(uiColor: .white)
+                case .systemRed:
+                    return Color(uiColor: .red)
+                case .systemBlue:
+                    return Color(uiColor: .blue)
+                case .systemGreen:
+                    return Color(uiColor: .green)
+                case .systemOrange:
+                    return Color(uiColor: .orange)
+                case .systemYellow:
+                    return Color(uiColor: .yellow)
+                case .systemPink:
+                    return Color(red: 1.0, green: 0.1764705926179886, blue: 0.3333333134651184)
+                case .systemPurple:
+                    return Color(uiColor: .purple)
+                case .systemTeal:
+                    return Color(red: 0.18823528289794922, green: 0.6901960968971252, blue: 0.7803921699523926)
+                case .systemIndigo:
+                    return Color(red: 0.34509801864624023, green: 0.3372548818588257, blue: 0.8392157554626465)
+                case .systemBrown:
+                    return Color(uiColor: .brown)
+                case .systemMint:
+                    return Color(red: 0.0, green: 0.7803921699523926, blue: 0.7450980544090271)
+                case .systemCyan:
+                    return Color(uiColor: .cyan)
+                case .systemGray:
+                    return Color(uiColor: .gray)
+                case .systemGray2:
+                    return Color(red: 0.6823529601097107, green: 0.6823529601097107, blue: 0.6980392336845398, opacity: 1.0)
+                case .systemGray3:
+                    return Color(red: 0.7803921699523926, green: 0.7803921699523926, blue: 0.800000011920929, opacity: 1.0)
+                case .systemGray4:
+                    return Color(red: 0.8196078538894653, green: 0.8196078538894653, blue: 0.8392157554626465, opacity: 1.0)
+                case .systemGray5:
+                    return Color(red: 0.8980392217636108, green: 0.8980392217636108, blue: 0.9176470637321472, opacity: 1.0)
+                case .systemGray6:
+                    return Color(red: 0.9490196108818054, green: 0.9490196108818054, blue: 0.9686275124549866, opacity: 1.0)
+                case .systemSecondaryLabel:
+                    return Color(red: 0.23529410362243652, green: 0.23529410362243652, blue: 0.26274511218070984, opacity: 0.6000000238418579)
+                case .systemTertiaryLabel:
+                    return Color(red: 0.23529410362243652, green: 0.23529410362243652, blue: 0.26274511218070984, opacity: 0.30000001192092896)
+                case .systemQuaternaryLabel:
+                    return Color(red: 0.23529410362243652, green: 0.23529410362243652, blue: 0.26274511218070984, opacity: 0.18000000715255737)
+                }
+            #endif
+
             #if os(macOS)
 
                 switch _systemColor! {
@@ -214,6 +271,7 @@ public class GenericColor: Codable {
     public static let systemPurple = GenericColor(systemColor: .systemPurple)
     public static let systemWhite = GenericColor(color: .white)
     public static let systemBlack = GenericColor(color: .black)
+    public static let systemPink = GenericColor(color: .pink)
 
     // MARK: - Encodable & Decodable
 
@@ -241,9 +299,15 @@ extension Color {
         public static let systemLabel = Color(NSColor.labelColor)
         public static let systemBackground = Color(NSColor.windowBackgroundColor)
         public static let systemSecondaryBackground = Color(NSColor.controlBackgroundColor)
-    #else
+    #endif
+    #if os(iOS)
         public static let systemLabel = Color(UIColor.label)
         public static let systemBackground = Color(UIColor.systemBackground)
         public static let systemSecondaryBackground = Color(UIColor.secondarySystemBackground)
+    #endif
+    #if os(watchOS)
+        public static let systemLabel = Color(UIColor.white)
+        public static let systemBackground = Color(UIColor.black)
+        public static let systemSecondaryBackground = Color(UIColor.lightGray)
     #endif
 }

@@ -77,7 +77,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                                     .frame(width: iconSize + 1, height: iconSize + 1)
                                     .border(controller.addButtonColor.color, width: 1)
                             }
-                            #if os(macOS)
+                            #if os(macOS) || os(watchOS)
                                 .buttonStyle(PlainButtonStyle())
                             #endif
                             .padding(.trailing, 15)
@@ -110,16 +110,15 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                             .frame(width: iconSize + 1, height: iconSize + 1)
                             .border(controller.addButtonColor.color, width: 1)
                     }
-                    #if os(macOS)
+                    #if os(macOS) || os(watchOS)
                         .buttonStyle(PlainButtonStyle())
-                        //.padding(.trailing, controller.isPlain ? -5 : 2)
                         .padding(.trailing, 10)
                     #endif
                     #if os(iOS)
                         .padding(.trailing, 6)
                     #endif
                     .padding(.top, 5)
-                    .padding(.bottom, 5)
+                        .padding(.bottom, 5)
                 }
             }
 
@@ -158,6 +157,27 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                                 editingList.toggle()
                             }
                     #endif
+
+                    #if os(watchOS)
+                        controller.makeRow(item)
+                            .modifier(AttachActions(controller: controller, item: item, sheetManager: sheetManager))
+                            .background(currentColor(idx: idx).color)
+                            .modifier(AttachSwipeActions(controller: controller, item: item, sheetManager: sheetManager))
+                            .onLongPressGesture {
+                                editingList.toggle()
+                            }
+                            .padding(0)
+                        
+                        if controller.showLineSeparator {
+                            Divider()
+                                .if(controller.lineSeparatorColor != nil) { view in
+                                    view
+                                        .background(controller.lineSeparatorColor!.color)
+                                }
+                                .padding(0)
+                        }
+
+                    #endif
                 }
                 .onMove(perform: move)
                 #if os(macOS)
@@ -165,6 +185,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                 #endif
                 .listRowBackground(GenericColor.systemClear.color)
             }
+            .environment(\.defaultMinListRowHeight, 5)
             #if os(iOS)
                 .environment(\.editMode, editingList ? .constant(.active) : .constant(.inactive))
             #endif
@@ -354,16 +375,16 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
 class ThisListController: ListController<ListItem, RowView> {
     override func headerProvider() -> AnyView? {
         return nil
-        //return AnyView(TitleView())
+        // return AnyView(TitleView())
     }
 
     override func footerProvider() -> AnyView? {
         return nil
-        //return AnyView(TitleView())
+        // return AnyView(TitleView())
     }
-    
+
     override func sortItems() {
-        items.sort(by: {$0.lastName < $1.lastName})
+        items.sort(by: { $0.lastName < $1.lastName })
     }
 }
 
@@ -386,23 +407,42 @@ struct SimpleListContainer: View {
             ListAction(key: "T2", label: "Action 2", icon: "logo", color: .systemRed),
         ]
 
-        _controller = StateObject(wrappedValue: ThisListController(items: items,
-                                                                   
-                                                                   style: .plain(alternatesRows: true, alternateBackgroundColor: GenericColor(color: .white)),
-                                                                   addButtonIcon: "plus",
-                                                                   addButtonColor: .systemRed,
-                                                                   editButtonLabel: "Edit_",
-                                                                   deleteButtonLabel: "Delete_",
-                                                                   backgroundColor: .systemGreen,
-                                                                   rowBackgroundColor: GenericColor(systemColor: .systemGray3),
-                                                                   swipeActions: false,
-                                                                   leadingActions: leadingActions,
-                                                                   trailingActions: trailingActions,
-                                                                   showLineSeparator: true,
-                                                                   lineSeparatorColor: .systemBlue,
-                                                                   makeRow: { item in
-                                                                       RowView(item: item)
-                                                                   }))
+        #if os(watchOS)
+            _controller = StateObject(wrappedValue: ThisListController(items: items,
+                                                                       style: .plain(alternatesRows: false, alternateBackgroundColor: .systemGray),
+                                                                       addButtonIcon: "plus",
+                                                                       addButtonColor: .systemRed,
+                                                                       editButtonLabel: "Edit_",
+                                                                       deleteButtonLabel: "Delete_",
+                                                                       backgroundColor: .systemBackground,
+                                                                       rowBackgroundColor: GenericColor(systemColor: .systemGray3),
+                                                                       swipeActions: true,
+                                                                       leadingActions: leadingActions,
+                                                                       trailingActions: trailingActions,
+                                                                       showLineSeparator: true,
+                                                                       lineSeparatorColor: .systemBlue,
+                                                                       makeRow: { item in
+                                                                           RowView(item: item)
+                                                                       }))
+        #else
+
+            _controller = StateObject(wrappedValue: ThisListController(items: items,
+                                                                       style: .plain(alternatesRows: true, alternateBackgroundColor: .systemGray),
+                                                                       addButtonIcon: "plus",
+                                                                       addButtonColor: .systemRed,
+                                                                       editButtonLabel: "Edit_",
+                                                                       deleteButtonLabel: "Delete_",
+                                                                       backgroundColor: .systemGreen,
+                                                                       rowBackgroundColor: GenericColor(systemColor: .systemGray3),
+                                                                       swipeActions: true,
+                                                                       leadingActions: leadingActions,
+                                                                       trailingActions: trailingActions,
+                                                                       showLineSeparator: true,
+                                                                       lineSeparatorColor: .systemBlue,
+                                                                       makeRow: { item in
+                                                                           RowView(item: item)
+                                                                       }))
+        #endif
     }
 
     var body: some View {

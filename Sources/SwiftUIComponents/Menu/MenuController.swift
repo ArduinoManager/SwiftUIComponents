@@ -62,6 +62,42 @@ open class MenuController: SuperController, ObservableObject {
         }
 
     #endif
+    
+#if os(watchOS)
+
+    public init(menuItems: [MenuItem],
+                autoClose: Bool = true,
+                openButtonAtTop: Bool = true,
+                openButtonColor: GenericColor = .systemLabel,
+                openButtonIcon: String = "line.3.horizontal",
+                openButtonSize: CGFloat = 20.0,
+                backgroundColor: GenericColor = .systemBackground,
+                itemsColor: GenericColor = .systemLabel,
+                selectedItemBackgroundColor: GenericColor = GenericColor(systemColor: .systemGray4),
+                titleViewBackgroundColor: GenericColor = .systemBackground)
+    {
+        showMenu = false
+        self.menuItems = menuItems
+        self.autoClose = autoClose
+        self.openButtonAtTop = openButtonAtTop
+        self.openButtonColor = openButtonColor
+        self.openButtonIcon = openButtonIcon
+        self.openButtonSize = openButtonSize
+        self.backgroundColor = backgroundColor
+        self.itemsColor = itemsColor
+        self.selectedItemBackgroundColor = selectedItemBackgroundColor
+        self.titleViewBackgroundColor = titleViewBackgroundColor
+        currentTab = menuItems[0].key
+
+        super.init(type: .menu)
+
+        let dups = Dictionary(grouping: self.menuItems, by: { $0.key }).filter { $1.count > 1 }.keys
+        if !dups.isEmpty {
+            fatalError("Duplicated keys: \(dups)")
+        }
+    }
+
+#endif
 
     #if os(macOS)
 

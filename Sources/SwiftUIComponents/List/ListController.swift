@@ -31,7 +31,7 @@ public struct ListAction: Hashable, Codable {
     public var systemIcon: String?
     public var icon: String?
 
-    #if os(iOS)
+    #if os(iOS) || os(watchOS)
         public init(key: String, label: String, systemIcon: String? = nil, icon: String? = nil, color: GenericColor = GenericColor.systemLabel) {
             self.key = key
             self.label = label
@@ -129,7 +129,7 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
         return false
     }
 
-    #if os(iOS)
+    #if os(iOS) || os(watchOS)
         public init(items: [Item],
                     style: ListComponentStyle,
                     multipleSelection: Bool = false,

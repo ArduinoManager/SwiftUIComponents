@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-#if os(iOS)
+#if os(iOS) || os(watchOS)
     public struct SideMenuView: View {
         @ObservedObject var controller: MenuController
         @Namespace var animation
@@ -123,6 +123,7 @@ import SwiftUI
                 )
             }
                 .offset(x: controller.currentTab == item.key ? rightShiftWhenSelected : 0)
+                .buttonStyle(.plain)
         }
 
         @ViewBuilder
@@ -167,6 +168,7 @@ import SwiftUI
                     }
                 )
             }
+            .buttonStyle(.plain)
         }
 
         @ViewBuilder

@@ -67,7 +67,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                             .frame(width: iconSize + 1, height: iconSize + 1)
                             .border(controller.addButtonColor.color, width: 1)
                     }
-                    #if os(macOS)
+                    #if os(macOS) || os(watchOS)
                         .buttonStyle(PlainButtonStyle())
                         .padding(.trailing, 6)
                     #endif
@@ -93,6 +93,59 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                         let item = controller.items[idx]
 
                         #if os(iOS)
+                            VStack(alignment: .leading, spacing: 0) {
+                                NavigationLink(
+                                    destination: rightView(),
+                                    tag: item,
+                                    selection: Binding<Item?>(
+                                        get: {
+                                            if controller.editingItem != nil {
+                                                return controller.editingItem
+                                            }
+                                            if controller.detailingItem != nil {
+                                                return controller.detailingItem
+                                            }
+                                            return nil
+                                        },
+                                        set: { _ in }
+                                    ),
+                                    label: {})
+                                    .hidden()
+
+                                HStack(alignment: .center, spacing: 0) {
+                                    controller.makeRow(item)
+                                        .modifier(AttachActions(controller: controller, item: item))
+                                        .modifier(AttachSwipeActions(controller: controller, item: item))
+                                        .background(currentColor(idx: idx).color)
+                                        .onLongPressGesture {
+                                            editingList.toggle()
+                                        }
+                                        .layoutPriority(1)
+
+                                    Button {
+                                        controller.detailingItem = item
+                                    } label: {
+                                        Image(systemName: "chevron.right")
+                                            .resizable()
+                                            .foregroundColor(GenericColor.systemTint.color)
+                                            .scaledToFit()
+                                            .frame(width: iconSize + 1, height: iconSize + 1)
+                                            .padding(2)
+                                    }
+                                    .buttonStyle(.plain)
+                                    .background(currentColor(idx: idx).color)
+                                }
+                                if controller.showLineSeparator {
+                                    Divider()
+                                        .if(controller.lineSeparatorColor != nil) { view in
+                                            view
+                                                .background(controller.lineSeparatorColor!.color)
+                                        }
+                                }
+                            }
+                        #endif
+
+                        #if os(watchOS)
                             VStack(alignment: .leading, spacing: 0) {
                                 NavigationLink(
                                     destination: rightView(),
@@ -198,6 +251,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                     .onMove(perform: move)
                     .listRowBackground(GenericColor.systemClear.color)
                 }
+                .environment(\.defaultMinListRowHeight, 5)
                 #if os(iOS)
                     .environment(\.editMode, editingList ? .constant(.active) : .constant(.inactive))
                 #endif
@@ -251,7 +305,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
         #endif
     }
 
-    #if os(iOS)
+    #if os(iOS) || os(watchOS)
         private func rightView() -> AnyView {
             if controller.editingItem != nil {
                 return AnyView(form(.edit).navigationBarHidden(true))
@@ -478,6 +532,26 @@ struct NavigationListContainer: View {
                                                                                  RowView(item: item)
                                                                              }))
         #endif
+
+        #if os(watchOS)
+            _controller = StateObject(wrappedValue: ThisNavigationController(items: items,
+                                                                             style: .plain(alternatesRows: true, alternateBackgroundColor: .systemGray),
+                                                                             addButtonIcon: "plus",
+                                                                             addButtonColor: .systemRed,
+                                                                             editButtonLabel: "Edit_",
+                                                                             deleteButtonLabel: "Delete_",
+                                                                             backgroundColor: .systemBackground,
+                                                                             rowBackgroundColor: GenericColor(systemColor: .systemPurple),
+                                                                             swipeActions: true,
+                                                                             leadingActions: leadingActions,
+                                                                             trailingActions: trailingActions,
+                                                                             showLineSeparator: true,
+                                                                             lineSeparatorColor: .systemBlue,
+                                                                             makeRow: { item in
+                                                                                 RowView(item: item)
+                                                                             }))
+        #endif
+
         #if os(macOS)
             _controller = StateObject(wrappedValue: ThisNavigationController(items: items,
                                                                              style: .plain(alternatesRows: true, alternateBackgroundColor: .systemGray),
