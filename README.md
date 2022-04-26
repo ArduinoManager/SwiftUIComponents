@@ -15,6 +15,7 @@ All the components can be also configured at run-time and they react to the chan
 - **ToDo**:
 
     - Support for WatchOS
+    - Additional global actions for lists
     - Callbacks to enable and disable menu items
     - Callbacks to enable and disable list actions and navigation list actions
 
