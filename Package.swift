@@ -24,9 +24,6 @@ let package = Package(
             name: "SwiftUIComponents",
             dependencies: []
             //, resources: [.process("Media.xcassets")] // If I need to export any Asset
-        ),
-        .testTarget(
-            name: "SwiftUIComponentsTests",
-            dependencies: ["SwiftUIComponents"]),
+        )
     ]
 )
