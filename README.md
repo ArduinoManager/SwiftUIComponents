@@ -1,4 +1,4 @@
-# SwiftuiComponents
+# SwiftUIComponents
 
 This is a Package contains the Swiftui Components. All the components can be used in iOS and macOS applications.
 
@@ -12,6 +12,6 @@ This is a Package contains the Swiftui Components. All the components can be use
 
 All the components can be also configured at run-time and they react to the changes (e.g. menu items can be dinamically added/removed).
 
-- ToDo:
+- **ToDo**:
 
-- To Fix:
+- **To Fix**:
