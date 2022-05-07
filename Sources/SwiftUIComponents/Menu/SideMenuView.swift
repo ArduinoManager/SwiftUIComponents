@@ -8,6 +8,7 @@
 import SwiftUI
 
 #if os(iOS) || os(watchOS)
+
     public struct SideMenuView: View {
         @ObservedObject var controller: MenuController
         @Namespace var animation
