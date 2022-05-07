@@ -168,6 +168,10 @@ open class MenuController: SuperController, ObservableObject {
         return nil
     }
     
+    open func sideFooterProvider() -> AnyView? {
+        return nil
+    }
+    
     open func headerProvider() -> AnyView? {
         return nil
     }

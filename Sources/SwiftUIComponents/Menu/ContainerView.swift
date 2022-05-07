@@ -467,6 +467,10 @@ class MyMenuController: MenuController {
         return nil
         //return AnyView(TitleView())
     }
+    
+    override func sideFooterProvider() -> AnyView? {
+        return AnyView(TitleView())
+    }
 
     override func headerProvider() -> AnyView? {
          return nil

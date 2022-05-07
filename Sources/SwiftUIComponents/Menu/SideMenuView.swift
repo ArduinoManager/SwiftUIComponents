@@ -72,6 +72,25 @@ import SwiftUI
                 .padding(.top, 10)
                 .frame(width: getRect().width, alignment: .leading)
                 .frame(maxWidth: .infinity, alignment: .leading)
+                
+                if let titleView = controller.sideFooterProvider() {
+                    HStack {
+                        titleView
+                            .frame(maxWidth: getRect().width / 2, alignment: .leading)
+                            .padding(0)
+                            .background(controller.titleViewBackgroundColor.color)
+                            .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
+                            .background(GenericColor.systemLabel.color)
+                            .shadow(
+                                color: GenericColor.systemLabel.color.opacity(0.5),
+                                radius: 3,
+                                x: 0,
+                                y: 0.5
+                            )
+                            .zIndex(99)
+                    }
+                    .padding(0)
+                }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .background(controller.backgroundColor.color)
@@ -198,6 +217,7 @@ import SwiftUI
 
         public var body: some View {
             VStack(alignment: .leading, spacing: 0) {
+                
                 if controller.menuItems.count >= 1 {
                     NavigationLink(destination: ContainerView(controller: controller, item: controller.menuItems[0]), tag: "A", selection: $controller.boostrap, label: { EmptyView().scaleEffect(0) })
                         .frame(width: 0, height: 0)
@@ -284,6 +304,24 @@ import SwiftUI
                 .listStyle(SidebarListStyle())
                 .padding([.leading], 0)
                 .layoutPriority(1)
+                
+                
+                if let titleView = controller.sideFooterProvider() {
+                    HStack(spacing: 0) {
+                        titleView
+                    }
+                    .padding(0)
+                    .background(controller.titleViewBackgroundColor.color)
+                    .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
+                    .background(GenericColor.systemLabel.color)
+                    .shadow(
+                        color: GenericColor.systemLabel.color.opacity(0.5),
+                        radius: 3,
+                        x: 0,
+                        y: 0.5
+                    )
+                    .zIndex(99)
+                }
             }
             .toolbar {
                 ToolbarItem(placement: .navigation) {
