@@ -114,7 +114,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                         .buttonStyle(PlainButtonStyle())
                         .padding(.trailing, 10)
                     #endif
-                    #if os(iOS)
+                    #if os(iOS) || os(watchOS)
                         .padding(.trailing, 6)
                     #endif
                     .padding(.top, 5)
@@ -140,6 +140,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                             }
                         }
                     #endif
+                    
                     #if os(iOS)
                         controller.makeRow(item)
                             .modifier(AttachActions(controller: controller, item: item, sheetManager: sheetManager))
@@ -247,7 +248,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                     .padding(.top, 2)
                     .padding(.bottom, controller.showLineSeparator ? 2 : 0)
                     .padding(.leading, idx == 0 ? 2 : 0)
-                    #if os(iOS)
+                    #if os(iOS) || os(watchOS)
                         .buttonStyle(BorderlessButtonStyle())
                     #endif
                     #if os(macOS)
@@ -276,7 +277,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                 }
                 .padding(.top, 2)
                 .padding(.bottom, controller.showLineSeparator ? 2 : 0)
-                #if os(iOS)
+                #if os(iOS) || os(watchOS)
                     .buttonStyle(BorderlessButtonStyle())
                 #endif
                 #if os(macOS)
@@ -299,7 +300,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                 .padding(.top, 2)
                 .padding(.bottom, controller.showLineSeparator ? 2 : 0)
                 .padding(.trailing, controller.trailingActions.count == 0 ? 2 : 0)
-                #if os(iOS)
+                #if os(iOS) || os(watchOS)
                     .buttonStyle(BorderlessButtonStyle())
                 #endif
                 #if os(macOS)
@@ -317,7 +318,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                     .padding(.top, 1)
                     .padding(.bottom, controller.showLineSeparator ? 2 : 0)
                     .padding(.trailing, idx == controller.trailingActions.count - 1 ? 2 : 0)
-                    #if os(iOS)
+                    #if os(iOS) || os(watchOS)
                         .buttonStyle(BorderlessButtonStyle())
                     #endif
                     #if os(macOS)
