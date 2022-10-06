@@ -46,6 +46,7 @@ import SwiftUI
                         if item is MenuView {
                             controller.viewProvider(item: item as! MenuView)
                                 .tag(item.key)
+                                .navigationBarHidden(true)
                         }
                     }
                 }
@@ -97,8 +98,6 @@ import SwiftUI
                 }
             }
             .background(controller.titleViewBackgroundColor.color)
-            .navigationBarHidden(true)
-            .navigationBarTitle("")
         }
 
         @ViewBuilder
