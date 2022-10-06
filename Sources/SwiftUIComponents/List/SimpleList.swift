@@ -353,7 +353,9 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
                         Button(LocalizedStringKey(controller.deleteButtonLabel)) {
                             controller.delete(item: item)
                         }
-                        .tint(.red)
+                        //.tint(.red)
+                        .background(Color.systemBackground)
+                        .foregroundColor(Color.red)
                         Button(LocalizedStringKey(controller.editButtonLabel)) {
                             controller.editingItem = item
                             sheetManager.whichSheet = .Form

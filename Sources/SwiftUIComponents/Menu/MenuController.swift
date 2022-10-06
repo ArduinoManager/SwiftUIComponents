@@ -38,8 +38,7 @@ open class MenuController: SuperController, ObservableObject {
                     backgroundColor: GenericColor = .systemBackground,
                     itemsColor: GenericColor = .systemLabel,
                     selectedItemBackgroundColor: GenericColor = GenericColor(systemColor: .systemGray4),
-                    titleViewBackgroundColor: GenericColor = .systemBackground)
-        {
+                    titleViewBackgroundColor: GenericColor = .systemBackground) {
             showMenu = false
             self.menuItems = menuItems
             self.autoClose = autoClose
@@ -62,42 +61,41 @@ open class MenuController: SuperController, ObservableObject {
         }
 
     #endif
-    
-#if os(watchOS)
 
-    public init(menuItems: [MenuItem],
-                autoClose: Bool = true,
-                openButtonAtTop: Bool = true,
-                openButtonColor: GenericColor = .systemLabel,
-                openButtonIcon: String = "line.3.horizontal",
-                openButtonSize: CGFloat = 20.0,
-                backgroundColor: GenericColor = .systemBackground,
-                itemsColor: GenericColor = .systemLabel,
-                selectedItemBackgroundColor: GenericColor = GenericColor(systemColor: .systemGray4),
-                titleViewBackgroundColor: GenericColor = .systemBackground)
-    {
-        showMenu = false
-        self.menuItems = menuItems
-        self.autoClose = autoClose
-        self.openButtonAtTop = openButtonAtTop
-        self.openButtonColor = openButtonColor
-        self.openButtonIcon = openButtonIcon
-        self.openButtonSize = openButtonSize
-        self.backgroundColor = backgroundColor
-        self.itemsColor = itemsColor
-        self.selectedItemBackgroundColor = selectedItemBackgroundColor
-        self.titleViewBackgroundColor = titleViewBackgroundColor
-        currentTab = menuItems[0].key
+    #if os(watchOS)
 
-        super.init(type: .menu)
+        public init(menuItems: [MenuItem],
+                    autoClose: Bool = true,
+                    openButtonAtTop: Bool = true,
+                    openButtonColor: GenericColor = .systemLabel,
+                    openButtonIcon: String = "line.3.horizontal",
+                    openButtonSize: CGFloat = 20.0,
+                    backgroundColor: GenericColor = .systemBackground,
+                    itemsColor: GenericColor = .systemLabel,
+                    selectedItemBackgroundColor: GenericColor = GenericColor(systemColor: .systemGray4),
+                    titleViewBackgroundColor: GenericColor = .systemBackground) {
+            showMenu = false
+            self.menuItems = menuItems
+            self.autoClose = autoClose
+            self.openButtonAtTop = openButtonAtTop
+            self.openButtonColor = openButtonColor
+            self.openButtonIcon = openButtonIcon
+            self.openButtonSize = openButtonSize
+            self.backgroundColor = backgroundColor
+            self.itemsColor = itemsColor
+            self.selectedItemBackgroundColor = selectedItemBackgroundColor
+            self.titleViewBackgroundColor = titleViewBackgroundColor
+            currentTab = menuItems[0].key
 
-        let dups = Dictionary(grouping: self.menuItems, by: { $0.key }).filter { $1.count > 1 }.keys
-        if !dups.isEmpty {
-            fatalError("Duplicated keys: \(dups)")
+            super.init(type: .menu)
+
+            let dups = Dictionary(grouping: self.menuItems, by: { $0.key }).filter { $1.count > 1 }.keys
+            if !dups.isEmpty {
+                fatalError("Duplicated keys: \(dups)")
+            }
         }
-    }
 
-#endif
+    #endif
 
     #if os(macOS)
 
@@ -115,8 +113,7 @@ open class MenuController: SuperController, ObservableObject {
         public init(menuItems: [MenuItem],
                     backgroundColor: GenericColor = .systemBackground,
                     itemsColor: GenericColor = .systemLabel,
-                    titleViewBackgroundColor: GenericColor = .systemBackground)
-        {
+                    titleViewBackgroundColor: GenericColor = .systemBackground) {
             showMenu = false
             self.menuItems = menuItems
             autoClose = true
@@ -128,7 +125,7 @@ open class MenuController: SuperController, ObservableObject {
             self.itemsColor = itemsColor
             selectedItemBackgroundColor = GenericColor(systemColor: .systemGray4)
             self.titleViewBackgroundColor = titleViewBackgroundColor
-            self.lastAction = nil
+            lastAction = nil
             currentTab = menuItems[0].key
 
             super.init(type: .menu)
@@ -167,19 +164,19 @@ open class MenuController: SuperController, ObservableObject {
     open func sideHeaderProvider() -> AnyView? {
         return nil
     }
-    
+
     open func sideFooterProvider() -> AnyView? {
         return nil
     }
-    
+
     open func headerProvider() -> AnyView? {
         return nil
     }
-    
+
     open func inspectorProvider() -> AnyView? {
         return nil
     }
-    
+
     // MARK: - Encodable & Decodable
 
     enum CodingKeys: CodingKey {
