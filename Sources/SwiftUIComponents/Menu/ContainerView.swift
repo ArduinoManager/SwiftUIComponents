@@ -97,7 +97,8 @@ import SwiftUI
                 }
             }
             .background(controller.titleViewBackgroundColor.color)
-            .navigationBarBackButtonHidden(true)
+            .navigationBarHidden(true)
+            .navigationBarTitle("")
         }
 
         @ViewBuilder
