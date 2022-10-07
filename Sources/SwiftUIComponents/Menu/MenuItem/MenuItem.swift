@@ -43,7 +43,7 @@ public class MenuItem: Hashable, CustomDebugStringConvertible, Encodable, Decoda
     }
 
     public var debugDescription: String {
-        return "[\(key)]"
+        return "[\(title) \(key)]"
     }
     
     // MARK: - Encodable & Decodable
