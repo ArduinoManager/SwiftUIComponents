@@ -20,7 +20,7 @@ open class MenuController: SuperController, ObservableObject {
     @Published public var openButtonIcon: String
     @Published public var openButtonSize: CGFloat
     @Published public var titleViewBackgroundColor: GenericColor
-    @Published public var menuItems: [MenuItem]
+    @Published public var menuItems: [SUCMenuItem]
     @Published public var lastAction: MenuAction?
     var boostrap: String? = "A"
     public var menuViews: [MenuView] {
@@ -29,7 +29,7 @@ open class MenuController: SuperController, ObservableObject {
 
     #if os(iOS)
 
-        public init(menuItems: [MenuItem],
+        public init(menuItems: [SUCMenuItem],
                     autoClose: Bool = true,
                     openButtonAtTop: Bool = true,
                     openButtonColor: GenericColor = .systemLabel,
@@ -64,7 +64,7 @@ open class MenuController: SuperController, ObservableObject {
 
     #if os(watchOS)
 
-        public init(menuItems: [MenuItem],
+        public init(menuItems: [SUCMenuItem],
                     autoClose: Bool = true,
                     openButtonAtTop: Bool = true,
                     openButtonColor: GenericColor = .systemLabel,
@@ -110,7 +110,7 @@ open class MenuController: SuperController, ObservableObject {
         ///   - titleViewBackgroundColor: content panel title view color
         ///   - inspector: right side inspector
         ///
-        public init(menuItems: [MenuItem],
+        public init(menuItems: [SUCMenuItem],
                     backgroundColor: GenericColor = .systemBackground,
                     itemsColor: GenericColor = .systemLabel,
                     titleViewBackgroundColor: GenericColor = .systemBackground) {
@@ -138,7 +138,7 @@ open class MenuController: SuperController, ObservableObject {
 
     #endif
 
-    public func addItem(item: MenuItem) {
+    public func addItem(item: SUCMenuItem) {
         menuItems.append(item)
         if menuItems.count == 1 {
             currentTab = menuItems[0].key
@@ -157,7 +157,7 @@ open class MenuController: SuperController, ObservableObject {
         menuItems.removeSubrange(index...)
     }
 
-    open func viewProvider(item: MenuItem) -> AnyView {
+    open func viewProvider(item: SUCMenuItem) -> AnyView {
         return AnyView(EmptyView())
     }
 
@@ -208,7 +208,7 @@ open class MenuController: SuperController, ObservableObject {
         let container = try decoder.container(keyedBy: ArrayKeys.self)
 
         var menuItemsArrayForType = try container.nestedUnkeyedContainer(forKey: ArrayKeys.menuItems)
-        var menuItems = [MenuItem]()
+        var menuItems = [SUCMenuItem]()
         var menuItemsArray = menuItemsArrayForType
         while !menuItemsArrayForType.isAtEnd {
             let menuItem = try menuItemsArrayForType.nestedContainer(keyedBy: ClassTypeKey.self)

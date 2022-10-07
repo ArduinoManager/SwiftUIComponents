@@ -18,7 +18,7 @@ public enum MenuItemType: String, Codable {
 
 /// Generic Menu Item - Do not instantiate this but the subclasses
 ///
-public class MenuItem: Hashable, CustomDebugStringConvertible, Encodable, Decodable {
+public class SUCMenuItem: Hashable, CustomDebugStringConvertible, Encodable, Decodable {
     public var key: Key
     public var title: String
     public var systemIcon: String?
@@ -34,7 +34,7 @@ public class MenuItem: Hashable, CustomDebugStringConvertible, Encodable, Decoda
         useSystemIcon = true
     }
 
-    public static func == (lhs: MenuItem, rhs: MenuItem) -> Bool {
+    public static func == (lhs: SUCMenuItem, rhs: SUCMenuItem) -> Bool {
         return lhs.title == rhs.title
     }
 

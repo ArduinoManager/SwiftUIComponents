@@ -9,7 +9,7 @@ import SwiftUI
 
 /// Item associated to a View shown when the item is clicked
 ///
-public class MenuView: MenuItem {
+public class MenuView: SUCMenuItem {
     public var targetViewId: UUID? /// Reserved for the generarator
 
     public init(key: Key, title: String, systemIcon: String) {

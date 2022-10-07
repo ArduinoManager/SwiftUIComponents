@@ -101,7 +101,7 @@ import SwiftUI
         }
 
         @ViewBuilder
-        func CustomTabButton(item: MenuItem) -> some View {
+        func CustomTabButton(item: SUCMenuItem) -> some View {
             Button {
                 withAnimation {
                     controller.currentTab = item.key
@@ -192,7 +192,7 @@ import SwiftUI
         }
 
         @ViewBuilder
-        func makeImage(item: MenuItem) -> some View {
+        func makeImage(item: SUCMenuItem) -> some View {
             if item.icon != nil {
                 getSafeImage(name: item.icon!)
                     .resizable()
@@ -334,7 +334,7 @@ import SwiftUI
         }
 
         @ViewBuilder
-        func makeImage(item: MenuItem) -> some View {
+        func makeImage(item: SUCMenuItem) -> some View {
             if item.icon != nil {
                 getSafeImage(name: item.icon!)
                     .resizable()

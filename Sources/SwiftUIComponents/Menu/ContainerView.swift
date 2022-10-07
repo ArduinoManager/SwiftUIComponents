@@ -289,7 +289,7 @@ import SwiftUI
 
     public struct ContainerView: View {
         @ObservedObject var controller: MenuController
-        var item: MenuItem
+        var item: SUCMenuItem
         @State private var showInspector = false
 
         public var body: some View {
@@ -457,7 +457,7 @@ import SwiftUI
 #endif
 
 class MyMenuController: MenuController {
-    override func viewProvider(item: MenuItem) -> AnyView {
+    override func viewProvider(item: SUCMenuItem) -> AnyView {
         if item.key == 0 {
             return AnyView(TestView(text: "Home"))
         }
