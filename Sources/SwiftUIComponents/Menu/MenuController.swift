@@ -157,7 +157,7 @@ open class MenuController: SuperController, ObservableObject {
         menuItems.removeSubrange(index...)
     }
 
-    open func viewProvider(item: MenuView) -> AnyView {
+    open func viewProvider(item: MenuItem) -> AnyView {
         return AnyView(EmptyView())
     }
 

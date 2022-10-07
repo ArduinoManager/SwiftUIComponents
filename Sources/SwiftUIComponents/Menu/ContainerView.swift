@@ -43,16 +43,22 @@ import SwiftUI
                 }
 
                 // Fuck
-                
+
                 let views = controller.menuItems.map { menuItem in
-                    controller.viewProvider(item: menuItem as! MenuView)
+                    controller.viewProvider(item: menuItem)
                 }
-                //position.index = controller.currentTab
-                
+
                 ScrollerView(views: views, selected: position)
-                
+                    .onChange(of: controller.currentTab, perform: { _ in
+                        position.index = controller.currentTab
+                        if controller.autoClose {
+                            withAnimation(.spring()) {
+                                controller.showMenu = false
+                            }
+                        }
+                    })
                 // Fuck
-                
+
 //                TabView(selection: $controller.currentTab) {
 //                    ForEach(controller.menuItems, id: \.self) { item in
 //                        if item is MenuView {
@@ -147,7 +153,7 @@ import SwiftUI
         }
 
         func isLandscape() -> Bool {
-                return UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight
+            return UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight
         }
     }
 #endif
@@ -166,7 +172,6 @@ import SwiftUI
                                     OpenButton()
                                         .buttonStyle(.plain)
                                         .padding(.leading, 20)
-                                        
                                 }
                         }
                     }
@@ -239,7 +244,6 @@ import SwiftUI
                         .buttonStyle(.plain)
                         .padding(.leading)
                         .padding(.top)
-                       
                 }
             }
             .background(controller.titleViewBackgroundColor.color)
@@ -453,7 +457,7 @@ import SwiftUI
 #endif
 
 class MyMenuController: MenuController {
-    override func viewProvider(item: MenuView) -> AnyView {
+    override func viewProvider(item: MenuItem) -> AnyView {
         if item.key == 0 {
             return AnyView(TestView(text: "Home"))
         }
@@ -473,23 +477,23 @@ class MyMenuController: MenuController {
         if item.key == 4 {
             return AnyView(TestView(text: "Profile").background(.green))
         }
-        
+
         if item.key == 5 {
             return AnyView(TestView(text: "Profile1").background(.green))
         }
-        
+
         if item.key == 6 {
             return AnyView(TestView(text: "Profile2").background(.green))
         }
-        
+
         return AnyView(EmptyView())
     }
 
     override func sideHeaderProvider() -> AnyView? {
         return nil
-        //return AnyView(TitleView())
+        // return AnyView(TitleView())
     }
-    
+
     override func sideFooterProvider() -> AnyView? {
         return AnyView(TitleView())
     }
@@ -529,7 +533,7 @@ struct MainViewContainer: View {
             MenuAction(key: 103, title: "Kill!", icon: "logo"),
         ]
 
-        #if os(iOS)  || os(watchOS)
+        #if os(iOS) || os(watchOS)
             let x = MyMenuController(menuItems: menuItems,
                                      openButtonAtTop: true,
                                      openButtonSize: 30,
@@ -586,10 +590,10 @@ struct TitleView: View {
             Text("This is the Title View")
         }
         #if os(iOS)
-            .frame(maxWidth: .infinity, minHeight: 35)
+        .frame(maxWidth: .infinity, minHeight: 35)
         #endif
         #if os(macOS)
-            .frame(maxWidth: .infinity, minHeight: 35)
+        .frame(maxWidth: .infinity, minHeight: 35)
         #endif
     }
 }
