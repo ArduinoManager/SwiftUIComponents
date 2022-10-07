@@ -50,7 +50,7 @@ import SwiftUI
 
                 ScrollerView(views: views, selected: position)
                     .onChange(of: controller.currentTab, perform: { _ in
-                        position.index = controller.menuItems.filter({$0.type == .item}).firstIndex(where: {$0.key == controller.currentTab})
+                        position.index = controller.menuItems.filter({$0.type == .item}).firstIndex(where: {$0.key == controller.currentTab})!
                         //position.index = controller.currentTab
                         if controller.autoClose {
                             withAnimation(.spring()) {
