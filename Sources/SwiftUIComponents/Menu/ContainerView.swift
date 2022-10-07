@@ -11,6 +11,7 @@ import SwiftUI
     public struct ContainerView: View {
         @ObservedObject var controller: MenuController
         @State private var orientation = UIDeviceOrientation.unknown
+        @StateObject var position = ScrollerPosition()
 
         public var body: some View {
             VStack(spacing: 0) {
@@ -41,22 +42,33 @@ import SwiftUI
                     .zIndex(99)
                 }
 
-                TabView(selection: $controller.currentTab) {
-                    ForEach(controller.menuItems, id: \.self) { item in
-                        if item is MenuView {
-                            controller.viewProvider(item: item as! MenuView)
-                                .tag(item.key)
-                                .navigationBarHidden(true)
-                        }
-                    }
+                // Fuck
+                
+                let views = controller.menuItems.map { menuItem in
+                    controller.viewProvider(item: menuItem as! MenuView)
                 }
-                .onChange(of: controller.currentTab, perform: { _ in
-                    if controller.autoClose {
-                        withAnimation(.spring()) {
-                            controller.showMenu = false
-                        }
-                    }
-                })
+                //position.index = controller.currentTab
+                
+                ScrollerView(views: views, selected: position)
+                
+                // Fuck
+                
+//                TabView(selection: $controller.currentTab) {
+//                    ForEach(controller.menuItems, id: \.self) { item in
+//                        if item is MenuView {
+//                            controller.viewProvider(item: item as! MenuView)
+//                                .tag(item.key)
+//                                .navigationBarHidden(true)
+//                        }
+//                    }
+//                }
+//                .onChange(of: controller.currentTab, perform: { _ in
+//                    if controller.autoClose {
+//                        withAnimation(.spring()) {
+//                            controller.showMenu = false
+//                        }
+//                    }
+//                })
 
                 if !controller.openButtonAtTop {
                     HStack(spacing: 0) {
@@ -461,6 +473,15 @@ class MyMenuController: MenuController {
         if item.key == 4 {
             return AnyView(TestView(text: "Profile").background(.green))
         }
+        
+        if item.key == 5 {
+            return AnyView(TestView(text: "Profile1").background(.green))
+        }
+        
+        if item.key == 6 {
+            return AnyView(TestView(text: "Profile2").background(.green))
+        }
+        
         return AnyView(EmptyView())
     }
 
@@ -496,6 +517,8 @@ struct MainViewContainer: View {
             MenuSpacer(height: 50),
             MenuView(key: 3, title: "Profile", systemIcon: "person.fill"),
             MenuView(key: 4, title: "Profile2", icon: "logo"),
+            MenuView(key: 5, title: "Profile3", icon: "logo"),
+            MenuView(key: 6, title: "Profile4", icon: "logo"),
 
             MenuDivider(color: GenericColor.systemLabel),
             MenuAction(key: 101, title: "Login", systemIcon: "rectangle.portrait.and.arrow.right"),
