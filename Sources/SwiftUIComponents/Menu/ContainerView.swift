@@ -44,8 +44,8 @@ import SwiftUI
 
                 // Fuck
 
-                let views = controller.menuItems.map { menuItem in
-                    controller.viewProvider(item: menuItem)
+                let views = controller.menuItems.filter({$0.type == .item}).map { menuItem in                    
+                        controller.viewProvider(item: menuItem)
                 }
 
                 ScrollerView(views: views, selected: position)
