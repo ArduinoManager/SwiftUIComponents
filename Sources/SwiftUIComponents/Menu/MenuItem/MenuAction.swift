@@ -9,7 +9,7 @@ import SwiftUI
 
 /// Menu Item associated to an action activated when the item is clicked
 ///
-public class MenuAction: SUCMenuItem {
+public class MenuAction: MenuItem {
     public init(key: Key, title: String, systemIcon: String) {
         super.init(type: .action)
         self.key = key

@@ -9,7 +9,7 @@ import SwiftUI
 
 /// Line Separator between items
 ///
-public class MenuDivider: SUCMenuItem {
+public class MenuDivider: MenuItem {
     public var color: GenericColor
 
     public init(color: GenericColor = .systemLabel) {
