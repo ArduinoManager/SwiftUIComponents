@@ -29,14 +29,15 @@ struct ScrollerView: View {
                                 .tag(idx)
                         }
                     }
+                    .introspectScrollView { scrollView in
+                        scrollView.isScrollEnabled = false
+                    }
                     .onChange(of: selected.index) { idx in
                         pageScroller.scrollTo(idx)
                     }
                 }
             }
-            .introspectScrollView { scrollView in
-                scrollView.isScrollEnabled = false
-            }
+           
         }
     }
 }
