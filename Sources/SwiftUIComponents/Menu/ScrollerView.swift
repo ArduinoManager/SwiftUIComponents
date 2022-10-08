@@ -25,12 +25,12 @@ struct ScrollerView: View {
                         ForEach(0 ..< views.count, id: \.self) { idx in
                             let view = views[idx]
                             view
+                                .introspectScrollView { scrollView in
+                                    scrollView.isScrollEnabled = false
+                                }
                                 .frame(width: geometry.size.width)
                                 .tag(idx)
                         }
-                    }
-                    .introspectScrollView { scrollView in
-                        scrollView.isScrollEnabled = false
                     }
                     .onChange(of: selected.index) { idx in
                         pageScroller.scrollTo(idx)
