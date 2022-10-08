@@ -14,8 +14,7 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(name: "Introspect", url: "https://github.com/siteline/SwiftUI-Introspect", from: "0.1.4"),
-        //.package(name: "Introspect", url: "https://github.com/siteline/SwiftUI-Introspect", .upToNextMinor(from: "0.1.2")), // <-
+        //.package(name: "Introspect", url: "https://github.com/siteline/SwiftUI-Introspect", from: "0.1.4"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -23,7 +22,7 @@ let package = Package(
         .target(
             name: "SwiftUIComponents",
             dependencies: [
-                .product(name: "Introspect", package: "Introspect"),
+                //.product(name: "Introspect", package: "Introspect"),
             ]
             //, resources: [.process("Media.xcassets")] // If I need to export any Asset
         )
