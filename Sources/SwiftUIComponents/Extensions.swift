@@ -27,7 +27,7 @@ import SwiftUI
 #endif
 
 #if os(watchOS)
-typealias UIDeviceOrientation = Int
+    typealias UIDeviceOrientation = Int
 #endif
 
 extension View {
@@ -50,20 +50,20 @@ extension View {
             modifier(DeviceRotationViewModifier(action: action))
         }
     #endif
-    
-#if os(watchOS)
-    func getRect() -> CGRect {
-        return WKInterfaceDevice.current().screenBounds
-    }
 
-    func getSafeArea() -> UIEdgeInsets {
+    #if os(watchOS)
+        func getRect() -> CGRect {
+            return WKInterfaceDevice.current().screenBounds
+        }
+
+        func getSafeArea() -> UIEdgeInsets {
             return .zero
-    }
+        }
 
-    func onRotate(perform action: @escaping (UIDeviceOrientation) -> Void) -> some View {
-        modifier(DeviceRotationViewModifier(action: action))
-    }
-#endif
+        func onRotate(perform action: @escaping (UIDeviceOrientation) -> Void) -> some View {
+            modifier(DeviceRotationViewModifier(action: action))
+        }
+    #endif
 }
 
 // custom view modifier to track rotation and
@@ -124,26 +124,24 @@ extension View {
         }
     #endif
 
-#if os(watchOS)
-    @ViewBuilder
-    func customStyle(type: ListComponentStyle, alternateRow: Bool = false) -> some View {
-        switch type {
-        case .plain:
-            listStyle(.plain)
-        case .grouped:
-            listStyle(.plain)
-        case .insetGrouped:
-            listStyle(.plain)
-        case .inset:
-            listStyle(.plain)
-        case .sidebar:
-            listStyle(.plain)
+    #if os(watchOS)
+        @ViewBuilder
+        func customStyle(type: ListComponentStyle, alternateRow: Bool = false) -> some View {
+            switch type {
+            case .plain:
+                listStyle(.plain)
+            case .grouped:
+                listStyle(.plain)
+            case .insetGrouped:
+                listStyle(.plain)
+            case .inset:
+                listStyle(.plain)
+            case .sidebar:
+                listStyle(.plain)
+            }
         }
-    }
-#endif
+    #endif
 
-    
-    
     #if os(macOS)
         @ViewBuilder
         func customStyle(type: ListComponentStyle, alternateRow: Bool = false) -> some View {
@@ -276,9 +274,9 @@ extension Color {
         #if os(iOS)
             SystemColor(self).getRed(&r, green: &g, blue: &b, alpha: &a)
         #endif
-#if os(watchOS)
-    SystemColor(self).getRed(&r, green: &g, blue: &b, alpha: &a)
-#endif
+        #if os(watchOS)
+            SystemColor(self).getRed(&r, green: &g, blue: &b, alpha: &a)
+        #endif
         #if os(macOS)
 
             let c1 = SystemColor(self).usingColorSpace(NSColorSpace.deviceRGB)

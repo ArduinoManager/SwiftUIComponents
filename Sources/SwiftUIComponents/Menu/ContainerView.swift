@@ -43,7 +43,12 @@ import SwiftUI
                 }
 
                 // Fuck
+                
+                //let kw = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
 
+                let firstScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+                let firstWindow = firstScene!.windows.first
+                
                 let views = controller.menuItems.filter({$0.type == .item}).map { menuItem in
                     controller.viewProvider(item: menuItem as! MenuView)
                 }
@@ -58,6 +63,11 @@ import SwiftUI
                             }
                         }
                     })
+                    .if(UIDevice.current.hasNotch, transform: { view in
+                        view
+                            .padding(.top, 40)
+                    })
+                    
                 // Fuck
 
 //                TabView(selection: $controller.currentTab) {
@@ -460,7 +470,7 @@ import SwiftUI
 class MyMenuController: MenuController {
     override func viewProvider(item: MenuView) -> AnyView {
         if item.key == 0 {
-            return AnyView(TestView(text: "Home"))
+            return AnyView(TestView(text: "Home").background(.red))
         }
 
         if item.key == 1 {
@@ -536,11 +546,11 @@ struct MainViewContainer: View {
 
         #if os(iOS) || os(watchOS)
             let x = MyMenuController(menuItems: menuItems,
-                                     openButtonAtTop: true,
+                                     openButtonAtTop: false,
                                      openButtonSize: 30,
                                      backgroundColor: .systemBackground,
                                      itemsColor: .systemLabel,
-                                     titleViewBackgroundColor: .systemCyan)
+                                     titleViewBackgroundColor: .systemGreen)
 
         #endif
         #if os(macOS)
@@ -576,7 +586,7 @@ struct SideTitleView: View {
                 .padding(.vertical, 5)
                 .padding(.leading, 10)
             Spacer()
-            Text("Fuck !")
+            Text("Test !")
                 .font(.title2.bold())
                 .foregroundColor(.red)
                 .padding(.trailing, 10)
@@ -629,7 +639,8 @@ struct TestView: View {
         VStack {
             Text(text)
                 .font(.title)
+            Spacer()
         }
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
