@@ -125,6 +125,9 @@ import SwiftUI
                         .padding(.top)
                 }
             }
+            .onRotate { _ in
+                controller.objectWillChange.send() // Force redraw!
+            }
             .background(controller.titleViewBackgroundColor.color)
         }
 
