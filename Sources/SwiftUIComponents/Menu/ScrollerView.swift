@@ -5,6 +5,7 @@
 //  Created by Fabrizio Boco on 10/7/22.
 //
 
+import Introspect
 import SwiftUI
 
 class ScrollerPosition: ObservableObject {
@@ -33,7 +34,9 @@ struct ScrollerView: View {
                     }
                 }
             }
-            //.simultaneousGesture(DragGesture(minimumDistance: 0), including: .all)
+            .introspectScrollView { scrollView in
+                scrollView.isScrollEnabled = false
+            }
         }
     }
 }
