@@ -54,7 +54,7 @@ import SwiftUI
                 Print("Orientation \(orientation)")
                 Print("Orientation Portrait \(orientation.isPortrait)")
                 Print("Orientation Flat \(orientation.isFlat)")
-                Print("Orientation Flat \(orientation == .unknown)")
+                Print("Orientation Valid \(orientation.isValidInterfaceOrientation)")
                 
                 ScrollerView(views: views, selected: position)
                     .onChange(of: controller.currentTab, perform: { _ in
@@ -66,7 +66,7 @@ import SwiftUI
                             }
                         }
                     })
-                    .if(UIDevice.current.hasNotch && (orientation.isPortrait || orientation.isFlat || orientation == .unknown) &&  !controller.openButtonAtTop, transform: { view in
+                    .if(UIDevice.current.hasNotch && (orientation.isPortrait || orientation.isFlat || !orientation.isValidInterfaceOrientation) &&  !controller.openButtonAtTop, transform: { view in
                         view
                             .padding(.top, 40)
                     })
