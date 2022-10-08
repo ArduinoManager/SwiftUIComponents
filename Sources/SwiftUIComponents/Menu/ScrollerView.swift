@@ -33,7 +33,7 @@ struct ScrollerView: View {
                     }
                 }
             }
-            .simultaneousGesture(DragGesture(minimumDistance: 0), including: .all)
+            //.simultaneousGesture(DragGesture(minimumDistance: 0), including: .all)
         }
     }
 }
