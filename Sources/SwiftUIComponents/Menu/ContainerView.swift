@@ -51,11 +51,17 @@ import SwiftUI
                     controller.viewProvider(item: menuItem as! MenuView)
                 }
 
+                //position.index = controller.menuItems.filter({$0.type == .item}).firstIndex(where: {$0.key == controller.currentTab})!
+                
                 Print("Orientation \(orientation)")
                 Print("Orientation Portrait \(orientation.isPortrait)")
                 Print("Orientation Flat \(orientation.isFlat)")
                 Print("Orientation Valid \(orientation.isValidInterfaceOrientation)")
                 
+                bo()
+                
+                
+                /*
                 ScrollerView(views: views, selected: position)
                     .onChange(of: controller.currentTab, perform: { _ in
                         position.index = controller.menuItems.filter({$0.type == .item}).firstIndex(where: {$0.key == controller.currentTab})!
@@ -70,7 +76,7 @@ import SwiftUI
                         view
                             .padding(.top, 40)
                     })
-                    
+                */
                 // Fuck
 
 //                TabView(selection: $controller.currentTab) {
@@ -133,6 +139,12 @@ import SwiftUI
                 self.orientation = orientation
             }
             .background(controller.titleViewBackgroundColor.color)
+        }
+        
+        @ViewBuilder
+        func bo() -> some View {
+            let item = controller.menuItems.first(where: {$0.key == controller.currentTab})
+            controller.viewProvider(item: item as! MenuView)
         }
 
         @ViewBuilder
