@@ -5,7 +5,6 @@
 //  Created by Fabrizio Boco on 10/7/22.
 //
 
-import Introspect
 import SwiftUI
 
 class ScrollerPosition: ObservableObject {
@@ -25,9 +24,9 @@ struct ScrollerView: View {
                         ForEach(0 ..< views.count, id: \.self) { idx in
                             let view = views[idx]
                             view
-                                .introspectScrollView { scrollView in
-                                    scrollView.isScrollEnabled = false
-                                }
+//                                .introspectScrollView { scrollView in
+//                                    scrollView.isScrollEnabled = false
+//                                }
                                 .frame(width: geometry.size.width)
                                 .tag(idx)
                         }
