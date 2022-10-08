@@ -15,8 +15,6 @@ import SwiftUI
 
         public var body: some View {
             VStack(spacing: 0) {
-                Print("Orientation \(orientation)")
-                Print("Orientation Portrait \(orientation.isPortrait)")
                 if controller.openButtonAtTop {
                     HStack(spacing: 0) {
                         if let titleView = controller.headerProvider() {
@@ -53,6 +51,11 @@ import SwiftUI
                     controller.viewProvider(item: menuItem as! MenuView)
                 }
 
+                Print("Orientation \(orientation)")
+                Print("Orientation Portrait \(orientation.isPortrait)")
+                Print("Orientation Flat \(orientation.isFlat)")
+                Print("Orientation Flat \(orientation == .unknown)")
+                
                 ScrollerView(views: views, selected: position)
                     .onChange(of: controller.currentTab, perform: { _ in
                         position.index = controller.menuItems.filter({$0.type == .item}).firstIndex(where: {$0.key == controller.currentTab})!
