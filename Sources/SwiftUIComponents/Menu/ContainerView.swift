@@ -15,6 +15,7 @@ import SwiftUI
 
         public var body: some View {
             VStack(spacing: 0) {
+                Print("Orientation \(orientation)")
                 if controller.openButtonAtTop {
                     HStack(spacing: 0) {
                         if let titleView = controller.headerProvider() {
