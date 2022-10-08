@@ -11,7 +11,6 @@ import SwiftUI
     public struct ContainerView: View {
         @ObservedObject var controller: MenuController
         @State private var orientation = UIDeviceOrientation.unknown
-        @StateObject var position = ScrollerPosition()
 
         public var body: some View {
             VStack(spacing: 0) {
@@ -44,20 +43,6 @@ import SwiftUI
 
                 // Fuck
 
-//                let firstScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-//                let firstWindow = firstScene!.windows.first
-//
-//                let views = controller.menuItems.filter({ $0.type == .item }).map { menuItem in
-//                    controller.viewProvider(item: menuItem as! MenuView)
-//                }
-//
-                // position.index = controller.menuItems.filter({$0.type == .item}).firstIndex(where: {$0.key == controller.currentTab})!
-
-                Print("Orientation \(orientation)")
-                Print("Orientation Portrait \(orientation.isPortrait)")
-                Print("Orientation Flat \(orientation.isFlat)")
-                Print("Orientation Valid \(orientation.isValidInterfaceOrientation)")
-
                 viewToShow()
                     .onChange(of: controller.currentTab, perform: { _ in
                         if controller.autoClose {
@@ -66,44 +51,12 @@ import SwiftUI
                             }
                         }
                     })
-                    .if(UIDevice.current.hasNotch && (orientation.isPortrait || orientation.isFlat || !orientation.isValidInterfaceOrientation) &&  !controller.openButtonAtTop, transform: { view in
-                        view
-                            .padding(.top, 40)
-                    })
-                /*
-                 ScrollerView(views: views, selected: position)
-                     .onChange(of: controller.currentTab, perform: { _ in
-                         position.index = controller.menuItems.filter({$0.type == .item}).firstIndex(where: {$0.key == controller.currentTab})!
-                         //position.index = controller.currentTab
-                         if controller.autoClose {
-                             withAnimation(.spring()) {
-                                 controller.showMenu = false
-                             }
-                         }
-                     })
-                     .if(UIDevice.current.hasNotch && (orientation.isPortrait || orientation.isFlat || !orientation.isValidInterfaceOrientation) &&  !controller.openButtonAtTop, transform: { view in
-                         view
-                             .padding(.top, 40)
-                     })
-                 */
-                // Fuck
+//                    .if(UIDevice.current.hasNotch && (orientation.isPortrait || orientation.isFlat || !orientation.isValidInterfaceOrientation) &&  !controller.openButtonAtTop, transform: { view in
+//                        view
+//                            .padding(.top, 40)
+//                    })
 
-//                TabView(selection: $controller.currentTab) {
-//                    ForEach(controller.menuItems, id: \.self) { item in
-//                        if item is MenuView {
-//                            controller.viewProvider(item: item as! MenuView)
-//                                .tag(item.key)
-//                                .navigationBarHidden(true)
-//                        }
-//                    }
-//                }
-//                .onChange(of: controller.currentTab, perform: { _ in
-//                    if controller.autoClose {
-//                        withAnimation(.spring()) {
-//                            controller.showMenu = false
-//                        }
-//                    }
-//                })
+                // Fuck
 
                 if !controller.openButtonAtTop {
                     HStack(spacing: 0) {

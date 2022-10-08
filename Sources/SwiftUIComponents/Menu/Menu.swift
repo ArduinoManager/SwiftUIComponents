@@ -31,6 +31,8 @@ public struct Menu: View {
         #endif
         #if os(iOS) || os(watchOS)
             ZStack {
+                // Backgorund
+                
                 // Side Menu
                 SideMenuView(controller: controller)
 
@@ -39,7 +41,8 @@ public struct Menu: View {
                     .cornerRadius(controller.showMenu ? 25 : 0)
                     .rotation3DEffect(.init(degrees: controller.showMenu ? -15 : 0), axis: (x: 0, y: 1, z: 0), anchor: .trailing)
                     .offset(x: controller.showMenu ? getRect().width / 2 : 0)
-                    .ignoresSafeArea()
+                    .ignoresSafeArea(edges: [.bottom])
+                
             }
         #endif
     }
