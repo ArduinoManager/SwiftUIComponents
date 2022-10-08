@@ -18,7 +18,7 @@ struct ScrollerView: View {
     var body: some View {
         GeometryReader { geometry in
 
-            ScrollView(.horizontal, showsIndicators: false) {
+            ScrollView([], showsIndicators: false) {
                 ScrollViewReader { pageScroller in
                     HStack {
                         ForEach(0 ..< views.count, id: \.self) { idx in
