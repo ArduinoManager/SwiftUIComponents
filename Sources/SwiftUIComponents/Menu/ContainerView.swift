@@ -44,8 +44,6 @@ import SwiftUI
 
                 // Fuck
                 
-                //let kw = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
-
                 let firstScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
                 let firstWindow = firstScene!.windows.first
                 
@@ -63,7 +61,7 @@ import SwiftUI
                             }
                         }
                     })
-                    .if(UIDevice.current.hasNotch, transform: { view in
+                    .if(orientation.isPortrait && UIDevice.current.hasNotch && !controller.openButtonAtTop, transform: { view in
                         view
                             .padding(.top, 40)
                     })
