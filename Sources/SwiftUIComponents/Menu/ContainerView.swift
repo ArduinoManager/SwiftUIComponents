@@ -16,6 +16,7 @@ import SwiftUI
         public var body: some View {
             VStack(spacing: 0) {
                 Print("Orientation \(orientation)")
+                Print("Orientation Portrait \(orientation.isPortrait)")
                 if controller.openButtonAtTop {
                     HStack(spacing: 0) {
                         if let titleView = controller.headerProvider() {
@@ -127,7 +128,6 @@ import SwiftUI
             }
             .onRotate { orientation in
                 self.orientation = orientation
-                //controller.objectWillChange.send() // Force redraw!
             }
             .background(controller.titleViewBackgroundColor.color)
         }
