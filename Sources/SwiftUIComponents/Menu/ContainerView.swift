@@ -63,7 +63,7 @@ import SwiftUI
                             }
                         }
                     })
-                    .if(orientation.isPortrait && UIDevice.current.hasNotch && !controller.openButtonAtTop, transform: { view in
+                    .if(UIDevice.current.hasNotch && (orientation.isPortrait || orientation.isFlat || orientation.isValidInterfaceOrientation ) &&  !controller.openButtonAtTop, transform: { view in
                         view
                             .padding(.top, 40)
                     })
