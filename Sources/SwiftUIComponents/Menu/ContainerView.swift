@@ -44,8 +44,8 @@ import SwiftUI
 
                 // Fuck
 
-                let views = controller.menuItems.filter({$0.type == .item}).map { menuItem in                    
-                        controller.viewProvider(item: menuItem)
+                let views = controller.menuItems.filter({$0.type == .item}).map { menuItem in
+                    controller.viewProvider(item: menuItem as! MenuView)
                 }
 
                 ScrollerView(views: views, selected: position)
@@ -458,7 +458,7 @@ import SwiftUI
 #endif
 
 class MyMenuController: MenuController {
-    override func viewProvider(item: MenuItem) -> AnyView {
+    override func viewProvider(item: MenuView) -> AnyView {
         if item.key == 0 {
             return AnyView(TestView(text: "Home"))
         }
@@ -627,9 +627,8 @@ struct TestView: View {
 
     var body: some View {
         VStack {
-            Spacer()
             Text(text)
-            Spacer()
+                .font(.title)
         }
         .frame(maxWidth: .infinity)
     }
