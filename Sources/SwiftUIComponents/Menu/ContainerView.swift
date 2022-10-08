@@ -125,8 +125,9 @@ import SwiftUI
                         .padding(.top)
                 }
             }
-            .onRotate { _ in
-                controller.objectWillChange.send() // Force redraw!
+            .onRotate { orientation in
+                self.orientation = orientation
+                //controller.objectWillChange.send() // Force redraw!
             }
             .background(controller.titleViewBackgroundColor.color)
         }
