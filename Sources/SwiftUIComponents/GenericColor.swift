@@ -257,21 +257,37 @@ public class GenericColor: Codable {
     // MARK: - -
 
     public static let systemClear = GenericColor(systemColor: .systemClear)
-    public static let systemBackground = GenericColor(systemColor: .systemBackground)
     public static let systemLabel = GenericColor(systemColor: .systemLabel)
+    public static let systemSecondaryLabel = GenericColor(systemColor: .systemSecondaryLabel)
+    public static let systemTertiaryLabel = GenericColor(systemColor: .systemTertiaryLabel)
+    public static let systemQuaternaryLabel = GenericColor(systemColor: .systemQuaternaryLabel)
+    public static let systemBackground = GenericColor(systemColor: .systemBackground)
     public static let systemTint = GenericColor(systemColor: .systemTint)
     public static let systemRed = GenericColor(systemColor: .systemRed)
-    public static let systemGreen = GenericColor(systemColor: .systemGreen)
     public static let systemBlue = GenericColor(systemColor: .systemBlue)
-    public static let systemYellow = GenericColor(systemColor: .systemYellow)
-    public static let systemGray = GenericColor(systemColor: .systemGray)
-    public static let systemCyan = GenericColor(systemColor: .systemCyan)
+    public static let systemGreen = GenericColor(systemColor: .systemGreen)
     public static let systemOrange = GenericColor(systemColor: .systemOrange)
-    public static let systemMint = GenericColor(systemColor: .systemMint)
+    public static let systemYellow = GenericColor(systemColor: .systemYellow)
+    public static let systemPink = GenericColor(color: .pink)
     public static let systemPurple = GenericColor(systemColor: .systemPurple)
+
+    public static let systemTeal = GenericColor(systemColor: .systemTeal)
+    public static let systemIndigo = GenericColor(systemColor: .systemIndigo)
+    public static let systemBrown = GenericColor(systemColor: .systemBrown)
+
+    public static let systemMint = GenericColor(systemColor: .systemMint)
+    public static let systemCyan = GenericColor(systemColor: .systemCyan)
+
+    public static let systemGray = GenericColor(systemColor: .systemGray)
+    public static let systemGray2 = GenericColor(systemColor: .systemGray2)
+    public static let systemGray3 = GenericColor(systemColor: .systemGray3)
+    public static let systemGray4 = GenericColor(systemColor: .systemGray4)
+    public static let systemGray5 = GenericColor(systemColor: .systemGray5)
+    public static let systemGray6 = GenericColor(systemColor: .systemGray6)
+    
     public static let systemWhite = GenericColor(color: .white)
     public static let systemBlack = GenericColor(color: .black)
-    public static let systemPink = GenericColor(color: .pink)
+    
 
     // MARK: - Encodable & Decodable
 
