@@ -345,13 +345,13 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
                             Button {
                                 controller.selectedAction = SelectedAction(key: action.key, item: item)
                             } label: {
-                                Label(LocalizedStringKey(action.label),
-                                      systemImage: action.systemIcon ?? "")
+                                Label(LocalizedStringKey(action.label), systemImage: action.systemIcon ?? "")
                             }
                             .tint(action.color.color)
+                            .frame(minWidth: 200, maxWidth: 200)
                         }
                     }
-                    .swipeActions(edge: .trailing) {
+                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                         #warning("Delete")
                         Button {
                             controller.delete(item: item)
@@ -414,13 +414,14 @@ struct SimpleListContainer: View {
         ]
 
         let leadingActions = [
-            ListAction(key: "L1", label: "Action 1", systemIcon: "hand.thumbsup", color: .systemBlue),
-            ListAction(key: "L2", label: "Action 2", systemIcon: "plus", color: GenericColor(systemColor: .systemOrange)),
+            ListAction(key: "L1", label: "Up", systemIcon: "hand.thumbsup", color: .systemBlue),
+            ListAction(key: "L2", label: "Plus", systemIcon: "plus", color: .systemOrange),
+            ListAction(key: "L3", label: "Bo", systemIcon: "camera.shutter.button", color: .systemGreen),
         ]
 
         let trailingActions = [
-            ListAction(key: "T1", label: "Action 1", systemIcon: "pencil", color: GenericColor(systemColor: .systemMint)),
-            ListAction(key: "T2", label: "Action 2", icon: "logo", color: .systemRed),
+            ListAction(key: "T1", label: "Down", systemIcon: "hand.thumbsdown", color: .systemMint),
+            ListAction(key: "T2", label: "Minus", systemIcon: "minus", color: .systemOrange),
         ]
 
         #if os(watchOS)

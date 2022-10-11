@@ -447,7 +447,7 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
 
     func body(content: Content) -> some View {
         content
-            .swipeActions(edge: .leading) {
+            .swipeActions(edge: .leading, allowsFullSwipe: false) {
                 if controller.swipeActions {
                     ForEach(0 ..< controller.leadingActions.count, id: \.self) { idx in
                         let action = controller.leadingActions[idx]
@@ -458,15 +458,8 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
                     }
                 }
             }
-            .swipeActions(edge: .trailing) {
+            .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                 if controller.swipeActions {
-//                    Button(LocalizedStringKey(controller.deleteButtonAction.label)) {
-//                        controller.delete(item: item)
-//                    }
-//                    .tint(.red)
-//                    Button(LocalizedStringKey(controller.editButtonAction.label)) {
-//                        controller.editingItem = item
-//                    }
 
                     #warning("Delete")
                     Button {
