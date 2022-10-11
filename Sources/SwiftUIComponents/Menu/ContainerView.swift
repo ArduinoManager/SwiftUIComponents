@@ -224,15 +224,12 @@ import SwiftUI
             .overlay(alignment: .bottomLeading) {
                 if controller.headerProvider() == nil && !controller.openButtonAtTop {
                     OpenButton()
-                        //.buttonStyle(.plain)
-                        .padding(.leading)
-                        .padding(.bottom)
+                        .padding(.leading, 10)
                 }
             }
             .overlay(alignment: .topLeading) {
                 if controller.headerProvider() == nil && controller.openButtonAtTop {
                     OpenButton()
-                        //.buttonStyle(.plain)
                         .padding(.leading)
                         .padding(.top)
                 }
@@ -256,6 +253,7 @@ import SwiftUI
                     .padding(.bottom, 4)
             }
             .opacity(controller.showMenu ? 0 : 1)
+            .buttonStyle(.plain)
         }
 
         @ViewBuilder
@@ -486,12 +484,13 @@ class MyMenuController: MenuController {
     }
 
     override func sideFooterProvider() -> AnyView? {
-        return AnyView(TitleView())
+        return nil
+        // return AnyView(TitleView())
     }
 
     override func headerProvider() -> AnyView? {
-        // return nil
-        return AnyView(TitleView())
+        return nil
+        // return AnyView(TitleView())
     }
 
     override func inspectorProvider() -> AnyView? {
