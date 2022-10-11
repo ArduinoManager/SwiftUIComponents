@@ -154,12 +154,10 @@ import SwiftUI
                 if controller.openButtonAtTop {
                     HStack(spacing: 0) {
                         if let titleView = controller.headerProvider() {
+                            OpenButton()
+                                .buttonStyle(.plain)
+                                .padding(.leading, 5)
                             titleView
-                                .overlay(alignment: .bottomLeading) {
-                                    OpenButton()
-                                        .buttonStyle(.plain)
-                                        .padding(.leading, 20)
-                                }
                         }
                     }
                     .padding(0)
@@ -187,11 +185,9 @@ import SwiftUI
                 if !controller.openButtonAtTop {
                     HStack(spacing: 0) {
                         if let titleView = controller.headerProvider() {
+                            OpenButton()
+                                .padding(.leading, 10)
                             titleView
-                                .overlay(alignment: .leading) {
-                                    OpenButton()
-                                        .padding(.leading, 20)
-                                }
                         }
                     }
                     .padding(0)
@@ -207,12 +203,12 @@ import SwiftUI
                     .zIndex(99)
                 }
             }
-            //.frame(maxWidth: .infinity, maxHeight: .infinity)
             .overlay(CloseButton(), alignment: .topLeading)
             .overlay(alignment: .bottomLeading) {
                 if controller.headerProvider() == nil && !controller.openButtonAtTop {
                     OpenButton()
                         .padding(.leading, 10)
+                        .padding(.bottom, 4)
                 }
             }
             .overlay(alignment: .topLeading) {
@@ -243,7 +239,6 @@ import SwiftUI
                     .font(.title.bold())
                     .foregroundColor(controller.openButtonColor.color)
                     .frame(width: controller.openButtonSize, height: controller.openButtonSize)
-                    .padding(.bottom, 4)
             }
             .opacity(controller.showMenu ? 0 : 1)
             .buttonStyle(.plain)
@@ -483,8 +478,8 @@ class MyMenuController: MenuController {
     }
 
     override func headerProvider() -> AnyView? {
-        return nil
-        // return AnyView(TitleView())
+        //return nil
+        return AnyView(HeaderView())
     }
 
     override func inspectorProvider() -> AnyView? {
@@ -519,7 +514,7 @@ struct MainViewContainer: View {
 
         #if os(iOS) || os(watchOS)
             let x = MyMenuController(menuItems: menuItems,
-                                     openButtonAtTop: false,
+                                     openButtonAtTop: true,
                                      openButtonSize: 30,
                                      backgroundColor: .systemBackground,
                                      itemsColor: .systemLabel,
@@ -575,6 +570,24 @@ struct TitleView: View {
         }
         #if os(iOS)
         .frame(maxWidth: .infinity, minHeight: 35)
+        #endif
+        #if os(macOS)
+        .frame(maxWidth: .infinity, minHeight: 35)
+        #endif
+    }
+}
+
+struct HeaderView: View {
+    var body: some View {
+        HStack {
+            Text("This is the Header View")
+        }
+        #if os(iOS)
+        .frame(maxWidth: .infinity, minHeight: 35)
+        #endif
+        #if os(watchOS)
+        .frame(maxWidth: .infinity, minHeight: 35)
+        .font(.system(size: 12))
         #endif
         #if os(macOS)
         .frame(maxWidth: .infinity, minHeight: 35)
