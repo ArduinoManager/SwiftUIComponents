@@ -18,12 +18,17 @@ import SwiftUI
             let rightShiftWhenSelected: CGFloat = 5.0
         #endif
         #if os(watchOS)
-            let spaceBetweenItems: CGFloat = 1
+            let spaceBetweenItems: CGFloat = 5
             let rightShiftWhenSelected: CGFloat = 2.0
         #endif
 
         // TODO: Move in the controller for configuration?
-        let buttonHeight: CGFloat = 36.0
+        #if os(iOS)
+            let buttonHeight: CGFloat = 36.0
+        #endif
+        #if os(watchOS)
+            let buttonHeight: CGFloat = 25.0
+        #endif
 
         public var body: some View {
             VStack(alignment: .leading, spacing: 0) {
