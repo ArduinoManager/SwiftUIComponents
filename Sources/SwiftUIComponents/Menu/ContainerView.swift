@@ -224,7 +224,7 @@ import SwiftUI
             .overlay(alignment: .bottomLeading) {
                 if controller.headerProvider() == nil && !controller.openButtonAtTop {
                     OpenButton()
-                        .buttonStyle(.plain)
+                        //.buttonStyle(.plain)
                         .padding(.leading)
                         .padding(.bottom)
                 }
@@ -232,7 +232,7 @@ import SwiftUI
             .overlay(alignment: .topLeading) {
                 if controller.headerProvider() == nil && controller.openButtonAtTop {
                     OpenButton()
-                        .buttonStyle(.plain)
+                        //.buttonStyle(.plain)
                         .padding(.leading)
                         .padding(.top)
                 }
