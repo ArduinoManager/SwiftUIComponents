@@ -51,10 +51,6 @@ import SwiftUI
                             }
                         }
                     })
-//                    .if(UIDevice.current.hasNotch && (orientation.isPortrait || orientation.isFlat || !orientation.isValidInterfaceOrientation) &&  !controller.openButtonAtTop, transform: { view in
-//                        view
-//                            .padding(.top, 40)
-//                    })
 
                 // Fuck
 
@@ -179,22 +175,14 @@ import SwiftUI
                     .zIndex(99)
                 }
 
-                TabView(selection: $controller.currentTab) {
-                    ForEach(controller.menuItems, id: \.self) { item in
-                        if item is MenuView {
-                            controller.viewProvider(item: item as! MenuView)
-                                .tag(item.key)
+                viewToShow()
+                    .onChange(of: controller.currentTab, perform: { _ in
+                        if controller.autoClose {
+                            withAnimation(.spring()) {
+                                controller.showMenu = false
+                            }
                         }
-                    }
-                }
-                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-                .onChange(of: controller.currentTab, perform: { _ in
-                    if controller.autoClose {
-                        withAnimation(.spring()) {
-                            controller.showMenu = false
-                        }
-                    }
-                })
+                    })
 
                 if !controller.openButtonAtTop {
                     HStack(spacing: 0) {
@@ -219,7 +207,7 @@ import SwiftUI
                     .zIndex(99)
                 }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            //.frame(maxWidth: .infinity, maxHeight: .infinity)
             .overlay(CloseButton(), alignment: .topLeading)
             .overlay(alignment: .bottomLeading) {
                 if controller.headerProvider() == nil && !controller.openButtonAtTop {
@@ -231,10 +219,15 @@ import SwiftUI
                 if controller.headerProvider() == nil && controller.openButtonAtTop {
                     OpenButton()
                         .padding(.leading)
-                        .padding(.top)
                 }
             }
             .background(controller.titleViewBackgroundColor.color)
+        }
+
+        @ViewBuilder
+        func viewToShow() -> some View {
+            let item = controller.menuItems.first(where: { $0.key == controller.currentTab })
+            controller.viewProvider(item: item as! MenuView)
         }
 
         @ViewBuilder
@@ -267,8 +260,9 @@ import SwiftUI
                     .font(.title.bold())
                     .foregroundColor(controller.openButtonColor.color)
             }
+            .buttonStyle(.plain)
             .opacity(controller.showMenu ? 1 : 0)
-            .padding()
+            .padding(.leading, 10)
             .padding(.top)
         }
     }
