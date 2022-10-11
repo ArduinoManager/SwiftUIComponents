@@ -20,7 +20,6 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
     @ObservedObject private var controller: ListController<Item, Row>
     @StateObject private var sheetManager = SheetMananger()
     @State private var editingList = false
-    // @State private var uuid: UUID
     private let rowColor: GenericColor!
     private let rowAlternateColor: GenericColor!
     private let alternatesRows: Bool!
@@ -343,25 +342,24 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
                     .swipeActions(edge: .leading) {
                         ForEach(0 ..< controller.leadingActions.count, id: \.self) { idx in
                             let action = controller.leadingActions[idx]
-                            Button(LocalizedStringKey(action.label)) {
+                            Button {
                                 controller.selectedAction = SelectedAction(key: action.key, item: item)
+                            } label: {
+                                Label(LocalizedStringKey(action.label),
+                                      systemImage: action.systemIcon ?? "")
                             }
                             .tint(action.color.color)
                         }
                     }
                     .swipeActions(edge: .trailing) {
-                        Button(LocalizedStringKey(controller.deleteButtonLabel)) {
+                        #warning("Delete")
+                        Button {
                             controller.delete(item: item)
+                        } label: {
+                            Label(LocalizedStringKey(controller.deleteButtonAction.label),
+                                  systemImage: controller.deleteButtonAction.systemIcon ?? "")
                         }
-                         .tint(.red)
-//                        .background(Color.systemBackground)
-//                        .foregroundColor(Color.red)
-
-//                        Button(LocalizedStringKey(controller.editButtonAction.label)) {
-//                            controller.editingItem = item
-//                            sheetManager.whichSheet = .Form
-//                            sheetManager.showSheet.toggle()
-//                        }
+                        .tint(controller.deleteButtonAction.color.color)
                         #warning("Edit")
                         Button {
                             controller.editingItem = item
@@ -369,16 +367,17 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
                             sheetManager.showSheet.toggle()
 
                         } label: {
-                                Label(LocalizedStringKey(controller.editButtonAction.label),
-                                      systemImage: controller.editButtonAction.systemIcon ?? "")
+                            Label(LocalizedStringKey(controller.editButtonAction.label),
+                                  systemImage: controller.editButtonAction.systemIcon ?? "")
                         }
                         .tint(controller.editButtonAction.color.color)
-                        
-                        
                         ForEach(0 ..< controller.trailingActions.count, id: \.self) { idx in
                             let action = controller.trailingActions[idx]
-                            Button(LocalizedStringKey(action.label)) {
+                            Button {
                                 controller.selectedAction = SelectedAction(key: action.key, item: item)
+                            } label: {
+                                Label(LocalizedStringKey(action.label),
+                                      systemImage: action.systemIcon ?? "")
                             }
                             .tint(action.color.color)
                         }
@@ -415,7 +414,7 @@ struct SimpleListContainer: View {
         ]
 
         let leadingActions = [
-            ListAction(key: "L1", label: "Action 1", systemIcon: "pencil", color: .systemBlue),
+            ListAction(key: "L1", label: "Action 1", systemIcon: "hand.thumbsup", color: .systemBlue),
             ListAction(key: "L2", label: "Action 2", systemIcon: "plus", color: GenericColor(systemColor: .systemOrange)),
         ]
 
@@ -430,7 +429,7 @@ struct SimpleListContainer: View {
                                                                        addButtonIcon: "plus",
                                                                        addButtonColor: .systemRed,
                                                                        editButtonAction: ListAction(key: "Edit", label: "_Box_xxxx", systemIcon: "pencil", color: .systemMint),
-                                                                       deleteButtonLabel: "Delete_",
+                                                                       deleteButtonAction: ListAction(key: "Delete", label: "Delete", systemIcon: "trash", color: .systemRed),
                                                                        backgroundColor: .systemBackground,
                                                                        rowBackgroundColor: GenericColor(systemColor: .systemGray3),
                                                                        swipeActions: true,
@@ -448,7 +447,7 @@ struct SimpleListContainer: View {
                                                                        addButtonIcon: "plus",
                                                                        addButtonColor: .systemRed,
                                                                        editButtonAction: ListAction(key: "Edit", label: "_Box_xxxx", systemIcon: "pencil", color: .systemMint),
-                                                                       deleteButtonLabel: "Delete_",
+                                                                       deleteButtonAction: ListAction(key: "Delete", label: "_Box_xxxx", systemIcon: "trash", color: .systemRed),
                                                                        backgroundColor: .systemGreen,
                                                                        rowBackgroundColor: GenericColor(systemColor: .systemGray3),
                                                                        swipeActions: true,
@@ -474,7 +473,7 @@ struct SimpleList_Previews: PreviewProvider {
         Group {
             SimpleListContainer()
                 .previewInterfaceOrientation(.portrait)
-                .previewDevice(PreviewDevice(rawValue: "iPhone 13"))
+            // .previewDevice(PreviewDevice(rawValue: "iPhone 13"))
         }
     }
 }

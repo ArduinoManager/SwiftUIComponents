@@ -460,13 +460,32 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
             }
             .swipeActions(edge: .trailing) {
                 if controller.swipeActions {
-                    Button(LocalizedStringKey(controller.deleteButtonLabel)) {
+//                    Button(LocalizedStringKey(controller.deleteButtonAction.label)) {
+//                        controller.delete(item: item)
+//                    }
+//                    .tint(.red)
+//                    Button(LocalizedStringKey(controller.editButtonAction.label)) {
+//                        controller.editingItem = item
+//                    }
+
+                    #warning("Delete")
+                    Button {
                         controller.delete(item: item)
+                    } label: {
+                            Label(LocalizedStringKey(controller.deleteButtonAction.label),
+                                  systemImage: controller.deleteButtonAction.systemIcon ?? "")
                     }
-                    .tint(.red)
-                    Button(LocalizedStringKey(controller.editButtonAction.label)) {
+                    .tint(controller.deleteButtonAction.color.color)
+                    #warning("Edit")
+                    Button {
                         controller.editingItem = item
+                    } label: {
+                            Label(LocalizedStringKey(controller.editButtonAction.label),
+                                  systemImage: controller.editButtonAction.systemIcon ?? "")
                     }
+                    .tint(controller.editButtonAction.color.color)
+                    
+                    
                     ForEach(Array(stride(from: controller.trailingActions.count - 1, to: -1, by: -1)), id: \.self) { idx in
                         let action = controller.trailingActions[idx]
                         Button(LocalizedStringKey(action.label)) {
@@ -520,7 +539,7 @@ struct NavigationListContainer: View {
                                                                              addButtonIcon: "plus",
                                                                              addButtonColor: .systemRed,
                                                                              editButtonAction: ListAction(key: "Edit", label: "_Edit_"),
-                                                                             deleteButtonLabel: "Delete_",
+                                                                             deleteButtonAction: ListAction(key: "Delete", label: "_Delete_"),
                                                                              backgroundColor: .systemGreen,
                                                                              rowBackgroundColor: GenericColor(systemColor: .systemPurple),
                                                                              swipeActions: true,
@@ -538,8 +557,8 @@ struct NavigationListContainer: View {
                                                                              style: .plain(alternatesRows: true, alternateBackgroundColor: .systemGray),
                                                                              addButtonIcon: "plus",
                                                                              addButtonColor: .systemRed,
-                                                                             editButtonAction: ListAction(key: "Edit", label: "_Edit_"),
-                                                                             deleteButtonLabel: "Delete_",
+                                                                             editButtonAction: ListAction(key: "Edit", label: "_Box_xxxx", systemIcon: "pencil", color: .systemMint),
+                                                                             deleteButtonAction: ListAction(key: "Delete", label: "Delete", systemIcon: "trash", color: .systemRed),
                                                                              backgroundColor: .systemBackground,
                                                                              rowBackgroundColor: GenericColor(systemColor: .systemPurple),
                                                                              swipeActions: true,
