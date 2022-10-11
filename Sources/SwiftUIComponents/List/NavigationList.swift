@@ -68,11 +68,11 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                             .border(controller.addButtonColor.color, width: 1)
                     }
                     #if os(macOS) || os(watchOS)
-                        .buttonStyle(PlainButtonStyle())
-                        .padding(.trailing, 6)
+                    .buttonStyle(PlainButtonStyle())
+                    .padding(.trailing, 6)
                     #endif
                     #if os(iOS)
-                        .padding(.trailing, 6)
+                    .padding(.trailing, 6)
                     #endif
                     .padding(.vertical, 5)
                 }
@@ -255,7 +255,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                 #if os(iOS)
                     .environment(\.editMode, editingList ? .constant(.active) : .constant(.inactive))
                 #endif
-                .customStyle(type: controller.style)
+                    .customStyle(type: controller.style)
 
                 Spacer()
                 if let footer = controller.footerProvider() {
@@ -293,12 +293,12 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                     , label: { EmptyView() }).hidden()
             })
             #if os(iOS)
-                .navigationBarTitle("")
-                .navigationBarHidden(true)
+            .navigationBarTitle("")
+            .navigationBarHidden(true)
             #endif
         }
         #if os(iOS)
-            .navigationViewStyle(.stack)
+        .navigationViewStyle(.stack)
         #endif
         #if os(macOS)
 
@@ -356,8 +356,8 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                         .buttonStyle(BorderlessButtonStyle())
                     #endif
                     #if os(macOS)
-                        .foregroundColor(action.color.color)
-                        .buttonStyle(.plain)
+                    .foregroundColor(action.color.color)
+                    .buttonStyle(.plain)
                     #endif
                 }
             }
@@ -385,8 +385,8 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                     .buttonStyle(BorderlessButtonStyle())
                 #endif
                 #if os(macOS)
-                    .foregroundColor(.red)
-                    .buttonStyle(.plain)
+                .foregroundColor(.red)
+                .buttonStyle(.plain)
                 #endif
                 Button {
                     controller.editingItem = item
@@ -406,8 +406,8 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                     .buttonStyle(BorderlessButtonStyle())
                 #endif
                 #if os(macOS)
-                    .foregroundColor(Color.accentColor)
-                    .buttonStyle(.plain)
+                .foregroundColor(Color.accentColor)
+                .buttonStyle(.plain)
                 #endif
             }
 
@@ -427,8 +427,8 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                         .buttonStyle(BorderlessButtonStyle())
                     #endif
                     #if os(macOS)
-                        .foregroundColor(action.color.color)
-                        .buttonStyle(.plain)
+                    .foregroundColor(action.color.color)
+                    .buttonStyle(.plain)
                     #endif
                 }
 //                .onMove(perform: move)
@@ -451,8 +451,19 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
                 if controller.swipeActions {
                     ForEach(0 ..< controller.leadingActions.count, id: \.self) { idx in
                         let action = controller.leadingActions[idx]
-                        Button(LocalizedStringKey(action.label)) {
+//                        Button(LocalizedStringKey(action.label)) {
+//                            controller.selectedAction = SelectedAction(key: action.key, item: item)
+//                        }
+//                        .tint(action.color.color)
+
+                        Button {
                             controller.selectedAction = SelectedAction(key: action.key, item: item)
+                        } label: {
+                            if action.systemIcon != nil {
+                                Label(LocalizedStringKey(action.label), systemImage: action.systemIcon ?? "")
+                            } else {
+                                Label(LocalizedStringKey(action.label), image: action.icon ?? "")
+                            }
                         }
                         .tint(action.color.color)
                     }
@@ -460,29 +471,44 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
             }
             .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                 if controller.swipeActions {
-
-                    #warning("Delete")
                     Button {
                         controller.delete(item: item)
                     } label: {
-                            Label(LocalizedStringKey(controller.deleteAction.label),
-                                  systemImage: controller.deleteAction.systemIcon ?? "")
+                        if controller.deleteAction.systemIcon != nil {
+                            Label(LocalizedStringKey(controller.deleteAction.label), systemImage: controller.deleteAction.systemIcon ?? "")
+                        } else {
+                            Label(LocalizedStringKey(controller.deleteAction.label), image: controller.deleteAction.icon ?? "")
+                        }
                     }
                     .tint(controller.deleteAction.color.color)
-                    #warning("Edit")
+
                     Button {
                         controller.editingItem = item
                     } label: {
-                            Label(LocalizedStringKey(controller.editAction.label),
-                                  systemImage: controller.editAction.systemIcon ?? "")
+                        if controller.editAction.systemIcon != nil {
+                            Label(LocalizedStringKey(controller.editAction.label), systemImage: controller.editAction.systemIcon ?? "")
+                        } else {
+                            Label(LocalizedStringKey(controller.editAction.label), image: controller.editAction.icon ?? "")
+                        }
                     }
                     .tint(controller.editAction.color.color)
-                    
-                    
+
                     ForEach(Array(stride(from: controller.trailingActions.count - 1, to: -1, by: -1)), id: \.self) { idx in
                         let action = controller.trailingActions[idx]
-                        Button(LocalizedStringKey(action.label)) {
+
+//                        Button(LocalizedStringKey(action.label)) {
+//                            controller.selectedAction = SelectedAction(key: action.key, item: item)
+//                        }
+//                        .tint(action.color.color)
+
+                        Button {
                             controller.selectedAction = SelectedAction(key: action.key, item: item)
+                        } label: {
+                            if action.systemIcon != nil {
+                                Label(LocalizedStringKey(action.label), systemImage: action.systemIcon ?? "")
+                            } else {
+                                Label(LocalizedStringKey(action.label), image: action.icon ?? "")
+                            }
                         }
                         .tint(action.color.color)
                     }
@@ -518,7 +544,7 @@ struct NavigationListContainer: View {
 
         let leadingActions = [
             ListAction(key: "L1", label: "Action 1", systemIcon: "plus", color: GenericColor(color: .blue)),
-            ListAction(key: "L2", label: "Action 2", systemIcon: "plus", color: GenericColor(color: .orange)),
+            ListAction(key: "L2", label: "Action 2", systemIcon: "minus", color: GenericColor(color: .orange)),
         ]
 
         let trailingActions = [
@@ -590,7 +616,7 @@ struct NavigationListContainer: View {
             MyForm1(controller: controller, mode: mode)
         }
         #if os(iOS)
-            .navigationBarHidden(true)
+        .navigationBarHidden(true)
         #endif
     }
 }

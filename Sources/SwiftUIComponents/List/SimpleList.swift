@@ -339,7 +339,7 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
         content
             .if(controller.swipeActions) { view in
                 view
-                    .swipeActions(edge: .leading) {
+                    .swipeActions(edge: .leading, allowsFullSwipe: false) {
                         ForEach(0 ..< controller.leadingActions.count, id: \.self) { idx in
                             let action = controller.leadingActions[idx]
                             Button {
