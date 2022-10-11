@@ -381,8 +381,18 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
         multipleSelection = try values.decode(Bool.self, forKey: .multipleSelection)
         addButtonIcon = try values.decode(String.self, forKey: .addButtonIcon)
         addButtonColor = try values.decode(GenericColor.self, forKey: .addButtonColor)
-        editAction = try values.decode(ListAction.self, forKey: .editButtonAction)
-        deleteAction = try values.decode(ListAction.self, forKey: .deleteButtonAction)
+        if let tmp = try? values.decode(ListAction.self, forKey: .editButtonAction) {
+            editAction = tmp
+        }
+        else {
+            editAction = ListAction(key: "Edit", label: "Edit")
+        }
+        if let tmp1 = try? values.decode(ListAction.self, forKey: .deleteButtonAction) {
+            deleteAction = tmp1
+        }
+        else {
+            deleteAction = ListAction(key: "Delete", label: "Delete")
+        }
         backgroundColor = try values.decode(GenericColor.self, forKey: .backgroundColor)
         rowBackgroundColor = try values.decode(GenericColor.self, forKey: .rowBackgroundColor)
         swipeActions = try values.decode(Bool.self, forKey: .swipeActions)
