@@ -12,9 +12,18 @@ import SwiftUI
     public struct SideMenuView: View {
         @ObservedObject var controller: MenuController
         @Namespace var animation
+
+        #if os(iOS)
+            let spaceBetweenItems: CGFloat = 15
+            let rightShiftWhenSelected: CGFloat = 5.0
+        #endif
+        #if os(watchOS)
+            let spaceBetweenItems: CGFloat = 1
+            let rightShiftWhenSelected: CGFloat = 2.0
+        #endif
+
         // TODO: Move in the controller for configuration?
         let buttonHeight: CGFloat = 36.0
-        let rightShiftWhenSelected: CGFloat = 5.0
 
         public var body: some View {
             VStack(alignment: .leading, spacing: 0) {
@@ -36,13 +45,13 @@ import SwiftUI
                     }
                     .padding(0)
                 } else {
-                    Spacer(minLength: 15)
+                    Spacer(minLength: spaceBetweenItems)
                         .background(controller.titleViewBackgroundColor.color)
                 }
 
                 ScrollView(.vertical, showsIndicators: false) {
                     // Tab Buttons
-                    VStack(alignment: .leading, spacing: 15) {
+                    VStack(alignment: .leading, spacing: spaceBetweenItems) {
                         ForEach(controller.menuItems, id: \.self) { item in
 
                             switch item {
@@ -73,7 +82,7 @@ import SwiftUI
                 .padding(.top, 10)
                 .frame(width: getRect().width, alignment: .leading)
                 .frame(maxWidth: .infinity, alignment: .leading)
-                
+
                 if let titleView = controller.sideFooterProvider() {
                     HStack {
                         titleView
@@ -123,12 +132,14 @@ import SwiftUI
                             }
                         )
                         .padding([.leading, .trailing], 0)
-                    
+
                     Text(LocalizedStringKey(item.title))
+                    #if os(iOS)
                         .font(.callout)
+                    #endif
                         .fontWeight(.semibold)
                         .foregroundColor(controller.itemsColor.color)
-                        .frame(maxWidth: getRect().width/2.6, alignment: .leading)
+                        .frame(maxWidth: getRect().width / 2.6, alignment: .leading)
                         .contentShape(Rectangle())
                 }
                 .padding(.trailing, 18)
@@ -142,8 +153,8 @@ import SwiftUI
                     }
                 )
             }
-                .offset(x: controller.currentTab == item.key ? rightShiftWhenSelected : 0)
-                .buttonStyle(.plain)
+            .offset(x: controller.currentTab == item.key ? rightShiftWhenSelected : 0)
+            .buttonStyle(.plain)
         }
 
         @ViewBuilder
@@ -218,7 +229,6 @@ import SwiftUI
 
         public var body: some View {
             VStack(alignment: .leading, spacing: 0) {
-                
                 if controller.menuItems.count >= 1 {
                     NavigationLink(destination: ContainerView(controller: controller, item: controller.menuItems[0]), tag: "A", selection: $controller.boostrap, label: { EmptyView().scaleEffect(0) })
                         .frame(width: 0, height: 0)
@@ -271,7 +281,6 @@ import SwiftUI
                         case is MenuAction:
                             let thisItem = item as! MenuAction
 
-                            
                             Button {
                                 controller.lastAction = thisItem
                             } label: {
@@ -305,8 +314,7 @@ import SwiftUI
                 .listStyle(SidebarListStyle())
                 .padding([.leading], 0)
                 .layoutPriority(1)
-                
-                
+
                 if let titleView = controller.sideFooterProvider() {
                     HStack(spacing: 0) {
                         titleView
