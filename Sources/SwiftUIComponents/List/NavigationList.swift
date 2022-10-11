@@ -538,7 +538,7 @@ struct NavigationListContainer: View {
                                                                              style: .plain(alternatesRows: true, alternateBackgroundColor: .systemGray),
                                                                              addButtonIcon: "plus",
                                                                              addButtonColor: .systemRed,
-                                                                             editButtonLabel: "Edit_",
+                                                                             editButtonAction: ListAction(key: "Edit", label: "_Edit_"),
                                                                              deleteButtonLabel: "Delete_",
                                                                              backgroundColor: .systemBackground,
                                                                              rowBackgroundColor: GenericColor(systemColor: .systemPurple),

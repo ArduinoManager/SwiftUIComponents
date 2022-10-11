@@ -429,7 +429,7 @@ struct SimpleListContainer: View {
                                                                        style: .plain(alternatesRows: false, alternateBackgroundColor: .systemGray),
                                                                        addButtonIcon: "plus",
                                                                        addButtonColor: .systemRed,
-                                                                       editButtonLabel: "Edit_",
+                                                                       editButtonAction: ListAction(key: "Edit", label: "_Box_xxxx", systemIcon: "pencil", color: .systemMint),
                                                                        deleteButtonLabel: "Delete_",
                                                                        backgroundColor: .systemBackground,
                                                                        rowBackgroundColor: GenericColor(systemColor: .systemGray3),
