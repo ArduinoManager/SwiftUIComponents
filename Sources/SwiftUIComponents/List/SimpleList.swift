@@ -352,7 +352,6 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
                         }
                     }
                     .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                        #warning("Delete")
                         Button {
                             controller.delete(item: item)
                         } label: {
@@ -360,7 +359,6 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
                                   systemImage: controller.deleteAction.systemIcon ?? "")
                         }
                         .tint(controller.deleteAction.color.color)
-                        #warning("Edit")
                         Button {
                             controller.editingItem = item
                             sheetManager.whichSheet = .Form
@@ -376,8 +374,14 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
                             Button {
                                 controller.selectedAction = SelectedAction(key: action.key, item: item)
                             } label: {
-                                Label(LocalizedStringKey(action.label),
-                                      systemImage: action.systemIcon ?? "")
+                                if action.systemIcon != nil {
+                                    Label(LocalizedStringKey(action.label),
+                                          systemImage: action.systemIcon ?? "")
+                                }
+                                else {
+                                    Label(LocalizedStringKey(action.label),
+                                          image: action.icon ?? "")
+                                }
                             }
                             .tint(action.color.color)
                         }
@@ -448,7 +452,7 @@ struct SimpleListContainer: View {
                                                                        addButtonIcon: "plus",
                                                                        addButtonColor: .systemRed,
                                                                        editAction: ListAction(key: "Edit", label: "_Box_xxxx", systemIcon: "pencil", color: .systemMint),
-                                                                       deleteAction: ListAction(key: "Delete", label: "_Box_xxxx", systemIcon: "trash", color: .systemRed),
+                                                                       deleteAction: ListAction(key: "Delete", label: "_Box_xxxx", icon: "test", color: .systemRed),
                                                                        backgroundColor: .systemGreen,
                                                                        rowBackgroundColor: GenericColor(systemColor: .systemGray3),
                                                                        swipeActions: true,
