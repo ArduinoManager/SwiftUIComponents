@@ -89,8 +89,8 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
     @Published public var multipleSelection: Bool
     @Published public var addButtonIcon: String
     @Published public var addButtonColor: GenericColor
-    @Published public var editButtonAction: ListAction
-    @Published public var deleteButtonAction: ListAction
+    @Published public var editAction: ListAction
+    @Published public var deleteAction: ListAction
     @Published public var backgroundColor: GenericColor
     @Published public var rowBackgroundColor: GenericColor
     @Published public var swipeActions: Bool
@@ -135,8 +135,8 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
                     multipleSelection: Bool = false,
                     addButtonIcon: String = "plus",
                     addButtonColor: GenericColor = GenericColor.systemLabel,
-                    editButtonAction: ListAction,
-                    deleteButtonAction: ListAction,
+                    editAction: ListAction,
+                    deleteAction: ListAction,
                     backgroundColor: GenericColor = GenericColor.systemBackground,
                     rowBackgroundColor: GenericColor = GenericColor.systemBackground,
                     swipeActions: Bool = true,
@@ -152,8 +152,8 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
             self.multipleSelection = multipleSelection
             self.addButtonIcon = addButtonIcon
             self.addButtonColor = addButtonColor
-            self.editButtonAction = editButtonAction
-            self.deleteButtonAction = deleteButtonAction
+            self.editAction = editAction
+            self.deleteAction = deleteAction
             self.backgroundColor = backgroundColor
             self.rowBackgroundColor = rowBackgroundColor
             self.swipeActions = swipeActions
@@ -177,8 +177,8 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
                     multipleSelection: Bool = false,
                     addButtonIcon: String = "plus",
                     addButtonColor: GenericColor = GenericColor.systemLabel,
-                    editButtonLabel: String,
-                    deleteButtonLabel: String,
+                    editAction: ListAction,
+                    deleteAction: ListAction,
                     backgroundColor: GenericColor = GenericColor.systemBackground,
                     rowBackgroundColor: GenericColor = GenericColor.systemBackground,
                     swipeActions: Bool = true,
@@ -194,8 +194,8 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
             self.multipleSelection = multipleSelection
             self.addButtonIcon = addButtonIcon
             self.addButtonColor = addButtonColor
-            self.editButtonLabel = editButtonLabel
-            self.deleteButtonLabel = deleteButtonLabel
+            self.editAction = editAction
+            self.deleteAction = deleteAction
             self.backgroundColor = backgroundColor
             self.rowBackgroundColor = rowBackgroundColor
             self.swipeActions = swipeActions
@@ -381,8 +381,8 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
         multipleSelection = try values.decode(Bool.self, forKey: .multipleSelection)
         addButtonIcon = try values.decode(String.self, forKey: .addButtonIcon)
         addButtonColor = try values.decode(GenericColor.self, forKey: .addButtonColor)
-        editButtonAction = try values.decode(ListAction.self, forKey: .editButtonAction)
-        deleteButtonAction = try values.decode(ListAction.self, forKey: .deleteButtonAction)
+        editAction = try values.decode(ListAction.self, forKey: .editButtonAction)
+        deleteAction = try values.decode(ListAction.self, forKey: .deleteButtonAction)
         backgroundColor = try values.decode(GenericColor.self, forKey: .backgroundColor)
         rowBackgroundColor = try values.decode(GenericColor.self, forKey: .rowBackgroundColor)
         swipeActions = try values.decode(Bool.self, forKey: .swipeActions)
@@ -404,8 +404,8 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
         try container.encode(leftMinSideSize, forKey: .leftMinSideSize)
         try container.encode(addButtonIcon, forKey: .addButtonIcon)
         try container.encode(addButtonColor, forKey: .addButtonColor)
-        try container.encode(editButtonAction, forKey: .editButtonAction)
-        try container.encode(deleteButtonAction, forKey: .deleteButtonAction)
+        try container.encode(editAction, forKey: .editButtonAction)
+        try container.encode(deleteAction, forKey: .deleteButtonAction)
         try container.encode(backgroundColor, forKey: .backgroundColor)
 
         try container.encode(backgroundColor, forKey: .backgroundColor)

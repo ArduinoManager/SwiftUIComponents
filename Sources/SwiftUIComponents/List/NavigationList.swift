@@ -465,18 +465,18 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
                     Button {
                         controller.delete(item: item)
                     } label: {
-                            Label(LocalizedStringKey(controller.deleteButtonAction.label),
-                                  systemImage: controller.deleteButtonAction.systemIcon ?? "")
+                            Label(LocalizedStringKey(controller.deleteAction.label),
+                                  systemImage: controller.deleteAction.systemIcon ?? "")
                     }
-                    .tint(controller.deleteButtonAction.color.color)
+                    .tint(controller.deleteAction.color.color)
                     #warning("Edit")
                     Button {
                         controller.editingItem = item
                     } label: {
-                            Label(LocalizedStringKey(controller.editButtonAction.label),
-                                  systemImage: controller.editButtonAction.systemIcon ?? "")
+                            Label(LocalizedStringKey(controller.editAction.label),
+                                  systemImage: controller.editAction.systemIcon ?? "")
                     }
-                    .tint(controller.editButtonAction.color.color)
+                    .tint(controller.editAction.color.color)
                     
                     
                     ForEach(Array(stride(from: controller.trailingActions.count - 1, to: -1, by: -1)), id: \.self) { idx in
@@ -531,8 +531,8 @@ struct NavigationListContainer: View {
                                                                              style: .plain(alternatesRows: true, alternateBackgroundColor: .systemGray),
                                                                              addButtonIcon: "plus",
                                                                              addButtonColor: .systemRed,
-                                                                             editButtonAction: ListAction(key: "Edit", label: "_Edit_"),
-                                                                             deleteButtonAction: ListAction(key: "Delete", label: "_Delete_"),
+                                                                             editAction: ListAction(key: "Edit", label: "_Edit_"),
+                                                                             deleteAction: ListAction(key: "Delete", label: "_Delete_"),
                                                                              backgroundColor: .systemGreen,
                                                                              rowBackgroundColor: GenericColor(systemColor: .systemPurple),
                                                                              swipeActions: true,
@@ -550,8 +550,8 @@ struct NavigationListContainer: View {
                                                                              style: .plain(alternatesRows: true, alternateBackgroundColor: .systemGray),
                                                                              addButtonIcon: "plus",
                                                                              addButtonColor: .systemRed,
-                                                                             editButtonAction: ListAction(key: "Edit", label: "_Box_xxxx", systemIcon: "pencil", color: .systemMint),
-                                                                             deleteButtonAction: ListAction(key: "Delete", label: "Delete", systemIcon: "trash", color: .systemRed),
+                                                                             editAction: ListAction(key: "Edit", label: "_Box_xxxx", systemIcon: "pencil", color: .systemMint),
+                                                                             deleteAction: ListAction(key: "Delete", label: "Delete", systemIcon: "trash", color: .systemRed),
                                                                              backgroundColor: .systemBackground,
                                                                              rowBackgroundColor: GenericColor(systemColor: .systemPurple),
                                                                              swipeActions: true,
@@ -570,8 +570,8 @@ struct NavigationListContainer: View {
                                                                              leftMinSideSize: 250,
                                                                              addButtonIcon: "plus",
                                                                              addButtonColor: .systemRed,
-                                                                             editButtonLabel: "Edit_",
-                                                                             deleteButtonLabel: "Delete_",
+                                                                             editAction: ListAction(key: "Edit", label: "_Box_xxxx", systemIcon: "pencil", color: .systemMint),
+                                                                             deleteAction: ListAction(key: "Delete", label: "Delete", systemIcon: "trash", color: .systemRed),
                                                                              backgroundColor: .systemGreen,
                                                                              rowBackgroundColor: GenericColor(systemColor: .systemPurple),
                                                                              swipeActions: true,
