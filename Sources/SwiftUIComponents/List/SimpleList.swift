@@ -78,10 +78,10 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                                     .border(controller.addButtonColor.color, width: 1)
                             }
                             #if os(macOS) || os(watchOS)
-                                .buttonStyle(PlainButtonStyle())
+                            .buttonStyle(PlainButtonStyle())
                             #endif
                             .padding(.trailing, 15)
-                                .padding(.top, 5)
+                            .padding(.top, 5)
                         }
                 }
                 .padding(0)
@@ -111,14 +111,14 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                             .border(controller.addButtonColor.color, width: 1)
                     }
                     #if os(macOS) || os(watchOS)
-                        .buttonStyle(PlainButtonStyle())
-                        .padding(.trailing, 10)
+                    .buttonStyle(PlainButtonStyle())
+                    .padding(.trailing, 10)
                     #endif
                     #if os(iOS) || os(watchOS)
-                        .padding(.trailing, 6)
+                    .padding(.trailing, 6)
                     #endif
                     .padding(.top, 5)
-                        .padding(.bottom, 5)
+                    .padding(.bottom, 5)
                 }
             }
 
@@ -140,7 +140,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                             }
                         }
                     #endif
-                    
+
                     #if os(iOS)
                         controller.makeRow(item)
                             .modifier(AttachActions(controller: controller, item: item, sheetManager: sheetManager))
@@ -168,7 +168,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                                 editingList.toggle()
                             }
                             .padding(0)
-                        
+
                         if controller.showLineSeparator {
                             Divider()
                                 .if(controller.lineSeparatorColor != nil) { view in
@@ -184,13 +184,13 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                 #if os(macOS)
                     .removingScrollViewBackground()
                 #endif
-                .listRowBackground(GenericColor.systemClear.color)
+                    .listRowBackground(GenericColor.systemClear.color)
             }
             .environment(\.defaultMinListRowHeight, 5)
             #if os(iOS)
                 .environment(\.editMode, editingList ? .constant(.active) : .constant(.inactive))
             #endif
-            .customStyle(type: controller.style)
+                .customStyle(type: controller.style)
                 .background(controller.backgroundColor.color)
                 .sheet(isPresented: $sheetManager.showSheet) {
                     if sheetManager.whichSheet == .Form {
@@ -252,8 +252,8 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                         .buttonStyle(BorderlessButtonStyle())
                     #endif
                     #if os(macOS)
-                        .foregroundColor(action.color.color)
-                        .buttonStyle(.plain)
+                    .foregroundColor(action.color.color)
+                    .buttonStyle(.plain)
                     #endif
                 }
             }
@@ -281,8 +281,8 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                     .buttonStyle(BorderlessButtonStyle())
                 #endif
                 #if os(macOS)
-                    .foregroundColor(.red)
-                    .buttonStyle(.plain)
+                .foregroundColor(.red)
+                .buttonStyle(.plain)
                 #endif
 
                 Button {
@@ -304,8 +304,8 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                     .buttonStyle(BorderlessButtonStyle())
                 #endif
                 #if os(macOS)
-                    .foregroundColor(Color.accentColor)
-                    .buttonStyle(.plain)
+                .foregroundColor(Color.accentColor)
+                .buttonStyle(.plain)
                 #endif
 
                 ForEach(0 ..< controller.trailingActions.count, id: \.self) { idx in
@@ -322,8 +322,8 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                         .buttonStyle(BorderlessButtonStyle())
                     #endif
                     #if os(macOS)
-                        .foregroundColor(action.color.color)
-                        .buttonStyle(.plain)
+                    .foregroundColor(action.color.color)
+                    .buttonStyle(.plain)
                     #endif
                 }
             }
@@ -353,14 +353,28 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
                         Button(LocalizedStringKey(controller.deleteButtonLabel)) {
                             controller.delete(item: item)
                         }
-                        //.tint(.red)
-                        .background(Color.systemBackground)
-                        .foregroundColor(Color.red)
-                        Button(LocalizedStringKey(controller.editButtonLabel)) {
+                         .tint(.red)
+//                        .background(Color.systemBackground)
+//                        .foregroundColor(Color.red)
+
+//                        Button(LocalizedStringKey(controller.editButtonAction.label)) {
+//                            controller.editingItem = item
+//                            sheetManager.whichSheet = .Form
+//                            sheetManager.showSheet.toggle()
+//                        }
+                        #warning("Edit")
+                        Button {
                             controller.editingItem = item
                             sheetManager.whichSheet = .Form
                             sheetManager.showSheet.toggle()
+
+                        } label: {
+                                Label(LocalizedStringKey(controller.editButtonAction.label),
+                                      systemImage: controller.editButtonAction.systemIcon ?? "")
                         }
+                        .tint(controller.editButtonAction.color.color)
+                        
+                        
                         ForEach(0 ..< controller.trailingActions.count, id: \.self) { idx in
                             let action = controller.trailingActions[idx]
                             Button(LocalizedStringKey(action.label)) {
@@ -433,7 +447,7 @@ struct SimpleListContainer: View {
                                                                        style: .plain(alternatesRows: true, alternateBackgroundColor: .systemGray),
                                                                        addButtonIcon: "plus",
                                                                        addButtonColor: .systemRed,
-                                                                       editButtonLabel: "Edit_",
+                                                                       editButtonAction: ListAction(key: "Edit", label: "_Box_xxxx", systemIcon: "pencil", color: .systemMint),
                                                                        deleteButtonLabel: "Delete_",
                                                                        backgroundColor: .systemGreen,
                                                                        rowBackgroundColor: GenericColor(systemColor: .systemGray3),
@@ -460,6 +474,7 @@ struct SimpleList_Previews: PreviewProvider {
         Group {
             SimpleListContainer()
                 .previewInterfaceOrientation(.portrait)
+                .previewDevice(PreviewDevice(rawValue: "iPhone 13"))
         }
     }
 }

@@ -621,6 +621,6 @@ struct TestView: View {
                 .font(.title)
             Spacer()
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .frame(maxWidth: .infinity)
     }
 }

@@ -464,7 +464,7 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
                         controller.delete(item: item)
                     }
                     .tint(.red)
-                    Button(LocalizedStringKey(controller.editButtonLabel)) {
+                    Button(LocalizedStringKey(controller.editButtonAction.label)) {
                         controller.editingItem = item
                     }
                     ForEach(Array(stride(from: controller.trailingActions.count - 1, to: -1, by: -1)), id: \.self) { idx in
@@ -519,7 +519,7 @@ struct NavigationListContainer: View {
                                                                              style: .plain(alternatesRows: true, alternateBackgroundColor: .systemGray),
                                                                              addButtonIcon: "plus",
                                                                              addButtonColor: .systemRed,
-                                                                             editButtonLabel: "Edit_",
+                                                                             editButtonAction: ListAction(key: "Edit", label: "_Edit_"),
                                                                              deleteButtonLabel: "Delete_",
                                                                              backgroundColor: .systemGreen,
                                                                              rowBackgroundColor: GenericColor(systemColor: .systemPurple),
