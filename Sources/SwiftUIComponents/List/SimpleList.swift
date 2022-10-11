@@ -345,7 +345,12 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
                             Button {
                                 controller.selectedAction = SelectedAction(key: action.key, item: item)
                             } label: {
-                                Label(LocalizedStringKey(action.label), systemImage: action.systemIcon ?? "")
+                                if action.systemIcon != nil {
+                                    Label(LocalizedStringKey(action.label), systemImage: action.systemIcon ?? "")
+                                } else {
+                                    Label(LocalizedStringKey(action.label),
+                                          image: action.icon ?? "")
+                                }
                             }
                             .tint(action.color.color)
                             .frame(minWidth: 200, maxWidth: 200)
@@ -355,8 +360,11 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
                         Button {
                             controller.delete(item: item)
                         } label: {
-                            Label(LocalizedStringKey(controller.deleteAction.label),
-                                  systemImage: controller.deleteAction.systemIcon ?? "")
+                            if controller.deleteAction.systemIcon != nil {
+                                Label(LocalizedStringKey(controller.deleteAction.label), systemImage: controller.deleteAction.systemIcon ?? "")
+                            } else {
+                                Label(LocalizedStringKey(controller.deleteAction.label), image: controller.deleteAction.icon ?? "")
+                            }
                         }
                         .tint(controller.deleteAction.color.color)
                         Button {
@@ -365,8 +373,11 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
                             sheetManager.showSheet.toggle()
 
                         } label: {
-                            Label(LocalizedStringKey(controller.editAction.label),
-                                  systemImage: controller.editAction.systemIcon ?? "")
+                            if controller.editAction.systemIcon != nil {
+                                Label(LocalizedStringKey(controller.editAction.label), systemImage: controller.editAction.systemIcon ?? "")
+                            } else {
+                                Label(LocalizedStringKey(controller.editAction.label), image: controller.editAction.icon ?? "")
+                            }
                         }
                         .tint(controller.editAction.color.color)
                         ForEach(0 ..< controller.trailingActions.count, id: \.self) { idx in
@@ -375,12 +386,9 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
                                 controller.selectedAction = SelectedAction(key: action.key, item: item)
                             } label: {
                                 if action.systemIcon != nil {
-                                    Label(LocalizedStringKey(action.label),
-                                          systemImage: action.systemIcon ?? "")
-                                }
-                                else {
-                                    Label(LocalizedStringKey(action.label),
-                                          image: action.icon ?? "")
+                                    Label(LocalizedStringKey(action.label), systemImage: action.systemIcon ?? "")
+                                } else {
+                                    Label(LocalizedStringKey(action.label), image: action.icon ?? "")
                                 }
                             }
                             .tint(action.color.color)
