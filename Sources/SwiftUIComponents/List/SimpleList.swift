@@ -96,9 +96,10 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                     color: GenericColor.systemLabel.color.opacity(0.5),
                     radius: 3,
                     x: 0,
-                    y: 0.5
+                    y: 1
                 )
                 .zIndex(99)
+                .padding(.bottom, 5)
             } else {
                 HStack(spacing: 0) {
                     Spacer()
