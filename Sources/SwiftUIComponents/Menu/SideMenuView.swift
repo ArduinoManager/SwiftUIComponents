@@ -37,7 +37,7 @@ import SwiftUI
                         titleView
                             .frame(maxWidth: getRect().width / 2, alignment: .leading)
                             .padding(0)
-                            .background(controller.titleViewBackgroundColor.color)
+                            .background(controller.headerBackgroundColor.color)
                             .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
                             .background(GenericColor.systemLabel.color)
                             .shadow(
@@ -51,7 +51,7 @@ import SwiftUI
                     .padding(0)
                 } else {
                     Spacer(minLength: spaceBetweenItems)
-                        .background(controller.titleViewBackgroundColor.color)
+                        .background(controller.headerBackgroundColor.color)
                 }
 
                 ScrollView(.vertical, showsIndicators: false) {
@@ -93,7 +93,7 @@ import SwiftUI
                         titleView
                             .frame(maxWidth: getRect().width / 2, alignment: .leading)
                             .padding(0)
-                            .background(controller.titleViewBackgroundColor.color)
+                            .background(controller.headerBackgroundColor.color)
                             .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
                             .background(GenericColor.systemLabel.color)
                             .shadow(
@@ -107,8 +107,8 @@ import SwiftUI
                     .padding(0)
                 }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-            .background(controller.backgroundColor.color)
+            //.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+            .background(Color.red)
             .onRotate { _ in
                 controller.objectWillChange.send() // Force redraw!
             }
@@ -245,7 +245,7 @@ import SwiftUI
                         titleView
                     }
                     .padding(0)
-                    .background(controller.titleViewBackgroundColor.color)
+                    .background(controller.headerBackgroundColor.color)
                     .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
                     .background(GenericColor.systemLabel.color)
                     .shadow(
@@ -325,7 +325,7 @@ import SwiftUI
                         titleView
                     }
                     .padding(0)
-                    .background(controller.titleViewBackgroundColor.color)
+                    .background(controller.headerBackgroundColor.color)
                     .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
                     .background(GenericColor.systemLabel.color)
                     .shadow(
@@ -392,7 +392,7 @@ struct SideMenuContainer: View {
         ],
         backgroundColor: .systemBackground,
         itemsColor: .systemLabel,
-        titleViewBackgroundColor: .systemBackground
+        headerBackgroundColor: .systemBackground
     )
 
     var body: some View {

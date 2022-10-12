@@ -15,11 +15,11 @@ open class MenuController: SuperController, ObservableObject {
     @Published public var selectedItemBackgroundColor: GenericColor
     @Published public var backgroundColor: GenericColor
     @Published public var autoClose: Bool
-    @Published public var openButtonAtTop: Bool
+    @Published public var headerAtTop: Bool
     @Published public var openButtonColor: GenericColor
     @Published public var openButtonIcon: String
     @Published public var openButtonSize: CGFloat
-    @Published public var titleViewBackgroundColor: GenericColor
+    @Published public var headerBackgroundColor: GenericColor
     @Published public var menuItems: [MenuItem]
     @Published public var lastAction: MenuAction?
     var boostrap: String? = "A"
@@ -31,25 +31,25 @@ open class MenuController: SuperController, ObservableObject {
 
         public init(menuItems: [MenuItem],
                     autoClose: Bool = true,
-                    openButtonAtTop: Bool = true,
+                    headerAtTop: Bool = true,
                     openButtonColor: GenericColor = .systemLabel,
                     openButtonIcon: String = "line.3.horizontal",
                     openButtonSize: CGFloat = 20.0,
                     backgroundColor: GenericColor = .systemBackground,
                     itemsColor: GenericColor = .systemLabel,
                     selectedItemBackgroundColor: GenericColor = GenericColor(systemColor: .systemGray4),
-                    titleViewBackgroundColor: GenericColor = .systemBackground) {
+                    headerBackgroundColor: GenericColor = .systemBackground) {
             showMenu = false
             self.menuItems = menuItems
             self.autoClose = autoClose
-            self.openButtonAtTop = openButtonAtTop
+            self.headerAtTop = headerAtTop
             self.openButtonColor = openButtonColor
             self.openButtonIcon = openButtonIcon
             self.openButtonSize = openButtonSize
             self.backgroundColor = backgroundColor
             self.itemsColor = itemsColor
             self.selectedItemBackgroundColor = selectedItemBackgroundColor
-            self.titleViewBackgroundColor = titleViewBackgroundColor
+            self.headerBackgroundColor = headerBackgroundColor
             currentTab = menuItems[0].key
 
             super.init(type: .menu)
@@ -66,25 +66,25 @@ open class MenuController: SuperController, ObservableObject {
 
         public init(menuItems: [MenuItem],
                     autoClose: Bool = true,
-                    openButtonAtTop: Bool = true,
+                    headerAtTop: Bool = true,
                     openButtonColor: GenericColor = .systemLabel,
                     openButtonIcon: String = "line.3.horizontal",
                     openButtonSize: CGFloat = 20.0,
                     backgroundColor: GenericColor = .systemBackground,
                     itemsColor: GenericColor = .systemLabel,
                     selectedItemBackgroundColor: GenericColor = GenericColor(systemColor: .systemGray4),
-                    titleViewBackgroundColor: GenericColor = .systemBackground) {
+                    headerBackgroundColor: GenericColor = .systemBackground) {
             showMenu = false
             self.menuItems = menuItems
             self.autoClose = autoClose
-            self.openButtonAtTop = openButtonAtTop
+            self.headerAtTop = headerAtTop
             self.openButtonColor = openButtonColor
             self.openButtonIcon = openButtonIcon
             self.openButtonSize = openButtonSize
             self.backgroundColor = backgroundColor
             self.itemsColor = itemsColor
             self.selectedItemBackgroundColor = selectedItemBackgroundColor
-            self.titleViewBackgroundColor = titleViewBackgroundColor
+            self.headerBackgroundColor = headerBackgroundColor
             currentTab = menuItems[0].key
 
             super.init(type: .menu)
@@ -113,18 +113,18 @@ open class MenuController: SuperController, ObservableObject {
         public init(menuItems: [MenuItem],
                     backgroundColor: GenericColor = .systemBackground,
                     itemsColor: GenericColor = .systemLabel,
-                    titleViewBackgroundColor: GenericColor = .systemBackground) {
+                    headerBackgroundColor: GenericColor = .systemBackground) {
             self.showMenu = false
             self.menuItems = menuItems
             self.autoClose = true
-            self.openButtonAtTop = false
+            self.headerAtTop = false
             self.openButtonColor = .systemLabel
             self.openButtonIcon = "line.3.horizontal"
             self.openButtonSize = 20.0
             self.backgroundColor = backgroundColor
             self.itemsColor = itemsColor
             self.selectedItemBackgroundColor = GenericColor(systemColor: .systemGray4)
-            self.titleViewBackgroundColor = titleViewBackgroundColor
+            self.headerBackgroundColor = headerBackgroundColor
             self.lastAction = nil
             self.currentTab = menuItems[0].key
 
@@ -229,14 +229,14 @@ open class MenuController: SuperController, ObservableObject {
         }
         self.menuItems = menuItems
 
-        openButtonAtTop = try values.decode(Bool.self, forKey: .openButtonAtTop)
+        headerAtTop = try values.decode(Bool.self, forKey: .openButtonAtTop)
         openButtonColor = try values.decode(GenericColor.self, forKey: .openButtonColor)
         openButtonIcon = try values.decode(String.self, forKey: .openButtonIcon)
         openButtonSize = try values.decode(CGFloat.self, forKey: .openButtonSize)
         backgroundColor = try values.decode(GenericColor.self, forKey: .backgroundColor)
         itemsColor = try values.decode(GenericColor.self, forKey: .itemsColor)
         selectedItemBackgroundColor = try values.decode(GenericColor.self, forKey: .selectedItemBackgroundColor)
-        titleViewBackgroundColor = try values.decode(GenericColor.self, forKey: .titleViewBackgroundColor)
+        headerBackgroundColor = try values.decode(GenericColor.self, forKey: .titleViewBackgroundColor)
 
         showMenu = false
         currentTab = menuItems[0].key
@@ -247,14 +247,14 @@ open class MenuController: SuperController, ObservableObject {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(autoClose, forKey: .autoClose)
         try container.encode(menuItems, forKey: .menuItems)
-        try container.encode(openButtonAtTop, forKey: .openButtonAtTop)
+        try container.encode(headerAtTop, forKey: .openButtonAtTop)
         try container.encode(openButtonColor, forKey: .openButtonColor)
         try container.encode(openButtonIcon, forKey: .openButtonIcon)
         try container.encode(openButtonSize, forKey: .openButtonSize)
         try container.encode(backgroundColor, forKey: .backgroundColor)
         try container.encode(itemsColor, forKey: .itemsColor)
         try container.encode(selectedItemBackgroundColor, forKey: .selectedItemBackgroundColor)
-        try container.encode(titleViewBackgroundColor, forKey: .titleViewBackgroundColor)
+        try container.encode(headerBackgroundColor, forKey: .titleViewBackgroundColor)
         try super.encode(to: encoder)
     }
 }

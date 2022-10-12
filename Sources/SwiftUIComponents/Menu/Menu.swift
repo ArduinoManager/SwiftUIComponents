@@ -12,7 +12,7 @@ import SwiftUI
 public struct Menu: View {
     @ObservedObject private var controller: MenuController
     @State var showInspector = false
-    
+
     public init(controller: MenuController) {
         self.controller = controller
         #if os(iOS)
@@ -21,20 +21,25 @@ public struct Menu: View {
     }
 
     public var body: some View {
-        #if os(macOS)            
+        #if os(macOS)
 //            Print("^^^^^^ Building Menu ^^^^^^^^")
 //            let x = Self._printChanges()
 //            Print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
             NavigationView {
-                SideMenuView(controller: controller)                
+                SideMenuView(controller: controller)
             }
         #endif
         #if os(iOS) || os(watchOS)
             ZStack {
                 // Backgorund
-                
+                VStack(spacing: 0) {
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(controller.backgroundColor.color)
+
                 // Side Menu
                 SideMenuView(controller: controller)
+                    .padding([.top], 1)
 
                 // Main Tab View
                 ContainerView(controller: controller)

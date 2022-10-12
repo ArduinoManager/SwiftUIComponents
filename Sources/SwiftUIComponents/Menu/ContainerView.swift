@@ -14,7 +14,7 @@ import SwiftUI
 
         public var body: some View {
             VStack(spacing: 0) {
-                if controller.openButtonAtTop {
+                if controller.headerAtTop {
                     HStack(spacing: 0) {
                         if let titleView = controller.headerProvider() {
                             titleView
@@ -25,7 +25,7 @@ import SwiftUI
                         }
                     }
                     .padding(0)
-                    .background(controller.titleViewBackgroundColor.color)
+                    .background(controller.headerBackgroundColor.color)
                     .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
                     .background(GenericColor.systemLabel.color)
                     .shadow(
@@ -36,8 +36,6 @@ import SwiftUI
                     )
                     .zIndex(99)
                 }
-
-                // Fuck
 
                 viewToShow()
                     .onChange(of: controller.currentTab, perform: { _ in
@@ -48,9 +46,7 @@ import SwiftUI
                         }
                     })
 
-                // Fuck
-
-                if !controller.openButtonAtTop {
+                if !controller.headerAtTop {
                     HStack(spacing: 0) {
                         if let titleView = controller.headerProvider() {
                             titleView
@@ -61,7 +57,7 @@ import SwiftUI
                         }
                     }
                     .padding(0)
-                    .background(controller.titleViewBackgroundColor.color)
+                    .background(controller.headerBackgroundColor.color)
                     .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
                     .background(GenericColor.systemLabel.color)
                     .shadow(
@@ -73,17 +69,18 @@ import SwiftUI
                     .zIndex(99)
                 }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+           // .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color.systemBackground)
             .overlay(CloseButton(), alignment: .topLeading)
             .overlay(alignment: .bottomLeading) {
-                if controller.headerProvider() == nil && !controller.openButtonAtTop {
+                if controller.headerProvider() == nil && !controller.headerAtTop {
                     OpenButton()
                         .padding(.leading)
                         .padding(.bottom)
                 }
             }
             .overlay(alignment: .topLeading) {
-                if controller.headerProvider() == nil && controller.openButtonAtTop {
+                if controller.headerProvider() == nil && controller.headerAtTop {
                     OpenButton()
                         .padding(.leading)
                         .padding(.top)
@@ -92,7 +89,6 @@ import SwiftUI
             .onRotate { orientation in
                 self.orientation = orientation
             }
-            .background(Color.systemBackground)
         }
 
         @ViewBuilder
@@ -147,7 +143,7 @@ import SwiftUI
 
         public var body: some View {
             VStack(spacing: 0) {
-                if controller.openButtonAtTop {
+                if controller.headerAtTop {
                     HStack(spacing: 0) {
                         if let titleView = controller.headerProvider() {
                             OpenButton()
@@ -157,7 +153,7 @@ import SwiftUI
                         }
                     }
                     .padding(0)
-                    .background(controller.titleViewBackgroundColor.color)
+                    .background(controller.headerBackgroundColor.color)
                     .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
                     .background(GenericColor.systemLabel.color)
                     .shadow(
@@ -178,7 +174,7 @@ import SwiftUI
                         }
                     })
 
-                if !controller.openButtonAtTop {
+                if !controller.headerAtTop {
                     HStack(spacing: 0) {
                         if let titleView = controller.headerProvider() {
                             OpenButton()
@@ -187,7 +183,7 @@ import SwiftUI
                         }
                     }
                     .padding(0)
-                    .background(controller.titleViewBackgroundColor.color)
+                    .background(controller.headerBackgroundColor.color)
                     .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
                     .background(GenericColor.systemLabel.color)
                     .shadow(
@@ -201,14 +197,14 @@ import SwiftUI
             }
             .overlay(CloseButton(), alignment: .topLeading)
             .overlay(alignment: .bottomLeading) {
-                if controller.headerProvider() == nil && !controller.openButtonAtTop {
+                if controller.headerProvider() == nil && !controller.headerAtTop {
                     OpenButton()
                         .padding(.leading, 10)
                         .padding(.bottom, 4)
                 }
             }
             .overlay(alignment: .topLeading) {
-                if controller.headerProvider() == nil && controller.openButtonAtTop {
+                if controller.headerProvider() == nil && controller.headerAtTop {
                     OpenButton()
                         .padding(.leading)
                 }
@@ -291,7 +287,7 @@ import SwiftUI
                         header
                     }
                     .padding(0)
-                    .background(controller.titleViewBackgroundColor.color)
+                    .background(controller.headerBackgroundColor.color)
                     .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
                     .background(GenericColor.systemLabel.color)
                     .shadow(
@@ -396,7 +392,7 @@ import SwiftUI
                             .padding(.trailing, 10)
                         }
                         .padding(0)
-                        .background(controller.titleViewBackgroundColor.color)
+                        .background(controller.headerBackgroundColor.color)
                         .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
                         .background(GenericColor.systemLabel.color)
                         .shadow(
@@ -510,11 +506,11 @@ struct MainViewContainer: View {
 
         #if os(iOS) || os(watchOS)
             let x = MyMenuController(menuItems: menuItems,
-                                     openButtonAtTop: false,
+                                     headerAtTop: true,
                                      openButtonSize: 30,
                                      backgroundColor: .systemBackground,
                                      itemsColor: .systemLabel,
-                                     titleViewBackgroundColor: .systemGreen)
+                                     headerBackgroundColor: .systemGreen)
 
         #endif
         #if os(macOS)
@@ -522,7 +518,7 @@ struct MainViewContainer: View {
             let x = MyMenuController(menuItems: menuItems,
                                      backgroundColor: .systemBackground,
                                      itemsColor: .systemLabel,
-                                     titleViewBackgroundColor: .systemCyan)
+                                     headerBackgroundColor: .systemCyan)
 
         #endif
 
