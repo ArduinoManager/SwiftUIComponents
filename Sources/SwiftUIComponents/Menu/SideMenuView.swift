@@ -44,7 +44,7 @@ import SwiftUI
                                 color: GenericColor.systemLabel.color.opacity(0.1),
                                 radius: 3,
                                 x: 3,
-                                y: 8
+                                y: 3
                             )
                             .zIndex(99)
                     }
@@ -102,7 +102,7 @@ import SwiftUI
                                 color: GenericColor.systemLabel.color.opacity(0.1),
                                 radius: 3,
                                 x: 3,
-                                y: -8
+                                y: -3
                             )
                             .zIndex(99)
                     }
@@ -379,7 +379,7 @@ struct SideMenuContainer: View {
             MenuAction(key: 100, title: "Print", systemIcon: "rectangle.portrait.and.arrow.right"),
             MenuView(key: 1, title: "Simple Table", systemIcon: "safari.fill"),
             MenuView(key: 2, title: "Devices", systemIcon: "applewatch"),
-            MenuSpacer(height: 50),
+            MenuSpacer(height: 20),
             MenuView(key: 3, title: "Profile", systemIcon: "person.fill"),
             MenuView(key: 4, title: "Profile2", icon: "logo"),
 

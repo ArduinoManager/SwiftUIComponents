@@ -63,6 +63,11 @@ extension View {
     #endif
 
     #if os(watchOS)
+
+        func hasNotch() -> Bool {
+            return true
+        }
+
         func getRect() -> CGRect {
             return WKInterfaceDevice.current().screenBounds
         }
@@ -326,7 +331,7 @@ extension Color: Codable {
     }
 }
 
-#if os(iOS) || os(watchOS)
+#if os(iOS)
     extension UIDevice {
         var hasNotch: Bool {
             let keyWindow = UIApplication
