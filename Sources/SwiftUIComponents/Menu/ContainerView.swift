@@ -96,7 +96,7 @@ import SwiftUI
             .onRotate { orientation in
                 self.orientation = orientation
             }
-            .background(controller.titleViewBackgroundColor.color)
+            .background(Color.systemBackground)
         }
 
         @ViewBuilder
@@ -217,7 +217,7 @@ import SwiftUI
                         .padding(.leading)
                 }
             }
-            .background(controller.titleViewBackgroundColor.color)
+            .background(Color.systemBackground)
         }
 
         @ViewBuilder
@@ -437,7 +437,7 @@ import SwiftUI
 class MyMenuController: MenuController {
     override func viewProvider(item: MenuView) -> AnyView {
         if item.key == 0 {
-            return AnyView(TestView(text: "Home").background(.red))
+            return AnyView(TestView(text: "Home"))
         }
 
         if item.key == 1 {
@@ -478,7 +478,7 @@ class MyMenuController: MenuController {
     }
 
     override func headerProvider() -> AnyView? {
-        //return nil
+        // return nil
         return AnyView(HeaderView())
     }
 
@@ -621,12 +621,31 @@ struct MainView_Previews: PreviewProvider {
 struct TestView: View {
     @State var text: String
 
+    #if os(iOS)
+        let gradient = LinearGradient(colors: [Color(uiColor: .systemBackground), Color(uiColor: .label)],
+                                      startPoint: .topLeading,
+                                      endPoint: .bottomTrailing)
+    #endif
+
+    #if os(watchOS)
+        let gradient = LinearGradient(colors: [Color(uiColor: .blue), Color(uiColor: .white)],
+                                      startPoint: .topLeading,
+                                      endPoint: .bottomTrailing)
+    #endif
+
+    #if os(macOS)
+        let gradient = LinearGradient(colors: [Color(nsColor: .windowBackgroundColor), Color(nsColor: .labelColor)],
+                                      startPoint: .topLeading,
+                                      endPoint: .bottomTrailing)
+    #endif
+
     var body: some View {
-        VStack {
-            Text(text)
-                .font(.title)
-            Spacer()
+        ZStack {
+            gradient
+                .opacity(0.25)
+                .ignoresSafeArea()
+            Text("Your _**Moon**_ View")
         }
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }

@@ -1,8 +1,8 @@
 # SwiftUIComponents
 
-This is a Package contains the Swiftui Components. All the components can be used in iOS and macOS applications.
+This is a Package contains the Swiftui Components. All the components can be used in iOS, watchOS and macOS applications.
 
-SwiftUI Designer is a tool to create SwiftUI applications for iOS and macOS platforms based on a set of custom components which can be configured. The application provides a Code Generator to create SwiftUI code that can be easely included in your Xcode project.
+[Designer for SwiftUI](https://apps.apple.com/cz/app/designer-for-swiftui/id1620668725?mt=12) (available from the App Store) is a tool to create SwiftUI applications for iOS, watchOS and macOS platforms based on a set of custom components which can be configured. The application provides a Code Generator to create SwiftUI code that can be easely included in your Xcode project.
 
 All components are highly configurable and include a standard behavior. For example, the List is able to add, delete, update and select items without write any code.
 
@@ -20,7 +20,6 @@ All the components can be also configured at run-time and they react to the chan
 
 - **ToDo**:
 
-    - Support for WatchOS
     - Additional global actions for lists
     - Callbacks to enable and disable menu items
     - Callbacks to enable and disable list actions and navigation list actions
