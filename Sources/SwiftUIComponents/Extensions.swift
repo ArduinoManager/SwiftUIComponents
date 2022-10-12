@@ -32,6 +32,17 @@ import SwiftUI
 
 extension View {
     #if os(iOS)
+
+        func hasNotch() -> Bool {
+            let keyWindow = UIApplication
+                .shared
+                .connectedScenes
+                .flatMap { ($0 as? UIWindowScene)?.windows ?? [] }
+                .first { $0.isKeyWindow }
+            let bottom = keyWindow?.safeAreaInsets.bottom ?? 0
+            return bottom > 20
+        }
+
         func getRect() -> CGRect {
             return UIScreen.main.bounds
         }
@@ -96,16 +107,6 @@ extension View {
     func Print(_ vars: Any...) -> some View {
         for v in vars { print(v) }
         return EmptyView()
-    }
-    
-    func hasNotch() -> Bool {
-        let keyWindow = UIApplication
-            .shared
-            .connectedScenes
-            .flatMap { ($0 as? UIWindowScene)?.windows ?? [] }
-            .first { $0.isKeyWindow }
-        let bottom = keyWindow?.safeAreaInsets.bottom ?? 0
-        return bottom > 20
     }
 
     @ViewBuilder func `if`<Content: View>(_ condition: Bool, transform: (Self) -> Content) -> some View {
