@@ -108,7 +108,7 @@ import SwiftUI
                 }
             }
             //.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-            .background(Color.red)
+            //.background(Color.red)
             .onRotate { _ in
                 controller.objectWillChange.send() // Force redraw!
             }
