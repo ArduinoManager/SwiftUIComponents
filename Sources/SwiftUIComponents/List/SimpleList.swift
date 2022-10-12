@@ -61,27 +61,32 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
     public var body: some View {
         VStack(spacing: 0) {
             if let header = controller.headerProvider() {
-                HStack {
+                HStack(spacing: 0) {
                     header
-                        .overlay(alignment: .topTrailing) {
-                            Button {
-                                controller.editingItem = nil
-                                sheetManager.whichSheet = .Form
-                                sheetManager.showSheet.toggle()
-                            } label: {
-                                getSafeSystemImage(systemName: controller.addButtonIcon)
-                                    .aspectRatio(contentMode: .fit)
-                                    .padding(3)
-                                    .foregroundColor(controller.addButtonColor.color)
-                                    .frame(width: iconSize + 1, height: iconSize + 1)
-                                    .border(controller.addButtonColor.color, width: 1)
-                            }
-                            #if os(macOS) || os(watchOS)
-                            .buttonStyle(PlainButtonStyle())
-                            #endif
-                            .padding(.trailing, 15)
-                            .padding(.top, 5)
-                        }
+                    Button {
+                        controller.editingItem = nil
+                        sheetManager.whichSheet = .Form
+                        sheetManager.showSheet.toggle()
+                    } label: {
+                        getSafeSystemImage(systemName: controller.addButtonIcon)
+                            .aspectRatio(contentMode: .fit)
+                            .padding(3)
+                            .foregroundColor(controller.addButtonColor.color)
+                            .frame(width: iconSize + 1, height: iconSize + 1)
+                            .border(controller.addButtonColor.color, width: 1)
+                    }
+                    #if os(macOS) || os(watchOS)
+                    .buttonStyle(PlainButtonStyle())
+                    #endif
+                    #if os(macOS)
+                    .padding(.trailing, 15)
+                    #endif
+                    #if os(iOS)
+                    .padding(.trailing, 15)
+                    #endif
+                    #if os(watchOS)
+                    .padding(.trailing, 2)
+                    #endif
                 }
                 .padding(0)
                 .background(controller.backgroundColor.color)
@@ -402,8 +407,7 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
 
 class ThisListController: ListController<ListItem, RowView> {
     override func headerProvider() -> AnyView? {
-        return nil
-        // return AnyView(TitleView())
+        return AnyView(ListHeaderView())
     }
 
     override func footerProvider() -> AnyView? {
@@ -492,6 +496,24 @@ struct SimpleList_Previews: PreviewProvider {
 }
 
 // Auxiliary Preview Items
+
+struct ListHeaderView: View {
+    var body: some View {
+        HStack {
+            Text("This is the Header View")
+        }
+        #if os(iOS)
+        .frame(maxWidth: .infinity, minHeight: 35)
+        #endif
+        #if os(watchOS)
+        .frame(maxWidth: .infinity, minHeight: 35)
+        .font(.system(size: 12))
+        #endif
+        #if os(macOS)
+        .frame(maxWidth: .infinity, minHeight: 35)
+        #endif
+    }
+}
 
 public class ListItem: ObservableObject, Hashable, Identifiable, Equatable, CustomDebugStringConvertible, ListItemInitializable, ListItemSelectable, ListItemCopyable {
     public let id = UUID()

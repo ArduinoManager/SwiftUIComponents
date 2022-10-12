@@ -426,6 +426,8 @@ import SwiftUI
 
 #endif
 
+// MARK: - Preview
+
 class MyMenuController: MenuController {
     override func viewProvider(item: MenuView) -> AnyView {
         if item.key == 0 {
@@ -620,6 +622,8 @@ struct Inspector: View {
         // .frame(minWidth: 100, idealWidth: 300)
     }
 }
+
+
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
