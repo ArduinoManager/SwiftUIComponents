@@ -510,7 +510,7 @@ struct MainViewContainer: View {
 
         #if os(iOS) || os(watchOS)
             let x = MyMenuController(menuItems: menuItems,
-                                     openButtonAtTop: true,
+                                     openButtonAtTop: false,
                                      openButtonSize: 30,
                                      backgroundColor: .systemBackground,
                                      itemsColor: .systemLabel,

@@ -114,19 +114,19 @@ open class MenuController: SuperController, ObservableObject {
                     backgroundColor: GenericColor = .systemBackground,
                     itemsColor: GenericColor = .systemLabel,
                     titleViewBackgroundColor: GenericColor = .systemBackground) {
-            showMenu = false
+            self.showMenu = false
             self.menuItems = menuItems
-            autoClose = true
-            openButtonAtTop = false
-            openButtonColor = .systemLabel
-            openButtonIcon = "line.3.horizontal"
-            openButtonSize = 20.0
+            self.autoClose = true
+            self.openButtonAtTop = false
+            self.openButtonColor = .systemLabel
+            self.openButtonIcon = "line.3.horizontal"
+            self.openButtonSize = 20.0
             self.backgroundColor = backgroundColor
             self.itemsColor = itemsColor
-            selectedItemBackgroundColor = GenericColor(systemColor: .systemGray4)
+            self.selectedItemBackgroundColor = GenericColor(systemColor: .systemGray4)
             self.titleViewBackgroundColor = titleViewBackgroundColor
-            lastAction = nil
-            currentTab = menuItems[0].key
+            self.lastAction = nil
+            self.currentTab = menuItems[0].key
 
             super.init(type: .menu)
 
