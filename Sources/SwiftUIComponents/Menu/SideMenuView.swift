@@ -95,19 +95,18 @@ import SwiftUI
                         titleView
                             .frame(maxWidth: getRect().width / 1.6, alignment: .leading)
                             .padding(0)
-//                            .padding(0)
-//                            .background(controller.headerBackgroundColor.color)
-//                            .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
-//                            .background(GenericColor.systemLabel.color)
-//                            .shadow(
-//                                color: GenericColor.systemLabel.color.opacity(0.5),
-//                                radius: 3,
-//                                x: 0,
-//                                y: 0.5
-//                            )
-//                            .zIndex(99)
+                            .background(controller.headerBackgroundColor.color)
+                            .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
+                            .background(GenericColor.systemLabel.color)
+                            .shadow(
+                                color: GenericColor.systemLabel.color.opacity(0.1),
+                                radius: 3,
+                                x: 3,
+                                y: -8
+                            )
+                            .zIndex(99)
                     }
-                    .background(Color.red)
+                    //.background(Color.red)
                 }
             }
             .padding(.bottom, 1)
