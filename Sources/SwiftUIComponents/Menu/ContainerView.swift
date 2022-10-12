@@ -18,10 +18,6 @@ import SwiftUI
                     HStack(spacing: 0) {
                         if let titleView = controller.headerProvider() {
                             titleView
-                                .if(UIDevice.current.hasNotch, transform: { view in
-                                    view
-                                        .padding(.top, 40)
-                                })
                                 .overlay(alignment: .bottomLeading) {
                                     OpenButton()
                                         .padding(.leading, 20)
