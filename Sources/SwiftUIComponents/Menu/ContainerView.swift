@@ -69,7 +69,7 @@ import SwiftUI
                     .zIndex(99)
                 }
             }
-           // .frame(maxWidth: .infinity, maxHeight: .infinity)
+            // .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.systemBackground)
             .overlay(CloseButton(), alignment: .topLeading)
             .overlay(alignment: .bottomLeading) {
@@ -460,13 +460,11 @@ class MyMenuController: MenuController {
     }
 
     override func sideHeaderProvider() -> AnyView? {
-        return nil
-        // return AnyView(TitleView())
+        return AnyView(SideHeaderView())
     }
 
     override func sideFooterProvider() -> AnyView? {
-        return nil
-        // return AnyView(TitleView())
+        return AnyView(SideFooterView())
     }
 
     override func headerProvider() -> AnyView? {
@@ -555,13 +553,38 @@ struct SideTitleView: View {
     }
 }
 
-struct TitleView: View {
+struct SideHeaderView: View {
     var body: some View {
         HStack {
-            Text("This is the Title View")
+            Text("This is Side Header View")
         }
         #if os(iOS)
         .frame(maxWidth: .infinity, minHeight: 35)
+        #endif
+        #if os(watchOS)
+        .font(.system(size: 14))
+        .frame(maxWidth: .infinity, minHeight: 15, maxHeight: 15)
+        #endif
+        #if os(macOS)
+        .frame(maxWidth: .infinity, minHeight: 35)
+        #endif
+    }
+}
+
+struct SideFooterView: View {
+    var body: some View {
+        HStack(alignment: .center) {
+            Text("This is Side Footer View")
+            #if os(watchOS)
+
+            #endif
+        }
+        #if os(iOS)
+        .frame(maxWidth: .infinity, minHeight: 35)
+        #endif
+        #if os(watchOS)
+        .font(.system(size: 14))
+        .frame(maxWidth: .infinity, minHeight: 15, maxHeight: 15)
         #endif
         #if os(macOS)
         .frame(maxWidth: .infinity, minHeight: 35)

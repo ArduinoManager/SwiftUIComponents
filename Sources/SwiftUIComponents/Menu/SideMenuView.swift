@@ -35,20 +35,22 @@ import SwiftUI
                 if let titleView = controller.sideHeaderProvider() {
                     HStack {
                         titleView
-                            .frame(maxWidth: getRect().width / 2, alignment: .leading)
+                            .frame(maxWidth: getRect().width / 1.6, alignment: .leading)
                             .padding(0)
                             .background(controller.headerBackgroundColor.color)
                             .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
                             .background(GenericColor.systemLabel.color)
                             .shadow(
-                                color: GenericColor.systemLabel.color.opacity(0.5),
+                                color: GenericColor.systemLabel.color.opacity(0.1),
                                 radius: 3,
-                                x: 0,
-                                y: 0.5
+                                x: 3,
+                                y: 8
                             )
                             .zIndex(99)
                     }
-                    .padding(0)
+                    .padding([.horizontal],0)
+                    .padding(.bottom, 0)
+                    .padding(.top, 1)
                 } else {
                     Spacer(minLength: spaceBetweenItems)
                         .background(controller.headerBackgroundColor.color)
@@ -83,32 +85,32 @@ import SwiftUI
                     .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 .padding()
-                .padding(.leading, 10)
+                .padding(.leading, 7)
                 .padding(.top, 10)
                 .frame(width: getRect().width, alignment: .leading)
                 .frame(maxWidth: .infinity, alignment: .leading)
 
                 if let titleView = controller.sideFooterProvider() {
-                    HStack {
+                    HStack(alignment: .bottom, spacing: 0) {
                         titleView
-                            .frame(maxWidth: getRect().width / 2, alignment: .leading)
+                            .frame(maxWidth: getRect().width / 1.6, alignment: .leading)
                             .padding(0)
-                            .background(controller.headerBackgroundColor.color)
-                            .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
-                            .background(GenericColor.systemLabel.color)
-                            .shadow(
-                                color: GenericColor.systemLabel.color.opacity(0.5),
-                                radius: 3,
-                                x: 0,
-                                y: 0.5
-                            )
-                            .zIndex(99)
+//                            .padding(0)
+//                            .background(controller.headerBackgroundColor.color)
+//                            .shadow(color: GenericColor.systemClear.color, radius: 0, x: 0, y: 0)
+//                            .background(GenericColor.systemLabel.color)
+//                            .shadow(
+//                                color: GenericColor.systemLabel.color.opacity(0.5),
+//                                radius: 3,
+//                                x: 0,
+//                                y: 0.5
+//                            )
+//                            .zIndex(99)
                     }
-                    .padding(0)
+                    .background(Color.red)
                 }
             }
-            //.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-            //.background(Color.red)
+            .padding(.bottom, 1)
             .onRotate { _ in
                 controller.objectWillChange.send() // Force redraw!
             }

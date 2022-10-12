@@ -97,6 +97,16 @@ extension View {
         for v in vars { print(v) }
         return EmptyView()
     }
+    
+    func hasNotch() -> Bool {
+        let keyWindow = UIApplication
+            .shared
+            .connectedScenes
+            .flatMap { ($0 as? UIWindowScene)?.windows ?? [] }
+            .first { $0.isKeyWindow }
+        let bottom = keyWindow?.safeAreaInsets.bottom ?? 0
+        return bottom > 20
+    }
 
     @ViewBuilder func `if`<Content: View>(_ condition: Bool, transform: (Self) -> Content) -> some View {
         if condition {
@@ -315,7 +325,7 @@ extension Color: Codable {
     }
 }
 
-#if os(iOS)
+#if os(iOS) || os(watchOS)
     extension UIDevice {
         var hasNotch: Bool {
             let keyWindow = UIApplication

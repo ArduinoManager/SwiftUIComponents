@@ -521,11 +521,11 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
 
 class ThisNavigationController: ListController<ListItem, RowView> {
     override func headerProvider() -> AnyView? {
-        return AnyView(TitleView())
+        return AnyView(SideHeaderView())
     }
 
     override func footerProvider() -> AnyView? {
-        return AnyView(TitleView())
+        return AnyView(SideHeaderView())
     }
 
     override func detailProvider() -> AnyView? {

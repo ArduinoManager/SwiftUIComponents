@@ -327,11 +327,11 @@ public struct TabBar: View {
 
 class MyTabBarController: TabBarController {
     override func headerProvider() -> AnyView? {
-        return AnyView(TitleView())
+        return AnyView(SideHeaderView())
     }
 
     override func footerProvider() -> AnyView? {
-        return AnyView(TitleView())
+        return AnyView(SideHeaderView())
     }
 
     override func viewProvider(tab: TabItem) -> AnyView {

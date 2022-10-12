@@ -41,12 +41,19 @@ public struct Menu: View {
                 SideMenuView(controller: controller)
                     .padding([.top], 1)
 
+                let spaceAtTop = !controller.headerAtTop && hasNotch()
+                
+                
                 // Main Tab View
                 ContainerView(controller: controller)
                     .cornerRadius(controller.showMenu ? 25 : 0)
                     .rotation3DEffect(.init(degrees: controller.showMenu ? -15 : 0), axis: (x: 0, y: 1, z: 0), anchor: .trailing)
                     .offset(x: controller.showMenu ? getRect().width / 2 : 0)
                     .ignoresSafeArea(edges: [.bottom])
+                    .if(spaceAtTop) { view in
+                        view
+                            .ignoresSafeArea(edges: [.top])
+                    }
             }
         #endif
     }
