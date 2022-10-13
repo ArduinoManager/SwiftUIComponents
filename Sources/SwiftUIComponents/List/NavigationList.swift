@@ -300,7 +300,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
             .navigationBarTitle("")
             .navigationBarHidden(true)
             #endif
-            .ignoresSafeArea(edges: controller.footerExpand() ? .bottom : [])
+            .ignoresSafeArea(edges: .bottom)
         }
         #if os(iOS)
         .navigationViewStyle(.stack)
@@ -524,10 +524,6 @@ class ThisNavigationController: ListController<ListItem, RowView> {
         return AnyView(NavFooterView())
     }
     
-    override open func footerExpand() -> Bool {
-        return false
-    }
-
     override func detailProvider() -> AnyView? {
         // return AnyView(TitleView())
         return nil

@@ -346,10 +346,6 @@ open class ListController<Item: Equatable & ListItemInitializable & ListItemSele
         return nil
     }
     
-    open func footerExpand() -> Bool {
-        return true
-    }
-
     open func detailProvider() -> AnyView? {
         return nil
     }

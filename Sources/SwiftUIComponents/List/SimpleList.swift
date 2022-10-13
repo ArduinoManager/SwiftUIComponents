@@ -222,8 +222,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                 .zIndex(99)
             }
         }
-        //.background(controller.backgroundColor.color)
-        .ignoresSafeArea(edges: controller.footerExpand() ? .bottom : [])
+        .ignoresSafeArea(edges: .bottom)
     }
 
     private func move(from source: IndexSet, to destination: Int) {
@@ -419,10 +418,6 @@ class ThisListController: ListController<ListItem, RowView> {
         //return nil
     }
     
-    override func footerExpand() -> Bool {
-        return false
-    }
-
     override func sortItems() {
         items.sort(by: { $0.lastName < $1.lastName })
     }
