@@ -20,7 +20,6 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
     @ObservedObject private var controller: ListController<Item, Row>
     @StateObject private var sheetManager = SheetMananger()
     @State private var editingList = false
-    @State private var culo = false
     private let rowColor: GenericColor!
     private let rowAlternateColor: GenericColor!
     private let alternatesRows: Bool!
@@ -225,11 +224,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
             }
         }
         .background(controller.backgroundColor.color)
-        .if(controller.footerExpand()) { view in
-            view.ignoresSafeArea(edges: .bottom)
-        }
-        //.ignoresSafeArea(edges: self.expand ? .bottom : [])
-        //.ignoresSafeArea(edges: .bottom)
+        .ignoresSafeArea(edges: controller.footerExpand() ? .bottom : [])
     }
 
     private func move(from source: IndexSet, to destination: Int) {
@@ -426,7 +421,7 @@ class ThisListController: ListController<ListItem, RowView> {
     }
     
     override func footerExpand() -> Bool {
-        return true
+        return false
     }
 
     override func sortItems() {

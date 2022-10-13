@@ -302,7 +302,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
             .navigationBarTitle("")
             .navigationBarHidden(true)
             #endif
-            .ignoresSafeArea(edges: .bottom)
+            .ignoresSafeArea(edges: controller.footerExpand() ? .bottom : [])
         }
         #if os(iOS)
         .navigationViewStyle(.stack)
@@ -439,7 +439,6 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                     .buttonStyle(.plain)
                     #endif
                 }
-//                .onMove(perform: move)
             }
         }
     }
