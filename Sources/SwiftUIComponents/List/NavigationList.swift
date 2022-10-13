@@ -110,6 +110,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                         set: { _ in }
                                     ),
                                     label: {})
+                                .frame(width: 0, height: 0)
                                     .hidden()
 
                                 HStack(alignment: .center, spacing: 0) {
@@ -137,15 +138,22 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                     .frame(maxHeight: .infinity)
                                     .background(currentColor(idx: idx).color)
                                 }
-                                if controller.showLineSeparator {
-                                    Divider()
-                                        .if(controller.lineSeparatorColor != nil) { view in
-                                            view
-                                                .background(controller.lineSeparatorColor!.color)
-                                        }
-                                }
+//                                if controller.showLineSeparator {
+//                                    Divider()
+//                                        .if(controller.lineSeparatorColor != nil) { view in
+//                                            view
+//                                                .background(controller.lineSeparatorColor!.color)
+//                                        }
+//                                }
                             }
-                        #endif
+                            .if(!controller.showLineSeparator) { view in
+                                view
+                                    .listRowSeparator(.hidden)
+                            }
+                            .if(controller.lineSeparatorColor != nil) { view in
+                                view
+                                    .listRowSeparatorTint(controller.lineSeparatorColor!.color)
+                            }                        #endif
 
                         #if os(watchOS)
                             VStack(alignment: .leading, spacing: 0) {
