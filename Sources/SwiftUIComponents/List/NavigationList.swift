@@ -110,7 +110,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                         set: { _ in }
                                     ),
                                     label: {})
-                                .frame(width: 0, height: 0)
+                                    .frame(width: 0, height: 0)
                                     .hidden()
 
                                 HStack(alignment: .center, spacing: 0) {
@@ -131,20 +131,12 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                                 .foregroundColor(GenericColor.systemTint.color)
                                                 .scaledToFit()
                                                 .frame(width: iconSize + 1, height: iconSize + 1)
-                                            //.padding(2)
                                         }
                                         .buttonStyle(.plain)
                                     }
                                     .frame(maxHeight: .infinity)
                                     .background(currentColor(idx: idx).color)
                                 }
-//                                if controller.showLineSeparator {
-//                                    Divider()
-//                                        .if(controller.lineSeparatorColor != nil) { view in
-//                                            view
-//                                                .background(controller.lineSeparatorColor!.color)
-//                                        }
-//                                }
                             }
                             .if(!controller.showLineSeparator) { view in
                                 view
@@ -153,7 +145,8 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                             .if(controller.lineSeparatorColor != nil) { view in
                                 view
                                     .listRowSeparatorTint(controller.lineSeparatorColor!.color)
-                            }                        #endif
+                            }
+                        #endif
 
                         #if os(watchOS)
                             VStack(alignment: .leading, spacing: 0) {
@@ -351,7 +344,6 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
 
     func body(content: Content) -> some View {
         HStack(alignment: .center, spacing: 5) {
-            
             if !controller.swipeActions {
                 ForEach(0 ..< controller.leadingActions.count, id: \.self) { idx in
                     let action = controller.leadingActions[idx]
@@ -372,7 +364,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                     #endif
                 }
             }
-            
+
             //
             content
                 .contentShape(Rectangle()) // This makes all the row selectable!
