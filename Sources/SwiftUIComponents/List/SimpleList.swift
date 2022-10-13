@@ -221,7 +221,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
             }
         }
         .background(controller.backgroundColor.color)
-        .ignoresSafeArea(edges: .bottom)
+        //.ignoresSafeArea(edges: .bottom)
     }
 
     private func move(from source: IndexSet, to destination: Int) {
