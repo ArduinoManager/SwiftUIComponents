@@ -178,17 +178,20 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                         }
                                         .layoutPriority(1)
 
-                                    Button {
-                                        controller.detailingItem = item
-                                    } label: {
-                                        Image(systemName: "chevron.right")
-                                            .resizable()
-                                            .foregroundColor(GenericColor.systemTint.color)
-                                            .scaledToFit()
-                                            .frame(width: iconSize + 1, height: iconSize + 1)
-                                            .padding(2)
+                                    VStack(spacing: 0) {
+                                        Button {
+                                            controller.detailingItem = item
+                                        } label: {
+                                            Image(systemName: "chevron.right")
+                                                .resizable()
+                                                .foregroundColor(GenericColor.systemTint.color)
+                                                .scaledToFit()
+                                                .frame(width: iconSize + 1, height: iconSize + 1)
+                                                .padding(2)
+                                        }
+                                        .buttonStyle(.plain)
                                     }
-                                    .buttonStyle(.plain)
+                                    .frame(maxHeight: .infinity)
                                     .background(currentColor(idx: idx).color)
                                 }
                                 if controller.showLineSeparator {
