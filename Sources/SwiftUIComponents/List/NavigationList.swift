@@ -302,6 +302,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
             .navigationBarTitle("")
             .navigationBarHidden(true)
             #endif
+            .ignoresSafeArea(edges: .bottom)
         }
         #if os(iOS)
         .navigationViewStyle(.stack)
@@ -516,12 +517,13 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
 // Preview
 
 class ThisNavigationController: ListController<ListItem, RowView> {
+    
     override func headerProvider() -> AnyView? {
-        return AnyView(SideHeaderView())
+        return AnyView(NavHeaderView())
     }
 
     override func footerProvider() -> AnyView? {
-        return AnyView(SideHeaderView())
+        return AnyView(NavFooterView())
     }
 
     override func detailProvider() -> AnyView? {
@@ -661,4 +663,46 @@ struct MyForm1: View {
             .padding()
         }
     }
+}
+
+struct NavHeaderView: View {
+    var body: some View {
+        
+        VStack {
+            Text("Navigation List Header")
+        }
+        .background(.red)
+        #if os(iOS)
+        .frame(maxWidth: .infinity, minHeight: 30)
+        #endif
+        #if os(macOS)
+        .frame(maxWidth: .infinity, minHeight: 30)
+        #endif
+        #if os(watchOS)
+        .font(.system(size: 12))
+        .frame(maxWidth: .infinity, minHeight: 25)
+        #endif
+    }
+    
+}
+
+struct NavFooterView: View {
+    var body: some View {
+        
+        VStack {
+            Text("Navigation List Footer")
+        }
+        .background(.red)
+        #if os(iOS)
+        .frame(maxWidth: .infinity, minHeight: 30)
+        #endif
+        #if os(macOS)
+        .frame(maxWidth: .infinity, minHeight: 30)
+        #endif
+        #if os(watchOS)
+        .font(.system(size: 12))
+        .frame(maxWidth: .infinity, minHeight: 25)
+        #endif
+    }
+    
 }

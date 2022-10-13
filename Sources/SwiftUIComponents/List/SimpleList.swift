@@ -99,7 +99,6 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                     y: 1
                 )
                 .zIndex(99)
-                .padding(.bottom, 5)
             } else {
                 HStack(spacing: 0) {
                     Spacer()
@@ -125,6 +124,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                     .padding(.top, 5)
                     .padding(.bottom, 5)
                 }
+               
             }
 
             List {
@@ -221,6 +221,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
             }
         }
         .background(controller.backgroundColor.color)
+        .ignoresSafeArea(edges: .bottom)
     }
 
     private func move(from source: IndexSet, to destination: Int) {
@@ -412,8 +413,7 @@ class ThisListController: ListController<ListItem, RowView> {
     }
 
     override func footerProvider() -> AnyView? {
-        return nil
-        // return AnyView(TitleView())
+        return AnyView(ListFooterView())
     }
 
     override func sortItems() {
@@ -497,24 +497,6 @@ struct SimpleList_Previews: PreviewProvider {
 }
 
 // Auxiliary Preview Items
-
-struct ListHeaderView: View {
-    var body: some View {
-        HStack {
-            Text("This is the Header View")
-        }
-        #if os(iOS)
-        .frame(maxWidth: .infinity, minHeight: 35)
-        #endif
-        #if os(watchOS)
-        .frame(maxWidth: .infinity, minHeight: 35)
-        .font(.system(size: 12))
-        #endif
-        #if os(macOS)
-        .frame(maxWidth: .infinity, minHeight: 35)
-        #endif
-    }
-}
 
 public class ListItem: ObservableObject, Hashable, Identifiable, Equatable, CustomDebugStringConvertible, ListItemInitializable, ListItemSelectable, ListItemCopyable {
     public let id = UUID()
@@ -622,4 +604,46 @@ struct MyForm: View {
             .padding()
         }
     }
+}
+
+struct ListHeaderView: View {
+    var body: some View {
+        
+        VStack {
+            Text("List Header View")
+        }
+        .background(.red)
+        #if os(iOS)
+        .frame(maxWidth: .infinity, minHeight: 30)
+        #endif
+        #if os(macOS)
+        .frame(maxWidth: .infinity, minHeight: 30)
+        #endif
+        #if os(watchOS)
+        .font(.system(size: 12))
+        .frame(maxWidth: .infinity, minHeight: 25)
+        #endif
+    }
+    
+}
+
+struct ListFooterView: View {
+    var body: some View {
+        
+        VStack {
+            Text("List Footer View")
+        }
+        .background(.red)
+        #if os(iOS)
+        .frame(maxWidth: .infinity, minHeight: 30)
+        #endif
+        #if os(macOS)
+        .frame(maxWidth: .infinity, minHeight: 30)
+        #endif
+        #if os(watchOS)
+        .font(.system(size: 12))
+        .frame(maxWidth: .infinity, minHeight: 25)
+        #endif
+    }
+    
 }
