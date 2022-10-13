@@ -121,18 +121,20 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                                             editingList.toggle()
                                         }
                                         .layoutPriority(1)
-
-                                    Button {
-                                        controller.detailingItem = item
-                                    } label: {
-                                        Image(systemName: "chevron.right")
-                                            .resizable()
-                                            .foregroundColor(GenericColor.systemTint.color)
-                                            .scaledToFit()
-                                            .frame(width: iconSize + 1, height: iconSize + 1)
-                                            .padding(2)
+                                    VStack(spacing: 0) {
+                                        Button {
+                                            controller.detailingItem = item
+                                        } label: {
+                                            Image(systemName: "chevron.right")
+                                                .resizable()
+                                                .foregroundColor(GenericColor.systemTint.color)
+                                                .scaledToFit()
+                                                .frame(width: iconSize + 1, height: iconSize + 1)
+                                            //.padding(2)
+                                        }
+                                        .buttonStyle(.plain)
                                     }
-                                    .buttonStyle(.plain)
+                                    .frame(maxHeight: .infinity)
                                     .background(currentColor(idx: idx).color)
                                 }
                                 if controller.showLineSeparator {
@@ -341,6 +343,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
 
     func body(content: Content) -> some View {
         HStack(alignment: .center, spacing: 5) {
+            
             if !controller.swipeActions {
                 ForEach(0 ..< controller.leadingActions.count, id: \.self) { idx in
                     let action = controller.leadingActions[idx]
@@ -361,6 +364,7 @@ fileprivate struct AttachActions<Item: Identifiable & Equatable & ListItemInitia
                     #endif
                 }
             }
+            
             //
             content
                 .contentShape(Rectangle()) // This makes all the row selectable!
@@ -451,11 +455,6 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
                 if controller.swipeActions {
                     ForEach(0 ..< controller.leadingActions.count, id: \.self) { idx in
                         let action = controller.leadingActions[idx]
-//                        Button(LocalizedStringKey(action.label)) {
-//                            controller.selectedAction = SelectedAction(key: action.key, item: item)
-//                        }
-//                        .tint(action.color.color)
-
                         Button {
                             controller.selectedAction = SelectedAction(key: action.key, item: item)
                         } label: {
@@ -495,12 +494,6 @@ fileprivate struct AttachSwipeActions<Item: Identifiable & Equatable & ListItemI
 
                     ForEach(Array(stride(from: controller.trailingActions.count - 1, to: -1, by: -1)), id: \.self) { idx in
                         let action = controller.trailingActions[idx]
-
-//                        Button(LocalizedStringKey(action.label)) {
-//                            controller.selectedAction = SelectedAction(key: action.key, item: item)
-//                        }
-//                        .tint(action.color.color)
-
                         Button {
                             controller.selectedAction = SelectedAction(key: action.key, item: item)
                         } label: {
