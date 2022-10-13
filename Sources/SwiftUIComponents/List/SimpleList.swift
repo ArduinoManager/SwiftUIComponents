@@ -61,7 +61,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
 
     public var body: some View {
         
-        VStack(spacing: 0) {
+        VStack {
             if let header = controller.headerProvider() {
                 HStack(spacing: 0) {
                     header
@@ -89,6 +89,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                     #if os(watchOS)
                     .padding(.trailing, 2)
                     #endif
+                    .padding(.vertical, 5)
                 }
                 .padding(0)
                 .background(controller.backgroundColor.color)
@@ -102,7 +103,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                 )
                 .zIndex(99)
             } else {
-                HStack(spacing: 0) {
+                HStack() {
                     Spacer()
                     Button {
                         controller.editingItem = nil
@@ -118,7 +119,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                     }
                     #if os(macOS) || os(watchOS)
                     .buttonStyle(PlainButtonStyle())
-                    .padding(.trailing, 10)
+                    .padding(.trailing, 6)
                     #endif
                     #if os(iOS) || os(watchOS)
                     .padding(.trailing, 6)
@@ -126,7 +127,6 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                     .padding(.top, 5)
                     .padding(.bottom, 5)
                 }
-               
             }
 
             List {
@@ -193,7 +193,6 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                 #endif
                     .listRowBackground(GenericColor.systemClear.color)
             }
-            
             .environment(\.defaultMinListRowHeight, 5)
             #if os(iOS)
                 .environment(\.editMode, editingList ? .constant(.active) : .constant(.inactive))
@@ -223,7 +222,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                 .zIndex(99)
             }
         }
-        .background(controller.backgroundColor.color)
+        //.background(controller.backgroundColor.color)
         .ignoresSafeArea(edges: controller.footerExpand() ? .bottom : [])
     }
 

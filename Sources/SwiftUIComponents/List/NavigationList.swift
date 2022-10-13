@@ -281,8 +281,6 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
                     .zIndex(99)
                 }
             }
-            .frame(minWidth: controller.leftMinSideSize)
-            .background(controller.backgroundColor.color)
             .overlay(ZStack {
                 NavigationLink(destination:
                     form(.new)
@@ -306,6 +304,7 @@ public struct NavigationList<Item: Hashable & Identifiable & Equatable & ListIte
         }
         #if os(iOS)
         .navigationViewStyle(.stack)
+        .padding(0)
         #endif
         #if os(macOS)
 
