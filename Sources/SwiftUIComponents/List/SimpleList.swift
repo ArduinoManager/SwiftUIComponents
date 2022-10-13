@@ -20,6 +20,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
     @ObservedObject private var controller: ListController<Item, Row>
     @StateObject private var sheetManager = SheetMananger()
     @State private var editingList = false
+    @State private var culo = false
     private let rowColor: GenericColor!
     private let rowAlternateColor: GenericColor!
     private let alternatesRows: Bool!
@@ -55,10 +56,12 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
             rowAlternateColor = alternateBackgroundColor
         }
 
+        
         // _uuid = State(initialValue: UUID())
     }
 
     public var body: some View {
+        
         VStack(spacing: 0) {
             if let header = controller.headerProvider() {
                 HStack(spacing: 0) {
@@ -191,6 +194,7 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
                 #endif
                     .listRowBackground(GenericColor.systemClear.color)
             }
+            
             .environment(\.defaultMinListRowHeight, 5)
             #if os(iOS)
                 .environment(\.editMode, editingList ? .constant(.active) : .constant(.inactive))
@@ -221,6 +225,10 @@ public struct SimpleList<Item: Identifiable & Equatable & ListItemInitializable 
             }
         }
         .background(controller.backgroundColor.color)
+        .if(controller.footerExpand()) { view in
+            view.ignoresSafeArea(edges: .bottom)
+        }
+        //.ignoresSafeArea(edges: self.expand ? .bottom : [])
         //.ignoresSafeArea(edges: .bottom)
     }
 
@@ -414,6 +422,11 @@ class ThisListController: ListController<ListItem, RowView> {
 
     override func footerProvider() -> AnyView? {
         return AnyView(ListFooterView())
+        //return nil
+    }
+    
+    override func footerExpand() -> Bool {
+        return true
     }
 
     override func sortItems() {

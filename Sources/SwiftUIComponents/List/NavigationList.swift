@@ -525,6 +525,10 @@ class ThisNavigationController: ListController<ListItem, RowView> {
     override func footerProvider() -> AnyView? {
         return AnyView(NavFooterView())
     }
+    
+    override open func footerExpand() -> Bool {
+        return false
+    }
 
     override func detailProvider() -> AnyView? {
         // return AnyView(TitleView())
